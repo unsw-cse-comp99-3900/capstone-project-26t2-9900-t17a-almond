@@ -38,17 +38,21 @@ Generated sources:
 artifacts/perturbed_sources/run_20260710/sources
 ```
 
-Baseline DeepWuKong outputs:
+Consolidated baseline DeepWuKong predictions:
 
 ```text
-outputs/run_20260710/baseline_runs
+outputs/run_20260710/runs/baseline
 ```
 
-Perturbed DeepWuKong outputs:
+Consolidated perturbed DeepWuKong predictions:
 
 ```text
-outputs/run_20260710/perturbed_runs
+outputs/run_20260710/runs/perturbed
 ```
+
+Each sample or variant is stored as one JSON file containing both its prediction
+and detailed runtime metadata. Host input paths and archived Joern paths are
+repository-relative; original Docker paths remain under `container_*` fields.
 
 Compact result tables:
 

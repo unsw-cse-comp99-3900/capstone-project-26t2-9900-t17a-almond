@@ -1,38 +1,30 @@
-﻿# demo_b
+# Demo B
 
-## 文件夹用途
+This is the active integration area for the perturbation experiment.
 
-这个文件夹用于放 Demo B 的主流程集成代码。它负责把输入函数、扰动模块、Joern 图生成、DeepWuKong 推理、最小翻转搜索、报告生成和可视化串起来。
+## Current Files
 
-## 需要放什么
+| File | Purpose |
+|---|---|
+| `perturbations.py` | CLI and implementations for the three active actions. |
+| `PERTURBATIONS.md` | Action semantics, safety constraints, examples, and planned work. |
+| `__init__.py` | Python package marker. |
 
-- `pipeline.py`：总流程控制器。
-- `baseline.py`：DeepWuKong 检测器调用封装。
-- `perturbations.py`：源码扰动接口。
-- `graphs.py`：Joern 图产物和图分析接口。
-- `flip_search.py`：最小扰动翻转搜索逻辑。
-- `reporting.py`：CSV 和 Markdown 报告生成。
-- `visualization.py`：HTML 或图可视化生成。
-- `utils.py`：路径、JSON、CSV 等通用工具函数。
+Generate all applicable variants from the repository root:
 
-## 在项目中的作用
+```powershell
+python demo_b\perturbations.py
+```
 
-`demo_b` 应该是整个实验流程的唯一主控层。其他目录可以提供模型、旧模块、输入数据或中间产物，但完整控制流程应该放在这里。
-
-## 当前实现
-
-当前已经迁移 `perturbations.py`，实现：
+Implemented actions:
 
 - `dead_statement`
 - `control_wrapper`
 - `temp_variable_split`
 
-运行方式和 action 设计见 [`PERTURBATIONS.md`](PERTURBATIONS.md)。其他规划模块尚未实现。
+## Not Implemented Yet
 
-## 不应该放什么
-
-- 原始大数据集。
-- 模型 checkpoint。
-- 大量生成结果。
-- 旧实验文件夹的完整复制。
-- Docker 构建产物。
+The integrated pipeline controller, baseline adapter, graph comparison module,
+minimal-flip search, report generator, and visualization module are planned but
+do not yet exist. Add those modules here when they become active code rather
+than placing prototypes in `legacy/`.

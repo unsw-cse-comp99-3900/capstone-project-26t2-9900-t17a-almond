@@ -1,0 +1,276 @@
+{
+    "generated_at_utc":  "2026-07-10T05:50:51.774871+00:00",
+    "prediction":  {
+                       "sample_id":  "01_codexglue_devign_10453__temp_variable_split",
+                       "input_file":  "artifacts/perturbed_sources/run_20260710/sources/01_codexglue_devign_10453__temp_variable_split.c",
+                       "function_name":  "uhci_handle_td",
+                       "joern_status":  "success",
+                       "num_nodes":  434,
+                       "num_edges":  949,
+                       "predicted_label":  0,
+                       "vulnerability_probability":  0.0026803379878401756,
+                       "threshold":  0.5,
+                       "confidence":  0.9973196620121598,
+                       "lexical_score":  null,
+                       "graph_score":  0.0026803379878401756,
+                       "fusion_status":  "deepwukong_xfg_max",
+                       "unixcoder_score":  null,
+                       "codet5_score":  null,
+                       "graphcodebert_score":  null,
+                       "final_score":  0.0026803379878401756
+                   },
+    "details":  {
+                    "baseline":  "deepwukong_xfg_baseline",
+                    "selection":  {
+                                      "model":  "DeepWuKong GCN CWE119",
+                                      "checkpoint":  "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+                                      "threshold":  0.5,
+                                      "source_aggregation":  "max_xfg_vulnerability_probability"
+                                  },
+                    "joern_stats":  {
+                                        "parse_status":  "success",
+                                        "error":  null,
+                                        "command":  [
+                                                        "bash",
+                                                        "/scan/output/_work/joern-parse-lf.sh",
+                                                        "/scan/output/joern_csv",
+                                                        "/scan/output/_work/source"
+                                                    ],
+                                        "stdout":  "/scan/output/_work/source/01_codexglue_devign_10453__temp_variable_split.c\n",
+                                        "stderr":  "",
+                                        "csv_dir":  "artifacts/joern_csv/run_20260710/perturbed/01_codexglue_devign_10453__temp_variable_split",
+                                        "selected_csv_dir":  "artifacts/joern_csv/run_20260710/perturbed/01_codexglue_devign_10453__temp_variable_split",
+                                        "runtime_ms":  618.7472769999545,
+                                        "node_count":  434,
+                                        "edge_count":  949,
+                                        "summary":  {
+                                                        "node_count":  434,
+                                                        "edge_count":  949
+                                                    },
+                                        "container_csv_dir":  "/scan/output/joern_csv",
+                                        "container_selected_csv_dir":  "/scan/output/joern_csv/scan/output/_work/source/01_codexglue_devign_10453__temp_variable_split.c"
+                                    },
+                    "features":  {
+                                     "source":  {
+                                                    "function_name":  "uhci_handle_td",
+                                                    "char_length":  2091,
+                                                    "line_count":  154
+                                                },
+                                     "graph":  {
+                                                   "available":  true,
+                                                   "node_count":  434,
+                                                   "edge_count":  949
+                                               },
+                                     "xfg":  {
+                                                 "xfg_count":  18,
+                                                 "key_line_counts":  {
+                                                                         "call":  0,
+                                                                         "array":  0,
+                                                                         "ptr":  17,
+                                                                         "arith":  1
+                                                                     },
+                                                 "xfg_predictions":  [
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  65,
+                                                                             "vulnerability_probability":  9.4627283786508087E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  35,
+                                                                             "vulnerability_probability":  8.2383519384165993E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999991655349731
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  67,
+                                                                             "vulnerability_probability":  0.00028196064522489905,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9997180104255676
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  71,
+                                                                             "vulnerability_probability":  6.9090255294668168E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  73,
+                                                                             "vulnerability_probability":  0.0012859582202509046,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9987140893936157
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  108,
+                                                                             "vulnerability_probability":  6.3744046485680883E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  77,
+                                                                             "vulnerability_probability":  5.2291088650235906E-06,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999947547912598
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  140,
+                                                                             "vulnerability_probability":  5.903755209146766E-06,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999940395355225
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  79,
+                                                                             "vulnerability_probability":  4.2023215462982932E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  81,
+                                                                             "vulnerability_probability":  4.2023134971813647E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  19,
+                                                                             "vulnerability_probability":  0.00043073706910945475,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9995692372322083
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  83,
+                                                                             "vulnerability_probability":  1.5979829015577707E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  85,
+                                                                             "vulnerability_probability":  5.979069328532205E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999994039535522
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  148,
+                                                                             "vulnerability_probability":  7.2861752187236561E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  120,
+                                                                             "vulnerability_probability":  1.3610484529635869E-05,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999864101409912
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  95,
+                                                                             "vulnerability_probability":  0.0026803379878401756,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9973196387290955
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  31,
+                                                                             "vulnerability_probability":  2.7399283908380312E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999997615814209
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  71,
+                                                                             "vulnerability_probability":  6.9090255294668168E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         }
+                                                                     ]
+                                             }
+                                 },
+                    "branch_results":  {
+                                           "new_graph_prob":  {
+                                                                  "score":  0.0026803379878401756,
+                                                                  "status":  "ok",
+                                                                  "model":  "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+                                                                  "xfg_count":  18
+                                                              },
+                                           "old_graph_prob":  {
+                                                                  "score":  null,
+                                                                  "status":  "skipped",
+                                                                  "reason":  "DeepWuKong single-branch baseline"
+                                                              },
+                                           "lexical_prob":  {
+                                                                "score":  null,
+                                                                "status":  "skipped",
+                                                                "reason":  "DeepWuKong full mode does not use lexical branch"
+                                                            },
+                                           "unixcoder_prob":  {
+                                                                  "score":  null,
+                                                                  "status":  "skipped",
+                                                                  "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                              },
+                                           "graphcodebert_prob":  {
+                                                                      "score":  null,
+                                                                      "status":  "skipped",
+                                                                      "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                  },
+                                           "codet5_prob":  {
+                                                               "score":  null,
+                                                               "status":  "skipped",
+                                                               "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                           },
+                                           "unixcoder_seed13_prob":  {
+                                                                         "score":  null,
+                                                                         "status":  "skipped",
+                                                                         "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                     },
+                                           "unixcoder_seed42_prob":  {
+                                                                         "score":  null,
+                                                                         "status":  "skipped",
+                                                                         "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                     },
+                                           "unixcoder_seed2025_prob":  {
+                                                                           "score":  null,
+                                                                           "status":  "skipped",
+                                                                           "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                       }
+                                       },
+                    "component_scores":  {
+                                             "new_graph_prob":  0.0026803379878401756
+                                         },
+                    "fusion":  {
+                                   "fusion_status":  "deepwukong_xfg_max",
+                                   "available_components":  [
+                                                                "new_graph_prob"
+                                                            ],
+                                   "missing_components":  [
+
+                                                          ],
+                                   "final_score":  0.0026803379878401756,
+                                   "predicted_label":  0,
+                                   "confidence":  0.9973196620121598,
+                                   "threshold":  0.5
+                               },
+                    "runtime_ms":  5127.7722020000165,
+                    "limitations":  [
+                                        "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+                                        "The output is not line-level localization.",
+                                        "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+                                    ],
+                    "warnings":  [
+
+                                 ]
+                }
+}

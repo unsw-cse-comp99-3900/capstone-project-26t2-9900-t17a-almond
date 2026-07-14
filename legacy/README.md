@@ -1,26 +1,15 @@
-﻿# legacy
+# Legacy and Reference Material
 
-## 文件夹用途
+This directory separates inactive references and future placeholders from the
+current Demo B execution path.
 
-这个文件夹用于放旧模块或上游参考代码。这些内容仍有参考价值，但不是 Demo B 的主运行路径。
+## Current Contents
 
-## 需要放什么
+| Path | Current status |
+|---|---|
+| `perturbation/` | Contains papers and their source list for the initial action design. |
+| `minimal_flip_search/` | Documentation placeholder; no implementation is stored yet. |
+| `visualization/` | Documentation placeholder; no implementation is stored yet. |
 
-- 旧的扰动实验代码。
-- 旧的 minimal flip search 尝试。
-- 旧的可视化 demo。
-- 上游 README 或来源说明。
-
-## 在项目中的作用
-
-把旧代码放到 `legacy` 可以避免顶层项目看起来像多个实验拼在一起，也能清楚区分当前维护代码和历史参考代码。
-
-## 不应该放什么
-
-- 当前 Demo B 主流程代码。
-- 当前 DeepWuKong baseline 代码。
-- 活跃运行产物。
-
-## 迁移规则
-
-如果某个 legacy 功能要进入正式 pipeline，应把清理后的版本移动到 `demo_b/` 或其他活跃目录；旧版本只作为参考保留。
+Active code belongs in `../demo_b/`. Archived runtime artifacts belong in
+`../artifacts/` or `../outputs/`, not here.

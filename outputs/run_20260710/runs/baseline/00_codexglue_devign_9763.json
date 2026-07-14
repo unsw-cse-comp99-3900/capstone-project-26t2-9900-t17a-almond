@@ -1,0 +1,500 @@
+{
+    "generated_at_utc":  "2026-07-10T05:54:22.798474+00:00",
+    "prediction":  {
+                       "sample_id":  "00_codexglue_devign_9763",
+                       "input_file":  "input_sources/00_codexglue_devign_9763.c",
+                       "function_name":  "decode_frame_common",
+                       "joern_status":  "success",
+                       "num_nodes":  1152,
+                       "num_edges":  2411,
+                       "predicted_label":  0,
+                       "vulnerability_probability":  0.0005112715298309922,
+                       "threshold":  0.5,
+                       "confidence":  0.999488728470169,
+                       "lexical_score":  null,
+                       "graph_score":  0.0005112715298309922,
+                       "fusion_status":  "deepwukong_xfg_max",
+                       "unixcoder_score":  null,
+                       "codet5_score":  null,
+                       "graphcodebert_score":  null,
+                       "final_score":  0.0005112715298309922
+                   },
+    "details":  {
+                    "baseline":  "deepwukong_xfg_baseline",
+                    "selection":  {
+                                      "model":  "DeepWuKong GCN CWE119",
+                                      "checkpoint":  "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+                                      "threshold":  0.5,
+                                      "source_aggregation":  "max_xfg_vulnerability_probability"
+                                  },
+                    "joern_stats":  {
+                                        "parse_status":  "success",
+                                        "error":  null,
+                                        "command":  [
+                                                        "bash",
+                                                        "/scan/output/_work/joern-parse-lf.sh",
+                                                        "/scan/output/joern_csv",
+                                                        "/scan/output/_work/source"
+                                                    ],
+                                        "stdout":  "/scan/output/_work/source/00_codexglue_devign_9763.c\n",
+                                        "stderr":  "",
+                                        "csv_dir":  "artifacts/joern_csv/run_20260710/baseline/00_codexglue_devign_9763",
+                                        "selected_csv_dir":  "artifacts/joern_csv/run_20260710/baseline/00_codexglue_devign_9763",
+                                        "runtime_ms":  700.4199839999501,
+                                        "node_count":  1152,
+                                        "edge_count":  2411,
+                                        "summary":  {
+                                                        "node_count":  1152,
+                                                        "edge_count":  2411
+                                                    },
+                                        "container_csv_dir":  "/scan/output/joern_csv",
+                                        "container_selected_csv_dir":  "/scan/output/joern_csv/scan/output/_work/source/00_codexglue_devign_9763.c"
+                                    },
+                    "features":  {
+                                     "source":  {
+                                                    "function_name":  "decode_frame_common",
+                                                    "char_length":  6020,
+                                                    "line_count":  317
+                                                },
+                                     "graph":  {
+                                                   "available":  true,
+                                                   "node_count":  1152,
+                                                   "edge_count":  2411
+                                               },
+                                     "xfg":  {
+                                                 "xfg_count":  50,
+                                                 "key_line_counts":  {
+                                                                         "call":  4,
+                                                                         "array":  6,
+                                                                         "ptr":  33,
+                                                                         "arith":  7
+                                                                     },
+                                                 "xfg_predictions":  [
+                                                                         {
+                                                                             "category":  "call",
+                                                                             "key_line":  249,
+                                                                             "vulnerability_probability":  1.0484487122245776E-19,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "call",
+                                                                             "key_line":  243,
+                                                                             "vulnerability_probability":  2.4240581617606292E-18,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "call",
+                                                                             "key_line":  253,
+                                                                             "vulnerability_probability":  4.8241221791706591E-20,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "call",
+                                                                             "key_line":  247,
+                                                                             "vulnerability_probability":  4.2643387058127472E-22,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  233,
+                                                                             "vulnerability_probability":  8.972088920606875E-15,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  267,
+                                                                             "vulnerability_probability":  1.1690684686982422E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  241,
+                                                                             "vulnerability_probability":  7.2831980247115014E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  243,
+                                                                             "vulnerability_probability":  2.4240581617606292E-18,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  249,
+                                                                             "vulnerability_probability":  1.0484487122245776E-19,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "array",
+                                                                             "key_line":  253,
+                                                                             "vulnerability_probability":  4.8241221791706591E-20,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  131,
+                                                                             "vulnerability_probability":  7.8735087026549078E-14,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  267,
+                                                                             "vulnerability_probability":  1.1690650580931106E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999998807907104
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  269,
+                                                                             "vulnerability_probability":  2.2301112778677634E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999997615814209
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  19,
+                                                                             "vulnerability_probability":  2.9402363876940285E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  23,
+                                                                             "vulnerability_probability":  4.0687457847354835E-09,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  279,
+                                                                             "vulnerability_probability":  2.2301135516045179E-07,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999997615814209
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  25,
+                                                                             "vulnerability_probability":  3.0926519678509123E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  283,
+                                                                             "vulnerability_probability":  5.3842352798483262E-08,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  163,
+                                                                             "vulnerability_probability":  0.0005112715298309922,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9994887113571167
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  37,
+                                                                             "vulnerability_probability":  2.2448748415726527E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  295,
+                                                                             "vulnerability_probability":  6.066366298185244E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  173,
+                                                                             "vulnerability_probability":  0.0005112715298309922,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9994887113571167
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  51,
+                                                                             "vulnerability_probability":  3.8906619010958821E-06,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999960660934448
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  179,
+                                                                             "vulnerability_probability":  5.5785795904580993E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  53,
+                                                                             "vulnerability_probability":  3.8906655390746891E-06,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9999960660934448
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  183,
+                                                                             "vulnerability_probability":  6.7669324513292125E-16,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  312,
+                                                                             "vulnerability_probability":  2.023527456707086E-10,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  191,
+                                                                             "vulnerability_probability":  3.2610915810837174E-19,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  63,
+                                                                             "vulnerability_probability":  1.0903943303830488E-09,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  65,
+                                                                             "vulnerability_probability":  3.3238772845223252E-11,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  201,
+                                                                             "vulnerability_probability":  1.108436645374287E-16,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  213,
+                                                                             "vulnerability_probability":  7.1137496934770006E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  221,
+                                                                             "vulnerability_probability":  7.0776040193495926E-16,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  223,
+                                                                             "vulnerability_probability":  2.1114666766363706E-23,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  97,
+                                                                             "vulnerability_probability":  1.977664282846266E-20,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  225,
+                                                                             "vulnerability_probability":  4.3100203811810026E-20,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  231,
+                                                                             "vulnerability_probability":  7.283239766495142E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  233,
+                                                                             "vulnerability_probability":  8.972088920606875E-15,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  111,
+                                                                             "vulnerability_probability":  7.149960961835844E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  239,
+                                                                             "vulnerability_probability":  1.6050174427365005E-12,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  241,
+                                                                             "vulnerability_probability":  7.2832256718669E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  247,
+                                                                             "vulnerability_probability":  4.2643387058127472E-22,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "ptr",
+                                                                             "key_line":  123,
+                                                                             "vulnerability_probability":  8.2345332366194892E-24,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  225,
+                                                                             "vulnerability_probability":  4.3100203811810026E-20,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  163,
+                                                                             "vulnerability_probability":  0.0005112715298309922,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9994887113571167
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  233,
+                                                                             "vulnerability_probability":  8.9721228019247652E-15,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  201,
+                                                                             "vulnerability_probability":  1.108436645374287E-16,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  173,
+                                                                             "vulnerability_probability":  0.0005112715298309922,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  0.9994887113571167
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  241,
+                                                                             "vulnerability_probability":  7.2832256718669E-13,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         },
+                                                                         {
+                                                                             "category":  "arith",
+                                                                             "key_line":  243,
+                                                                             "vulnerability_probability":  2.4240581617606292E-18,
+                                                                             "predicted_label":  0,
+                                                                             "confidence":  1.0
+                                                                         }
+                                                                     ]
+                                             }
+                                 },
+                    "branch_results":  {
+                                           "new_graph_prob":  {
+                                                                  "score":  0.0005112715298309922,
+                                                                  "status":  "ok",
+                                                                  "model":  "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+                                                                  "xfg_count":  50
+                                                              },
+                                           "old_graph_prob":  {
+                                                                  "score":  null,
+                                                                  "status":  "skipped",
+                                                                  "reason":  "DeepWuKong single-branch baseline"
+                                                              },
+                                           "lexical_prob":  {
+                                                                "score":  null,
+                                                                "status":  "skipped",
+                                                                "reason":  "DeepWuKong full mode does not use lexical branch"
+                                                            },
+                                           "unixcoder_prob":  {
+                                                                  "score":  null,
+                                                                  "status":  "skipped",
+                                                                  "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                              },
+                                           "graphcodebert_prob":  {
+                                                                      "score":  null,
+                                                                      "status":  "skipped",
+                                                                      "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                  },
+                                           "codet5_prob":  {
+                                                               "score":  null,
+                                                               "status":  "skipped",
+                                                               "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                           },
+                                           "unixcoder_seed13_prob":  {
+                                                                         "score":  null,
+                                                                         "status":  "skipped",
+                                                                         "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                     },
+                                           "unixcoder_seed42_prob":  {
+                                                                         "score":  null,
+                                                                         "status":  "skipped",
+                                                                         "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                     },
+                                           "unixcoder_seed2025_prob":  {
+                                                                           "score":  null,
+                                                                           "status":  "skipped",
+                                                                           "reason":  "DeepWuKong full mode does not use transformer branch"
+                                                                       }
+                                       },
+                    "component_scores":  {
+                                             "new_graph_prob":  0.0005112715298309922
+                                         },
+                    "fusion":  {
+                                   "fusion_status":  "deepwukong_xfg_max",
+                                   "available_components":  [
+                                                                "new_graph_prob"
+                                                            ],
+                                   "missing_components":  [
+
+                                                          ],
+                                   "final_score":  0.0005112715298309922,
+                                   "predicted_label":  0,
+                                   "confidence":  0.999488728470169,
+                                   "threshold":  0.5
+                               },
+                    "runtime_ms":  5630.416072000003,
+                    "limitations":  [
+                                        "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+                                        "The output is not line-level localization.",
+                                        "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+                                    ],
+                    "warnings":  [
+
+                                 ]
+                }
+}

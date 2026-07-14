@@ -1,26 +1,16 @@
-﻿# input_sources
+# Input Sources
 
-## 文件夹用途
+This directory contains the original C/C++ source files used as inputs to the
+perturbation and inference workflow.
 
-这个文件夹用于放 Demo B 需要测试的原始源码函数。
+## Current Dataset
 
-## 需要放什么
+The repository currently includes 10 small C samples selected for the first
+DeepWuKong perturbation experiment. Their filenames retain the CodeXGLUE/Devign
+sample identifiers used during selection.
 
-- C/C++ 源码文件，例如 `.c`、`.cc`、`.cpp`、`.cxx`、`.h`、`.hpp`。
-- 用于 smoke test 的小规模样例函数。
-- 如果有带标签数据集，可以按子目录组织，但标签来源需要清楚说明。
+These files are experiment inputs, not generated variants. They do not provide
+independent ground-truth labels in this directory, so filenames and model
+predictions must not be treated as verified vulnerability labels.
 
-## 在项目中的作用
-
-这里的文件是整个实验的起点。pipeline 会读取这些源码，生成扰动版本，运行漏洞检测，并比较扰动前后的预测结果。
-
-## 不应该放什么
-
-- 生成的扰动源码。
-- Joern CSV 输出。
-- 模型 checkpoint。
-- 最终报告。
-
-## 标签说明
-
-如果要做正式评估，真实标签建议放在单独的 manifest 文件中，例如 `labels.csv`，不要只依赖文件名表达标签。
+Generated variants are stored under `../artifacts/perturbed_sources/`.

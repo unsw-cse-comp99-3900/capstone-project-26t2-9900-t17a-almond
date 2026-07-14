@@ -1,22 +1,11 @@
-﻿# artifacts/graphs
+# Graph Visualization Artifacts
 
-## 文件夹用途
+This directory is reserved for graph products intended for analysis or display,
+such as simplified graph JSON, DOT files, rendered images, and graph-difference
+summaries.
 
-这个文件夹用于放可视化和结构对比用的图产物。
+## Current Status
 
-## 需要放什么
-
-- 简化图 JSON。
-- DOT 图文件。
-- 可选的 PNG/SVG 渲染结果。
-- 原始代码和扰动代码之间的图差异摘要。
-
-## 在项目中的作用
-
-这个目录主要服务于解释和展示。即使这些图不完全等同于 DeepWuKong 的模型输入，也可以帮助说明扰动如何改变代码结构。
-
-## 不应该放什么
-
-- DeepWuKong checkpoint。
-- 原始源码数据集。
-- 最终 CSV/Markdown 报告。
+No graph visualization artifacts are implemented or stored yet. The Joern graph
+tables used by DeepWuKong are under `../joern_csv/`; they should not be copied
+here unless they are transformed into a visualization-specific format.

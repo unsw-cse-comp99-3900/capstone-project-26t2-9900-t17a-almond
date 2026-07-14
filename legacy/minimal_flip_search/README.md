@@ -1,20 +1,10 @@
-﻿# legacy/minimal_flip_search
+# Minimal-Flip Search Reference Area
 
-## 文件夹用途
+This directory is reserved for inactive prototypes or notes related to finding
+the smallest perturbation that flips a model prediction.
 
-这个文件夹用于放旧的最小翻转搜索代码或相关笔记。
+## Current Status
 
-## 需要放什么
-
-- 以前的实现或原型。
-- 尝试过的算法说明。
-- 当前 `demo_b/flip_search.py` 的兼容参考资料。
-
-## 在项目中的作用
-
-这里是历史参考材料。当前正在使用的最小翻转搜索实现应该放在 `demo_b/` 下。
-
-## 不应该放什么
-
-- `run_demo_b.py` 直接调用的活跃运行代码。
-- 生成的实验结果。
+No minimal-flip search implementation or historical prototype is stored here.
+When an implementation becomes active, its maintained version should live in
+`../../demo_b/`, with this directory used only for superseded reference material.

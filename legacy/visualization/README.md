@@ -1,21 +1,10 @@
-﻿# legacy/visualization
+# Visualization Reference Area
 
-## 文件夹用途
+This directory is reserved for inactive visualization prototypes and design
+notes.
 
-这个文件夹用于放旧的可视化 demo 和参考代码。
+## Current Status
 
-## 需要放什么
-
-- 以前的图可视化服务。
-- 旧 demo 脚本。
-- 可复用可视化思路的说明。
-
-## 在项目中的作用
-
-这里是构建当前 Demo B 可视化层的参考材料。当前活跃 renderer 应该放在 `demo_b/` 下。
-
-## 不应该放什么
-
-- 当前生成的 HTML 报告。
-- 活跃 pipeline 入口。
-- 大量图渲染结果。
+No visualization implementation or historical renderer is stored here. Active
+visualization code should eventually live in `../../demo_b/`, while generated
+graph files should be written to `../../artifacts/graphs/`.

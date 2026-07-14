@@ -1,28 +1,19 @@
-﻿# artifacts
+# Artifacts
 
-## 文件夹用途
+This directory stores inspectable intermediate products generated between the
+source files and the final experiment report.
 
-这个文件夹用于放实验过程中生成的中间产物。它们不是最终报告，但对调试、缓存、图分析和复现实验很重要。
+## Current Contents
 
-## 需要放什么
+| Path | Status |
+|---|---|
+| `perturbed_sources/` | Contains the archived 2026-07-10 source variants and manifest. |
+| `joern_csv/` | Contains flattened Joern node and edge tables for the archived run. |
+| `graphs/` | Reserved for graph visualizations; no graph files are stored yet. |
+| `xfg/` | Reserved for serialized XFG data; no XFG files are stored yet. |
 
-- 扰动后的源码文件。
-- Joern CSV 输出。
-- XFG 产物。
-- 简化图 JSON/DOT/PNG。
-- 可选的缓存元数据，例如按源码 hash 建立缓存。
+Archived runs may be committed when they support a reported experiment.
+Regenerable local outputs use `generated/` directories and are ignored by Git.
 
-## 在项目中的作用
-
-`artifacts` 让 pipeline 变得可检查。通过保存中间产物，可以展示源码扰动如何影响 Joern 图、XFG 切片和模型预测。
-
-## 不应该放什么
-
-- 给用户看的最终报告。
-- 原始大数据集。
-- pipeline 源码。
-- 模型 checkpoint。
-
-## 清理策略
-
-这个目录可能会变得很大。除非某次实验需要归档，否则应当可以安全删除并重新生成。
+Do not place model checkpoints, original datasets, pipeline source code, or
+final user-facing reports in this directory.

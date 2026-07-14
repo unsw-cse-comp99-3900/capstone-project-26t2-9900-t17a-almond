@@ -1,25 +1,14 @@
-﻿# legacy/perturbation
+# Perturbation References
 
-## 文件夹用途
+This directory contains reference material used to design the initial
+source-level perturbation actions.
 
-这个文件夹用于放旧的扰动模块或上游扰动实验。
+## Current Contents
 
-## 需要放什么
+`references/` contains five PDF papers and `sources.csv`, which records each
+paper's title, authors, year, source URL, local filename, and relevance.
 
-- 之前的源码级扰动实现。
-- 之前的图级扰动实验。
-- 哪些策略被复用、哪些策略被替换的说明。
+The active implementation is `../../demo_b/perturbations.py`. Its action design
+and limitations are documented in `../../demo_b/PERTURBATIONS.md`.
 
-## 在项目中的作用
-
-这个目录记录扰动思路的来源。当前正式扰动接口应该放在 `demo_b/perturbations.py`。
-
-## References
-
-`references/` 保存首轮扰动设计使用的论文和来源清单。当前 action 的设计说明位于 `demo_b/PERTURBATIONS.md`。
-
-## 不应该放什么
-
-- 新生成的扰动文件。
-- 当前活跃 pipeline 代码。
-- 最终报告。
+Generated variants and experiment reports do not belong in this directory.
