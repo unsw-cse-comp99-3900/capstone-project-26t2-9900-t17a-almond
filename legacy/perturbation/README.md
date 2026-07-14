@@ -14,6 +14,10 @@
 
 这个目录记录扰动思路的来源。当前正式扰动接口应该放在 `demo_b/perturbations.py`。
 
+## References
+
+`references/` 保存首轮扰动设计使用的论文和来源清单。当前 action 的设计说明位于 `demo_b/PERTURBATIONS.md`。
+
 ## 不应该放什么
 
 - 新生成的扰动文件。

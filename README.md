@@ -1,50 +1,34 @@
-﻿# Demo B 结构草案
+# Demo B
 
-这个文件夹是 Demo B 的推荐项目结构草案。当前只用于规划目录职责，不放正式代码、模型、数据或实验结果。
+This repository contains the DeepWuKong baseline, source-level graph
+perturbation actions, and the artifacts from the first perturbation experiment.
 
-## 目标流程
+## Pipeline
 
 ```text
 input_sources/
-  -> demo_b 扰动与实验流程
+  -> demo_b perturbation workflow
   -> artifacts/perturbed_sources
   -> artifacts/joern_csv
-  -> artifacts/xfg
-  -> baselines/deepwukong 推理
-  -> outputs 输出报告和对比结果
+  -> DeepWuKong PDG/XFG generation and inference
+  -> outputs prediction comparisons and reports
 ```
 
-## 推荐目录结构
+## Current Implementation
 
-```text
-Demo B Structure Draft/
-  README.md
-  demo_b/
-  baselines/
-    deepwukong/
-  input_sources/
-  artifacts/
-    perturbed_sources/
-    joern_csv/
-    xfg/
-    graphs/
-  outputs/
-  tests/
-  legacy/
-    minimal_flip_search/
-    perturbation/
-    visualization/
+- `baselines/deepwukong/`: DeepWuKong CWE-119 inference scripts, configuration,
+  and checkpoint.
+- `demo_b/perturbations.py`: the three implemented source-level actions.
+- `input_sources/`: the ten C source samples used by the first experiment.
+- `artifacts/perturbed_sources/`: generated source variants and manifests.
+- `artifacts/joern_csv/`: baseline and perturbed Joern graph artifacts.
+- `outputs/run_20260710/`: predictions, comparison tables, and experiment notes.
+
+Generate all currently implemented perturbations:
+
+```powershell
+python demo_b\perturbations.py
 ```
 
-## 根目录未来应放的文件
-
-后续正式项目根目录可以放：
-
-- `run_demo_b.py`：Demo B 总入口命令。
-- `README.md`：项目总说明和运行方式。
-- `requirements.txt`：宿主机 Python 依赖。
-- Docker 相关文件：等整体流程稳定后再加入。
-
-## 当前状态
-
-当前只放 Markdown 说明文档。目录职责确认之前，不应在这里放代码、模型 checkpoint、测试源码、生成图或实验输出。
+See [`demo_b/PERTURBATIONS.md`](demo_b/PERTURBATIONS.md) for the action design
+and detailed usage.

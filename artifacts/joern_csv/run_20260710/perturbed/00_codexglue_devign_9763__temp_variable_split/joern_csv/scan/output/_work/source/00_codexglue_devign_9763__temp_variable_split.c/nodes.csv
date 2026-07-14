@@ -1,0 +1,1161 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/00_codexglue_devign_9763__temp_variable_split.c								
+ANR	2	Function	decode_frame_common	1:0:0:6054							
+ANR	3	FunctionDef	"decode_frame_common (AVCodecContext * avctx , PNGDecContext * s , AVFrame * p , AVPacket * avpkt)"		2	0					
+ANR	4	CompoundStatement		5:0:134:6054	2	0					
+ANR	5	IdentifierDeclStatement	AVDictionary * metadata = NULL ;	7:4:141:171	2	0	True				
+ANR	6	IdentifierDecl	* metadata = NULL		2	0					
+ANR	7	IdentifierDeclType	AVDictionary *		2	0					
+ANR	8	Identifier	metadata		2	1					
+ANR	9	AssignmentExpression	* metadata = NULL		2	2		=			
+ANR	10	Identifier	NULL		2	0					
+ANR	11	Identifier	NULL		2	1					
+ANR	12	IdentifierDeclStatement	"uint32_t tag , length ;"	9:4:178:198	2	1	True				
+ANR	13	IdentifierDecl	tag		2	0					
+ANR	14	IdentifierDeclType	uint32_t		2	0					
+ANR	15	Identifier	tag		2	1					
+ANR	16	IdentifierDecl	length		2	1					
+ANR	17	IdentifierDeclType	uint32_t		2	0					
+ANR	18	Identifier	length		2	1					
+ANR	19	IdentifierDeclStatement	int decode_next_dat = 0 ;	11:4:205:228	2	2	True				
+ANR	20	IdentifierDecl	decode_next_dat = 0		2	0					
+ANR	21	IdentifierDeclType	int		2	0					
+ANR	22	Identifier	decode_next_dat		2	1					
+ANR	23	AssignmentExpression	decode_next_dat = 0		2	2		=			
+ANR	24	Identifier	decode_next_dat		2	0					
+ANR	25	PrimaryExpression	0		2	1					
+ANR	26	IdentifierDeclStatement	int ret ;	13:4:235:242	2	3	True				
+ANR	27	IdentifierDecl	ret		2	0					
+ANR	28	IdentifierDeclType	int		2	0					
+ANR	29	Identifier	ret		2	1					
+ANR	30	ForStatement	for ( ; ; )		2	4					
+ANR	31	CompoundStatement		13:13:125:125	2	0					
+ANR	32	ExpressionStatement	length = bytestream2_get_bytes_left ( & s -> gb )	19:8:271:314	2	0	True				
+ANR	33	AssignmentExpression	length = bytestream2_get_bytes_left ( & s -> gb )		2	0		=			
+ANR	34	Identifier	length		2	0					
+ANR	35	CallExpression	bytestream2_get_bytes_left ( & s -> gb )		2	1					
+ANR	36	Callee	bytestream2_get_bytes_left		2	0					
+ANR	37	Identifier	bytestream2_get_bytes_left		2	0					
+ANR	38	ArgumentList	& s -> gb		2	1					
+ANR	39	Argument	& s -> gb		2	0					
+ANR	40	UnaryOperationExpression	& s -> gb		2	0					
+ANR	41	UnaryOperator	&		2	0					
+ANR	42	PtrMemberAccess	s -> gb		2	1					
+ANR	43	Identifier	s		2	0					
+ANR	44	Identifier	gb		2	1					
+ANR	45	IfStatement	if ( length <= 0 )		2	1					
+ANR	46	Condition	length <= 0	21:12:329:339	2	0	True				
+ANR	47	RelationalExpression	length <= 0		2	0		<=			
+ANR	48	Identifier	length		2	0					
+ANR	49	PrimaryExpression	0		2	1					
+ANR	50	CompoundStatement		39:12:686:719	2	1					
+ANR	51	IfStatement	if ( CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && length == 0 )		2	0					
+ANR	52	Condition	CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && length == 0	23:16:361:433	2	0	True				
+ANR	53	AndExpression	CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && length == 0		2	0		&&			
+ANR	54	Identifier	CONFIG_APNG_DECODER		2	0					
+ANR	55	AndExpression	avctx -> codec_id == AV_CODEC_ID_APNG && length == 0		2	1		&&			
+ANR	56	EqualityExpression	avctx -> codec_id == AV_CODEC_ID_APNG		2	0		==			
+ANR	57	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	58	Identifier	avctx		2	0					
+ANR	59	Identifier	codec_id		2	1					
+ANR	60	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	61	EqualityExpression	length == 0		2	1		==			
+ANR	62	Identifier	length		2	0					
+ANR	63	PrimaryExpression	0		2	1					
+ANR	64	CompoundStatement		19:91:301:301	2	1					
+ANR	65	IfStatement	if ( ! ( s -> state & PNG_IDAT ) )		2	0					
+ANR	66	Condition	! ( s -> state & PNG_IDAT )	25:20:459:480	2	0	True				
+ANR	67	UnaryOperationExpression	! ( s -> state & PNG_IDAT )		2	0					
+ANR	68	UnaryOperator	!		2	0					
+ANR	69	BitAndExpression	s -> state & PNG_IDAT		2	1		&			
+ANR	70	PtrMemberAccess	s -> state		2	0					
+ANR	71	Identifier	s		2	0					
+ANR	72	Identifier	state		2	1					
+ANR	73	Identifier	PNG_IDAT		2	1					
+ANR	74	ReturnStatement	return 0 ;	27:20:504:512	2	1	True				
+ANR	75	PrimaryExpression	0		2	0					
+ANR	76	ElseStatement	else		2	0					
+ANR	77	GotoStatement	goto exit_loop ;	31:20:557:571	2	0	True				
+ANR	78	Identifier	exit_loop		2	0					
+ANR	79	ExpressionStatement	"av_log ( avctx , AV_LOG_ERROR , ""%d bytes left\\n"" , length )"	35:12:601:655	2	1	True				
+ANR	80	CallExpression	"av_log ( avctx , AV_LOG_ERROR , ""%d bytes left\\n"" , length )"		2	0					
+ANR	81	Callee	av_log		2	0					
+ANR	82	Identifier	av_log		2	0					
+ANR	83	ArgumentList	avctx		2	1					
+ANR	84	Argument	avctx		2	0					
+ANR	85	Identifier	avctx		2	0					
+ANR	86	Argument	AV_LOG_ERROR		2	1					
+ANR	87	Identifier	AV_LOG_ERROR		2	0					
+ANR	88	Argument	"""%d bytes left\\n"""		2	2					
+ANR	89	PrimaryExpression	"""%d bytes left\\n"""		2	0					
+ANR	90	Argument	length		2	3					
+ANR	91	Identifier	length		2	0					
+ANR	92	IfStatement	if ( s -> state & PNG_ALLIMAGE && avctx -> strict_std_compliance <= FF_COMPLIANCE_NORMAL )		2	2					
+ANR	93	Condition	s -> state & PNG_ALLIMAGE && avctx -> strict_std_compliance <= FF_COMPLIANCE_NORMAL	37:19:677:772	2	0	True				
+ANR	94	AndExpression	s -> state & PNG_ALLIMAGE && avctx -> strict_std_compliance <= FF_COMPLIANCE_NORMAL		2	0		&&			
+ANR	95	BitAndExpression	s -> state & PNG_ALLIMAGE		2	0		&			
+ANR	96	PtrMemberAccess	s -> state		2	0					
+ANR	97	Identifier	s		2	0					
+ANR	98	Identifier	state		2	1					
+ANR	99	Identifier	PNG_ALLIMAGE		2	1					
+ANR	100	RelationalExpression	avctx -> strict_std_compliance <= FF_COMPLIANCE_NORMAL		2	1		<=			
+ANR	101	PtrMemberAccess	avctx -> strict_std_compliance		2	0					
+ANR	102	Identifier	avctx		2	0					
+ANR	103	Identifier	strict_std_compliance		2	1					
+ANR	104	Identifier	FF_COMPLIANCE_NORMAL		2	1					
+ANR	105	GotoStatement	goto exit_loop ;	41:16:792:806	2	1	True				
+ANR	106	Identifier	exit_loop		2	0					
+ANR	107	IdentifierDeclStatement	int dwk_tmp = AVERROR_INVALIDDATA ;	43:12:821:854	2	3	True				
+ANR	108	IdentifierDecl	dwk_tmp = AVERROR_INVALIDDATA		2	0					
+ANR	109	IdentifierDeclType	int		2	0					
+ANR	110	Identifier	dwk_tmp		2	1					
+ANR	111	AssignmentExpression	dwk_tmp = AVERROR_INVALIDDATA		2	2		=			
+ANR	112	Identifier	AVERROR_INVALIDDATA		2	0					
+ANR	113	Identifier	AVERROR_INVALIDDATA		2	1					
+ANR	114	ExpressionStatement	ret = dwk_tmp	44:12:868:881	2	4	True				
+ANR	115	AssignmentExpression	ret = dwk_tmp		2	0		=			
+ANR	116	Identifier	ret		2	0					
+ANR	117	Identifier	dwk_tmp		2	1					
+ANR	118	GotoStatement	goto fail ;	46:12:896:905	2	5	True				
+ANR	119	Identifier	fail		2	0					
+ANR	120	ExpressionStatement	length = bytestream2_get_be32 ( & s -> gb )	52:8:929:966	2	2	True				
+ANR	121	AssignmentExpression	length = bytestream2_get_be32 ( & s -> gb )		2	0		=			
+ANR	122	Identifier	length		2	0					
+ANR	123	CallExpression	bytestream2_get_be32 ( & s -> gb )		2	1					
+ANR	124	Callee	bytestream2_get_be32		2	0					
+ANR	125	Identifier	bytestream2_get_be32		2	0					
+ANR	126	ArgumentList	& s -> gb		2	1					
+ANR	127	Argument	& s -> gb		2	0					
+ANR	128	UnaryOperationExpression	& s -> gb		2	0					
+ANR	129	UnaryOperator	&		2	0					
+ANR	130	PtrMemberAccess	s -> gb		2	1					
+ANR	131	Identifier	s		2	0					
+ANR	132	Identifier	gb		2	1					
+ANR	133	IfStatement	if ( length > 0x7fffffff || length > bytestream2_get_bytes_left ( & s -> gb ) )		2	3					
+ANR	134	Condition	length > 0x7fffffff || length > bytestream2_get_bytes_left ( & s -> gb )	54:12:981:1046	2	0	True				
+ANR	135	OrExpression	length > 0x7fffffff || length > bytestream2_get_bytes_left ( & s -> gb )		2	0		||			
+ANR	136	RelationalExpression	length > 0x7fffffff		2	0		>			
+ANR	137	Identifier	length		2	0					
+ANR	138	PrimaryExpression	0x7fffffff		2	1					
+ANR	139	RelationalExpression	length > bytestream2_get_bytes_left ( & s -> gb )		2	1		>			
+ANR	140	Identifier	length		2	0					
+ANR	141	CallExpression	bytestream2_get_bytes_left ( & s -> gb )		2	1					
+ANR	142	Callee	bytestream2_get_bytes_left		2	0					
+ANR	143	Identifier	bytestream2_get_bytes_left		2	0					
+ANR	144	ArgumentList	& s -> gb		2	1					
+ANR	145	Argument	& s -> gb		2	0					
+ANR	146	UnaryOperationExpression	& s -> gb		2	0					
+ANR	147	UnaryOperator	&		2	0					
+ANR	148	PtrMemberAccess	s -> gb		2	1					
+ANR	149	Identifier	s		2	0					
+ANR	150	Identifier	gb		2	1					
+ANR	151	CompoundStatement		50:80:914:914	2	1					
+ANR	152	ExpressionStatement	"av_log ( avctx , AV_LOG_ERROR , ""chunk too big\\n"" )"	56:12:1064:1110	2	0	True				
+ANR	153	CallExpression	"av_log ( avctx , AV_LOG_ERROR , ""chunk too big\\n"" )"		2	0					
+ANR	154	Callee	av_log		2	0					
+ANR	155	Identifier	av_log		2	0					
+ANR	156	ArgumentList	avctx		2	1					
+ANR	157	Argument	avctx		2	0					
+ANR	158	Identifier	avctx		2	0					
+ANR	159	Argument	AV_LOG_ERROR		2	1					
+ANR	160	Identifier	AV_LOG_ERROR		2	0					
+ANR	161	Argument	"""chunk too big\\n"""		2	2					
+ANR	162	PrimaryExpression	"""chunk too big\\n"""		2	0					
+ANR	163	ExpressionStatement	ret = AVERROR_INVALIDDATA	58:12:1125:1150	2	1	True				
+ANR	164	AssignmentExpression	ret = AVERROR_INVALIDDATA		2	0		=			
+ANR	165	Identifier	ret		2	0					
+ANR	166	Identifier	AVERROR_INVALIDDATA		2	1					
+ANR	167	GotoStatement	goto fail ;	60:12:1165:1174	2	2	True				
+ANR	168	Identifier	fail		2	0					
+ANR	169	ExpressionStatement	tag = bytestream2_get_le32 ( & s -> gb )	64:8:1196:1230	2	4	True				
+ANR	170	AssignmentExpression	tag = bytestream2_get_le32 ( & s -> gb )		2	0		=			
+ANR	171	Identifier	tag		2	0					
+ANR	172	CallExpression	bytestream2_get_le32 ( & s -> gb )		2	1					
+ANR	173	Callee	bytestream2_get_le32		2	0					
+ANR	174	Identifier	bytestream2_get_le32		2	0					
+ANR	175	ArgumentList	& s -> gb		2	1					
+ANR	176	Argument	& s -> gb		2	0					
+ANR	177	UnaryOperationExpression	& s -> gb		2	0					
+ANR	178	UnaryOperator	&		2	0					
+ANR	179	PtrMemberAccess	s -> gb		2	1					
+ANR	180	Identifier	s		2	0					
+ANR	181	Identifier	gb		2	1					
+ANR	182	IfStatement	if ( avctx -> debug & FF_DEBUG_STARTCODE )		2	5					
+ANR	183	Condition	avctx -> debug & FF_DEBUG_STARTCODE	66:12:1245:1277	2	0	True				
+ANR	184	BitAndExpression	avctx -> debug & FF_DEBUG_STARTCODE		2	0		&			
+ANR	185	PtrMemberAccess	avctx -> debug		2	0					
+ANR	186	Identifier	avctx		2	0					
+ANR	187	Identifier	debug		2	1					
+ANR	188	Identifier	FF_DEBUG_STARTCODE		2	1					
+ANR	189	ExpressionStatement	"av_log ( avctx , AV_LOG_DEBUG , ""png: tag=%c%c%c%c length=%u\\n"" , ( tag & 0xff ) , ( ( tag >> 8 ) & 0xff ) , ( ( tag >> 16 ) & 0xff ) , ( ( tag >> 24 ) & 0xff ) , length )"	68:12:1293:1508	2	1	True				
+ANR	190	CallExpression	"av_log ( avctx , AV_LOG_DEBUG , ""png: tag=%c%c%c%c length=%u\\n"" , ( tag & 0xff ) , ( ( tag >> 8 ) & 0xff ) , ( ( tag >> 16 ) & 0xff ) , ( ( tag >> 24 ) & 0xff ) , length )"		2	0					
+ANR	191	Callee	av_log		2	0					
+ANR	192	Identifier	av_log		2	0					
+ANR	193	ArgumentList	avctx		2	1					
+ANR	194	Argument	avctx		2	0					
+ANR	195	Identifier	avctx		2	0					
+ANR	196	Argument	AV_LOG_DEBUG		2	1					
+ANR	197	Identifier	AV_LOG_DEBUG		2	0					
+ANR	198	Argument	"""png: tag=%c%c%c%c length=%u\\n"""		2	2					
+ANR	199	PrimaryExpression	"""png: tag=%c%c%c%c length=%u\\n"""		2	0					
+ANR	200	Argument	tag & 0xff		2	3					
+ANR	201	BitAndExpression	tag & 0xff		2	0		&			
+ANR	202	Identifier	tag		2	0					
+ANR	203	PrimaryExpression	0xff		2	1					
+ANR	204	Argument	( tag >> 8 ) & 0xff		2	4					
+ANR	205	BitAndExpression	( tag >> 8 ) & 0xff		2	0		&			
+ANR	206	ShiftExpression	tag >> 8		2	0		>>			
+ANR	207	Identifier	tag		2	0					
+ANR	208	PrimaryExpression	8		2	1					
+ANR	209	PrimaryExpression	0xff		2	1					
+ANR	210	Argument	( tag >> 16 ) & 0xff		2	5					
+ANR	211	BitAndExpression	( tag >> 16 ) & 0xff		2	0		&			
+ANR	212	ShiftExpression	tag >> 16		2	0		>>			
+ANR	213	Identifier	tag		2	0					
+ANR	214	PrimaryExpression	16		2	1					
+ANR	215	PrimaryExpression	0xff		2	1					
+ANR	216	Argument	( tag >> 24 ) & 0xff		2	6					
+ANR	217	BitAndExpression	( tag >> 24 ) & 0xff		2	0		&			
+ANR	218	ShiftExpression	tag >> 24		2	0		>>			
+ANR	219	Identifier	tag		2	0					
+ANR	220	PrimaryExpression	24		2	1					
+ANR	221	PrimaryExpression	0xff		2	1					
+ANR	222	Argument	length		2	7					
+ANR	223	Identifier	length		2	0					
+ANR	224	SwitchStatement	switch ( tag )		2	6					
+ANR	225	Condition	tag	78:16:1527:1529	2	0	True				
+ANR	226	Identifier	tag		2	0					
+ANR	227	CompoundStatement		74:21:1397:1397	2	1					
+ANR	228	Statement	case	80:8:1543:1546	2	0	True				
+ANR	229	Statement	MKTAG	80:13:1548:1552	2	1	True				
+ANR	230	Statement	(	80:18:1553:1553	2	2	True				
+ANR	231	Statement	'I'	80:19:1554:1556	2	3	True				
+ANR	232	Statement	","	80:22:1557:1557	2	4	True				
+ANR	233	Statement	'H'	80:24:1559:1561	2	5	True				
+ANR	234	Statement	","	80:27:1562:1562	2	6	True				
+ANR	235	Statement	'D'	80:29:1564:1566	2	7	True				
+ANR	236	Statement	","	80:32:1567:1567	2	8	True				
+ANR	237	Statement	'R'	80:34:1569:1571	2	9	True				
+ANR	238	Statement	)	80:37:1572:1572	2	10	True				
+ANR	239	Statement	:	80:38:1573:1573	2	11	True				
+ANR	240	IfStatement	"if ( ( ret = decode_ihdr_chunk ( avctx , s , length ) ) < 0 )"		2	12					
+ANR	241	Condition	"( ret = decode_ihdr_chunk ( avctx , s , length ) ) < 0"	82:16:1592:1638	2	0	True				
+ANR	242	RelationalExpression	"( ret = decode_ihdr_chunk ( avctx , s , length ) ) < 0"		2	0		<			
+ANR	243	AssignmentExpression	"ret = decode_ihdr_chunk ( avctx , s , length )"		2	0		=			
+ANR	244	Identifier	ret		2	0					
+ANR	245	CallExpression	"decode_ihdr_chunk ( avctx , s , length )"		2	1					
+ANR	246	Callee	decode_ihdr_chunk		2	0					
+ANR	247	Identifier	decode_ihdr_chunk		2	0					
+ANR	248	ArgumentList	avctx		2	1					
+ANR	249	Argument	avctx		2	0					
+ANR	250	Identifier	avctx		2	0					
+ANR	251	Argument	s		2	1					
+ANR	252	Identifier	s		2	0					
+ANR	253	Argument	length		2	2					
+ANR	254	Identifier	length		2	0					
+ANR	255	PrimaryExpression	0		2	1					
+ANR	256	GotoStatement	goto fail ;	84:16:1658:1667	2	1	True				
+ANR	257	Identifier	fail		2	0					
+ANR	258	BreakStatement	break ;	86:12:1682:1687	2	13	True				
+ANR	259	Statement	case	88:8:1698:1701	2	14	True				
+ANR	260	Statement	MKTAG	88:13:1703:1707	2	15	True				
+ANR	261	Statement	(	88:18:1708:1708	2	16	True				
+ANR	262	Statement	'p'	88:19:1709:1711	2	17	True				
+ANR	263	Statement	","	88:22:1712:1712	2	18	True				
+ANR	264	Statement	'H'	88:24:1714:1716	2	19	True				
+ANR	265	Statement	","	88:27:1717:1717	2	20	True				
+ANR	266	Statement	'Y'	88:29:1719:1721	2	21	True				
+ANR	267	Statement	","	88:32:1722:1722	2	22	True				
+ANR	268	Statement	's'	88:34:1724:1726	2	23	True				
+ANR	269	Statement	)	88:37:1727:1727	2	24	True				
+ANR	270	Statement	:	88:38:1728:1728	2	25	True				
+ANR	271	IfStatement	"if ( ( ret = decode_phys_chunk ( avctx , s ) ) < 0 )"		2	26					
+ANR	272	Condition	"( ret = decode_phys_chunk ( avctx , s ) ) < 0"	90:16:1747:1785	2	0	True				
+ANR	273	RelationalExpression	"( ret = decode_phys_chunk ( avctx , s ) ) < 0"		2	0		<			
+ANR	274	AssignmentExpression	"ret = decode_phys_chunk ( avctx , s )"		2	0		=			
+ANR	275	Identifier	ret		2	0					
+ANR	276	CallExpression	"decode_phys_chunk ( avctx , s )"		2	1					
+ANR	277	Callee	decode_phys_chunk		2	0					
+ANR	278	Identifier	decode_phys_chunk		2	0					
+ANR	279	ArgumentList	avctx		2	1					
+ANR	280	Argument	avctx		2	0					
+ANR	281	Identifier	avctx		2	0					
+ANR	282	Argument	s		2	1					
+ANR	283	Identifier	s		2	0					
+ANR	284	PrimaryExpression	0		2	1					
+ANR	285	GotoStatement	goto fail ;	92:16:1805:1814	2	1	True				
+ANR	286	Identifier	fail		2	0					
+ANR	287	BreakStatement	break ;	94:12:1829:1834	2	27	True				
+ANR	288	Statement	case	96:8:1845:1848	2	28	True				
+ANR	289	Statement	MKTAG	96:13:1850:1854	2	29	True				
+ANR	290	Statement	(	96:18:1855:1855	2	30	True				
+ANR	291	Statement	'f'	96:19:1856:1858	2	31	True				
+ANR	292	Statement	","	96:22:1859:1859	2	32	True				
+ANR	293	Statement	'c'	96:24:1861:1863	2	33	True				
+ANR	294	Statement	","	96:27:1864:1864	2	34	True				
+ANR	295	Statement	'T'	96:29:1866:1868	2	35	True				
+ANR	296	Statement	","	96:32:1869:1869	2	36	True				
+ANR	297	Statement	'L'	96:34:1871:1873	2	37	True				
+ANR	298	Statement	)	96:37:1874:1874	2	38	True				
+ANR	299	Statement	:	96:38:1875:1875	2	39	True				
+ANR	300	IfStatement	if ( ! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG )		2	40					
+ANR	301	Condition	! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG	98:16:1894:1952	2	0	True				
+ANR	302	OrExpression	! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG		2	0		||			
+ANR	303	UnaryOperationExpression	! CONFIG_APNG_DECODER		2	0					
+ANR	304	UnaryOperator	!		2	0					
+ANR	305	Identifier	CONFIG_APNG_DECODER		2	1					
+ANR	306	EqualityExpression	avctx -> codec_id != AV_CODEC_ID_APNG		2	1		!=			
+ANR	307	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	308	Identifier	avctx		2	0					
+ANR	309	Identifier	codec_id		2	1					
+ANR	310	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	311	GotoStatement	goto skip_tag ;	100:16:1972:1985	2	1	True				
+ANR	312	Identifier	skip_tag		2	0					
+ANR	313	IfStatement	"if ( ( ret = decode_fctl_chunk ( avctx , s , length ) ) < 0 )"		2	41					
+ANR	314	Condition	"( ret = decode_fctl_chunk ( avctx , s , length ) ) < 0"	102:16:2004:2050	2	0	True				
+ANR	315	RelationalExpression	"( ret = decode_fctl_chunk ( avctx , s , length ) ) < 0"		2	0		<			
+ANR	316	AssignmentExpression	"ret = decode_fctl_chunk ( avctx , s , length )"		2	0		=			
+ANR	317	Identifier	ret		2	0					
+ANR	318	CallExpression	"decode_fctl_chunk ( avctx , s , length )"		2	1					
+ANR	319	Callee	decode_fctl_chunk		2	0					
+ANR	320	Identifier	decode_fctl_chunk		2	0					
+ANR	321	ArgumentList	avctx		2	1					
+ANR	322	Argument	avctx		2	0					
+ANR	323	Identifier	avctx		2	0					
+ANR	324	Argument	s		2	1					
+ANR	325	Identifier	s		2	0					
+ANR	326	Argument	length		2	2					
+ANR	327	Identifier	length		2	0					
+ANR	328	PrimaryExpression	0		2	1					
+ANR	329	GotoStatement	goto fail ;	104:16:2070:2079	2	1	True				
+ANR	330	Identifier	fail		2	0					
+ANR	331	ExpressionStatement	decode_next_dat = 1	106:12:2094:2113	2	42	True				
+ANR	332	AssignmentExpression	decode_next_dat = 1		2	0		=			
+ANR	333	Identifier	decode_next_dat		2	0					
+ANR	334	PrimaryExpression	1		2	1					
+ANR	335	BreakStatement	break ;	108:12:2128:2133	2	43	True				
+ANR	336	Statement	case	110:8:2144:2147	2	44	True				
+ANR	337	Statement	MKTAG	110:13:2149:2153	2	45	True				
+ANR	338	Statement	(	110:18:2154:2154	2	46	True				
+ANR	339	Statement	'f'	110:19:2155:2157	2	47	True				
+ANR	340	Statement	","	110:22:2158:2158	2	48	True				
+ANR	341	Statement	'd'	110:24:2160:2162	2	49	True				
+ANR	342	Statement	","	110:27:2163:2163	2	50	True				
+ANR	343	Statement	'A'	110:29:2165:2167	2	51	True				
+ANR	344	Statement	","	110:32:2168:2168	2	52	True				
+ANR	345	Statement	'T'	110:34:2170:2172	2	53	True				
+ANR	346	Statement	)	110:37:2173:2173	2	54	True				
+ANR	347	Statement	:	110:38:2174:2174	2	55	True				
+ANR	348	IfStatement	if ( ! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG )		2	56					
+ANR	349	Condition	! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG	112:16:2193:2251	2	0	True				
+ANR	350	OrExpression	! CONFIG_APNG_DECODER || avctx -> codec_id != AV_CODEC_ID_APNG		2	0		||			
+ANR	351	UnaryOperationExpression	! CONFIG_APNG_DECODER		2	0					
+ANR	352	UnaryOperator	!		2	0					
+ANR	353	Identifier	CONFIG_APNG_DECODER		2	1					
+ANR	354	EqualityExpression	avctx -> codec_id != AV_CODEC_ID_APNG		2	1		!=			
+ANR	355	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	356	Identifier	avctx		2	0					
+ANR	357	Identifier	codec_id		2	1					
+ANR	358	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	359	GotoStatement	goto skip_tag ;	114:16:2271:2284	2	1	True				
+ANR	360	Identifier	skip_tag		2	0					
+ANR	361	IfStatement	if ( ! decode_next_dat )		2	57					
+ANR	362	Condition	! decode_next_dat	116:16:2303:2318	2	0	True				
+ANR	363	UnaryOperationExpression	! decode_next_dat		2	0					
+ANR	364	UnaryOperator	!		2	0					
+ANR	365	Identifier	decode_next_dat		2	1					
+ANR	366	CompoundStatement		112:34:2186:2186	2	1					
+ANR	367	ExpressionStatement	ret = AVERROR_INVALIDDATA	118:16:2340:2365	2	0	True				
+ANR	368	AssignmentExpression	ret = AVERROR_INVALIDDATA		2	0		=			
+ANR	369	Identifier	ret		2	0					
+ANR	370	Identifier	AVERROR_INVALIDDATA		2	1					
+ANR	371	GotoStatement	goto fail ;	120:16:2384:2393	2	1	True				
+ANR	372	Identifier	fail		2	0					
+ANR	373	ExpressionStatement	bytestream2_get_be32 ( & s -> gb )	124:12:2423:2451	2	58	True				
+ANR	374	CallExpression	bytestream2_get_be32 ( & s -> gb )		2	0					
+ANR	375	Callee	bytestream2_get_be32		2	0					
+ANR	376	Identifier	bytestream2_get_be32		2	0					
+ANR	377	ArgumentList	& s -> gb		2	1					
+ANR	378	Argument	& s -> gb		2	0					
+ANR	379	UnaryOperationExpression	& s -> gb		2	0					
+ANR	380	UnaryOperator	&		2	0					
+ANR	381	PtrMemberAccess	s -> gb		2	1					
+ANR	382	Identifier	s		2	0					
+ANR	383	Identifier	gb		2	1					
+ANR	384	ExpressionStatement	length -= 4	126:12:2466:2477	2	59	True				
+ANR	385	AssignmentExpression	length -= 4		2	0		-=			
+ANR	386	Identifier	length		2	0					
+ANR	387	PrimaryExpression	4		2	1					
+ANR	388	Statement	case	130:8:2519:2522	2	60	True				
+ANR	389	Statement	MKTAG	130:13:2524:2528	2	61	True				
+ANR	390	Statement	(	130:18:2529:2529	2	62	True				
+ANR	391	Statement	'I'	130:19:2530:2532	2	63	True				
+ANR	392	Statement	","	130:22:2533:2533	2	64	True				
+ANR	393	Statement	'D'	130:24:2535:2537	2	65	True				
+ANR	394	Statement	","	130:27:2538:2538	2	66	True				
+ANR	395	Statement	'A'	130:29:2540:2542	2	67	True				
+ANR	396	Statement	","	130:32:2543:2543	2	68	True				
+ANR	397	Statement	'T'	130:34:2545:2547	2	69	True				
+ANR	398	Statement	)	130:37:2548:2548	2	70	True				
+ANR	399	Statement	:	130:38:2549:2549	2	71	True				
+ANR	400	IfStatement	if ( CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ! decode_next_dat )		2	72					
+ANR	401	Condition	CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ! decode_next_dat	132:16:2568:2645	2	0	True				
+ANR	402	AndExpression	CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ! decode_next_dat		2	0		&&			
+ANR	403	Identifier	CONFIG_APNG_DECODER		2	0					
+ANR	404	AndExpression	avctx -> codec_id == AV_CODEC_ID_APNG && ! decode_next_dat		2	1		&&			
+ANR	405	EqualityExpression	avctx -> codec_id == AV_CODEC_ID_APNG		2	0		==			
+ANR	406	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	407	Identifier	avctx		2	0					
+ANR	408	Identifier	codec_id		2	1					
+ANR	409	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	410	UnaryOperationExpression	! decode_next_dat		2	1					
+ANR	411	UnaryOperator	!		2	0					
+ANR	412	Identifier	decode_next_dat		2	1					
+ANR	413	GotoStatement	goto skip_tag ;	134:16:2665:2678	2	1	True				
+ANR	414	Identifier	skip_tag		2	0					
+ANR	415	IfStatement	"if ( ( ret = decode_idat_chunk ( avctx , s , length , p ) ) < 0 )"		2	73					
+ANR	416	Condition	"( ret = decode_idat_chunk ( avctx , s , length , p ) ) < 0"	136:16:2697:2746	2	0	True				
+ANR	417	RelationalExpression	"( ret = decode_idat_chunk ( avctx , s , length , p ) ) < 0"		2	0		<			
+ANR	418	AssignmentExpression	"ret = decode_idat_chunk ( avctx , s , length , p )"		2	0		=			
+ANR	419	Identifier	ret		2	0					
+ANR	420	CallExpression	"decode_idat_chunk ( avctx , s , length , p )"		2	1					
+ANR	421	Callee	decode_idat_chunk		2	0					
+ANR	422	Identifier	decode_idat_chunk		2	0					
+ANR	423	ArgumentList	avctx		2	1					
+ANR	424	Argument	avctx		2	0					
+ANR	425	Identifier	avctx		2	0					
+ANR	426	Argument	s		2	1					
+ANR	427	Identifier	s		2	0					
+ANR	428	Argument	length		2	2					
+ANR	429	Identifier	length		2	0					
+ANR	430	Argument	p		2	3					
+ANR	431	Identifier	p		2	0					
+ANR	432	PrimaryExpression	0		2	1					
+ANR	433	GotoStatement	goto fail ;	138:16:2766:2775	2	1	True				
+ANR	434	Identifier	fail		2	0					
+ANR	435	BreakStatement	break ;	140:12:2790:2795	2	74	True				
+ANR	436	Statement	case	142:8:2806:2809	2	75	True				
+ANR	437	Statement	MKTAG	142:13:2811:2815	2	76	True				
+ANR	438	Statement	(	142:18:2816:2816	2	77	True				
+ANR	439	Statement	'P'	142:19:2817:2819	2	78	True				
+ANR	440	Statement	","	142:22:2820:2820	2	79	True				
+ANR	441	Statement	'L'	142:24:2822:2824	2	80	True				
+ANR	442	Statement	","	142:27:2825:2825	2	81	True				
+ANR	443	Statement	'T'	142:29:2827:2829	2	82	True				
+ANR	444	Statement	","	142:32:2830:2830	2	83	True				
+ANR	445	Statement	'E'	142:34:2832:2834	2	84	True				
+ANR	446	Statement	)	142:37:2835:2835	2	85	True				
+ANR	447	Statement	:	142:38:2836:2836	2	86	True				
+ANR	448	IfStatement	"if ( decode_plte_chunk ( avctx , s , length ) < 0 )"		2	87					
+ANR	449	Condition	"decode_plte_chunk ( avctx , s , length ) < 0"	144:16:2855:2893	2	0	True				
+ANR	450	RelationalExpression	"decode_plte_chunk ( avctx , s , length ) < 0"		2	0		<			
+ANR	451	CallExpression	"decode_plte_chunk ( avctx , s , length )"		2	0					
+ANR	452	Callee	decode_plte_chunk		2	0					
+ANR	453	Identifier	decode_plte_chunk		2	0					
+ANR	454	ArgumentList	avctx		2	1					
+ANR	455	Argument	avctx		2	0					
+ANR	456	Identifier	avctx		2	0					
+ANR	457	Argument	s		2	1					
+ANR	458	Identifier	s		2	0					
+ANR	459	Argument	length		2	2					
+ANR	460	Identifier	length		2	0					
+ANR	461	PrimaryExpression	0		2	1					
+ANR	462	GotoStatement	goto skip_tag ;	146:16:2913:2926	2	1	True				
+ANR	463	Identifier	skip_tag		2	0					
+ANR	464	BreakStatement	break ;	148:12:2941:2946	2	88	True				
+ANR	465	Statement	case	150:8:2957:2960	2	89	True				
+ANR	466	Statement	MKTAG	150:13:2962:2966	2	90	True				
+ANR	467	Statement	(	150:18:2967:2967	2	91	True				
+ANR	468	Statement	't'	150:19:2968:2970	2	92	True				
+ANR	469	Statement	","	150:22:2971:2971	2	93	True				
+ANR	470	Statement	'R'	150:24:2973:2975	2	94	True				
+ANR	471	Statement	","	150:27:2976:2976	2	95	True				
+ANR	472	Statement	'N'	150:29:2978:2980	2	96	True				
+ANR	473	Statement	","	150:32:2981:2981	2	97	True				
+ANR	474	Statement	'S'	150:34:2983:2985	2	98	True				
+ANR	475	Statement	)	150:37:2986:2986	2	99	True				
+ANR	476	Statement	:	150:38:2987:2987	2	100	True				
+ANR	477	IfStatement	"if ( decode_trns_chunk ( avctx , s , length ) < 0 )"		2	101					
+ANR	478	Condition	"decode_trns_chunk ( avctx , s , length ) < 0"	152:16:3006:3044	2	0	True				
+ANR	479	RelationalExpression	"decode_trns_chunk ( avctx , s , length ) < 0"		2	0		<			
+ANR	480	CallExpression	"decode_trns_chunk ( avctx , s , length )"		2	0					
+ANR	481	Callee	decode_trns_chunk		2	0					
+ANR	482	Identifier	decode_trns_chunk		2	0					
+ANR	483	ArgumentList	avctx		2	1					
+ANR	484	Argument	avctx		2	0					
+ANR	485	Identifier	avctx		2	0					
+ANR	486	Argument	s		2	1					
+ANR	487	Identifier	s		2	0					
+ANR	488	Argument	length		2	2					
+ANR	489	Identifier	length		2	0					
+ANR	490	PrimaryExpression	0		2	1					
+ANR	491	GotoStatement	goto skip_tag ;	154:16:3064:3077	2	1	True				
+ANR	492	Identifier	skip_tag		2	0					
+ANR	493	BreakStatement	break ;	156:12:3092:3097	2	102	True				
+ANR	494	Statement	case	158:8:3108:3111	2	103	True				
+ANR	495	Statement	MKTAG	158:13:3113:3117	2	104	True				
+ANR	496	Statement	(	158:18:3118:3118	2	105	True				
+ANR	497	Statement	't'	158:19:3119:3121	2	106	True				
+ANR	498	Statement	","	158:22:3122:3122	2	107	True				
+ANR	499	Statement	'E'	158:24:3124:3126	2	108	True				
+ANR	500	Statement	","	158:27:3127:3127	2	109	True				
+ANR	501	Statement	'X'	158:29:3129:3131	2	110	True				
+ANR	502	Statement	","	158:32:3132:3132	2	111	True				
+ANR	503	Statement	't'	158:34:3134:3136	2	112	True				
+ANR	504	Statement	)	158:37:3137:3137	2	113	True				
+ANR	505	Statement	:	158:38:3138:3138	2	114	True				
+ANR	506	IfStatement	"if ( decode_text_chunk ( s , length , 0 , & metadata ) < 0 )"		2	115					
+ANR	507	Condition	"decode_text_chunk ( s , length , 0 , & metadata ) < 0"	160:16:3157:3202	2	0	True				
+ANR	508	RelationalExpression	"decode_text_chunk ( s , length , 0 , & metadata ) < 0"		2	0		<			
+ANR	509	CallExpression	"decode_text_chunk ( s , length , 0 , & metadata )"		2	0					
+ANR	510	Callee	decode_text_chunk		2	0					
+ANR	511	Identifier	decode_text_chunk		2	0					
+ANR	512	ArgumentList	s		2	1					
+ANR	513	Argument	s		2	0					
+ANR	514	Identifier	s		2	0					
+ANR	515	Argument	length		2	1					
+ANR	516	Identifier	length		2	0					
+ANR	517	Argument	0		2	2					
+ANR	518	PrimaryExpression	0		2	0					
+ANR	519	Argument	& metadata		2	3					
+ANR	520	UnaryOperationExpression	& metadata		2	0					
+ANR	521	UnaryOperator	&		2	0					
+ANR	522	Identifier	metadata		2	1					
+ANR	523	PrimaryExpression	0		2	1					
+ANR	524	ExpressionStatement	"av_log ( avctx , AV_LOG_WARNING , ""Broken tEXt chunk\\n"" )"	162:16:3222:3274	2	1	True				
+ANR	525	CallExpression	"av_log ( avctx , AV_LOG_WARNING , ""Broken tEXt chunk\\n"" )"		2	0					
+ANR	526	Callee	av_log		2	0					
+ANR	527	Identifier	av_log		2	0					
+ANR	528	ArgumentList	avctx		2	1					
+ANR	529	Argument	avctx		2	0					
+ANR	530	Identifier	avctx		2	0					
+ANR	531	Argument	AV_LOG_WARNING		2	1					
+ANR	532	Identifier	AV_LOG_WARNING		2	0					
+ANR	533	Argument	"""Broken tEXt chunk\\n"""		2	2					
+ANR	534	PrimaryExpression	"""Broken tEXt chunk\\n"""		2	0					
+ANR	535	ExpressionStatement	"bytestream2_skip ( & s -> gb , length + 4 )"	164:12:3289:3325	2	116	True				
+ANR	536	CallExpression	"bytestream2_skip ( & s -> gb , length + 4 )"		2	0					
+ANR	537	Callee	bytestream2_skip		2	0					
+ANR	538	Identifier	bytestream2_skip		2	0					
+ANR	539	ArgumentList	& s -> gb		2	1					
+ANR	540	Argument	& s -> gb		2	0					
+ANR	541	UnaryOperationExpression	& s -> gb		2	0					
+ANR	542	UnaryOperator	&		2	0					
+ANR	543	PtrMemberAccess	s -> gb		2	1					
+ANR	544	Identifier	s		2	0					
+ANR	545	Identifier	gb		2	1					
+ANR	546	Argument	length + 4		2	1					
+ANR	547	AdditiveExpression	length + 4		2	0		+			
+ANR	548	Identifier	length		2	0					
+ANR	549	PrimaryExpression	4		2	1					
+ANR	550	BreakStatement	break ;	166:12:3340:3345	2	117	True				
+ANR	551	Statement	case	168:8:3356:3359	2	118	True				
+ANR	552	Statement	MKTAG	168:13:3361:3365	2	119	True				
+ANR	553	Statement	(	168:18:3366:3366	2	120	True				
+ANR	554	Statement	'z'	168:19:3367:3369	2	121	True				
+ANR	555	Statement	","	168:22:3370:3370	2	122	True				
+ANR	556	Statement	'T'	168:24:3372:3374	2	123	True				
+ANR	557	Statement	","	168:27:3375:3375	2	124	True				
+ANR	558	Statement	'X'	168:29:3377:3379	2	125	True				
+ANR	559	Statement	","	168:32:3380:3380	2	126	True				
+ANR	560	Statement	't'	168:34:3382:3384	2	127	True				
+ANR	561	Statement	)	168:37:3385:3385	2	128	True				
+ANR	562	Statement	:	168:38:3386:3386	2	129	True				
+ANR	563	IfStatement	"if ( decode_text_chunk ( s , length , 1 , & metadata ) < 0 )"		2	130					
+ANR	564	Condition	"decode_text_chunk ( s , length , 1 , & metadata ) < 0"	170:16:3405:3450	2	0	True				
+ANR	565	RelationalExpression	"decode_text_chunk ( s , length , 1 , & metadata ) < 0"		2	0		<			
+ANR	566	CallExpression	"decode_text_chunk ( s , length , 1 , & metadata )"		2	0					
+ANR	567	Callee	decode_text_chunk		2	0					
+ANR	568	Identifier	decode_text_chunk		2	0					
+ANR	569	ArgumentList	s		2	1					
+ANR	570	Argument	s		2	0					
+ANR	571	Identifier	s		2	0					
+ANR	572	Argument	length		2	1					
+ANR	573	Identifier	length		2	0					
+ANR	574	Argument	1		2	2					
+ANR	575	PrimaryExpression	1		2	0					
+ANR	576	Argument	& metadata		2	3					
+ANR	577	UnaryOperationExpression	& metadata		2	0					
+ANR	578	UnaryOperator	&		2	0					
+ANR	579	Identifier	metadata		2	1					
+ANR	580	PrimaryExpression	0		2	1					
+ANR	581	ExpressionStatement	"av_log ( avctx , AV_LOG_WARNING , ""Broken zTXt chunk\\n"" )"	172:16:3470:3522	2	1	True				
+ANR	582	CallExpression	"av_log ( avctx , AV_LOG_WARNING , ""Broken zTXt chunk\\n"" )"		2	0					
+ANR	583	Callee	av_log		2	0					
+ANR	584	Identifier	av_log		2	0					
+ANR	585	ArgumentList	avctx		2	1					
+ANR	586	Argument	avctx		2	0					
+ANR	587	Identifier	avctx		2	0					
+ANR	588	Argument	AV_LOG_WARNING		2	1					
+ANR	589	Identifier	AV_LOG_WARNING		2	0					
+ANR	590	Argument	"""Broken zTXt chunk\\n"""		2	2					
+ANR	591	PrimaryExpression	"""Broken zTXt chunk\\n"""		2	0					
+ANR	592	ExpressionStatement	"bytestream2_skip ( & s -> gb , length + 4 )"	174:12:3537:3573	2	131	True				
+ANR	593	CallExpression	"bytestream2_skip ( & s -> gb , length + 4 )"		2	0					
+ANR	594	Callee	bytestream2_skip		2	0					
+ANR	595	Identifier	bytestream2_skip		2	0					
+ANR	596	ArgumentList	& s -> gb		2	1					
+ANR	597	Argument	& s -> gb		2	0					
+ANR	598	UnaryOperationExpression	& s -> gb		2	0					
+ANR	599	UnaryOperator	&		2	0					
+ANR	600	PtrMemberAccess	s -> gb		2	1					
+ANR	601	Identifier	s		2	0					
+ANR	602	Identifier	gb		2	1					
+ANR	603	Argument	length + 4		2	1					
+ANR	604	AdditiveExpression	length + 4		2	0		+			
+ANR	605	Identifier	length		2	0					
+ANR	606	PrimaryExpression	4		2	1					
+ANR	607	BreakStatement	break ;	176:12:3588:3593	2	132	True				
+ANR	608	Statement	case	178:8:3604:3607	2	133	True				
+ANR	609	Statement	MKTAG	178:13:3609:3613	2	134	True				
+ANR	610	Statement	(	178:18:3614:3614	2	135	True				
+ANR	611	Statement	'I'	178:19:3615:3617	2	136	True				
+ANR	612	Statement	","	178:22:3618:3618	2	137	True				
+ANR	613	Statement	'E'	178:24:3620:3622	2	138	True				
+ANR	614	Statement	","	178:27:3623:3623	2	139	True				
+ANR	615	Statement	'N'	178:29:3625:3627	2	140	True				
+ANR	616	Statement	","	178:32:3628:3628	2	141	True				
+ANR	617	Statement	'D'	178:34:3630:3632	2	142	True				
+ANR	618	Statement	)	178:37:3633:3633	2	143	True				
+ANR	619	Statement	:	178:38:3634:3634	2	144	True				
+ANR	620	IfStatement	if ( ! ( s -> state & PNG_ALLIMAGE ) )		2	145					
+ANR	621	Condition	! ( s -> state & PNG_ALLIMAGE )	180:16:3653:3678	2	0	True				
+ANR	622	UnaryOperationExpression	! ( s -> state & PNG_ALLIMAGE )		2	0					
+ANR	623	UnaryOperator	!		2	0					
+ANR	624	BitAndExpression	s -> state & PNG_ALLIMAGE		2	1		&			
+ANR	625	PtrMemberAccess	s -> state		2	0					
+ANR	626	Identifier	s		2	0					
+ANR	627	Identifier	state		2	1					
+ANR	628	Identifier	PNG_ALLIMAGE		2	1					
+ANR	629	ExpressionStatement	"av_log ( avctx , AV_LOG_ERROR , ""IEND without all image\\n"" )"	182:16:3698:3753	2	1	True				
+ANR	630	CallExpression	"av_log ( avctx , AV_LOG_ERROR , ""IEND without all image\\n"" )"		2	0					
+ANR	631	Callee	av_log		2	0					
+ANR	632	Identifier	av_log		2	0					
+ANR	633	ArgumentList	avctx		2	1					
+ANR	634	Argument	avctx		2	0					
+ANR	635	Identifier	avctx		2	0					
+ANR	636	Argument	AV_LOG_ERROR		2	1					
+ANR	637	Identifier	AV_LOG_ERROR		2	0					
+ANR	638	Argument	"""IEND without all image\\n"""		2	2					
+ANR	639	PrimaryExpression	"""IEND without all image\\n"""		2	0					
+ANR	640	IfStatement	if ( ! ( s -> state & ( PNG_ALLIMAGE | PNG_IDAT ) ) )		2	146					
+ANR	641	Condition	! ( s -> state & ( PNG_ALLIMAGE | PNG_IDAT ) )	184:16:3772:3808	2	0	True				
+ANR	642	UnaryOperationExpression	! ( s -> state & ( PNG_ALLIMAGE | PNG_IDAT ) )		2	0					
+ANR	643	UnaryOperator	!		2	0					
+ANR	644	BitAndExpression	s -> state & ( PNG_ALLIMAGE | PNG_IDAT )		2	1		&			
+ANR	645	PtrMemberAccess	s -> state		2	0					
+ANR	646	Identifier	s		2	0					
+ANR	647	Identifier	state		2	1					
+ANR	648	InclusiveOrExpression	PNG_ALLIMAGE | PNG_IDAT		2	1		|			
+ANR	649	Identifier	PNG_ALLIMAGE		2	0					
+ANR	650	Identifier	PNG_IDAT		2	1					
+ANR	651	CompoundStatement		180:55:3676:3676	2	1					
+ANR	652	ExpressionStatement	ret = AVERROR_INVALIDDATA	186:16:3830:3855	2	0	True				
+ANR	653	AssignmentExpression	ret = AVERROR_INVALIDDATA		2	0		=			
+ANR	654	Identifier	ret		2	0					
+ANR	655	Identifier	AVERROR_INVALIDDATA		2	1					
+ANR	656	GotoStatement	goto fail ;	188:16:3874:3883	2	1	True				
+ANR	657	Identifier	fail		2	0					
+ANR	658	ExpressionStatement	"bytestream2_skip ( & s -> gb , 4 )"	192:12:3913:3940	2	147	True				
+ANR	659	CallExpression	"bytestream2_skip ( & s -> gb , 4 )"		2	0					
+ANR	660	Callee	bytestream2_skip		2	0					
+ANR	661	Identifier	bytestream2_skip		2	0					
+ANR	662	ArgumentList	& s -> gb		2	1					
+ANR	663	Argument	& s -> gb		2	0					
+ANR	664	UnaryOperationExpression	& s -> gb		2	0					
+ANR	665	UnaryOperator	&		2	0					
+ANR	666	PtrMemberAccess	s -> gb		2	1					
+ANR	667	Identifier	s		2	0					
+ANR	668	Identifier	gb		2	1					
+ANR	669	Argument	4		2	1					
+ANR	670	PrimaryExpression	4		2	0					
+ANR	671	GotoStatement	goto exit_loop ;	194:12:3965:3979	2	148	True				
+ANR	672	Identifier	exit_loop		2	0					
+ANR	673	Label	default :	196:8:3990:3997	2	149	True				
+ANR	674	Identifier	default		2	0					
+ANR	675	Label	skip_tag :	200:0:4028:4036	2	150	True				
+ANR	676	Identifier	skip_tag		2	0					
+ANR	677	ExpressionStatement	"bytestream2_skip ( & s -> gb , length + 4 )"	202:12:4051:4087	2	151	True				
+ANR	678	CallExpression	"bytestream2_skip ( & s -> gb , length + 4 )"		2	0					
+ANR	679	Callee	bytestream2_skip		2	0					
+ANR	680	Identifier	bytestream2_skip		2	0					
+ANR	681	ArgumentList	& s -> gb		2	1					
+ANR	682	Argument	& s -> gb		2	0					
+ANR	683	UnaryOperationExpression	& s -> gb		2	0					
+ANR	684	UnaryOperator	&		2	0					
+ANR	685	PtrMemberAccess	s -> gb		2	1					
+ANR	686	Identifier	s		2	0					
+ANR	687	Identifier	gb		2	1					
+ANR	688	Argument	length + 4		2	1					
+ANR	689	AdditiveExpression	length + 4		2	0		+			
+ANR	690	Identifier	length		2	0					
+ANR	691	PrimaryExpression	4		2	1					
+ANR	692	BreakStatement	break ;	204:12:4102:4107	2	152	True				
+ANR	693	Label	exit_loop :	210:0:4128:4137	2	5	True				
+ANR	694	Identifier	exit_loop		2	0					
+ANR	695	IfStatement	if ( s -> bits_per_pixel <= 4 )		2	6					
+ANR	696	Condition	s -> bits_per_pixel <= 4	214:8:4150:4171	2	0	True				
+ANR	697	RelationalExpression	s -> bits_per_pixel <= 4		2	0		<=			
+ANR	698	PtrMemberAccess	s -> bits_per_pixel		2	0					
+ANR	699	Identifier	s		2	0					
+ANR	700	Identifier	bits_per_pixel		2	1					
+ANR	701	PrimaryExpression	4		2	1					
+ANR	702	ExpressionStatement	"handle_small_bpp ( s , p )"	216:8:4183:4205	2	1	True				
+ANR	703	CallExpression	"handle_small_bpp ( s , p )"		2	0					
+ANR	704	Callee	handle_small_bpp		2	0					
+ANR	705	Identifier	handle_small_bpp		2	0					
+ANR	706	ArgumentList	s		2	1					
+ANR	707	Argument	s		2	0					
+ANR	708	Identifier	s		2	0					
+ANR	709	Argument	p		2	1					
+ANR	710	Identifier	p		2	0					
+ANR	711	IfStatement	if ( s -> has_trns && s -> color_type != PNG_COLOR_TYPE_PALETTE )		2	7					
+ANR	712	Condition	s -> has_trns && s -> color_type != PNG_COLOR_TYPE_PALETTE	222:8:4258:4311	2	0	True				
+ANR	713	AndExpression	s -> has_trns && s -> color_type != PNG_COLOR_TYPE_PALETTE		2	0		&&			
+ANR	714	PtrMemberAccess	s -> has_trns		2	0					
+ANR	715	Identifier	s		2	0					
+ANR	716	Identifier	has_trns		2	1					
+ANR	717	EqualityExpression	s -> color_type != PNG_COLOR_TYPE_PALETTE		2	1		!=			
+ANR	718	PtrMemberAccess	s -> color_type		2	0					
+ANR	719	Identifier	s		2	0					
+ANR	720	Identifier	color_type		2	1					
+ANR	721	Identifier	PNG_COLOR_TYPE_PALETTE		2	1					
+ANR	722	CompoundStatement		224:8:4292:4305	2	1					
+ANR	723	IdentifierDeclStatement	size_t byte_depth = s -> bit_depth > 8 ? 2 : 1 ;	224:8:4325:4369	2	0	True				
+ANR	724	IdentifierDecl	byte_depth = s -> bit_depth > 8 ? 2 : 1		2	0					
+ANR	725	IdentifierDeclType	size_t		2	0					
+ANR	726	Identifier	byte_depth		2	1					
+ANR	727	AssignmentExpression	byte_depth = s -> bit_depth > 8 ? 2 : 1		2	2		=			
+ANR	728	Identifier	byte_depth		2	0					
+ANR	729	ConditionalExpression	s -> bit_depth > 8 ? 2 : 1		2	1					
+ANR	730	Condition	s -> bit_depth > 8		2	0					
+ANR	731	RelationalExpression	s -> bit_depth > 8		2	0		>			
+ANR	732	PtrMemberAccess	s -> bit_depth		2	0					
+ANR	733	Identifier	s		2	0					
+ANR	734	Identifier	bit_depth		2	1					
+ANR	735	PrimaryExpression	8		2	1					
+ANR	736	PrimaryExpression	2		2	1					
+ANR	737	PrimaryExpression	1		2	2					
+ANR	738	IdentifierDeclStatement	size_t raw_bpp = s -> bpp - byte_depth ;	226:8:4380:4416	2	1	True				
+ANR	739	IdentifierDecl	raw_bpp = s -> bpp - byte_depth		2	0					
+ANR	740	IdentifierDeclType	size_t		2	0					
+ANR	741	Identifier	raw_bpp		2	1					
+ANR	742	AssignmentExpression	raw_bpp = s -> bpp - byte_depth		2	2		=			
+ANR	743	Identifier	raw_bpp		2	0					
+ANR	744	AdditiveExpression	s -> bpp - byte_depth		2	1		-			
+ANR	745	PtrMemberAccess	s -> bpp		2	0					
+ANR	746	Identifier	s		2	0					
+ANR	747	Identifier	bpp		2	1					
+ANR	748	Identifier	byte_depth		2	1					
+ANR	749	IdentifierDeclStatement	"unsigned x , y ;"	228:8:4427:4440	2	2	True				
+ANR	750	IdentifierDecl	x		2	0					
+ANR	751	IdentifierDeclType	unsigned		2	0					
+ANR	752	Identifier	x		2	1					
+ANR	753	IdentifierDecl	y		2	1					
+ANR	754	IdentifierDeclType	unsigned		2	0					
+ANR	755	Identifier	y		2	1					
+ANR	756	ForStatement	for ( y = 0 ; y < s -> height ; ++ y )		2	3					
+ANR	757	ForInit	y = 0 ;	232:13:4458:4463	2	0	True				
+ANR	758	AssignmentExpression	y = 0		2	0		=			
+ANR	759	Identifier	y		2	0					
+ANR	760	PrimaryExpression	0		2	1					
+ANR	761	Condition	y < s -> height	232:20:4465:4477	2	1	True				
+ANR	762	RelationalExpression	y < s -> height		2	0		<			
+ANR	763	Identifier	y		2	0					
+ANR	764	PtrMemberAccess	s -> height		2	1					
+ANR	765	Identifier	s		2	0					
+ANR	766	Identifier	height		2	1					
+ANR	767	UnaryExpression	++ y	232:35:4480:4482	2	2	True				
+ANR	768	IncDec	++		2	0					
+ANR	769	Identifier	y		2	1					
+ANR	770	CompoundStatement		230:12:4365:4416	2	3					
+ANR	771	IdentifierDeclStatement	uint8_t * row = & s -> image_buf [ s -> image_linesize * y ] ;	234:12:4500:4551	2	0	True				
+ANR	772	IdentifierDecl	* row = & s -> image_buf [ s -> image_linesize * y ]		2	0					
+ANR	773	IdentifierDeclType	uint8_t *		2	0					
+ANR	774	Identifier	row		2	1					
+ANR	775	AssignmentExpression	* row = & s -> image_buf [ s -> image_linesize * y ]		2	2		=			
+ANR	776	Identifier	row		2	0					
+ANR	777	UnaryOperationExpression	& s -> image_buf [ s -> image_linesize * y ]		2	1					
+ANR	778	UnaryOperator	&		2	0					
+ANR	779	ArrayIndexing	s -> image_buf [ s -> image_linesize * y ]		2	1					
+ANR	780	PtrMemberAccess	s -> image_buf		2	0					
+ANR	781	Identifier	s		2	0					
+ANR	782	Identifier	image_buf		2	1					
+ANR	783	MultiplicativeExpression	s -> image_linesize * y		2	1		*			
+ANR	784	PtrMemberAccess	s -> image_linesize		2	0					
+ANR	785	Identifier	s		2	0					
+ANR	786	Identifier	image_linesize		2	1					
+ANR	787	Identifier	y		2	1					
+ANR	788	ForStatement	for ( x = s -> width ; x > 0 ; -- x )		2	1					
+ANR	789	ForInit	x = s -> width ;	240:17:4656:4668	2	0	True				
+ANR	790	AssignmentExpression	x = s -> width		2	0		=			
+ANR	791	Identifier	x		2	0					
+ANR	792	PtrMemberAccess	s -> width		2	1					
+ANR	793	Identifier	s		2	0					
+ANR	794	Identifier	width		2	1					
+ANR	795	Condition	x > 0	240:31:4670:4674	2	1	True				
+ANR	796	RelationalExpression	x > 0		2	0		>			
+ANR	797	Identifier	x		2	0					
+ANR	798	PrimaryExpression	0		2	1					
+ANR	799	UnaryExpression	-- x	240:38:4677:4679	2	2	True				
+ANR	800	IncDec	--		2	0					
+ANR	801	Identifier	x		2	1					
+ANR	802	CompoundStatement		238:16:4566:4605	2	3					
+ANR	803	IdentifierDeclStatement	uint8_t * pixel = & row [ s -> bpp * ( x - 1 ) ] ;	242:16:4701:4740	2	0	True				
+ANR	804	IdentifierDecl	* pixel = & row [ s -> bpp * ( x - 1 ) ]		2	0					
+ANR	805	IdentifierDeclType	uint8_t *		2	0					
+ANR	806	Identifier	pixel		2	1					
+ANR	807	AssignmentExpression	* pixel = & row [ s -> bpp * ( x - 1 ) ]		2	2		=			
+ANR	808	Identifier	pixel		2	0					
+ANR	809	UnaryOperationExpression	& row [ s -> bpp * ( x - 1 ) ]		2	1					
+ANR	810	UnaryOperator	&		2	0					
+ANR	811	ArrayIndexing	row [ s -> bpp * ( x - 1 ) ]		2	1					
+ANR	812	Identifier	row		2	0					
+ANR	813	MultiplicativeExpression	s -> bpp * ( x - 1 )		2	1		*			
+ANR	814	PtrMemberAccess	s -> bpp		2	0					
+ANR	815	Identifier	s		2	0					
+ANR	816	Identifier	bpp		2	1					
+ANR	817	AdditiveExpression	x - 1		2	1		-			
+ANR	818	Identifier	x		2	0					
+ANR	819	PrimaryExpression	1		2	1					
+ANR	820	ExpressionStatement	"memmove ( pixel , & row [ raw_bpp * ( x - 1 ) ] , raw_bpp )"	244:16:4759:4807	2	1	True				
+ANR	821	CallExpression	"memmove ( pixel , & row [ raw_bpp * ( x - 1 ) ] , raw_bpp )"		2	0					
+ANR	822	Callee	memmove		2	0					
+ANR	823	Identifier	memmove		2	0					
+ANR	824	ArgumentList	pixel		2	1					
+ANR	825	Argument	pixel		2	0					
+ANR	826	Identifier	pixel		2	0					
+ANR	827	Argument	& row [ raw_bpp * ( x - 1 ) ]		2	1					
+ANR	828	UnaryOperationExpression	& row [ raw_bpp * ( x - 1 ) ]		2	0					
+ANR	829	UnaryOperator	&		2	0					
+ANR	830	ArrayIndexing	row [ raw_bpp * ( x - 1 ) ]		2	1					
+ANR	831	Identifier	row		2	0					
+ANR	832	MultiplicativeExpression	raw_bpp * ( x - 1 )		2	1		*			
+ANR	833	Identifier	raw_bpp		2	0					
+ANR	834	AdditiveExpression	x - 1		2	1		-			
+ANR	835	Identifier	x		2	0					
+ANR	836	PrimaryExpression	1		2	1					
+ANR	837	Argument	raw_bpp		2	2					
+ANR	838	Identifier	raw_bpp		2	0					
+ANR	839	IfStatement	"if ( ! memcmp ( pixel , s -> transparent_color_be , raw_bpp ) )"		2	2					
+ANR	840	Condition	"! memcmp ( pixel , s -> transparent_color_be , raw_bpp )"	248:20:4832:4879	2	0	True				
+ANR	841	UnaryOperationExpression	"! memcmp ( pixel , s -> transparent_color_be , raw_bpp )"		2	0					
+ANR	842	UnaryOperator	!		2	0					
+ANR	843	CallExpression	"memcmp ( pixel , s -> transparent_color_be , raw_bpp )"		2	1					
+ANR	844	Callee	memcmp		2	0					
+ANR	845	Identifier	memcmp		2	0					
+ANR	846	ArgumentList	pixel		2	1					
+ANR	847	Argument	pixel		2	0					
+ANR	848	Identifier	pixel		2	0					
+ANR	849	Argument	s -> transparent_color_be		2	1					
+ANR	850	PtrMemberAccess	s -> transparent_color_be		2	0					
+ANR	851	Identifier	s		2	0					
+ANR	852	Identifier	transparent_color_be		2	1					
+ANR	853	Argument	raw_bpp		2	2					
+ANR	854	Identifier	raw_bpp		2	0					
+ANR	855	CompoundStatement		244:70:4747:4747	2	1					
+ANR	856	ExpressionStatement	"memset ( & pixel [ raw_bpp ] , 0 , byte_depth )"	250:20:4905:4943	2	0	True				
+ANR	857	CallExpression	"memset ( & pixel [ raw_bpp ] , 0 , byte_depth )"		2	0					
+ANR	858	Callee	memset		2	0					
+ANR	859	Identifier	memset		2	0					
+ANR	860	ArgumentList	& pixel [ raw_bpp ]		2	1					
+ANR	861	Argument	& pixel [ raw_bpp ]		2	0					
+ANR	862	UnaryOperationExpression	& pixel [ raw_bpp ]		2	0					
+ANR	863	UnaryOperator	&		2	0					
+ANR	864	ArrayIndexing	pixel [ raw_bpp ]		2	1					
+ANR	865	Identifier	pixel		2	0					
+ANR	866	Identifier	raw_bpp		2	1					
+ANR	867	Argument	0		2	1					
+ANR	868	PrimaryExpression	0		2	0					
+ANR	869	Argument	byte_depth		2	2					
+ANR	870	Identifier	byte_depth		2	0					
+ANR	871	ElseStatement	else		2	0					
+ANR	872	CompoundStatement		248:23:4834:4834	2	0					
+ANR	873	ExpressionStatement	"memset ( & pixel [ raw_bpp ] , 0xff , byte_depth )"	254:20:4992:5033	2	0	True				
+ANR	874	CallExpression	"memset ( & pixel [ raw_bpp ] , 0xff , byte_depth )"		2	0					
+ANR	875	Callee	memset		2	0					
+ANR	876	Identifier	memset		2	0					
+ANR	877	ArgumentList	& pixel [ raw_bpp ]		2	1					
+ANR	878	Argument	& pixel [ raw_bpp ]		2	0					
+ANR	879	UnaryOperationExpression	& pixel [ raw_bpp ]		2	0					
+ANR	880	UnaryOperator	&		2	0					
+ANR	881	ArrayIndexing	pixel [ raw_bpp ]		2	1					
+ANR	882	Identifier	pixel		2	0					
+ANR	883	Identifier	raw_bpp		2	1					
+ANR	884	Argument	0xff		2	1					
+ANR	885	PrimaryExpression	0xff		2	0					
+ANR	886	Argument	byte_depth		2	2					
+ANR	887	Identifier	byte_depth		2	0					
+ANR	888	IfStatement	if ( s -> last_picture . f -> data [ 0 ] )		2	8					
+ANR	889	Condition	s -> last_picture . f -> data [ 0 ]	268:8:5166:5191	2	0	True				
+ANR	890	ArrayIndexing	s -> last_picture . f -> data [ 0 ]		2	0					
+ANR	891	PtrMemberAccess	s -> last_picture . f -> data		2	0					
+ANR	892	MemberAccess	s -> last_picture . f		2	0					
+ANR	893	PtrMemberAccess	s -> last_picture		2	0					
+ANR	894	Identifier	s		2	0					
+ANR	895	Identifier	last_picture		2	1					
+ANR	896	Identifier	f		2	1					
+ANR	897	Identifier	data		2	1					
+ANR	898	PrimaryExpression	0		2	1					
+ANR	899	CompoundStatement		264:36:5059:5059	2	1					
+ANR	900	IfStatement	"if ( ! ( avpkt -> flags & AV_PKT_FLAG_KEY ) && avctx -> codec_tag != AV_RL32 ( ""MPNG"" ) && s -> last_picture . f -> width == p -> width && s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format )"		2	0					
+ANR	901	Condition	"! ( avpkt -> flags & AV_PKT_FLAG_KEY ) && avctx -> codec_tag != AV_RL32 ( ""MPNG"" ) && s -> last_picture . f -> width == p -> width && s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format"	270:15:5212:5444	2	0	True				
+ANR	902	AndExpression	"! ( avpkt -> flags & AV_PKT_FLAG_KEY ) && avctx -> codec_tag != AV_RL32 ( ""MPNG"" ) && s -> last_picture . f -> width == p -> width && s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format"		2	0		&&			
+ANR	903	UnaryOperationExpression	! ( avpkt -> flags & AV_PKT_FLAG_KEY )		2	0					
+ANR	904	UnaryOperator	!		2	0					
+ANR	905	BitAndExpression	avpkt -> flags & AV_PKT_FLAG_KEY		2	1		&			
+ANR	906	PtrMemberAccess	avpkt -> flags		2	0					
+ANR	907	Identifier	avpkt		2	0					
+ANR	908	Identifier	flags		2	1					
+ANR	909	Identifier	AV_PKT_FLAG_KEY		2	1					
+ANR	910	AndExpression	"avctx -> codec_tag != AV_RL32 ( ""MPNG"" ) && s -> last_picture . f -> width == p -> width && s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format"		2	1		&&			
+ANR	911	EqualityExpression	"avctx -> codec_tag != AV_RL32 ( ""MPNG"" )"		2	0		!=			
+ANR	912	PtrMemberAccess	avctx -> codec_tag		2	0					
+ANR	913	Identifier	avctx		2	0					
+ANR	914	Identifier	codec_tag		2	1					
+ANR	915	CallExpression	"AV_RL32 ( ""MPNG"" )"		2	1					
+ANR	916	Callee	AV_RL32		2	0					
+ANR	917	Identifier	AV_RL32		2	0					
+ANR	918	ArgumentList	"""MPNG"""		2	1					
+ANR	919	Argument	"""MPNG"""		2	0					
+ANR	920	PrimaryExpression	"""MPNG"""		2	0					
+ANR	921	AndExpression	s -> last_picture . f -> width == p -> width && s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format		2	1		&&			
+ANR	922	EqualityExpression	s -> last_picture . f -> width == p -> width		2	0		==			
+ANR	923	PtrMemberAccess	s -> last_picture . f -> width		2	0					
+ANR	924	MemberAccess	s -> last_picture . f		2	0					
+ANR	925	PtrMemberAccess	s -> last_picture		2	0					
+ANR	926	Identifier	s		2	0					
+ANR	927	Identifier	last_picture		2	1					
+ANR	928	Identifier	f		2	1					
+ANR	929	Identifier	width		2	1					
+ANR	930	PtrMemberAccess	p -> width		2	1					
+ANR	931	Identifier	p		2	0					
+ANR	932	Identifier	width		2	1					
+ANR	933	AndExpression	s -> last_picture . f -> height == p -> height && s -> last_picture . f -> format == p -> format		2	1		&&			
+ANR	934	EqualityExpression	s -> last_picture . f -> height == p -> height		2	0		==			
+ANR	935	PtrMemberAccess	s -> last_picture . f -> height		2	0					
+ANR	936	MemberAccess	s -> last_picture . f		2	0					
+ANR	937	PtrMemberAccess	s -> last_picture		2	0					
+ANR	938	Identifier	s		2	0					
+ANR	939	Identifier	last_picture		2	1					
+ANR	940	Identifier	f		2	1					
+ANR	941	Identifier	height		2	1					
+ANR	942	PtrMemberAccess	p -> height		2	1					
+ANR	943	Identifier	p		2	0					
+ANR	944	Identifier	height		2	1					
+ANR	945	EqualityExpression	s -> last_picture . f -> format == p -> format		2	1		==			
+ANR	946	PtrMemberAccess	s -> last_picture . f -> format		2	0					
+ANR	947	MemberAccess	s -> last_picture . f		2	0					
+ANR	948	PtrMemberAccess	s -> last_picture		2	0					
+ANR	949	Identifier	s		2	0					
+ANR	950	Identifier	last_picture		2	1					
+ANR	951	Identifier	f		2	1					
+ANR	952	Identifier	format		2	1					
+ANR	953	PtrMemberAccess	p -> format		2	1					
+ANR	954	Identifier	p		2	0					
+ANR	955	Identifier	format		2	1					
+ANR	956	CompoundStatement		274:11:5323:5323	2	1					
+ANR	957	IfStatement	if ( CONFIG_PNG_DECODER && avctx -> codec_id != AV_CODEC_ID_APNG )		2	0					
+ANR	958	Condition	CONFIG_PNG_DECODER && avctx -> codec_id != AV_CODEC_ID_APNG	280:16:5477:5533	2	0	True				
+ANR	959	AndExpression	CONFIG_PNG_DECODER && avctx -> codec_id != AV_CODEC_ID_APNG		2	0		&&			
+ANR	960	Identifier	CONFIG_PNG_DECODER		2	0					
+ANR	961	EqualityExpression	avctx -> codec_id != AV_CODEC_ID_APNG		2	1		!=			
+ANR	962	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	963	Identifier	avctx		2	0					
+ANR	964	Identifier	codec_id		2	1					
+ANR	965	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	966	ExpressionStatement	"handle_p_frame_png ( s , p )"	282:16:5553:5577	2	1	True				
+ANR	967	CallExpression	"handle_p_frame_png ( s , p )"		2	0					
+ANR	968	Callee	handle_p_frame_png		2	0					
+ANR	969	Identifier	handle_p_frame_png		2	0					
+ANR	970	ArgumentList	s		2	1					
+ANR	971	Argument	s		2	0					
+ANR	972	Identifier	s		2	0					
+ANR	973	Argument	p		2	1					
+ANR	974	Identifier	p		2	0					
+ANR	975	ElseStatement	else		2	0					
+ANR	976	IfStatement	"if ( CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ( ret = handle_p_frame_apng ( avctx , s , p ) ) < 0 )"		2	0					
+ANR	977	Condition	"CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ( ret = handle_p_frame_apng ( avctx , s , p ) ) < 0"	284:21:5601:5750	2	0	True				
+ANR	978	AndExpression	"CONFIG_APNG_DECODER && avctx -> codec_id == AV_CODEC_ID_APNG && ( ret = handle_p_frame_apng ( avctx , s , p ) ) < 0"		2	0		&&			
+ANR	979	Identifier	CONFIG_APNG_DECODER		2	0					
+ANR	980	AndExpression	"avctx -> codec_id == AV_CODEC_ID_APNG && ( ret = handle_p_frame_apng ( avctx , s , p ) ) < 0"		2	1		&&			
+ANR	981	EqualityExpression	avctx -> codec_id == AV_CODEC_ID_APNG		2	0		==			
+ANR	982	PtrMemberAccess	avctx -> codec_id		2	0					
+ANR	983	Identifier	avctx		2	0					
+ANR	984	Identifier	codec_id		2	1					
+ANR	985	Identifier	AV_CODEC_ID_APNG		2	1					
+ANR	986	RelationalExpression	"( ret = handle_p_frame_apng ( avctx , s , p ) ) < 0"		2	1		<			
+ANR	987	AssignmentExpression	"ret = handle_p_frame_apng ( avctx , s , p )"		2	0		=			
+ANR	988	Identifier	ret		2	0					
+ANR	989	CallExpression	"handle_p_frame_apng ( avctx , s , p )"		2	1					
+ANR	990	Callee	handle_p_frame_apng		2	0					
+ANR	991	Identifier	handle_p_frame_apng		2	0					
+ANR	992	ArgumentList	avctx		2	1					
+ANR	993	Argument	avctx		2	0					
+ANR	994	Identifier	avctx		2	0					
+ANR	995	Argument	s		2	1					
+ANR	996	Identifier	s		2	0					
+ANR	997	Argument	p		2	2					
+ANR	998	Identifier	p		2	0					
+ANR	999	PrimaryExpression	0		2	1					
+ANR	1000	GotoStatement	goto fail ;	290:16:5770:5779	2	1	True				
+ANR	1001	Identifier	fail		2	0					
+ANR	1002	ExpressionStatement	"ff_thread_report_progress ( & s -> picture , INT_MAX , 0 )"	296:4:5804:5854	2	9	True				
+ANR	1003	CallExpression	"ff_thread_report_progress ( & s -> picture , INT_MAX , 0 )"		2	0					
+ANR	1004	Callee	ff_thread_report_progress		2	0					
+ANR	1005	Identifier	ff_thread_report_progress		2	0					
+ANR	1006	ArgumentList	& s -> picture		2	1					
+ANR	1007	Argument	& s -> picture		2	0					
+ANR	1008	UnaryOperationExpression	& s -> picture		2	0					
+ANR	1009	UnaryOperator	&		2	0					
+ANR	1010	PtrMemberAccess	s -> picture		2	1					
+ANR	1011	Identifier	s		2	0					
+ANR	1012	Identifier	picture		2	1					
+ANR	1013	Argument	INT_MAX		2	1					
+ANR	1014	Identifier	INT_MAX		2	0					
+ANR	1015	Argument	0		2	2					
+ANR	1016	PrimaryExpression	0		2	0					
+ANR	1017	ExpressionStatement	"av_frame_set_metadata ( p , metadata )"	301:4:5864:5898	2	10	True				
+ANR	1018	CallExpression	"av_frame_set_metadata ( p , metadata )"		2	0					
+ANR	1019	Callee	av_frame_set_metadata		2	0					
+ANR	1020	Identifier	av_frame_set_metadata		2	0					
+ANR	1021	ArgumentList	p		2	1					
+ANR	1022	Argument	p		2	0					
+ANR	1023	Identifier	p		2	0					
+ANR	1024	Argument	metadata		2	1					
+ANR	1025	Identifier	metadata		2	0					
+ANR	1026	ExpressionStatement	metadata = NULL	303:4:5905:5922	2	11	True				
+ANR	1027	AssignmentExpression	metadata = NULL		2	0		=			
+ANR	1028	Identifier	metadata		2	0					
+ANR	1029	Identifier	NULL		2	1					
+ANR	1030	ReturnStatement	return 0 ;	305:4:5929:5937	2	12	True				
+ANR	1031	PrimaryExpression	0		2	0					
+ANR	1032	Label	fail :	309:0:5942:5946	2	13	True				
+ANR	1033	Identifier	fail		2	0					
+ANR	1034	ExpressionStatement	av_dict_free ( & metadata )	311:4:5953:5976	2	14	True				
+ANR	1035	CallExpression	av_dict_free ( & metadata )		2	0					
+ANR	1036	Callee	av_dict_free		2	0					
+ANR	1037	Identifier	av_dict_free		2	0					
+ANR	1038	ArgumentList	& metadata		2	1					
+ANR	1039	Argument	& metadata		2	0					
+ANR	1040	UnaryOperationExpression	& metadata		2	0					
+ANR	1041	UnaryOperator	&		2	0					
+ANR	1042	Identifier	metadata		2	1					
+ANR	1043	ExpressionStatement	"ff_thread_report_progress ( & s -> picture , INT_MAX , 0 )"	313:4:5983:6033	2	15	True				
+ANR	1044	CallExpression	"ff_thread_report_progress ( & s -> picture , INT_MAX , 0 )"		2	0					
+ANR	1045	Callee	ff_thread_report_progress		2	0					
+ANR	1046	Identifier	ff_thread_report_progress		2	0					
+ANR	1047	ArgumentList	& s -> picture		2	1					
+ANR	1048	Argument	& s -> picture		2	0					
+ANR	1049	UnaryOperationExpression	& s -> picture		2	0					
+ANR	1050	UnaryOperator	&		2	0					
+ANR	1051	PtrMemberAccess	s -> picture		2	1					
+ANR	1052	Identifier	s		2	0					
+ANR	1053	Identifier	picture		2	1					
+ANR	1054	Argument	INT_MAX		2	1					
+ANR	1055	Identifier	INT_MAX		2	0					
+ANR	1056	Argument	0		2	2					
+ANR	1057	PrimaryExpression	0		2	0					
+ANR	1058	ReturnStatement	return ret ;	316:4:6041:6051	2	16	True				
+ANR	1059	Identifier	ret		2	0					
+ANR	1060	ReturnType	static int		2	1					
+ANR	1061	Identifier	decode_frame_common		2	2					
+ANR	1062	ParameterList	"AVCodecContext * avctx , PNGDecContext * s , AVFrame * p , AVPacket * avpkt"		2	3					
+ANR	1063	Parameter	AVCodecContext * avctx	1:31:31:51	2	0	True				
+ANR	1064	ParameterType	AVCodecContext *		2	0					
+ANR	1065	Identifier	avctx		2	1					
+ANR	1066	Parameter	PNGDecContext * s	1:54:54:69	2	1	True				
+ANR	1067	ParameterType	PNGDecContext *		2	0					
+ANR	1068	Identifier	s		2	1					
+ANR	1069	Parameter	AVFrame * p	3:31:104:113	2	2	True				
+ANR	1070	ParameterType	AVFrame *		2	0					
+ANR	1071	Identifier	p		2	1					
+ANR	1072	Parameter	AVPacket * avpkt	3:43:116:130	2	3	True				
+ANR	1073	ParameterType	AVPacket *		2	0					
+ANR	1074	Identifier	avpkt		2	1					
+ANR	1075	CFGEntryNode	ENTRY		2		True				
+ANR	1076	CFGExitNode	EXIT		2		True				
+ANR	1077	InfiniteForNode	true		2		True				
+ANR	1078	Symbol	dwk_tmp		2						
+ANR	1079	Symbol	metadata		2						
+ANR	1080	Symbol	PNG_ALLIMAGE		2						
+ANR	1081	Symbol	s -> image_linesize		2						
+ANR	1082	Symbol	s -> bits_per_pixel		2						
+ANR	1083	Symbol	s -> last_picture . f -> width		2						
+ANR	1084	Symbol	avpkt		2						
+ANR	1085	Symbol	FF_DEBUG_STARTCODE		2						
+ANR	1086	Symbol	p -> height		2						
+ANR	1087	Symbol	* * s -> last_picture . f		2						
+ANR	1088	Symbol	PNG_IDAT		2						
+ANR	1089	Symbol	raw_bpp		2						
+ANR	1090	Symbol	s -> last_picture . f		2						
+ANR	1091	Symbol	memcmp		2						
+ANR	1092	Symbol	s -> bit_depth		2						
+ANR	1093	Symbol	s -> image_buf		2						
+ANR	1094	Symbol	s -> width		2						
+ANR	1095	Symbol	p -> width		2						
+ANR	1096	Symbol	bytestream2_get_be32		2						
+ANR	1097	Symbol	tag		2						
+ANR	1098	Symbol	AV_LOG_DEBUG		2						
+ANR	1099	Symbol	ret		2						
+ANR	1100	Symbol	avpkt -> flags		2						
+ANR	1101	Symbol	decode_plte_chunk		2						
+ANR	1102	Symbol	decode_idat_chunk		2						
+ANR	1103	Symbol	NULL		2						
+ANR	1104	Symbol	decode_fctl_chunk		2						
+ANR	1105	Symbol	s -> last_picture . f -> height		2						
+ANR	1106	Symbol	FF_COMPLIANCE_NORMAL		2						
+ANR	1107	Symbol	s -> has_trns		2						
+ANR	1108	Symbol	avctx -> strict_std_compliance		2						
+ANR	1109	Symbol	* * * s		2						
+ANR	1110	Symbol	& s -> gb		2						
+ANR	1111	Symbol	* avctx		2						
+ANR	1112	Symbol	* s -> last_picture . f -> data		2						
+ANR	1113	Symbol	s -> color_type		2						
+ANR	1114	Symbol	handle_p_frame_apng		2						
+ANR	1115	Symbol	AV_PKT_FLAG_KEY		2						
+ANR	1116	Symbol	decode_text_chunk		2						
+ANR	1117	Symbol	decode_ihdr_chunk		2						
+ANR	1118	Symbol	* * s -> last_picture		2						
+ANR	1119	Symbol	avctx -> codec_id		2						
+ANR	1120	Symbol	s -> transparent_color_be		2						
+ANR	1121	Symbol	CONFIG_APNG_DECODER		2						
+ANR	1122	Symbol	& metadata		2						
+ANR	1123	Symbol	AV_CODEC_ID_APNG		2						
+ANR	1124	Symbol	avctx -> debug		2						
+ANR	1125	Symbol	* * s		2						
+ANR	1126	Symbol	CONFIG_PNG_DECODER		2						
+ANR	1127	Symbol	INT_MAX		2						
+ANR	1128	Symbol	s -> last_picture		2						
+ANR	1129	Symbol	row		2						
+ANR	1130	Symbol	avctx		2						
+ANR	1131	Symbol	bytestream2_get_bytes_left		2						
+ANR	1132	Symbol	* s -> last_picture		2						
+ANR	1133	Symbol	avctx -> codec_tag		2						
+ANR	1134	Symbol	pixel		2						
+ANR	1135	Symbol	decode_trns_chunk		2						
+ANR	1136	Symbol	s -> last_picture . f -> format		2						
+ANR	1137	Symbol	* s -> last_picture . f		2						
+ANR	1138	Symbol	* avpkt		2						
+ANR	1139	Symbol	p -> format		2						
+ANR	1140	Symbol	AV_LOG_ERROR		2						
+ANR	1141	Symbol	s -> state		2						
+ANR	1142	Symbol	length		2						
+ANR	1143	Symbol	bytestream2_get_le32		2						
+ANR	1144	Symbol	decode_phys_chunk		2						
+ANR	1145	Symbol	byte_depth		2						
+ANR	1146	Symbol	p		2						
+ANR	1147	Symbol	s -> bpp		2						
+ANR	1148	Symbol	s -> last_picture . f -> data		2						
+ANR	1149	Symbol	s		2						
+ANR	1150	Symbol	s -> height		2						
+ANR	1151	Symbol	decode_next_dat		2						
+ANR	1152	Symbol	& s -> picture		2						
+ANR	1153	Symbol	AV_RL32		2						
+ANR	1154	Symbol	x		2						
+ANR	1155	Symbol	y		2						
+ANR	1156	Symbol	AVERROR_INVALIDDATA		2						
+ANR	1157	Symbol	* p		2						
+ANR	1158	Symbol	AV_LOG_WARNING		2						
+ANR	1159	Symbol	* s		2						
+ANR	1160	Symbol	PNG_COLOR_TYPE_PALETTE		2						

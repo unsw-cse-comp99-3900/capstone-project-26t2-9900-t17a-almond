@@ -1,0 +1,703 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/07_codexglue_devign_4012__control_wrapper.c								
+ANR	2	Function	mpeg1_decode_sequence	1:0:0:3263							
+ANR	3	FunctionDef	"mpeg1_decode_sequence (AVCodecContext * avctx , const uint8_t * buf , int buf_size)"		2	0					
+ANR	4	CompoundStatement		5:0:125:3263	2	0					
+ANR	5	IfStatement	if ( 1 )		2	0					
+ANR	6	Condition	1	7:8:136:136	2	0	True				
+ANR	7	PrimaryExpression	1		2	0					
+ANR	8	CompoundStatement		4:8:23:59	2	1					
+ANR	9	IdentifierDeclStatement	Mpeg1Context * s1 = avctx -> priv_data ;	8:8:149:185	2	0	True				
+ANR	10	IdentifierDecl	* s1 = avctx -> priv_data		2	0					
+ANR	11	IdentifierDeclType	Mpeg1Context *		2	0					
+ANR	12	Identifier	s1		2	1					
+ANR	13	AssignmentExpression	* s1 = avctx -> priv_data		2	2		=			
+ANR	14	Identifier	s1		2	0					
+ANR	15	PtrMemberAccess	avctx -> priv_data		2	1					
+ANR	16	Identifier	avctx		2	0					
+ANR	17	Identifier	priv_data		2	1					
+ANR	18	IdentifierDeclStatement	MpegEncContext * s = & s1 -> mpeg_enc_ctx ;	11:4:198:235	2	1	True				
+ANR	19	IdentifierDecl	* s = & s1 -> mpeg_enc_ctx		2	0					
+ANR	20	IdentifierDeclType	MpegEncContext *		2	0					
+ANR	21	Identifier	s		2	1					
+ANR	22	AssignmentExpression	* s = & s1 -> mpeg_enc_ctx		2	2		=			
+ANR	23	Identifier	s		2	0					
+ANR	24	UnaryOperationExpression	& s1 -> mpeg_enc_ctx		2	1					
+ANR	25	UnaryOperator	&		2	0					
+ANR	26	PtrMemberAccess	s1 -> mpeg_enc_ctx		2	1					
+ANR	27	Identifier	s1		2	0					
+ANR	28	Identifier	mpeg_enc_ctx		2	1					
+ANR	29	IdentifierDeclStatement	"int width , height ;"	13:4:242:259	2	2	True				
+ANR	30	IdentifierDecl	width		2	0					
+ANR	31	IdentifierDeclType	int		2	0					
+ANR	32	Identifier	width		2	1					
+ANR	33	IdentifierDecl	height		2	1					
+ANR	34	IdentifierDeclType	int		2	0					
+ANR	35	Identifier	height		2	1					
+ANR	36	IdentifierDeclStatement	"int i , v , j ;"	15:4:266:277	2	3	True				
+ANR	37	IdentifierDecl	i		2	0					
+ANR	38	IdentifierDeclType	int		2	0					
+ANR	39	Identifier	i		2	1					
+ANR	40	IdentifierDecl	v		2	1					
+ANR	41	IdentifierDeclType	int		2	0					
+ANR	42	Identifier	v		2	1					
+ANR	43	IdentifierDecl	j		2	2					
+ANR	44	IdentifierDeclType	int		2	0					
+ANR	45	Identifier	j		2	1					
+ANR	46	ExpressionStatement	"init_get_bits ( & s -> gb , buf , buf_size * 8 )"	19:4:286:326	2	4	True				
+ANR	47	CallExpression	"init_get_bits ( & s -> gb , buf , buf_size * 8 )"		2	0					
+ANR	48	Callee	init_get_bits		2	0					
+ANR	49	Identifier	init_get_bits		2	0					
+ANR	50	ArgumentList	& s -> gb		2	1					
+ANR	51	Argument	& s -> gb		2	0					
+ANR	52	UnaryOperationExpression	& s -> gb		2	0					
+ANR	53	UnaryOperator	&		2	0					
+ANR	54	PtrMemberAccess	s -> gb		2	1					
+ANR	55	Identifier	s		2	0					
+ANR	56	Identifier	gb		2	1					
+ANR	57	Argument	buf		2	1					
+ANR	58	Identifier	buf		2	0					
+ANR	59	Argument	buf_size * 8		2	2					
+ANR	60	MultiplicativeExpression	buf_size * 8		2	0		*			
+ANR	61	Identifier	buf_size		2	0					
+ANR	62	PrimaryExpression	8		2	1					
+ANR	63	ExpressionStatement	"width = get_bits ( & s -> gb , 12 )"	23:4:335:364	2	5	True				
+ANR	64	AssignmentExpression	"width = get_bits ( & s -> gb , 12 )"		2	0		=			
+ANR	65	Identifier	width		2	0					
+ANR	66	CallExpression	"get_bits ( & s -> gb , 12 )"		2	1					
+ANR	67	Callee	get_bits		2	0					
+ANR	68	Identifier	get_bits		2	0					
+ANR	69	ArgumentList	& s -> gb		2	1					
+ANR	70	Argument	& s -> gb		2	0					
+ANR	71	UnaryOperationExpression	& s -> gb		2	0					
+ANR	72	UnaryOperator	&		2	0					
+ANR	73	PtrMemberAccess	s -> gb		2	1					
+ANR	74	Identifier	s		2	0					
+ANR	75	Identifier	gb		2	1					
+ANR	76	Argument	12		2	1					
+ANR	77	PrimaryExpression	12		2	0					
+ANR	78	ExpressionStatement	"height = get_bits ( & s -> gb , 12 )"	25:4:371:400	2	6	True				
+ANR	79	AssignmentExpression	"height = get_bits ( & s -> gb , 12 )"		2	0		=			
+ANR	80	Identifier	height		2	0					
+ANR	81	CallExpression	"get_bits ( & s -> gb , 12 )"		2	1					
+ANR	82	Callee	get_bits		2	0					
+ANR	83	Identifier	get_bits		2	0					
+ANR	84	ArgumentList	& s -> gb		2	1					
+ANR	85	Argument	& s -> gb		2	0					
+ANR	86	UnaryOperationExpression	& s -> gb		2	0					
+ANR	87	UnaryOperator	&		2	0					
+ANR	88	PtrMemberAccess	s -> gb		2	1					
+ANR	89	Identifier	s		2	0					
+ANR	90	Identifier	gb		2	1					
+ANR	91	Argument	12		2	1					
+ANR	92	PrimaryExpression	12		2	0					
+ANR	93	IfStatement	if ( width == 0 || height == 0 )		2	7					
+ANR	94	Condition	width == 0 || height == 0	27:8:411:435	2	0	True				
+ANR	95	OrExpression	width == 0 || height == 0		2	0		||			
+ANR	96	EqualityExpression	width == 0		2	0		==			
+ANR	97	Identifier	width		2	0					
+ANR	98	PrimaryExpression	0		2	1					
+ANR	99	EqualityExpression	height == 0		2	1		==			
+ANR	100	Identifier	height		2	0					
+ANR	101	PrimaryExpression	0		2	1					
+ANR	102	CompoundStatement		23:35:312:312	2	1					
+ANR	103	ExpressionStatement	"av_log ( avctx , AV_LOG_WARNING , ""Invalid horizontal or vertical size value.\\n"" )"	29:8:449:542	2	0	True				
+ANR	104	CallExpression	"av_log ( avctx , AV_LOG_WARNING , ""Invalid horizontal or vertical size value.\\n"" )"		2	0					
+ANR	105	Callee	av_log		2	0					
+ANR	106	Identifier	av_log		2	0					
+ANR	107	ArgumentList	avctx		2	1					
+ANR	108	Argument	avctx		2	0					
+ANR	109	Identifier	avctx		2	0					
+ANR	110	Argument	AV_LOG_WARNING		2	1					
+ANR	111	Identifier	AV_LOG_WARNING		2	0					
+ANR	112	Argument	"""Invalid horizontal or vertical size value.\\n"""		2	2					
+ANR	113	PrimaryExpression	"""Invalid horizontal or vertical size value.\\n"""		2	0					
+ANR	114	IfStatement	if ( avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT ) )		2	1					
+ANR	115	Condition	avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT )	33:12:557:616	2	0	True				
+ANR	116	BitAndExpression	avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT )		2	0		&			
+ANR	117	PtrMemberAccess	avctx -> err_recognition		2	0					
+ANR	118	Identifier	avctx		2	0					
+ANR	119	Identifier	err_recognition		2	1					
+ANR	120	InclusiveOrExpression	AV_EF_BITSTREAM | AV_EF_COMPLIANT		2	1		|			
+ANR	121	Identifier	AV_EF_BITSTREAM		2	0					
+ANR	122	Identifier	AV_EF_COMPLIANT		2	1					
+ANR	123	ReturnStatement	return AVERROR_INVALIDDATA ;	35:12:632:658	2	1	True				
+ANR	124	Identifier	AVERROR_INVALIDDATA		2	0					
+ANR	125	ExpressionStatement	"s -> aspect_ratio_info = get_bits ( & s -> gb , 4 )"	39:4:672:714	2	8	True				
+ANR	126	AssignmentExpression	"s -> aspect_ratio_info = get_bits ( & s -> gb , 4 )"		2	0		=			
+ANR	127	PtrMemberAccess	s -> aspect_ratio_info		2	0					
+ANR	128	Identifier	s		2	0					
+ANR	129	Identifier	aspect_ratio_info		2	1					
+ANR	130	CallExpression	"get_bits ( & s -> gb , 4 )"		2	1					
+ANR	131	Callee	get_bits		2	0					
+ANR	132	Identifier	get_bits		2	0					
+ANR	133	ArgumentList	& s -> gb		2	1					
+ANR	134	Argument	& s -> gb		2	0					
+ANR	135	UnaryOperationExpression	& s -> gb		2	0					
+ANR	136	UnaryOperator	&		2	0					
+ANR	137	PtrMemberAccess	s -> gb		2	1					
+ANR	138	Identifier	s		2	0					
+ANR	139	Identifier	gb		2	1					
+ANR	140	Argument	4		2	1					
+ANR	141	PrimaryExpression	4		2	0					
+ANR	142	IfStatement	if ( s -> aspect_ratio_info == 0 )		2	9					
+ANR	143	Condition	s -> aspect_ratio_info == 0	41:8:725:749	2	0	True				
+ANR	144	EqualityExpression	s -> aspect_ratio_info == 0		2	0		==			
+ANR	145	PtrMemberAccess	s -> aspect_ratio_info		2	0					
+ANR	146	Identifier	s		2	0					
+ANR	147	Identifier	aspect_ratio_info		2	1					
+ANR	148	PrimaryExpression	0		2	1					
+ANR	149	CompoundStatement		37:35:626:626	2	1					
+ANR	150	ExpressionStatement	"av_log ( avctx , AV_LOG_ERROR , ""aspect ratio has forbidden 0 value\\n"" )"	43:8:763:830	2	0	True				
+ANR	151	CallExpression	"av_log ( avctx , AV_LOG_ERROR , ""aspect ratio has forbidden 0 value\\n"" )"		2	0					
+ANR	152	Callee	av_log		2	0					
+ANR	153	Identifier	av_log		2	0					
+ANR	154	ArgumentList	avctx		2	1					
+ANR	155	Argument	avctx		2	0					
+ANR	156	Identifier	avctx		2	0					
+ANR	157	Argument	AV_LOG_ERROR		2	1					
+ANR	158	Identifier	AV_LOG_ERROR		2	0					
+ANR	159	Argument	"""aspect ratio has forbidden 0 value\\n"""		2	2					
+ANR	160	PrimaryExpression	"""aspect ratio has forbidden 0 value\\n"""		2	0					
+ANR	161	IfStatement	if ( avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT ) )		2	1					
+ANR	162	Condition	avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT )	45:12:845:904	2	0	True				
+ANR	163	BitAndExpression	avctx -> err_recognition & ( AV_EF_BITSTREAM | AV_EF_COMPLIANT )		2	0		&			
+ANR	164	PtrMemberAccess	avctx -> err_recognition		2	0					
+ANR	165	Identifier	avctx		2	0					
+ANR	166	Identifier	err_recognition		2	1					
+ANR	167	InclusiveOrExpression	AV_EF_BITSTREAM | AV_EF_COMPLIANT		2	1		|			
+ANR	168	Identifier	AV_EF_BITSTREAM		2	0					
+ANR	169	Identifier	AV_EF_COMPLIANT		2	1					
+ANR	170	ReturnStatement	return AVERROR_INVALIDDATA ;	47:12:920:946	2	1	True				
+ANR	171	Identifier	AVERROR_INVALIDDATA		2	0					
+ANR	172	ExpressionStatement	"s -> frame_rate_index = get_bits ( & s -> gb , 4 )"	51:4:960:1001	2	10	True				
+ANR	173	AssignmentExpression	"s -> frame_rate_index = get_bits ( & s -> gb , 4 )"		2	0		=			
+ANR	174	PtrMemberAccess	s -> frame_rate_index		2	0					
+ANR	175	Identifier	s		2	0					
+ANR	176	Identifier	frame_rate_index		2	1					
+ANR	177	CallExpression	"get_bits ( & s -> gb , 4 )"		2	1					
+ANR	178	Callee	get_bits		2	0					
+ANR	179	Identifier	get_bits		2	0					
+ANR	180	ArgumentList	& s -> gb		2	1					
+ANR	181	Argument	& s -> gb		2	0					
+ANR	182	UnaryOperationExpression	& s -> gb		2	0					
+ANR	183	UnaryOperator	&		2	0					
+ANR	184	PtrMemberAccess	s -> gb		2	1					
+ANR	185	Identifier	s		2	0					
+ANR	186	Identifier	gb		2	1					
+ANR	187	Argument	4		2	1					
+ANR	188	PrimaryExpression	4		2	0					
+ANR	189	IfStatement	if ( s -> frame_rate_index == 0 || s -> frame_rate_index > 13 )		2	11					
+ANR	190	Condition	s -> frame_rate_index == 0 || s -> frame_rate_index > 13	53:8:1012:1063	2	0	True				
+ANR	191	OrExpression	s -> frame_rate_index == 0 || s -> frame_rate_index > 13		2	0		||			
+ANR	192	EqualityExpression	s -> frame_rate_index == 0		2	0		==			
+ANR	193	PtrMemberAccess	s -> frame_rate_index		2	0					
+ANR	194	Identifier	s		2	0					
+ANR	195	Identifier	frame_rate_index		2	1					
+ANR	196	PrimaryExpression	0		2	1					
+ANR	197	RelationalExpression	s -> frame_rate_index > 13		2	1		>			
+ANR	198	PtrMemberAccess	s -> frame_rate_index		2	0					
+ANR	199	Identifier	s		2	0					
+ANR	200	Identifier	frame_rate_index		2	1					
+ANR	201	PrimaryExpression	13		2	1					
+ANR	202	CompoundStatement		49:62:940:940	2	1					
+ANR	203	ExpressionStatement	"av_log ( avctx , AV_LOG_WARNING , ""frame_rate_index %d is invalid\\n"" , s -> frame_rate_index )"	55:8:1077:1179	2	0	True				
+ANR	204	CallExpression	"av_log ( avctx , AV_LOG_WARNING , ""frame_rate_index %d is invalid\\n"" , s -> frame_rate_index )"		2	0					
+ANR	205	Callee	av_log		2	0					
+ANR	206	Identifier	av_log		2	0					
+ANR	207	ArgumentList	avctx		2	1					
+ANR	208	Argument	avctx		2	0					
+ANR	209	Identifier	avctx		2	0					
+ANR	210	Argument	AV_LOG_WARNING		2	1					
+ANR	211	Identifier	AV_LOG_WARNING		2	0					
+ANR	212	Argument	"""frame_rate_index %d is invalid\\n"""		2	2					
+ANR	213	PrimaryExpression	"""frame_rate_index %d is invalid\\n"""		2	0					
+ANR	214	Argument	s -> frame_rate_index		2	3					
+ANR	215	PtrMemberAccess	s -> frame_rate_index		2	0					
+ANR	216	Identifier	s		2	0					
+ANR	217	Identifier	frame_rate_index		2	1					
+ANR	218	ExpressionStatement	s -> frame_rate_index = 1	59:8:1190:1213	2	1	True				
+ANR	219	AssignmentExpression	s -> frame_rate_index = 1		2	0		=			
+ANR	220	PtrMemberAccess	s -> frame_rate_index		2	0					
+ANR	221	Identifier	s		2	0					
+ANR	222	Identifier	frame_rate_index		2	1					
+ANR	223	PrimaryExpression	1		2	1					
+ANR	224	ExpressionStatement	"s -> bit_rate = get_bits ( & s -> gb , 18 ) * 400"	63:4:1227:1267	2	12	True				
+ANR	225	AssignmentExpression	"s -> bit_rate = get_bits ( & s -> gb , 18 ) * 400"		2	0		=			
+ANR	226	PtrMemberAccess	s -> bit_rate		2	0					
+ANR	227	Identifier	s		2	0					
+ANR	228	Identifier	bit_rate		2	1					
+ANR	229	MultiplicativeExpression	"get_bits ( & s -> gb , 18 ) * 400"		2	1		*			
+ANR	230	CallExpression	"get_bits ( & s -> gb , 18 )"		2	0					
+ANR	231	Callee	get_bits		2	0					
+ANR	232	Identifier	get_bits		2	0					
+ANR	233	ArgumentList	& s -> gb		2	1					
+ANR	234	Argument	& s -> gb		2	0					
+ANR	235	UnaryOperationExpression	& s -> gb		2	0					
+ANR	236	UnaryOperator	&		2	0					
+ANR	237	PtrMemberAccess	s -> gb		2	1					
+ANR	238	Identifier	s		2	0					
+ANR	239	Identifier	gb		2	1					
+ANR	240	Argument	18		2	1					
+ANR	241	PrimaryExpression	18		2	0					
+ANR	242	PrimaryExpression	400		2	1					
+ANR	243	IfStatement	if ( get_bits1 ( & s -> gb ) == 0 )		2	13					
+ANR	244	Condition	get_bits1 ( & s -> gb ) == 0	65:8:1278:1299	2	0	True				
+ANR	245	EqualityExpression	get_bits1 ( & s -> gb ) == 0		2	0		==			
+ANR	246	CallExpression	get_bits1 ( & s -> gb )		2	0					
+ANR	247	Callee	get_bits1		2	0					
+ANR	248	Identifier	get_bits1		2	0					
+ANR	249	ArgumentList	& s -> gb		2	1					
+ANR	250	Argument	& s -> gb		2	0					
+ANR	251	UnaryOperationExpression	& s -> gb		2	0					
+ANR	252	UnaryOperator	&		2	0					
+ANR	253	PtrMemberAccess	s -> gb		2	1					
+ANR	254	Identifier	s		2	0					
+ANR	255	Identifier	gb		2	1					
+ANR	256	PrimaryExpression	0		2	1					
+ANR	257	CompoundStatement		61:32:1176:1176	2	1					
+ANR	258	ExpressionStatement	"av_log ( avctx , AV_LOG_ERROR , ""Marker in sequence header missing\\n"" )"	67:8:1326:1392	2	0	True				
+ANR	259	CallExpression	"av_log ( avctx , AV_LOG_ERROR , ""Marker in sequence header missing\\n"" )"		2	0					
+ANR	260	Callee	av_log		2	0					
+ANR	261	Identifier	av_log		2	0					
+ANR	262	ArgumentList	avctx		2	1					
+ANR	263	Argument	avctx		2	0					
+ANR	264	Identifier	avctx		2	0					
+ANR	265	Argument	AV_LOG_ERROR		2	1					
+ANR	266	Identifier	AV_LOG_ERROR		2	0					
+ANR	267	Argument	"""Marker in sequence header missing\\n"""		2	2					
+ANR	268	PrimaryExpression	"""Marker in sequence header missing\\n"""		2	0					
+ANR	269	ReturnStatement	return AVERROR_INVALIDDATA ;	69:8:1403:1429	2	1	True				
+ANR	270	Identifier	AVERROR_INVALIDDATA		2	0					
+ANR	271	ExpressionStatement	s -> width = width	73:4:1443:1460	2	14	True				
+ANR	272	AssignmentExpression	s -> width = width		2	0		=			
+ANR	273	PtrMemberAccess	s -> width		2	0					
+ANR	274	Identifier	s		2	0					
+ANR	275	Identifier	width		2	1					
+ANR	276	Identifier	width		2	1					
+ANR	277	ExpressionStatement	s -> height = height	75:4:1467:1485	2	15	True				
+ANR	278	AssignmentExpression	s -> height = height		2	0		=			
+ANR	279	PtrMemberAccess	s -> height		2	0					
+ANR	280	Identifier	s		2	0					
+ANR	281	Identifier	height		2	1					
+ANR	282	Identifier	height		2	1					
+ANR	283	ExpressionStatement	"s -> avctx -> rc_buffer_size = get_bits ( & s -> gb , 10 ) * 1024 * 16"	79:4:1494:1553	2	16	True				
+ANR	284	AssignmentExpression	"s -> avctx -> rc_buffer_size = get_bits ( & s -> gb , 10 ) * 1024 * 16"		2	0		=			
+ANR	285	PtrMemberAccess	s -> avctx -> rc_buffer_size		2	0					
+ANR	286	PtrMemberAccess	s -> avctx		2	0					
+ANR	287	Identifier	s		2	0					
+ANR	288	Identifier	avctx		2	1					
+ANR	289	Identifier	rc_buffer_size		2	1					
+ANR	290	MultiplicativeExpression	"get_bits ( & s -> gb , 10 ) * 1024 * 16"		2	1		*			
+ANR	291	CallExpression	"get_bits ( & s -> gb , 10 )"		2	0					
+ANR	292	Callee	get_bits		2	0					
+ANR	293	Identifier	get_bits		2	0					
+ANR	294	ArgumentList	& s -> gb		2	1					
+ANR	295	Argument	& s -> gb		2	0					
+ANR	296	UnaryOperationExpression	& s -> gb		2	0					
+ANR	297	UnaryOperator	&		2	0					
+ANR	298	PtrMemberAccess	s -> gb		2	1					
+ANR	299	Identifier	s		2	0					
+ANR	300	Identifier	gb		2	1					
+ANR	301	Argument	10		2	1					
+ANR	302	PrimaryExpression	10		2	0					
+ANR	303	MultiplicativeExpression	1024 * 16		2	1		*			
+ANR	304	PrimaryExpression	1024		2	0					
+ANR	305	PrimaryExpression	16		2	1					
+ANR	306	ExpressionStatement	"skip_bits ( & s -> gb , 1 )"	81:4:1560:1580	2	17	True				
+ANR	307	CallExpression	"skip_bits ( & s -> gb , 1 )"		2	0					
+ANR	308	Callee	skip_bits		2	0					
+ANR	309	Identifier	skip_bits		2	0					
+ANR	310	ArgumentList	& s -> gb		2	1					
+ANR	311	Argument	& s -> gb		2	0					
+ANR	312	UnaryOperationExpression	& s -> gb		2	0					
+ANR	313	UnaryOperator	&		2	0					
+ANR	314	PtrMemberAccess	s -> gb		2	1					
+ANR	315	Identifier	s		2	0					
+ANR	316	Identifier	gb		2	1					
+ANR	317	Argument	1		2	1					
+ANR	318	PrimaryExpression	1		2	0					
+ANR	319	IfStatement	if ( get_bits1 ( & s -> gb ) )		2	18					
+ANR	320	Condition	get_bits1 ( & s -> gb )	87:8:1615:1631	2	0	True				
+ANR	321	CallExpression	get_bits1 ( & s -> gb )		2	0					
+ANR	322	Callee	get_bits1		2	0					
+ANR	323	Identifier	get_bits1		2	0					
+ANR	324	ArgumentList	& s -> gb		2	1					
+ANR	325	Argument	& s -> gb		2	0					
+ANR	326	UnaryOperationExpression	& s -> gb		2	0					
+ANR	327	UnaryOperator	&		2	0					
+ANR	328	PtrMemberAccess	s -> gb		2	1					
+ANR	329	Identifier	s		2	0					
+ANR	330	Identifier	gb		2	1					
+ANR	331	CompoundStatement		83:27:1508:1508	2	1					
+ANR	332	ExpressionStatement	"load_matrix ( s , s -> chroma_intra_matrix , s -> intra_matrix , 1 )"	89:8:1645:1703	2	0	True				
+ANR	333	CallExpression	"load_matrix ( s , s -> chroma_intra_matrix , s -> intra_matrix , 1 )"		2	0					
+ANR	334	Callee	load_matrix		2	0					
+ANR	335	Identifier	load_matrix		2	0					
+ANR	336	ArgumentList	s		2	1					
+ANR	337	Argument	s		2	0					
+ANR	338	Identifier	s		2	0					
+ANR	339	Argument	s -> chroma_intra_matrix		2	1					
+ANR	340	PtrMemberAccess	s -> chroma_intra_matrix		2	0					
+ANR	341	Identifier	s		2	0					
+ANR	342	Identifier	chroma_intra_matrix		2	1					
+ANR	343	Argument	s -> intra_matrix		2	2					
+ANR	344	PtrMemberAccess	s -> intra_matrix		2	0					
+ANR	345	Identifier	s		2	0					
+ANR	346	Identifier	intra_matrix		2	1					
+ANR	347	Argument	1		2	3					
+ANR	348	PrimaryExpression	1		2	0					
+ANR	349	ElseStatement	else		2	0					
+ANR	350	CompoundStatement		87:11:1591:1591	2	0					
+ANR	351	ForStatement	for ( i = 0 ; i < 64 ; i ++ )		2	0					
+ANR	352	ForInit	i = 0 ;	93:13:1733:1738	2	0	True				
+ANR	353	AssignmentExpression	i = 0		2	0		=			
+ANR	354	Identifier	i		2	0					
+ANR	355	PrimaryExpression	0		2	1					
+ANR	356	Condition	i < 64	93:20:1740:1745	2	1	True				
+ANR	357	RelationalExpression	i < 64		2	0		<			
+ANR	358	Identifier	i		2	0					
+ANR	359	PrimaryExpression	64		2	1					
+ANR	360	PostIncDecOperationExpression	i ++	93:28:1748:1750	2	2	True				
+ANR	361	Identifier	i		2	0					
+ANR	362	IncDec	++		2	1					
+ANR	363	CompoundStatement		89:33:1627:1627	2	3					
+ANR	364	ExpressionStatement	j = s -> idsp . idct_permutation [ i ]	95:12:1768:1799	2	0	True				
+ANR	365	AssignmentExpression	j = s -> idsp . idct_permutation [ i ]		2	0		=			
+ANR	366	Identifier	j		2	0					
+ANR	367	ArrayIndexing	s -> idsp . idct_permutation [ i ]		2	1					
+ANR	368	MemberAccess	s -> idsp . idct_permutation		2	0					
+ANR	369	PtrMemberAccess	s -> idsp		2	0					
+ANR	370	Identifier	s		2	0					
+ANR	371	Identifier	idsp		2	1					
+ANR	372	Identifier	idct_permutation		2	1					
+ANR	373	Identifier	i		2	1					
+ANR	374	ExpressionStatement	v = ff_mpeg1_default_intra_matrix [ i ]	97:12:1814:1850	2	1	True				
+ANR	375	AssignmentExpression	v = ff_mpeg1_default_intra_matrix [ i ]		2	0		=			
+ANR	376	Identifier	v		2	0					
+ANR	377	ArrayIndexing	ff_mpeg1_default_intra_matrix [ i ]		2	1					
+ANR	378	Identifier	ff_mpeg1_default_intra_matrix		2	0					
+ANR	379	Identifier	i		2	1					
+ANR	380	ExpressionStatement	s -> intra_matrix [ j ] = v	99:12:1865:1894	2	2	True				
+ANR	381	AssignmentExpression	s -> intra_matrix [ j ] = v		2	0		=			
+ANR	382	ArrayIndexing	s -> intra_matrix [ j ]		2	0					
+ANR	383	PtrMemberAccess	s -> intra_matrix		2	0					
+ANR	384	Identifier	s		2	0					
+ANR	385	Identifier	intra_matrix		2	1					
+ANR	386	Identifier	j		2	1					
+ANR	387	Identifier	v		2	1					
+ANR	388	ExpressionStatement	s -> chroma_intra_matrix [ j ] = v	101:12:1909:1938	2	3	True				
+ANR	389	AssignmentExpression	s -> chroma_intra_matrix [ j ] = v		2	0		=			
+ANR	390	ArrayIndexing	s -> chroma_intra_matrix [ j ]		2	0					
+ANR	391	PtrMemberAccess	s -> chroma_intra_matrix		2	0					
+ANR	392	Identifier	s		2	0					
+ANR	393	Identifier	chroma_intra_matrix		2	1					
+ANR	394	Identifier	j		2	1					
+ANR	395	Identifier	v		2	1					
+ANR	396	IfStatement	if ( get_bits1 ( & s -> gb ) )		2	19					
+ANR	397	Condition	get_bits1 ( & s -> gb )	107:8:1967:1983	2	0	True				
+ANR	398	CallExpression	get_bits1 ( & s -> gb )		2	0					
+ANR	399	Callee	get_bits1		2	0					
+ANR	400	Identifier	get_bits1		2	0					
+ANR	401	ArgumentList	& s -> gb		2	1					
+ANR	402	Argument	& s -> gb		2	0					
+ANR	403	UnaryOperationExpression	& s -> gb		2	0					
+ANR	404	UnaryOperator	&		2	0					
+ANR	405	PtrMemberAccess	s -> gb		2	1					
+ANR	406	Identifier	s		2	0					
+ANR	407	Identifier	gb		2	1					
+ANR	408	CompoundStatement		103:27:1860:1860	2	1					
+ANR	409	ExpressionStatement	"load_matrix ( s , s -> chroma_inter_matrix , s -> inter_matrix , 0 )"	109:8:1997:2055	2	0	True				
+ANR	410	CallExpression	"load_matrix ( s , s -> chroma_inter_matrix , s -> inter_matrix , 0 )"		2	0					
+ANR	411	Callee	load_matrix		2	0					
+ANR	412	Identifier	load_matrix		2	0					
+ANR	413	ArgumentList	s		2	1					
+ANR	414	Argument	s		2	0					
+ANR	415	Identifier	s		2	0					
+ANR	416	Argument	s -> chroma_inter_matrix		2	1					
+ANR	417	PtrMemberAccess	s -> chroma_inter_matrix		2	0					
+ANR	418	Identifier	s		2	0					
+ANR	419	Identifier	chroma_inter_matrix		2	1					
+ANR	420	Argument	s -> inter_matrix		2	2					
+ANR	421	PtrMemberAccess	s -> inter_matrix		2	0					
+ANR	422	Identifier	s		2	0					
+ANR	423	Identifier	inter_matrix		2	1					
+ANR	424	Argument	0		2	3					
+ANR	425	PrimaryExpression	0		2	0					
+ANR	426	ElseStatement	else		2	0					
+ANR	427	CompoundStatement		107:11:1943:1943	2	0					
+ANR	428	ForStatement	for ( i = 0 ; i < 64 ; i ++ )		2	0					
+ANR	429	ForInit	i = 0 ;	113:13:2085:2090	2	0	True				
+ANR	430	AssignmentExpression	i = 0		2	0		=			
+ANR	431	Identifier	i		2	0					
+ANR	432	PrimaryExpression	0		2	1					
+ANR	433	Condition	i < 64	113:20:2092:2097	2	1	True				
+ANR	434	RelationalExpression	i < 64		2	0		<			
+ANR	435	Identifier	i		2	0					
+ANR	436	PrimaryExpression	64		2	1					
+ANR	437	PostIncDecOperationExpression	i ++	113:28:2100:2102	2	2	True				
+ANR	438	Identifier	i		2	0					
+ANR	439	IncDec	++		2	1					
+ANR	440	CompoundStatement		111:12:1994:2029	2	3					
+ANR	441	IdentifierDeclStatement	int j = s -> idsp . idct_permutation [ i ] ;	115:12:2120:2155	2	0	True				
+ANR	442	IdentifierDecl	j = s -> idsp . idct_permutation [ i ]		2	0					
+ANR	443	IdentifierDeclType	int		2	0					
+ANR	444	Identifier	j		2	1					
+ANR	445	AssignmentExpression	j = s -> idsp . idct_permutation [ i ]		2	2		=			
+ANR	446	Identifier	j		2	0					
+ANR	447	ArrayIndexing	s -> idsp . idct_permutation [ i ]		2	1					
+ANR	448	MemberAccess	s -> idsp . idct_permutation		2	0					
+ANR	449	PtrMemberAccess	s -> idsp		2	0					
+ANR	450	Identifier	s		2	0					
+ANR	451	Identifier	idsp		2	1					
+ANR	452	Identifier	idct_permutation		2	1					
+ANR	453	Identifier	i		2	1					
+ANR	454	ExpressionStatement	v = ff_mpeg1_default_non_intra_matrix [ i ]	117:12:2170:2210	2	1	True				
+ANR	455	AssignmentExpression	v = ff_mpeg1_default_non_intra_matrix [ i ]		2	0		=			
+ANR	456	Identifier	v		2	0					
+ANR	457	ArrayIndexing	ff_mpeg1_default_non_intra_matrix [ i ]		2	1					
+ANR	458	Identifier	ff_mpeg1_default_non_intra_matrix		2	0					
+ANR	459	Identifier	i		2	1					
+ANR	460	ExpressionStatement	s -> inter_matrix [ j ] = v	119:12:2225:2254	2	2	True				
+ANR	461	AssignmentExpression	s -> inter_matrix [ j ] = v		2	0		=			
+ANR	462	ArrayIndexing	s -> inter_matrix [ j ]		2	0					
+ANR	463	PtrMemberAccess	s -> inter_matrix		2	0					
+ANR	464	Identifier	s		2	0					
+ANR	465	Identifier	inter_matrix		2	1					
+ANR	466	Identifier	j		2	1					
+ANR	467	Identifier	v		2	1					
+ANR	468	ExpressionStatement	s -> chroma_inter_matrix [ j ] = v	121:12:2269:2298	2	3	True				
+ANR	469	AssignmentExpression	s -> chroma_inter_matrix [ j ] = v		2	0		=			
+ANR	470	ArrayIndexing	s -> chroma_inter_matrix [ j ]		2	0					
+ANR	471	PtrMemberAccess	s -> chroma_inter_matrix		2	0					
+ANR	472	Identifier	s		2	0					
+ANR	473	Identifier	chroma_inter_matrix		2	1					
+ANR	474	Identifier	j		2	1					
+ANR	475	Identifier	v		2	1					
+ANR	476	IfStatement	"if ( show_bits ( & s -> gb , 23 ) != 0 )"		2	20					
+ANR	477	Condition	"show_bits ( & s -> gb , 23 ) != 0"	129:8:2329:2354	2	0	True				
+ANR	478	EqualityExpression	"show_bits ( & s -> gb , 23 ) != 0"		2	0		!=			
+ANR	479	CallExpression	"show_bits ( & s -> gb , 23 )"		2	0					
+ANR	480	Callee	show_bits		2	0					
+ANR	481	Identifier	show_bits		2	0					
+ANR	482	ArgumentList	& s -> gb		2	1					
+ANR	483	Argument	& s -> gb		2	0					
+ANR	484	UnaryOperationExpression	& s -> gb		2	0					
+ANR	485	UnaryOperator	&		2	0					
+ANR	486	PtrMemberAccess	s -> gb		2	1					
+ANR	487	Identifier	s		2	0					
+ANR	488	Identifier	gb		2	1					
+ANR	489	Argument	23		2	1					
+ANR	490	PrimaryExpression	23		2	0					
+ANR	491	PrimaryExpression	0		2	1					
+ANR	492	CompoundStatement		125:36:2231:2231	2	1					
+ANR	493	ExpressionStatement	"av_log ( s -> avctx , AV_LOG_ERROR , ""sequence header damaged\\n"" )"	131:8:2368:2427	2	0	True				
+ANR	494	CallExpression	"av_log ( s -> avctx , AV_LOG_ERROR , ""sequence header damaged\\n"" )"		2	0					
+ANR	495	Callee	av_log		2	0					
+ANR	496	Identifier	av_log		2	0					
+ANR	497	ArgumentList	s -> avctx		2	1					
+ANR	498	Argument	s -> avctx		2	0					
+ANR	499	PtrMemberAccess	s -> avctx		2	0					
+ANR	500	Identifier	s		2	0					
+ANR	501	Identifier	avctx		2	1					
+ANR	502	Argument	AV_LOG_ERROR		2	1					
+ANR	503	Identifier	AV_LOG_ERROR		2	0					
+ANR	504	Argument	"""sequence header damaged\\n"""		2	2					
+ANR	505	PrimaryExpression	"""sequence header damaged\\n"""		2	0					
+ANR	506	ReturnStatement	return AVERROR_INVALIDDATA ;	133:8:2438:2464	2	1	True				
+ANR	507	Identifier	AVERROR_INVALIDDATA		2	0					
+ANR	508	ExpressionStatement	s -> progressive_sequence = 1	141:4:2544:2571	2	21	True				
+ANR	509	AssignmentExpression	s -> progressive_sequence = 1		2	0		=			
+ANR	510	PtrMemberAccess	s -> progressive_sequence		2	0					
+ANR	511	Identifier	s		2	0					
+ANR	512	Identifier	progressive_sequence		2	1					
+ANR	513	PrimaryExpression	1		2	1					
+ANR	514	ExpressionStatement	s -> progressive_frame = 1	143:4:2578:2605	2	22	True				
+ANR	515	AssignmentExpression	s -> progressive_frame = 1		2	0		=			
+ANR	516	PtrMemberAccess	s -> progressive_frame		2	0					
+ANR	517	Identifier	s		2	0					
+ANR	518	Identifier	progressive_frame		2	1					
+ANR	519	PrimaryExpression	1		2	1					
+ANR	520	ExpressionStatement	s -> picture_structure = PICT_FRAME	145:4:2612:2648	2	23	True				
+ANR	521	AssignmentExpression	s -> picture_structure = PICT_FRAME		2	0		=			
+ANR	522	PtrMemberAccess	s -> picture_structure		2	0					
+ANR	523	Identifier	s		2	0					
+ANR	524	Identifier	picture_structure		2	1					
+ANR	525	Identifier	PICT_FRAME		2	1					
+ANR	526	ExpressionStatement	s -> first_field = 0	147:4:2655:2682	2	24	True				
+ANR	527	AssignmentExpression	s -> first_field = 0		2	0		=			
+ANR	528	PtrMemberAccess	s -> first_field		2	0					
+ANR	529	Identifier	s		2	0					
+ANR	530	Identifier	first_field		2	1					
+ANR	531	PrimaryExpression	0		2	1					
+ANR	532	ExpressionStatement	s -> frame_pred_frame_dct = 1	149:4:2689:2716	2	25	True				
+ANR	533	AssignmentExpression	s -> frame_pred_frame_dct = 1		2	0		=			
+ANR	534	PtrMemberAccess	s -> frame_pred_frame_dct		2	0					
+ANR	535	Identifier	s		2	0					
+ANR	536	Identifier	frame_pred_frame_dct		2	1					
+ANR	537	PrimaryExpression	1		2	1					
+ANR	538	ExpressionStatement	s -> chroma_format = 1	151:4:2723:2750	2	26	True				
+ANR	539	AssignmentExpression	s -> chroma_format = 1		2	0		=			
+ANR	540	PtrMemberAccess	s -> chroma_format		2	0					
+ANR	541	Identifier	s		2	0					
+ANR	542	Identifier	chroma_format		2	1					
+ANR	543	PrimaryExpression	1		2	1					
+ANR	544	ExpressionStatement	s -> codec_id = s -> avctx -> codec_id = AV_CODEC_ID_MPEG1VIDEO	153:4:2757:2836	2	27	True				
+ANR	545	AssignmentExpression	s -> codec_id = s -> avctx -> codec_id = AV_CODEC_ID_MPEG1VIDEO		2	0		=			
+ANR	546	PtrMemberAccess	s -> codec_id		2	0					
+ANR	547	Identifier	s		2	0					
+ANR	548	Identifier	codec_id		2	1					
+ANR	549	AssignmentExpression	s -> avctx -> codec_id = AV_CODEC_ID_MPEG1VIDEO		2	1		=			
+ANR	550	PtrMemberAccess	s -> avctx -> codec_id		2	0					
+ANR	551	PtrMemberAccess	s -> avctx		2	0					
+ANR	552	Identifier	s		2	0					
+ANR	553	Identifier	avctx		2	1					
+ANR	554	Identifier	codec_id		2	1					
+ANR	555	Identifier	AV_CODEC_ID_MPEG1VIDEO		2	1					
+ANR	556	ExpressionStatement	s -> out_format = FMT_MPEG1	157:4:2843:2878	2	28	True				
+ANR	557	AssignmentExpression	s -> out_format = FMT_MPEG1		2	0		=			
+ANR	558	PtrMemberAccess	s -> out_format		2	0					
+ANR	559	Identifier	s		2	0					
+ANR	560	Identifier	out_format		2	1					
+ANR	561	Identifier	FMT_MPEG1		2	1					
+ANR	562	ExpressionStatement	s -> swap_uv = 0	159:4:2885:2912	2	29	True				
+ANR	563	AssignmentExpression	s -> swap_uv = 0		2	0		=			
+ANR	564	PtrMemberAccess	s -> swap_uv		2	0					
+ANR	565	Identifier	s		2	0					
+ANR	566	Identifier	swap_uv		2	1					
+ANR	567	PrimaryExpression	0		2	1					
+ANR	568	IfStatement	if ( s -> flags & CODEC_FLAG_LOW_DELAY )		2	30					
+ANR	569	Condition	s -> flags & CODEC_FLAG_LOW_DELAY	161:8:2962:2992	2	0	True				
+ANR	570	BitAndExpression	s -> flags & CODEC_FLAG_LOW_DELAY		2	0		&			
+ANR	571	PtrMemberAccess	s -> flags		2	0					
+ANR	572	Identifier	s		2	0					
+ANR	573	Identifier	flags		2	1					
+ANR	574	Identifier	CODEC_FLAG_LOW_DELAY		2	1					
+ANR	575	ExpressionStatement	s -> low_delay = 1	163:8:3004:3020	2	1	True				
+ANR	576	AssignmentExpression	s -> low_delay = 1		2	0		=			
+ANR	577	PtrMemberAccess	s -> low_delay		2	0					
+ANR	578	Identifier	s		2	0					
+ANR	579	Identifier	low_delay		2	1					
+ANR	580	PrimaryExpression	1		2	1					
+ANR	581	IfStatement	if ( s -> avctx -> debug & FF_DEBUG_PICT_INFO )		2	31					
+ANR	582	Condition	s -> avctx -> debug & FF_DEBUG_PICT_INFO	167:8:3033:3068	2	0	True				
+ANR	583	BitAndExpression	s -> avctx -> debug & FF_DEBUG_PICT_INFO		2	0		&			
+ANR	584	PtrMemberAccess	s -> avctx -> debug		2	0					
+ANR	585	PtrMemberAccess	s -> avctx		2	0					
+ANR	586	Identifier	s		2	0					
+ANR	587	Identifier	avctx		2	1					
+ANR	588	Identifier	debug		2	1					
+ANR	589	Identifier	FF_DEBUG_PICT_INFO		2	1					
+ANR	590	ExpressionStatement	"av_log ( s -> avctx , AV_LOG_DEBUG , ""vbv buffer: %d, bitrate:%d, aspect_ratio_info: %d \\n"" , s -> avctx -> rc_buffer_size , s -> bit_rate , s -> aspect_ratio_info )"	169:8:3080:3243	2	1	True				
+ANR	591	CallExpression	"av_log ( s -> avctx , AV_LOG_DEBUG , ""vbv buffer: %d, bitrate:%d, aspect_ratio_info: %d \\n"" , s -> avctx -> rc_buffer_size , s -> bit_rate , s -> aspect_ratio_info )"		2	0					
+ANR	592	Callee	av_log		2	0					
+ANR	593	Identifier	av_log		2	0					
+ANR	594	ArgumentList	s -> avctx		2	1					
+ANR	595	Argument	s -> avctx		2	0					
+ANR	596	PtrMemberAccess	s -> avctx		2	0					
+ANR	597	Identifier	s		2	0					
+ANR	598	Identifier	avctx		2	1					
+ANR	599	Argument	AV_LOG_DEBUG		2	1					
+ANR	600	Identifier	AV_LOG_DEBUG		2	0					
+ANR	601	Argument	"""vbv buffer: %d, bitrate:%d, aspect_ratio_info: %d \\n"""		2	2					
+ANR	602	PrimaryExpression	"""vbv buffer: %d, bitrate:%d, aspect_ratio_info: %d \\n"""		2	0					
+ANR	603	Argument	s -> avctx -> rc_buffer_size		2	3					
+ANR	604	PtrMemberAccess	s -> avctx -> rc_buffer_size		2	0					
+ANR	605	PtrMemberAccess	s -> avctx		2	0					
+ANR	606	Identifier	s		2	0					
+ANR	607	Identifier	avctx		2	1					
+ANR	608	Identifier	rc_buffer_size		2	1					
+ANR	609	Argument	s -> bit_rate		2	4					
+ANR	610	PtrMemberAccess	s -> bit_rate		2	0					
+ANR	611	Identifier	s		2	0					
+ANR	612	Identifier	bit_rate		2	1					
+ANR	613	Argument	s -> aspect_ratio_info		2	5					
+ANR	614	PtrMemberAccess	s -> aspect_ratio_info		2	0					
+ANR	615	Identifier	s		2	0					
+ANR	616	Identifier	aspect_ratio_info		2	1					
+ANR	617	ReturnStatement	return 0 ;	175:4:3252:3260	2	32	True				
+ANR	618	PrimaryExpression	0		2	0					
+ANR	619	ReturnType	static int		2	1					
+ANR	620	Identifier	mpeg1_decode_sequence		2	2					
+ANR	621	ParameterList	"AVCodecContext * avctx , const uint8_t * buf , int buf_size"		2	3					
+ANR	622	Parameter	AVCodecContext * avctx	1:33:33:53	2	0	True				
+ANR	623	ParameterType	AVCodecContext *		2	0					
+ANR	624	Identifier	avctx		2	1					
+ANR	625	Parameter	const uint8_t * buf	3:33:90:107	2	1	True				
+ANR	626	ParameterType	const uint8_t *		2	0					
+ANR	627	Identifier	buf		2	1					
+ANR	628	Parameter	int buf_size	3:53:110:121	2	2	True				
+ANR	629	ParameterType	int		2	0					
+ANR	630	Identifier	buf_size		2	1					
+ANR	631	CFGEntryNode	ENTRY		2		True				
+ANR	632	CFGExitNode	EXIT		2		True				
+ANR	633	Symbol	s -> frame_rate_index		2						
+ANR	634	Symbol	FMT_MPEG1		2						
+ANR	635	Symbol	CODEC_FLAG_LOW_DELAY		2						
+ANR	636	Symbol	s -> progressive_frame		2						
+ANR	637	Symbol	get_bits		2						
+ANR	638	Symbol	s -> idsp		2						
+ANR	639	Symbol	s -> inter_matrix		2						
+ANR	640	Symbol	s -> avctx -> codec_id		2						
+ANR	641	Symbol	AV_EF_BITSTREAM		2						
+ANR	642	Symbol	show_bits		2						
+ANR	643	Symbol	s -> out_format		2						
+ANR	644	Symbol	s -> low_delay		2						
+ANR	645	Symbol	s -> width		2						
+ANR	646	Symbol	AV_LOG_DEBUG		2						
+ANR	647	Symbol	s1		2						
+ANR	648	Symbol	height		2						
+ANR	649	Symbol	FF_DEBUG_PICT_INFO		2						
+ANR	650	Symbol	* s -> avctx		2						
+ANR	651	Symbol	s -> codec_id		2						
+ANR	652	Symbol	buf_size		2						
+ANR	653	Symbol	s -> swap_uv		2						
+ANR	654	Symbol	get_bits1		2						
+ANR	655	Symbol	s -> flags		2						
+ANR	656	Symbol	s -> progressive_sequence		2						
+ANR	657	Symbol	s -> bit_rate		2						
+ANR	658	Symbol	s -> chroma_format		2						
+ANR	659	Symbol	& s -> gb		2						
+ANR	660	Symbol	* ff_mpeg1_default_non_intra_matrix		2						
+ANR	661	Symbol	* avctx		2						
+ANR	662	Symbol	ff_mpeg1_default_intra_matrix		2						
+ANR	663	Symbol	AV_CODEC_ID_MPEG1VIDEO		2						
+ANR	664	Symbol	* s -> intra_matrix		2						
+ANR	665	Symbol	s -> avctx		2						
+ANR	666	Symbol	s -> intra_matrix		2						
+ANR	667	Symbol	s -> frame_pred_frame_dct		2						
+ANR	668	Symbol	s -> chroma_intra_matrix		2						
+ANR	669	Symbol	* s -> chroma_intra_matrix		2						
+ANR	670	Symbol	s -> avctx -> debug		2						
+ANR	671	Symbol	* * s		2						
+ANR	672	Symbol	AV_EF_COMPLIANT		2						
+ANR	673	Symbol	avctx		2						
+ANR	674	Symbol	ff_mpeg1_default_non_intra_matrix		2						
+ANR	675	Symbol	s -> idsp . idct_permutation		2						
+ANR	676	Symbol	* s -> inter_matrix		2						
+ANR	677	Symbol	AV_LOG_ERROR		2						
+ANR	678	Symbol	i		2						
+ANR	679	Symbol	s -> picture_structure		2						
+ANR	680	Symbol	j		2						
+ANR	681	Symbol	avctx -> priv_data		2						
+ANR	682	Symbol	* s -> chroma_inter_matrix		2						
+ANR	683	Symbol	s -> chroma_inter_matrix		2						
+ANR	684	Symbol	buf		2						
+ANR	685	Symbol	s		2						
+ANR	686	Symbol	s -> height		2						
+ANR	687	Symbol	* i		2						
+ANR	688	Symbol	* s -> idsp		2						
+ANR	689	Symbol	* j		2						
+ANR	690	Symbol	s -> first_field		2						
+ANR	691	Symbol	v		2						
+ANR	692	Symbol	* ff_mpeg1_default_intra_matrix		2						
+ANR	693	Symbol	PICT_FRAME		2						
+ANR	694	Symbol	s -> avctx -> rc_buffer_size		2						
+ANR	695	Symbol	width		2						
+ANR	696	Symbol	s -> aspect_ratio_info		2						
+ANR	697	Symbol	AVERROR_INVALIDDATA		2						
+ANR	698	Symbol	AV_LOG_WARNING		2						
+ANR	699	Symbol	avctx -> err_recognition		2						
+ANR	700	Symbol	* s		2						
+ANR	701	Symbol	* s -> idsp . idct_permutation		2						
+ANR	702	Symbol	& s1 -> mpeg_enc_ctx		2						

@@ -1,0 +1,268 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/08_codexglue_devign_17947__control_wrapper.c								
+ANR	2	Function	vmdk_parent_open	1:0:0:1238							
+ANR	3	FunctionDef	"vmdk_parent_open (BlockDriverState * bs , const char * filename)"		2	0					
+ANR	4	CompoundStatement		3:0:74:1238	2	0					
+ANR	5	IfStatement	if ( 1 )		2	0					
+ANR	6	Condition	1	5:8:85:85	2	0	True				
+ANR	7	PrimaryExpression	1		2	0					
+ANR	8	CompoundStatement		4:8:23:52	2	1					
+ANR	9	IdentifierDeclStatement	BDRVVmdkState * s = bs -> opaque ;	6:8:98:127	2	0	True				
+ANR	10	IdentifierDecl	* s = bs -> opaque		2	0					
+ANR	11	IdentifierDeclType	BDRVVmdkState *		2	0					
+ANR	12	Identifier	s		2	1					
+ANR	13	AssignmentExpression	* s = bs -> opaque		2	2		=			
+ANR	14	Identifier	s		2	0					
+ANR	15	PtrMemberAccess	bs -> opaque		2	1					
+ANR	16	Identifier	bs		2	0					
+ANR	17	Identifier	opaque		2	1					
+ANR	18	IdentifierDeclStatement	char * p_name ;	9:4:140:152	2	1	True				
+ANR	19	IdentifierDecl	* p_name		2	0					
+ANR	20	IdentifierDeclType	char *		2	0					
+ANR	21	Identifier	p_name		2	1					
+ANR	22	IdentifierDeclStatement	char desc [ DESC_SIZE ] ;	11:4:160:180	2	2	True				
+ANR	23	IdentifierDecl	desc [ DESC_SIZE ]		2	0					
+ANR	24	IdentifierDeclType	char [ DESC_SIZE ]		2	0					
+ANR	25	Identifier	desc		2	1					
+ANR	26	Identifier	DESC_SIZE		2	2					
+ANR	27	IdentifierDeclStatement	char parent_img_name [ 1024 ] ;	13:4:187:213	2	3	True				
+ANR	28	IdentifierDecl	parent_img_name [ 1024 ]		2	0					
+ANR	29	IdentifierDeclType	char [ 1024 ]		2	0					
+ANR	30	Identifier	parent_img_name		2	1					
+ANR	31	PrimaryExpression	1024		2	2					
+ANR	32	IfStatement	"if ( bdrv_pread ( s -> hd , 0x200 , desc , DESC_SIZE ) != DESC_SIZE )"		2	4					
+ANR	33	Condition	"bdrv_pread ( s -> hd , 0x200 , desc , DESC_SIZE ) != DESC_SIZE"	19:8:267:320	2	0	True				
+ANR	34	EqualityExpression	"bdrv_pread ( s -> hd , 0x200 , desc , DESC_SIZE ) != DESC_SIZE"		2	0		!=			
+ANR	35	CallExpression	"bdrv_pread ( s -> hd , 0x200 , desc , DESC_SIZE )"		2	0					
+ANR	36	Callee	bdrv_pread		2	0					
+ANR	37	Identifier	bdrv_pread		2	0					
+ANR	38	ArgumentList	s -> hd		2	1					
+ANR	39	Argument	s -> hd		2	0					
+ANR	40	PtrMemberAccess	s -> hd		2	0					
+ANR	41	Identifier	s		2	0					
+ANR	42	Identifier	hd		2	1					
+ANR	43	Argument	0x200		2	1					
+ANR	44	PrimaryExpression	0x200		2	0					
+ANR	45	Argument	desc		2	2					
+ANR	46	Identifier	desc		2	0					
+ANR	47	Argument	DESC_SIZE		2	3					
+ANR	48	Identifier	DESC_SIZE		2	0					
+ANR	49	Identifier	DESC_SIZE		2	1					
+ANR	50	ReturnStatement	return - 1 ;	21:8:332:341	2	1	True				
+ANR	51	UnaryOperationExpression	- 1		2	0					
+ANR	52	UnaryOperator	-		2	0					
+ANR	53	PrimaryExpression	1		2	1					
+ANR	54	IfStatement	"if ( ( p_name = strstr ( desc , ""parentFileNameHint"" ) ) != 0 )"		2	5					
+ANR	55	Condition	"( p_name = strstr ( desc , ""parentFileNameHint"" ) ) != 0"	25:8:354:402	2	0	True				
+ANR	56	EqualityExpression	"( p_name = strstr ( desc , ""parentFileNameHint"" ) ) != 0"		2	0		!=			
+ANR	57	AssignmentExpression	"p_name = strstr ( desc , ""parentFileNameHint"" )"		2	0		=			
+ANR	58	Identifier	p_name		2	0					
+ANR	59	CallExpression	"strstr ( desc , ""parentFileNameHint"" )"		2	1					
+ANR	60	Callee	strstr		2	0					
+ANR	61	Identifier	strstr		2	0					
+ANR	62	ArgumentList	desc		2	1					
+ANR	63	Argument	desc		2	0					
+ANR	64	Identifier	desc		2	0					
+ANR	65	Argument	"""parentFileNameHint"""		2	1					
+ANR	66	PrimaryExpression	"""parentFileNameHint"""		2	0					
+ANR	67	PrimaryExpression	0		2	1					
+ANR	68	CompoundStatement		27:8:366:386	2	1					
+ANR	69	IdentifierDeclStatement	char * end_name ;	27:8:416:430	2	0	True				
+ANR	70	IdentifierDecl	* end_name		2	0					
+ANR	71	IdentifierDeclType	char *		2	0					
+ANR	72	Identifier	end_name		2	1					
+ANR	73	IdentifierDeclStatement	struct stat file_buf ;	29:8:441:461	2	1	True				
+ANR	74	IdentifierDecl	file_buf		2	0					
+ANR	75	IdentifierDeclType	struct stat		2	0					
+ANR	76	Identifier	file_buf		2	1					
+ANR	77	ExpressionStatement	"p_name += sizeof ( ""parentFileNameHint"" ) + 1"	33:8:474:516	2	2	True				
+ANR	78	AssignmentExpression	"p_name += sizeof ( ""parentFileNameHint"" ) + 1"		2	0		+=			
+ANR	79	Identifier	p_name		2	0					
+ANR	80	AdditiveExpression	"sizeof ( ""parentFileNameHint"" ) + 1"		2	1		+			
+ANR	81	SizeofExpression	"sizeof ( ""parentFileNameHint"" )"		2	0					
+ANR	82	Sizeof	sizeof		2	0					
+ANR	83	PrimaryExpression	"""parentFileNameHint"""		2	1					
+ANR	84	PrimaryExpression	1		2	1					
+ANR	85	IfStatement	"if ( ( end_name = strchr ( p_name , '\\""' ) ) == 0 )"		2	3					
+ANR	86	Condition	"( end_name = strchr ( p_name , '\\""' ) ) == 0"	35:12:531:567	2	0	True				
+ANR	87	EqualityExpression	"( end_name = strchr ( p_name , '\\""' ) ) == 0"		2	0		==			
+ANR	88	AssignmentExpression	"end_name = strchr ( p_name , '\\""' )"		2	0		=			
+ANR	89	Identifier	end_name		2	0					
+ANR	90	CallExpression	"strchr ( p_name , '\\""' )"		2	1					
+ANR	91	Callee	strchr		2	0					
+ANR	92	Identifier	strchr		2	0					
+ANR	93	ArgumentList	p_name		2	1					
+ANR	94	Argument	p_name		2	0					
+ANR	95	Identifier	p_name		2	0					
+ANR	96	Argument	"'\\""'"		2	1					
+ANR	97	PrimaryExpression	"'\\""'"		2	0					
+ANR	98	PrimaryExpression	0		2	1					
+ANR	99	ReturnStatement	return - 1 ;	37:12:583:592	2	1	True				
+ANR	100	UnaryOperationExpression	- 1		2	0					
+ANR	101	UnaryOperator	-		2	0					
+ANR	102	PrimaryExpression	1		2	1					
+ANR	103	ExpressionStatement	"strncpy ( s -> hd -> backing_file , p_name , end_name - p_name )"	41:8:621:676	2	4	True				
+ANR	104	CallExpression	"strncpy ( s -> hd -> backing_file , p_name , end_name - p_name )"		2	0					
+ANR	105	Callee	strncpy		2	0					
+ANR	106	Identifier	strncpy		2	0					
+ANR	107	ArgumentList	s -> hd -> backing_file		2	1					
+ANR	108	Argument	s -> hd -> backing_file		2	0					
+ANR	109	PtrMemberAccess	s -> hd -> backing_file		2	0					
+ANR	110	PtrMemberAccess	s -> hd		2	0					
+ANR	111	Identifier	s		2	0					
+ANR	112	Identifier	hd		2	1					
+ANR	113	Identifier	backing_file		2	1					
+ANR	114	Argument	p_name		2	1					
+ANR	115	Identifier	p_name		2	0					
+ANR	116	Argument	end_name - p_name		2	2					
+ANR	117	AdditiveExpression	end_name - p_name		2	0		-			
+ANR	118	Identifier	end_name		2	0					
+ANR	119	Identifier	p_name		2	1					
+ANR	120	IfStatement	"if ( stat ( s -> hd -> backing_file , & file_buf ) != 0 )"		2	5					
+ANR	121	Condition	"stat ( s -> hd -> backing_file , & file_buf ) != 0"	43:12:691:731	2	0	True				
+ANR	122	EqualityExpression	"stat ( s -> hd -> backing_file , & file_buf ) != 0"		2	0		!=			
+ANR	123	CallExpression	"stat ( s -> hd -> backing_file , & file_buf )"		2	0					
+ANR	124	Callee	stat		2	0					
+ANR	125	Identifier	stat		2	0					
+ANR	126	ArgumentList	s -> hd -> backing_file		2	1					
+ANR	127	Argument	s -> hd -> backing_file		2	0					
+ANR	128	PtrMemberAccess	s -> hd -> backing_file		2	0					
+ANR	129	PtrMemberAccess	s -> hd		2	0					
+ANR	130	Identifier	s		2	0					
+ANR	131	Identifier	hd		2	1					
+ANR	132	Identifier	backing_file		2	1					
+ANR	133	Argument	& file_buf		2	1					
+ANR	134	UnaryOperationExpression	& file_buf		2	0					
+ANR	135	UnaryOperator	&		2	0					
+ANR	136	Identifier	file_buf		2	1					
+ANR	137	PrimaryExpression	0		2	1					
+ANR	138	CompoundStatement		41:55:659:659	2	1					
+ANR	139	ExpressionStatement	"path_combine ( parent_img_name , sizeof ( parent_img_name ) , filename , s -> hd -> backing_file )"	45:12:749:860	2	0	True				
+ANR	140	CallExpression	"path_combine ( parent_img_name , sizeof ( parent_img_name ) , filename , s -> hd -> backing_file )"		2	0					
+ANR	141	Callee	path_combine		2	0					
+ANR	142	Identifier	path_combine		2	0					
+ANR	143	ArgumentList	parent_img_name		2	1					
+ANR	144	Argument	parent_img_name		2	0					
+ANR	145	Identifier	parent_img_name		2	0					
+ANR	146	Argument	sizeof ( parent_img_name )		2	1					
+ANR	147	SizeofExpression	sizeof ( parent_img_name )		2	0					
+ANR	148	Sizeof	sizeof		2	0					
+ANR	149	SizeofOperand	parent_img_name		2	1					
+ANR	150	Argument	filename		2	2					
+ANR	151	Identifier	filename		2	0					
+ANR	152	Argument	s -> hd -> backing_file		2	3					
+ANR	153	PtrMemberAccess	s -> hd -> backing_file		2	0					
+ANR	154	PtrMemberAccess	s -> hd		2	0					
+ANR	155	Identifier	s		2	0					
+ANR	156	Identifier	hd		2	1					
+ANR	157	Identifier	backing_file		2	1					
+ANR	158	ElseStatement	else		2	0					
+ANR	159	CompoundStatement		47:15:803:803	2	0					
+ANR	160	ExpressionStatement	"strcpy ( parent_img_name , s -> hd -> backing_file )"	51:12:893:937	2	0	True				
+ANR	161	CallExpression	"strcpy ( parent_img_name , s -> hd -> backing_file )"		2	0					
+ANR	162	Callee	strcpy		2	0					
+ANR	163	Identifier	strcpy		2	0					
+ANR	164	ArgumentList	parent_img_name		2	1					
+ANR	165	Argument	parent_img_name		2	0					
+ANR	166	Identifier	parent_img_name		2	0					
+ANR	167	Argument	s -> hd -> backing_file		2	1					
+ANR	168	PtrMemberAccess	s -> hd -> backing_file		2	0					
+ANR	169	PtrMemberAccess	s -> hd		2	0					
+ANR	170	Identifier	s		2	0					
+ANR	171	Identifier	hd		2	1					
+ANR	172	Identifier	backing_file		2	1					
+ANR	173	ExpressionStatement	"s -> hd -> backing_hd = bdrv_new ( """" )"	57:8:961:993	2	6	True				
+ANR	174	AssignmentExpression	"s -> hd -> backing_hd = bdrv_new ( """" )"		2	0		=			
+ANR	175	PtrMemberAccess	s -> hd -> backing_hd		2	0					
+ANR	176	PtrMemberAccess	s -> hd		2	0					
+ANR	177	Identifier	s		2	0					
+ANR	178	Identifier	hd		2	1					
+ANR	179	Identifier	backing_hd		2	1					
+ANR	180	CallExpression	"bdrv_new ( """" )"		2	1					
+ANR	181	Callee	bdrv_new		2	0					
+ANR	182	Identifier	bdrv_new		2	0					
+ANR	183	ArgumentList	""""""		2	1					
+ANR	184	Argument	""""""		2	0					
+ANR	185	PrimaryExpression	""""""		2	0					
+ANR	186	IfStatement	if ( ! s -> hd -> backing_hd )		2	7					
+ANR	187	Condition	! s -> hd -> backing_hd	59:12:1008:1025	2	0	True				
+ANR	188	UnaryOperationExpression	! s -> hd -> backing_hd		2	0					
+ANR	189	UnaryOperator	!		2	0					
+ANR	190	PtrMemberAccess	s -> hd -> backing_hd		2	1					
+ANR	191	PtrMemberAccess	s -> hd		2	0					
+ANR	192	Identifier	s		2	0					
+ANR	193	Identifier	hd		2	1					
+ANR	194	Identifier	backing_hd		2	1					
+ANR	195	CompoundStatement		57:32:953:953	2	1					
+ANR	196	Label	failure :	61:12:1043:1050	2	0	True				
+ANR	197	Identifier	failure		2	0					
+ANR	198	ExpressionStatement	bdrv_close ( s -> hd )	63:12:1065:1082	2	1	True				
+ANR	199	CallExpression	bdrv_close ( s -> hd )		2	0					
+ANR	200	Callee	bdrv_close		2	0					
+ANR	201	Identifier	bdrv_close		2	0					
+ANR	202	ArgumentList	s -> hd		2	1					
+ANR	203	Argument	s -> hd		2	0					
+ANR	204	PtrMemberAccess	s -> hd		2	0					
+ANR	205	Identifier	s		2	0					
+ANR	206	Identifier	hd		2	1					
+ANR	207	ReturnStatement	return - 1 ;	65:12:1097:1106	2	2	True				
+ANR	208	UnaryOperationExpression	- 1		2	0					
+ANR	209	UnaryOperator	-		2	0					
+ANR	210	PrimaryExpression	1		2	1					
+ANR	211	IfStatement	"if ( bdrv_open ( s -> hd -> backing_hd , parent_img_name , 0 ) < 0 )"		2	8					
+ANR	212	Condition	"bdrv_open ( s -> hd -> backing_hd , parent_img_name , 0 ) < 0"	69:12:1132:1183	2	0	True				
+ANR	213	RelationalExpression	"bdrv_open ( s -> hd -> backing_hd , parent_img_name , 0 ) < 0"		2	0		<			
+ANR	214	CallExpression	"bdrv_open ( s -> hd -> backing_hd , parent_img_name , 0 )"		2	0					
+ANR	215	Callee	bdrv_open		2	0					
+ANR	216	Identifier	bdrv_open		2	0					
+ANR	217	ArgumentList	s -> hd -> backing_hd		2	1					
+ANR	218	Argument	s -> hd -> backing_hd		2	0					
+ANR	219	PtrMemberAccess	s -> hd -> backing_hd		2	0					
+ANR	220	PtrMemberAccess	s -> hd		2	0					
+ANR	221	Identifier	s		2	0					
+ANR	222	Identifier	hd		2	1					
+ANR	223	Identifier	backing_hd		2	1					
+ANR	224	Argument	parent_img_name		2	1					
+ANR	225	Identifier	parent_img_name		2	0					
+ANR	226	Argument	0		2	2					
+ANR	227	PrimaryExpression	0		2	0					
+ANR	228	PrimaryExpression	0		2	1					
+ANR	229	GotoStatement	goto failure ;	71:12:1199:1211	2	1	True				
+ANR	230	Identifier	failure		2	0					
+ANR	231	ReturnStatement	return 0 ;	77:4:1227:1235	2	6	True				
+ANR	232	PrimaryExpression	0		2	0					
+ANR	233	ReturnType	static int		2	1					
+ANR	234	Identifier	vmdk_parent_open		2	2					
+ANR	235	ParameterList	"BlockDriverState * bs , const char * filename"		2	3					
+ANR	236	Parameter	BlockDriverState * bs	1:28:28:47	2	0	True				
+ANR	237	ParameterType	BlockDriverState *		2	0					
+ANR	238	Identifier	bs		2	1					
+ANR	239	Parameter	const char * filename	1:50:50:70	2	1	True				
+ANR	240	ParameterType	const char *		2	0					
+ANR	241	Identifier	filename		2	1					
+ANR	242	CFGEntryNode	ENTRY		2		True				
+ANR	243	CFGExitNode	EXIT		2		True				
+ANR	244	Symbol	parent_img_name		2						
+ANR	245	Symbol	s -> hd		2						
+ANR	246	Symbol	stat		2						
+ANR	247	Symbol	s -> hd -> backing_hd		2						
+ANR	248	Symbol	bs -> opaque		2						
+ANR	249	Symbol	& file_buf		2						
+ANR	250	Symbol	strchr		2						
+ANR	251	Symbol	s -> hd -> backing_file		2						
+ANR	252	Symbol	bs		2						
+ANR	253	Symbol	bdrv_new		2						
+ANR	254	Symbol	filename		2						
+ANR	255	Symbol	s		2						
+ANR	256	Symbol	* bs		2						
+ANR	257	Symbol	bdrv_pread		2						
+ANR	258	Symbol	DESC_SIZE		2						
+ANR	259	Symbol	strstr		2						
+ANR	260	Symbol	p_name		2						
+ANR	261	Symbol	* s -> hd		2						
+ANR	262	Symbol	* * s		2						
+ANR	263	Symbol	end_name		2						
+ANR	264	Symbol	bdrv_open		2						
+ANR	265	Symbol	* s		2						
+ANR	266	Symbol	file_buf		2						
+ANR	267	Symbol	desc		2						

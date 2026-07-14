@@ -19,6 +19,16 @@
 
 `demo_b` 应该是整个实验流程的唯一主控层。其他目录可以提供模型、旧模块、输入数据或中间产物，但完整控制流程应该放在这里。
 
+## 当前实现
+
+当前已经迁移 `perturbations.py`，实现：
+
+- `dead_statement`
+- `control_wrapper`
+- `temp_variable_split`
+
+运行方式和 action 设计见 [`PERTURBATIONS.md`](PERTURBATIONS.md)。其他规划模块尚未实现。
+
 ## 不应该放什么
 
 - 原始大数据集。
