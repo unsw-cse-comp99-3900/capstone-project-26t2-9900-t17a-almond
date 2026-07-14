@@ -1,0 +1,21 @@
+{
+  "baseline_name": "deepwukong_xfg_baseline",
+  "baseline_status": "Same as demo_config.json; retained for Demo A CLI compatibility",
+  "selection": {
+    "model": "DeepWuKong GCN CWE119",
+    "checkpoint": "models/deepwukong/deepwukong_cwe119_best.ckpt",
+    "threshold": 0.5,
+    "source_aggregation": "max_xfg_vulnerability_probability"
+  },
+  "paths": {
+    "model_paths": "configs/model_paths.json"
+  },
+  "docker": {
+    "image": "deepwukong-rtx5060-cu128:experimental",
+    "use_gpus": true,
+    "timeout_seconds": 900
+  },
+  "output": {
+    "threshold": 0.5
+  }
+}

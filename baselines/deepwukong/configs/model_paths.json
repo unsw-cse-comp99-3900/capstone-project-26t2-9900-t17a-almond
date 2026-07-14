@@ -1,0 +1,12 @@
+{
+  "deepwukong": {
+    "checkpoint": "models/deepwukong/deepwukong_cwe119_best.ckpt",
+    "docker_image": "deepwukong-rtx5060-cu128:experimental",
+    "container_helper": "scripts/infer_single_source.py"
+  },
+  "lexical": {
+    "available_for_new_code": true,
+    "implementation": "src.models.lexical.predict_lexical",
+    "note": "Compatibility fallback for Demo A lexical mode; full mode uses DeepWuKong XFG inference."
+  }
+}
