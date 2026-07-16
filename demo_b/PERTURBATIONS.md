@@ -50,9 +50,12 @@ action is designed as a source-level approximation of a graph-level action.
 | `control_wrapper` | `control_edge_add` | Wrap selected single-line statements with `if (1) { ... }`. | Adds a control structure and may affect `CONTROLS` edges. |
 | `temp_variable_split` | `data_edge_rewire` | Rewrite simple assignments through temporary variables. | Adds temporary variable nodes and may change `DEF`/`USE`/`REACHES` data dependencies. |
 
-Each action is applied once per source file. The script does not group repeated
-edits into numeric stages. These actions are intentionally simple. The goal is to get a reliable first
-pipeline running before introducing complex C/C++ rewrites.
+Each action can now be applied with an explicit repeat budget. Every budget is
+generated directly from the original source file, not by repeatedly editing a
+previously perturbed variant. This keeps the experiment reproducible and makes
+`action x count` comparisons easier to interpret. These actions are intentionally
+simple. The goal is to get a reliable first pipeline running before introducing
+complex C/C++ rewrites.
 
 ## Usage
 
@@ -80,15 +83,38 @@ Generate only selected actions:
 python demo_b\perturbations.py --actions dead_statement control_wrapper
 ```
 
+Generate a small perturbation-budget sweep:
+
+```powershell
+python demo_b\perturbations.py --counts 1 2 3 5
+```
+
+Generate one action at one budget:
+
+```powershell
+python demo_b\perturbations.py --action dead_statement --count 3
+```
+
 Generate variants and run DeepWuKong for each generated file:
 
 ```powershell
-python demo_b\perturbations.py --run-deepwukong
+python demo_b\perturbations.py --counts 1 2 3 5 --run-deepwukong
 ```
 
 The `--run-deepwukong` mode requires the DeepWuKong Docker runtime to be
 available, because the current DeepWuKong wrapper runs full inference through
 Docker.
+
+Run minimal flip search:
+
+```powershell
+python demo_b\run_budget_search.py --counts 1 2 3 5
+```
+
+This mode first runs the original sample, then applies each action at increasing
+budgets. For each `sample + action`, it stops at the first count that changes
+the DeepWuKong predicted label and records that row as the minimal observed flip
+budget for that action.
 
 ## Output Files
 
@@ -110,6 +136,7 @@ The manifest records:
 source_file
 variant_file
 action
+count
 graph_action
 expected_graph_effect
 applied_count
@@ -120,6 +147,13 @@ deepwukong_command
 
 The `deepwukong_command` column contains the command that can be used to run the
 DeepWuKong pipeline on each generated variant.
+
+Minimal flip search writes:
+
+```text
+outputs/generated/budget_search/budget_search.csv
+outputs/generated/budget_search/budget_search.json
+```
 
 ## Design Notes
 
@@ -144,6 +178,7 @@ After running DeepWuKong on original and perturbed files, use a table like:
 ```text
 sample_id
 action
+count
 original_label
 perturbed_label
 flipped
