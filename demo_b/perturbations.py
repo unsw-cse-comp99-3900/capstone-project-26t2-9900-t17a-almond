@@ -62,35 +62,36 @@ def find_first_function_body_line(lines: list[str]) -> int | None:
     return None
 
 
+DECLARATION_HEAD_RE = re.compile(
+    r"^(?:auto|bool|char|const|double|enum|extern|float|int|long|register|short|signed|"
+    r"size_t|ssize_t|static|struct|typedef|uint|uint8_t|uint16_t|uint32_t|uint64_t|"
+    r"union|unsigned|volatile)\b"
+)
+CUSTOM_DECLARATION_RE = re.compile(
+    r"^(?:(?:const|volatile|static|extern|register|signed|unsigned|long|short)\s+)*"
+    r"(?:(?:struct|union|enum|class)\s+)?"
+    r"[A-Za-z_]\w*(?:::[A-Za-z_]\w*)*(?:\s*<[^;(){}]+>)?"
+    r"(?:\s+|\s*[*&]+\s*)[A-Za-z_]\w*"
+    r"(?:\s*\[[^\]]*\])?(?:\s*=[^;]+)?\s*;$"
+)
+
+
 def is_probably_declaration(stripped: str) -> bool:
-    declaration_heads = (
-        "auto",
-        "bool",
-        "char",
-        "const",
-        "double",
-        "enum",
-        "extern",
-        "float",
-        "int",
-        "long",
-        "register",
-        "short",
-        "signed",
-        "size_t",
-        "ssize_t",
-        "static",
-        "struct",
-        "typedef",
-        "uint",
-        "uint8_t",
-        "uint16_t",
-        "uint32_t",
-        "uint64_t",
-        "unsigned",
-        "volatile",
-    )
-    return stripped.startswith(declaration_heads)
+    if stripped.startswith(
+        (
+            "return ",
+            "goto ",
+            "throw ",
+            "delete ",
+            "new ",
+            "sizeof ",
+            "co_return ",
+            "co_yield ",
+            "co_await ",
+        )
+    ):
+        return False
+    return bool(DECLARATION_HEAD_RE.match(stripped) or CUSTOM_DECLARATION_RE.match(stripped))
 
 
 def is_simple_statement_candidate(line: str) -> bool:
