@@ -26,10 +26,10 @@ expected effect; it is not a direct graph edit.
 ## Usage
 
 ```powershell
-python demo_b\code_perturbations.py
-python demo_b\code_perturbations.py --actions dead_statement control_wrapper
-python demo_b\code_perturbations.py --counts 1 2 3 5
-python demo_b\code_perturbations.py --run-deepwukong
+python demo_b\code\code_perturbations.py
+python demo_b\code\code_perturbations.py --actions dead_statement control_wrapper
+python demo_b\code\code_perturbations.py --counts 1 2 3 5
+python demo_b\code\code_perturbations.py --run-deepwukong
 ```
 
 Generated source variants and their manifest are written under:
@@ -42,6 +42,12 @@ Minimal-flip search writes its tables under:
 
 ```text
 outputs/generated/budget_search/
+```
+
+Run it with:
+
+```powershell
+python demo_b\code\run_budget_search.py --counts 1 2 3 5
 ```
 
 ## Measurement

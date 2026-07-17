@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Any
 
 if __package__ in {None, ""}:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from demo_b.code_perturbations import (
+from demo_b.code.code_perturbations import (
     OPERATORS,
     PROJECT_ROOT,
     PerturbationResult,

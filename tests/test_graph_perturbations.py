@@ -6,7 +6,7 @@ from pathlib import Path
 
 import networkx as nx
 
-from demo_b.graph_perturbations import ACTION_NAMES, apply_graph_action, load_joern_pdg
+from demo_b.graph.graph_perturbations import ACTION_NAMES, apply_graph_action, load_joern_pdg
 
 
 def sample_pdg() -> nx.DiGraph:

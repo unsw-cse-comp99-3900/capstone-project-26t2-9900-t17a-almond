@@ -13,8 +13,8 @@ The source perturbation and budget-search CLIs default to `devign/`. Run the
 official vulnerable sample set explicitly with:
 
 ```powershell
-python demo_b\code_perturbations.py --input input_sources\cwe119\vulnerable
-python demo_b\run_budget_search.py --input input_sources\cwe119\vulnerable
+python demo_b\code\code_perturbations.py --input input_sources\cwe119\vulnerable
+python demo_b\code\run_budget_search.py --input input_sources\cwe119\vulnerable
 ```
 
 Use `--input input_sources\cwe119 --recursive` when both labels should be
@@ -24,7 +24,7 @@ For CVEfixes experiments, perturb only the vulnerable side unless a paired
 comparison is explicitly intended:
 
 ```powershell
-python demo_b\code_perturbations.py --input input_sources\cvefixes\vulnerable
+python demo_b\code\code_perturbations.py --input input_sources\cvefixes\vulnerable
 ```
 
 Each dataset directory should retain its own metadata. Filenames and model

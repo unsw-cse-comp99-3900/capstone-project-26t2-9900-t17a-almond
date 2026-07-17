@@ -36,7 +36,7 @@ an equivalent set of integer source lines.
 
 ```python
 from src.data_generator import build_PDG, build_XFG
-from demo_b.graph_perturbations import apply_graph_action
+from demo_b.graph.graph_perturbations import apply_graph_action
 
 pdg, key_line_map = build_PDG(csv_root, sensi_api_path, source_path)
 result = apply_graph_action(
@@ -60,7 +60,7 @@ The standalone CLI loads archived Joern tables and exports the perturbed graph
 plus its operation audit as JSON:
 
 ```powershell
-python demo_b\graph_perturbations.py `
+python demo_b\graph\graph_perturbations.py `
   --csv-root artifacts\joern_csv\run_20260710\baseline\00_codexglue_devign_9763 `
   --action edge_delete `
   --strategy random `
@@ -72,7 +72,7 @@ python demo_b\graph_perturbations.py `
 For guided mode:
 
 ```powershell
-python demo_b\graph_perturbations.py `
+python demo_b\graph\graph_perturbations.py `
   --csv-root <joern-csv-directory> `
   --action node_delete `
   --strategy guided `

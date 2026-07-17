@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from demo_b.code_perturbations import apply_control_wrapper, is_probably_declaration
+from demo_b.code.code_perturbations import apply_control_wrapper, is_probably_declaration
 
 
 class ControlWrapperTests(unittest.TestCase):

@@ -9,8 +9,8 @@ predictions.
 The repository currently provides:
 
 - a DeepWuKong CWE-119 inference baseline and checkpoint;
-- six source-code perturbation actions in `demo_b/code_perturbations.py`;
-- six direct NetworkX PDG actions in `demo_b/graph_perturbations.py`;
+- six source-code perturbation actions in `demo_b/code/code_perturbations.py`;
+- six direct NetworkX PDG actions in `demo_b/graph/graph_perturbations.py`;
 - random and key-line-guided target selection for graph actions;
 - source-action budget and minimal-flip search;
 - unit tests, an interactive PDG showcase, and an offline result dashboard;
@@ -39,7 +39,9 @@ It does not overwrite `nodes.csv` or `edges.csv`.
 
 | Path | Purpose |
 |---|---|
-| `demo_b/` | Active source and graph perturbation code, search scripts, and documentation. |
+| `demo_b/code/` | Source-code perturbations, budget search, and code-level documentation. |
+| `demo_b/graph/` | Direct PDG perturbations and graph-level documentation. |
+| `demo_b/` | Shared comparison, visualization, and showcase tools. |
 | `baselines/deepwukong/` | DeepWuKong wrapper, configuration, checkpoint, and model documentation. |
 | `input_sources/` | Dataset-separated Devign, official CWE-119, and CVEfixes C samples. |
 | `artifacts/perturbed_sources/` | Generated source variants and manifests. |
@@ -55,19 +57,19 @@ It does not overwrite `nodes.csv` or `edges.csv`.
 Generate all source-code actions:
 
 ```powershell
-python demo_b\code_perturbations.py
+python demo_b\code\code_perturbations.py
 ```
 
 Generate selected actions and budgets:
 
 ```powershell
-python demo_b\code_perturbations.py --actions dead_statement control_wrapper --counts 1 2 3 5
+python demo_b\code\code_perturbations.py --actions dead_statement control_wrapper --counts 1 2 3 5
 ```
 
 Run DeepWuKong for generated source variants:
 
 ```powershell
-python demo_b\code_perturbations.py --run-deepwukong
+python demo_b\code\code_perturbations.py --run-deepwukong
 ```
 
 ## Graph-Level Quick Start
@@ -75,7 +77,7 @@ python demo_b\code_perturbations.py --run-deepwukong
 Apply one direct edge action to an archived Joern PDG:
 
 ```powershell
-python demo_b\graph_perturbations.py `
+python demo_b\graph\graph_perturbations.py `
   --csv-root artifacts\joern_csv\run_20260710\baseline\00_codexglue_devign_9763 `
   --action edge_delete `
   --strategy random `
@@ -84,7 +86,7 @@ python demo_b\graph_perturbations.py `
 ```
 
 Use `--strategy guided --key-lines <line...>` when DeepWuKong key lines are
-available. See `demo_b/GRAPH_PERTURBATIONS.md` for action semantics and current
+available. See `demo_b/graph/README.md` for action semantics and current
 integration limits.
 
 ## Verification
@@ -101,5 +103,5 @@ the predicted label. The maximum absolute vulnerability-probability change was
 `0.147869`.
 
 Start with `outputs/run_20260710/README.md` for the archived results,
-`demo_b/CODE_PERTURBATIONS.md` for source actions, and
-`demo_b/GRAPH_PERTURBATIONS.md` for direct graph actions.
+`demo_b/code/README.md` for source actions, and `demo_b/graph/README.md` for
+direct graph actions.
