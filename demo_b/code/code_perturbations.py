@@ -5,7 +5,6 @@ import csv
 import re
 import subprocess
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Callable, Iterable
 
@@ -27,6 +26,22 @@ class Operator:
     graph_action: str
     expected_graph_effect: str
     apply: Callable[[str, int], PerturbationResult]
+
+
+@dataclass(frozen=True)
+class SourceRecord:
+    path: Path
+    dataset_kind: str
+    sample_id: str
+    split: str = ""
+    label: str = ""
+    label_name: str = ""
+    paired_file: str = ""
+    key_line: str = ""
+    flaw_or_mixed_lines: str = ""
+    cve_id: str = ""
+    cwe_id: str = ""
+    changed_functions: str = ""
 
 
 def line_indent(line: str) -> str:
@@ -214,13 +229,373 @@ def apply_temporary_variable_split(text: str, count: int = 1) -> PerturbationRes
     )
 
 
+SECURITY_SINK_ARG_INDEX = {
+    "epoll_wait": 2,
+    "memcpy": 2,
+    "memmove": 2,
+    "memset": 2,
+    "read": 2,
+    "recv": 2,
+    "snprintf": 1,
+    "strncpy": 2,
+    "wcsncat": 2,
+    "wcsncpy": 2,
+    "write": 2,
+}
+CALL_LINE_RE = re.compile(r"(?P<prefix>\b(?P<name>[A-Za-z_]\w*)\s*\()(?P<args>.*)(?P<suffix>\)\s*;\s*(?://.*)?)$")
+NESTED_DEREF_RE = re.compile(
+    r"(?P<base>\b[A-Za-z_]\w*)\s*->\s*(?P<mid>[A-Za-z_]\w*)\s*->\s*(?P<field>[A-Za-z_]\w*)"
+)
+ARRAY_WRITE_RE = re.compile(
+    r"^(?P<indent>\s*)(?P<array>[A-Za-z_]\w*(?:\s*(?:->|\.)\s*[A-Za-z_]\w*)*)\s*"
+    r"\[\s*(?P<index>[^\]]+)\s*\]\s*(?P<op>[+\-*/%&|^]?=)(?P<rhs>.*;\s*(?://.*)?)$"
+)
+WIDE_CHAR_SINK_RE = re.compile(
+    r"^(?P<indent>\s*)(?P<name>wcscat|wcscpy)\s*\(\s*(?P<dest>[^,]+?)\s*,\s*(?P<src>.+?)\s*\)\s*;\s*(?P<comment>//.*)?$"
+)
+COUNT_READ_PAIR_RE = re.compile(
+    r"(?P<prefix>\b[A-Za-z_]\w*(?:\s*(?:->|\.)\s*)?)(?P<stem>[A-Za-z_]\w*)_count\b"
+)
+ALLOC_ADD_RE = re.compile(
+    r"\b(?:malloc|calloc|realloc|pvPortMalloc)\s*\([^;]*?(?P<a>sizeof\s*\([^)]*\)|[A-Za-z_]\w*)\s*\+\s*(?P<b>[A-Za-z_]\w*)[^;]*\)"
+)
+MUL_ASSIGN_RE = re.compile(
+    r"=\s*\(?\s*(?P<a>[A-Za-z_]\w*)\s*\*\s*(?P<b>[A-Za-z_]\w*)\s*\)?\s*;"
+)
+
+
+def split_call_arguments(args: str) -> list[str]:
+    parts: list[str] = []
+    start = 0
+    depth = 0
+    for idx, char in enumerate(args):
+        if char in "([{":
+            depth += 1
+        elif char in ")]}" and depth > 0:
+            depth -= 1
+        elif char == "," and depth == 0:
+            parts.append(args[start:idx].strip())
+            start = idx + 1
+    parts.append(args[start:].strip())
+    return parts
+
+
+def find_sensitive_call_targets(lines: list[str]) -> list[tuple[int, re.Match[str], list[str], int]]:
+    body_start = find_first_function_body_line(lines)
+    if body_start is None:
+        return []
+    targets: list[tuple[int, re.Match[str], list[str], int]] = []
+    for idx in range(body_start + 1, len(lines)):
+        stripped = lines[idx].strip()
+        if not stripped or stripped.startswith(("#", "//", "/*", "*")):
+            continue
+        match = CALL_LINE_RE.search(lines[idx].rstrip("\r\n"))
+        if not match:
+            continue
+        name = match.group("name")
+        arg_index = SECURITY_SINK_ARG_INDEX.get(name)
+        args = split_call_arguments(match.group("args"))
+        if arg_index is not None and len(args) > arg_index:
+            targets.append((idx, match, args, arg_index))
+    return targets
+
+
+def apply_range_clamp(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    targets = find_sensitive_call_targets(lines)
+    if not targets:
+        return PerturbationResult(text, 0, "no sensitive call with a clampable size/count argument found")
+
+    nl = newline_for(lines)
+    selected = targets[:count]
+    for clamp_id, (idx, match, args, arg_index) in reversed(list(enumerate(selected, start=1))):
+        indent = line_indent(lines[idx])
+        original_arg = args[arg_index]
+        clamp_name = f"dwk_clamped_value_{clamp_id}"
+        args[arg_index] = clamp_name
+        rewritten = f"{indent}{match.group('prefix')}{', '.join(args)}{match.group('suffix')}{nl}"
+        lines[idx : idx + 1] = [
+            f"{indent}int {clamp_name} = (int)({original_arg});{nl}",
+            f"{indent}if ({clamp_name} < 0) {{{nl}",
+            f"{indent}    {clamp_name} = 0;{nl}",
+            f"{indent}}}{nl}",
+            f"{indent}if ({clamp_name} > 4096) {{{nl}",
+            f"{indent}    {clamp_name} = 4096;{nl}",
+            f"{indent}}}{nl}",
+            rewritten,
+        ]
+    return PerturbationResult(
+        "".join(lines),
+        len(selected),
+        f"clamped {len(selected)} sensitive sink size/count argument(s) through bounded local variables",
+    )
+
+
+def apply_safe_source_substitution(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    body_start = find_first_function_body_line(lines)
+    if body_start is None:
+        return PerturbationResult(text, 0, "no function body opening brace found")
+
+    applied = 0
+    for idx in range(body_start + 1, len(lines)):
+        stripped = lines[idx].strip()
+        if not stripped or stripped.startswith(("#", "//", "/*", "*")):
+            continue
+        match = NESTED_DEREF_RE.search(lines[idx])
+        if not match:
+            continue
+        base = match.group("base")
+        mid = match.group("mid")
+        field = match.group("field")
+        original = match.group(0)
+        guarded = f"(({base} && {base}->{mid}) ? {base}->{mid}->{field} : 0)"
+        lines[idx] = lines[idx][: match.start()] + guarded + lines[idx][match.end() :]
+        applied += 1
+        if applied >= count:
+            break
+    if applied == 0:
+        return PerturbationResult(text, 0, "no nested pointer dereference source found")
+    return PerturbationResult(
+        "".join(lines),
+        applied,
+        f"replaced {applied} nested pointer source expression(s) with guarded fallback expressions",
+    )
+
+
+def apply_sink_bound_guard(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    targets = find_sensitive_call_targets(lines)
+    if not targets:
+        return PerturbationResult(text, 0, "no sensitive sink call found for bound guard insertion")
+
+    nl = newline_for(lines)
+    selected = targets[:count]
+    for guard_id, (idx, _match, args, arg_index) in reversed(list(enumerate(selected, start=1))):
+        indent = line_indent(lines[idx])
+        arg = args[arg_index]
+        lines[idx:idx] = [
+            f"{indent}if ((size_t)({arg}) > 4096U) {{{nl}",
+            f"{indent}    return 0;{nl}",
+            f"{indent}}}{nl}",
+        ]
+    return PerturbationResult(
+        "".join(lines),
+        len(selected),
+        f"inserted {len(selected)} early-return bound guard(s) before sensitive sink calls",
+    )
+
+
+def apply_postcondition_validation(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    joined = "".join(lines)
+    compact_joined = re.sub(r"\s+", "", joined)
+    pairs: list[tuple[str, str]] = []
+    for match in COUNT_READ_PAIR_RE.finditer(joined):
+        prefix = re.sub(r"\s+", "", match.group("prefix"))
+        stem = match.group("stem")
+        count_expr = f"{prefix}{stem}_count"
+        read_expr = f"{prefix}{stem}_read"
+        if read_expr in compact_joined and (count_expr, read_expr) not in pairs:
+            pairs.append((count_expr, read_expr))
+    if not pairs:
+        return PerturbationResult(text, 0, "no matching *_count/*_read pair found for postcondition validation")
+
+    nl = newline_for(lines)
+    selected = pairs[:count]
+    inserted = 0
+    for idx in range(len(lines) - 1, -1, -1):
+        stripped = lines[idx].strip()
+        if not stripped.startswith("return "):
+            continue
+        indent = line_indent(lines[idx])
+        guards: list[str] = []
+        for count_expr, read_expr in selected:
+            guards.extend(
+                [
+                    f"{indent}if ({count_expr} != {read_expr}) {{{nl}",
+                    f"{indent}    return 0;{nl}",
+                    f"{indent}}}{nl}",
+                ]
+            )
+        lines[idx:idx] = guards
+        inserted = len(selected)
+        break
+    if inserted == 0:
+        return PerturbationResult(text, 0, "no return statement found for postcondition validation insertion")
+    return PerturbationResult(
+        "".join(lines),
+        inserted,
+        f"inserted {inserted} postcondition validation guard(s) for count/read consistency",
+    )
+
+
+def apply_integer_overflow_guard(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    body_start = find_first_function_body_line(lines)
+    if body_start is None:
+        return PerturbationResult(text, 0, "no function body opening brace found")
+
+    nl = newline_for(lines)
+    targets: list[tuple[int, str, str]] = []
+    for idx in range(body_start + 1, len(lines)):
+        stripped = lines[idx].strip()
+        if not stripped or stripped.startswith(("#", "//", "/*", "*")):
+            continue
+        match = ALLOC_ADD_RE.search(stripped) or MUL_ASSIGN_RE.search(stripped)
+        if match:
+            targets.append((idx, match.group("a"), match.group("b")))
+    if not targets:
+        return PerturbationResult(text, 0, "no allocation size addition or multiplication expression found")
+
+    selected = targets[:count]
+    for idx, left, right in reversed(selected):
+        indent = line_indent(lines[idx])
+        lines[idx:idx] = [
+            f"{indent}if ((size_t)({left}) != 0U && (size_t)({right}) > ((size_t)-1) / (size_t)({left})) {{{nl}",
+            f"{indent}    return 0;{nl}",
+            f"{indent}}}{nl}",
+        ]
+    return PerturbationResult(
+        "".join(lines),
+        len(selected),
+        f"inserted {len(selected)} integer overflow guard(s) before allocation or size arithmetic",
+    )
+
+
+def normalized_expr(expr: str) -> str:
+    return re.sub(r"\s+", "", expr)
+
+
+def parse_array_write(line: str) -> tuple[str, str, str, str, str] | None:
+    head = re.match(
+        r"^(?P<indent>\s*)(?P<array>[A-Za-z_]\w*(?:\s*(?:->|\.)\s*[A-Za-z_]\w*)*)\s*\[",
+        line,
+    )
+    if not head:
+        return None
+
+    start = head.end() - 1
+    depth = 0
+    end = None
+    for pos in range(start, len(line)):
+        char = line[pos]
+        if char == "[":
+            depth += 1
+        elif char == "]":
+            depth -= 1
+            if depth == 0:
+                end = pos
+                break
+    if end is None:
+        return None
+
+    rest = line[end + 1 :].strip()
+    op_match = re.match(r"(?P<op>[+\-*/%&|^]?=)(?P<rhs>.*;\s*(?://.*)?)$", rest)
+    if not op_match:
+        return None
+
+    return (
+        head.group("indent"),
+        head.group("array"),
+        line[start + 1 : end].strip(),
+        op_match.group("op"),
+        op_match.group("rhs").strip(),
+    )
+
+
+def array_write_targets(lines: list[str]) -> list[tuple[int, tuple[str, str, str, str, str]]]:
+    body_start = find_first_function_body_line(lines)
+    if body_start is None:
+        return []
+    targets: list[tuple[int, tuple[str, str, str, str, str]]] = []
+    for idx in range(body_start + 1, len(lines)):
+        stripped = lines[idx].strip()
+        if not stripped or stripped.startswith(("#", "//", "/*", "*")):
+            continue
+        parsed = parse_array_write(lines[idx].rstrip("\r\n"))
+        if parsed:
+            targets.append((idx, parsed))
+    return targets
+
+
+def apply_array_index_bound_guard(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    targets = array_write_targets(lines)
+    if not targets:
+        return PerturbationResult(text, 0, "no array write found for index bound guard")
+
+    nl = newline_for(lines)
+    selected = targets[:count]
+    for idx, parsed in reversed(selected):
+        indent, array_expr, index_expr, op, rhs = parsed
+        array_expr = normalized_expr(array_expr)
+        original = f"{array_expr}[{index_expr}] {op}{rhs}"
+        bound_expr = f"(sizeof({array_expr}) / sizeof(({array_expr})[0]))"
+        lines[idx : idx + 1] = [
+            f"{indent}if ((int)({index_expr}) >= 0 && (size_t)({index_expr}) < {bound_expr}) {{{nl}",
+            f"{indent}    {original}{nl}",
+            f"{indent}}}{nl}",
+        ]
+    return PerturbationResult(
+        "".join(lines),
+        len(selected),
+        f"wrapped {len(selected)} array write(s) with index lower/upper bound guards",
+    )
+
+
+def wide_char_sink_targets(lines: list[str]) -> list[tuple[int, re.Match[str]]]:
+    body_start = find_first_function_body_line(lines)
+    if body_start is None:
+        return []
+    targets: list[tuple[int, re.Match[str]]] = []
+    for idx in range(body_start + 1, len(lines)):
+        stripped = lines[idx].strip()
+        if not stripped or stripped.startswith(("#", "//", "/*", "*")):
+            continue
+        match = WIDE_CHAR_SINK_RE.match(lines[idx].rstrip("\r\n"))
+        if match:
+            targets.append((idx, match))
+    return targets
+
+
+def apply_wide_char_sink_guard(text: str, count: int = 1) -> PerturbationResult:
+    lines = split_lines(text)
+    targets = wide_char_sink_targets(lines)
+    if not targets:
+        return PerturbationResult(text, 0, "no wcscat/wcscpy wide-character sink found")
+
+    nl = newline_for(lines)
+    selected = targets[:count]
+    for guard_id, (idx, match) in reversed(list(enumerate(selected, start=1))):
+        indent = match.group("indent")
+        name = match.group("name")
+        dest = match.group("dest").strip()
+        src = match.group("src").strip()
+        comment = f" {match.group('comment')}" if match.group("comment") else ""
+        remaining = f"dwk_wide_remaining_{guard_id}"
+        replacement = "wcsncat" if name == "wcscat" else "wcsncpy"
+        lines[idx : idx + 1] = [
+            f"{indent}size_t {remaining} = 4096U;{comment}{nl}",
+            f"{indent}if ({remaining} > 0U) {{{nl}",
+            f"{indent}    {replacement}({dest}, {src}, {remaining} - 1U);{nl}",
+            f"{indent}}}{nl}",
+        ]
+    return PerturbationResult(
+        "".join(lines),
+        len(selected),
+        f"rewrote {len(selected)} wcscat/wcscpy sink(s) to bounded wide-character operations",
+    )
+
+
 SENSITIVE_LINE_RE = re.compile(
     r"\b(?:alloca|calloc|free|malloc|memcpy|memmove|memset|read|realloc|recv|snprintf|sprintf|"
-    r"strcat|strcpy|strlen|strncpy|write)\s*\("
+    r"strcat|strcpy|strlen|strncpy|wcscat|wcscpy|wcsncat|wcsncpy|write)\s*\("
 )
 STRUCTURAL_TARGET_RE = re.compile(r"(?:->|\[[^\]]+\]|\*[A-Za-z_]\w*|[A-Za-z_]\w*\s*[-+*/%]\s*[A-Za-z_]\w*)")
 CALL_ARG_RE = re.compile(
-    r"\b(?:memcpy|memmove|memset|read|recv|snprintf|sprintf|strcat|strcpy|strlen|strncpy|write)\s*"
+    r"\b(?:memcpy|memmove|memset|read|recv|snprintf|sprintf|strcat|strcpy|strlen|strncpy|"
+    r"wcscat|wcscpy|wcsncat|wcsncpy|write)\s*"
     r"\(\s*(?P<arg>[A-Za-z_]\w*(?:\s*->\s*[A-Za-z_]\w*|\s*\.\s*[A-Za-z_]\w*)?)"
 )
 GENERIC_CALL_ARG_RE = re.compile(
@@ -344,17 +719,17 @@ def apply_xfg_targeted_dead_code(text: str, count: int = 1) -> PerturbationResul
 
 
 OPERATORS = {
-    "pattern_dead_code": Operator(
-        name="pattern_dead_code",
-        graph_action="pattern_node_add",
-        expected_graph_effect="adds unreachable pointer/array/length pattern nodes near sensitive APIs or structural lines",
-        apply=apply_pattern_dead_code,
-    ),
     "data_flow_alias": Operator(
         name="data_flow_alias",
         graph_action="data_edge_rewire",
         expected_graph_effect="adds alias-preserving data-flow no-ops near sink/call arguments or falls back to temp split",
         apply=apply_data_flow_alias,
+    ),
+    "dead_statement": Operator(
+        name="dead_statement",
+        graph_action="node_add",
+        expected_graph_effect="adds harmless statement nodes and local DEF/USE-like structure near function entry",
+        apply=apply_dead_statement_insertion,
     ),
     "xfg_targeted_dead_code": Operator(
         name="xfg_targeted_dead_code",
@@ -362,11 +737,53 @@ OPERATORS = {
         expected_graph_effect="adds unreachable no-op nodes near sensitive calls, pointer operations, arrays, or arithmetic lines",
         apply=apply_xfg_targeted_dead_code,
     ),
-    "dead_statement": Operator(
-        name="dead_statement",
-        graph_action="node_add",
-        expected_graph_effect="adds harmless statement nodes and local DEF/USE-like structure near function entry",
-        apply=apply_dead_statement_insertion,
+    "range_clamp": Operator(
+        name="range_clamp",
+        graph_action="security_fix_data_sanitize",
+        expected_graph_effect="adds bounded local variables before sensitive sink size/count arguments",
+        apply=apply_range_clamp,
+    ),
+    "safe_source_substitution": Operator(
+        name="safe_source_substitution",
+        graph_action="security_fix_source_replace",
+        expected_graph_effect="replaces nested pointer sources with guarded fallback expressions",
+        apply=apply_safe_source_substitution,
+    ),
+    "sink_bound_guard": Operator(
+        name="sink_bound_guard",
+        graph_action="security_fix_control_guard",
+        expected_graph_effect="adds early-return bound checks immediately before sensitive sink calls",
+        apply=apply_sink_bound_guard,
+    ),
+    "postcondition_validation": Operator(
+        name="postcondition_validation",
+        graph_action="security_fix_postcondition_guard",
+        expected_graph_effect="adds consistency checks before successful returns after parsing/counting work",
+        apply=apply_postcondition_validation,
+    ),
+    "integer_overflow_guard": Operator(
+        name="integer_overflow_guard",
+        graph_action="security_fix_arithmetic_guard",
+        expected_graph_effect="adds overflow checks before allocation or size arithmetic",
+        apply=apply_integer_overflow_guard,
+    ),
+    "array_index_bound_guard": Operator(
+        name="array_index_bound_guard",
+        graph_action="security_fix_array_index_guard",
+        expected_graph_effect="wraps array writes with lower/upper index bound checks",
+        apply=apply_array_index_bound_guard,
+    ),
+    "wide_char_sink_guard": Operator(
+        name="wide_char_sink_guard",
+        graph_action="security_fix_wide_string_sink",
+        expected_graph_effect="rewrites wcscat/wcscpy calls to bounded wide-character operations",
+        apply=apply_wide_char_sink_guard,
+    ),
+    "pattern_dead_code": Operator(
+        name="pattern_dead_code",
+        graph_action="pattern_node_add",
+        expected_graph_effect="adds unreachable pointer/array/length pattern nodes near sensitive APIs or structural lines",
+        apply=apply_pattern_dead_code,
     ),
     "control_wrapper": Operator(
         name="control_wrapper",
@@ -393,13 +810,134 @@ def discover_sources(input_path: Path, recursive: bool) -> list[Path]:
     )
 
 
+def read_metadata_rows(path: Path) -> list[dict[str, str]]:
+    if not path.is_file():
+        return []
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+def input_contains(input_path: Path, candidate: Path) -> bool:
+    input_path = input_path.resolve()
+    candidate = candidate.resolve()
+    if input_path.is_file():
+        return input_path == candidate
+    try:
+        candidate.relative_to(input_path)
+        return True
+    except ValueError:
+        return False
+
+
+def dataset_root_for(input_path: Path, kind: str) -> Path | None:
+    resolved = input_path.resolve()
+    candidates = [resolved] if resolved.is_dir() else [resolved.parent]
+    candidates.extend(candidates[0].parents)
+    for candidate in candidates:
+        if candidate.name.lower() == kind and (candidate / "metadata.csv").is_file():
+            return candidate
+    return None
+
+
+def detect_dataset_kind(input_path: Path, requested: str) -> str:
+    if requested != "auto":
+        return requested
+    resolved = input_path.resolve()
+    names = {part.lower() for part in resolved.parts}
+    if "cvefixes" in names:
+        return "cvefixes"
+    if "cwe119" in names:
+        return "cwe119"
+    if "devign" in names:
+        return "devign"
+    return "devign"
+
+
+def discover_cwe119_records(input_path: Path, recursive: bool) -> list[SourceRecord]:
+    root = dataset_root_for(input_path, "cwe119")
+    if root is None:
+        sources = discover_sources(input_path, recursive=recursive)
+        return [SourceRecord(path=source, dataset_kind="cwe119", sample_id=safe_stem(source)) for source in sources]
+
+    records: list[SourceRecord] = []
+    metadata = read_metadata_rows(root / "metadata.csv")
+    for row in metadata:
+        source = (PROJECT_ROOT / row["source_file"]).resolve()
+        if not input_contains(input_path, source):
+            continue
+        split = source.parent.name
+        records.append(
+            SourceRecord(
+                path=source,
+                dataset_kind="cwe119",
+                sample_id=row.get("sample_id") or safe_stem(source),
+                split=split,
+                label=row.get("label", ""),
+                label_name=row.get("label_name", ""),
+                key_line=row.get("key_line", ""),
+                flaw_or_mixed_lines=row.get("flaw_or_mixed_lines", ""),
+                cwe_id="CWE-119",
+            )
+        )
+    if records:
+        return sorted(records, key=lambda item: item.sample_id.lower())
+    sources = discover_sources(input_path, recursive=recursive)
+    return [SourceRecord(path=source, dataset_kind="cwe119", sample_id=safe_stem(source), split=source.parent.name) for source in sources]
+
+
+def discover_cvefixes_records(input_path: Path, recursive: bool) -> list[SourceRecord]:
+    root = dataset_root_for(input_path, "cvefixes")
+    if root is None:
+        sources = discover_sources(input_path, recursive=recursive)
+        return [SourceRecord(path=source, dataset_kind="cvefixes", sample_id=safe_stem(source)) for source in sources]
+
+    records: list[SourceRecord] = []
+    for row in read_metadata_rows(root / "metadata.csv"):
+        sample_id = row.get("sample_id", "")
+        cve_id = row.get("cve_id", "")
+        stem = f"{sample_id}_{cve_id.lower()}" if sample_id and cve_id else ""
+        vulnerable = next((root / "vulnerable").glob(f"{stem}.*"), None) if stem else None
+        fixed = next((root / "fixed").glob(f"{stem}.*"), None) if stem else None
+        for split, source, paired in (("vulnerable", vulnerable, fixed), ("fixed", fixed, vulnerable)):
+            if source is None or not input_contains(input_path, source):
+                continue
+            records.append(
+                SourceRecord(
+                    path=source.resolve(),
+                    dataset_kind="cvefixes",
+                    sample_id=f"{sample_id}_{cve_id.lower()}",
+                    split=split,
+                    label="1" if split == "vulnerable" else "0",
+                    label_name=split,
+                    paired_file=str(paired.resolve()) if paired else "",
+                    cve_id=cve_id,
+                    cwe_id=row.get("cwe_id", ""),
+                    changed_functions=row.get("changed_functions", ""),
+                )
+            )
+    if records:
+        return sorted(records, key=lambda item: (item.sample_id.lower(), item.split))
+    sources = discover_sources(input_path, recursive=recursive)
+    return [SourceRecord(path=source, dataset_kind="cvefixes", sample_id=safe_stem(source), split=source.parent.name) for source in sources]
+
+
+def discover_source_records(input_path: Path, recursive: bool, dataset: str = "auto") -> list[SourceRecord]:
+    kind = detect_dataset_kind(input_path, dataset)
+    if kind == "cwe119":
+        return discover_cwe119_records(input_path, recursive=recursive)
+    if kind == "cvefixes":
+        return discover_cvefixes_records(input_path, recursive=recursive)
+    sources = discover_sources(input_path, recursive=recursive)
+    return [SourceRecord(path=source, dataset_kind="devign", sample_id=safe_stem(source)) for source in sources]
+
+
 def safe_stem(path: Path) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", path.stem).strip("._") or "sample"
 
 
 def dataset_slug(input_path: Path) -> str:
-    candidate = input_path.parent.name if input_path.suffix else input_path.name
-    return re.sub(r"[^A-Za-z0-9]+", "", candidate).lower() or "dataset"
+    path = input_path if input_path.suffix.lower() not in SOURCE_SUFFIXES else input_path.parent
+    return safe_stem(path)
 
 
 def deepwukong_command(deepwukong_root: Path, variant_file: Path, output_root: Path) -> str:
@@ -415,6 +953,17 @@ def deepwukong_command(deepwukong_root: Path, variant_file: Path, output_root: P
 def write_manifest(path: Path, rows: list[dict[str, str]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
+        "dataset_kind",
+        "sample_id",
+        "split",
+        "label",
+        "label_name",
+        "paired_file",
+        "key_line",
+        "flaw_or_mixed_lines",
+        "cve_id",
+        "cwe_id",
+        "changed_functions",
         "source_file",
         "variant_file",
         "action",
@@ -427,7 +976,7 @@ def write_manifest(path: Path, rows: list[dict[str, str]]) -> None:
         "deepwukong_command",
     ]
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -463,6 +1012,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources" / "devign")
     parser.add_argument(
+        "--dataset",
+        choices=["auto", "devign", "cwe119", "cvefixes"],
+        default="auto",
+        help="Input layout. auto detects devign, cwe119, or cvefixes from the input path.",
+    )
+    parser.add_argument(
         "--output",
         type=Path,
         default=PROJECT_ROOT / "artifacts" / "perturbed_sources" / "generated",
@@ -475,9 +1030,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--deepwukong-output",
         type=Path,
-        default=None,
+        default=PROJECT_ROOT / "outputs" / "generated" / "deepwukong_perturbations",
     )
-    parser.add_argument("--run-round", type=int, default=1)
     parser.add_argument("--actions", nargs="+", default=list(OPERATORS), choices=sorted(OPERATORS))
     parser.add_argument("--action", dest="actions", nargs="+", choices=sorted(OPERATORS), help=argparse.SUPPRESS)
     parser.add_argument(
@@ -492,14 +1046,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-deepwukong", action="store_true", help="Run DeepWuKong for each generated variant.")
     args = parser.parse_args()
     args.counts = normalize_counts(args.counts)
-    if args.run_round < 1:
-        parser.error("--run-round must be at least 1")
-    if args.deepwukong_output is None:
-        run_name = (
-            f"run_{datetime.now().strftime('%Y%m%d')}_code_"
-            f"{dataset_slug(args.input)}_round{args.run_round}"
-        )
-        args.deepwukong_output = PROJECT_ROOT / "outputs" / run_name / "runs" / "perturbed"
     return args
 
 
@@ -514,18 +1060,19 @@ def main() -> int:
 
     if not input_path.exists():
         raise FileNotFoundError(f"Input path not found: {input_path}")
-    sources = discover_sources(input_path, recursive=args.recursive)
-    if not sources:
+    source_records = discover_source_records(input_path, recursive=args.recursive, dataset=args.dataset)
+    if not source_records:
         raise FileNotFoundError(f"No C/C++ sources found under: {input_path}")
 
     variants_dir.mkdir(parents=True, exist_ok=True)
-    for source in sources:
+    for record in source_records:
+        source = record.path
         original = source.read_text(encoding="utf-8", errors="replace")
         for action_name in args.actions:
             action = OPERATORS[action_name]
             for count in args.counts:
                 result = action.apply(original, count)
-                variant_file = variants_dir / f"{safe_stem(source)}__{action.name}__c{count}{source.suffix}"
+                variant_file = variants_dir / f"{record.sample_id}__{action.name}__c{count}{source.suffix}"
                 status = generation_status(result.applied_count, count)
                 command = deepwukong_command(deepwukong_root, variant_file, dwk_outputs)
                 if result.applied_count > 0:
@@ -538,6 +1085,17 @@ def main() -> int:
                             status = f"run_failed_{code}"
                 rows.append(
                     {
+                        "dataset_kind": record.dataset_kind,
+                        "sample_id": record.sample_id,
+                        "split": record.split,
+                        "label": record.label,
+                        "label_name": record.label_name,
+                        "paired_file": record.paired_file,
+                        "key_line": record.key_line,
+                        "flaw_or_mixed_lines": record.flaw_or_mixed_lines,
+                        "cve_id": record.cve_id,
+                        "cwe_id": record.cwe_id,
+                        "changed_functions": record.changed_functions,
                         "source_file": str(source),
                         "variant_file": str(variant_file) if result.applied_count > 0 else "",
                         "action": action.name,
@@ -556,7 +1114,11 @@ def main() -> int:
     generated = sum(1 for row in rows if row["status"] in {"generated", "ran"})
     partial = sum(1 for row in rows if row["status"] in {"partial", "run_partial"})
     skipped = sum(1 for row in rows if row["status"] == "skipped")
-    print(f"Sources: {len(sources)}")
+    dataset_counts: dict[str, int] = {}
+    for record in source_records:
+        dataset_counts[record.dataset_kind] = dataset_counts.get(record.dataset_kind, 0) + 1
+    print(f"Dataset inputs: {', '.join(f'{name}={count}' for name, count in sorted(dataset_counts.items()))}")
+    print(f"Sources: {len(source_records)}")
     print(f"Generated variants: {generated}")
     print(f"Partial variants: {partial}")
     print(f"Skipped variants: {skipped}")
