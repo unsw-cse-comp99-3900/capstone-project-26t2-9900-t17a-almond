@@ -1,7 +1,7 @@
 # Demo B: DeepWuKong Perturbation
 
-This repository contains a small, reproducible workflow for testing how
-source-level perturbations affect DeepWuKong graph-based vulnerability
+This repository contains a reproducible workflow for measuring how controlled
+code-level and graph-level perturbations affect DeepWuKong vulnerability
 predictions.
 
 ## Current Status
@@ -9,86 +9,97 @@ predictions.
 The repository currently provides:
 
 - a DeepWuKong CWE-119 inference baseline and checkpoint;
-- three source-level perturbation actions;
-- ten C source samples;
-- one archived end-to-end experiment from 2026-07-10;
-- flattened Joern node/edge artifacts and consolidated prediction results.
+- six source-code perturbation actions in `demo_b/code_perturbations.py`;
+- six direct NetworkX PDG actions in `demo_b/graph_perturbations.py`;
+- random and key-line-guided target selection for graph actions;
+- source-action budget and minimal-flip search;
+- unit tests, an interactive PDG showcase, and an offline result dashboard;
+- dataset-separated Devign, official CWE-119, and CVEfixes samples, plus one
+  archived end-to-end experiment from 2026-07-10.
 
-The integrated pipeline, automated minimal-flip search, serialized XFG export,
-and graph visualization are not implemented yet. Their directories contain
-scope documentation only.
+The graph-action module currently produces validated perturbed PDG objects and
+JSON audit records. Automatic batch inference directly from those perturbed
+graphs is the next integration step; the existing source branch already runs
+end-to-end through Joern and DeepWuKong.
 
-## Workflow
+## Two Perturbation Branches
 
 ```text
-input_sources
-  -> demo_b/perturbations.py
-  -> artifacts/perturbed_sources
-  -> Joern nodes.csv and edges.csv
-  -> DeepWuKong PDG/XFG generation
-  -> vulnerability prediction
-  -> outputs comparison tables
+code level
+  source -> code action -> perturbed source -> Joern -> PDG -> XFG -> model
+
+graph level
+  source -> Joern -> NetworkX PDG -> graph action -> perturbed PDG -> XFG -> model
 ```
+
+The graph branch reads Joern CSV files once and changes an in-memory PDG copy.
+It does not overwrite `nodes.csv` or `edges.csv`.
 
 ## Repository Layout
 
 | Path | Purpose |
 |---|---|
-| `demo_b/` | Active perturbation code and action documentation. |
+| `demo_b/` | Active source and graph perturbation code, search scripts, and documentation. |
 | `baselines/deepwukong/` | DeepWuKong wrapper, configuration, checkpoint, and model documentation. |
-| `input_sources/` | Original C samples used by the current experiment. |
+| `input_sources/` | Dataset-separated Devign, official CWE-119, and CVEfixes C samples. |
 | `artifacts/perturbed_sources/` | Generated source variants and manifests. |
 | `artifacts/joern_csv/` | Baseline and perturbed Joern graph tables. |
-| `outputs/` | Consolidated predictions and experiment summaries. |
-| `legacy/perturbation/references/` | Papers used when designing the initial actions. |
-| `tests/` | Test scope documentation; automated tests are not implemented yet. |
+| `artifacts/joern_cpg/` | Archived Joern CPG validation artifacts. |
+| `artifacts/xfg/` | Official XFG references and future serialized XFG artifacts. |
+| `outputs/` | Consolidated predictions, graph snapshots, and experiment summaries. |
+| `legacy/perturbation/references/` | Papers used when designing the actions. |
+| `tests/` | Host-side unit tests for perturbation, comparison, and visualization modules. |
 
-## Quick Start
+## Code-Level Quick Start
 
-From the repository root, generate all currently implemented perturbations:
-
-```powershell
-python demo_b\perturbations.py
-```
-
-The generated files are written to:
-
-```text
-artifacts/perturbed_sources/generated/
-```
-
-Generate selected actions only:
+Generate all source-code actions:
 
 ```powershell
-python demo_b\perturbations.py --actions dead_statement control_wrapper
+python demo_b\code_perturbations.py
 ```
 
-## DeepWuKong Inference
-
-Full inference requires Docker Desktop, NVIDIA GPU access from Docker, and the
-local image configured as:
-
-```text
-deepwukong-rtx5060-cu128:experimental
-```
-
-The Docker image is not stored in this repository. After it has been loaded
-locally, generate variants and run DeepWuKong for each applicable variant with:
+Generate selected actions and budgets:
 
 ```powershell
-python demo_b\perturbations.py --run-deepwukong
+python demo_b\code_perturbations.py --actions dead_statement control_wrapper --counts 1 2 3 5
 ```
 
-New raw runs are written under `outputs/generated/` and are ignored by Git.
-See `baselines/deepwukong/README.md` for direct baseline commands and runtime
-requirements.
+Run DeepWuKong for generated source variants:
+
+```powershell
+python demo_b\code_perturbations.py --run-deepwukong
+```
+
+## Graph-Level Quick Start
+
+Apply one direct edge action to an archived Joern PDG:
+
+```powershell
+python demo_b\graph_perturbations.py `
+  --csv-root artifacts\joern_csv\run_20260710\baseline\00_codexglue_devign_9763 `
+  --action edge_delete `
+  --strategy random `
+  --seed 42 `
+  --output outputs\generated\graph_perturbations\edge_delete.json
+```
+
+Use `--strategy guided --key-lines <line...>` when DeepWuKong key lines are
+available. See `demo_b/GRAPH_PERTURBATIONS.md` for action semantics and current
+integration limits.
+
+## Verification
+
+```powershell
+python -m unittest discover -s tests -p "test_*.py"
+```
 
 ## Archived Experiment
 
-The archived 2026-07-10 run contains 10 baseline samples and 23 perturbation
-variants. All 23 variants completed Joern and DeepWuKong inference; none flipped
+The archived 2026-07-10 run contains 10 baseline samples and 23 source-level
+variants. All variants completed Joern and DeepWuKong inference; none flipped
 the predicted label. The maximum absolute vulnerability-probability change was
 `0.147869`.
 
-Start with `outputs/run_20260710/README.md` for the experiment summary and
-`demo_b/PERTURBATIONS.md` for action semantics and limitations.
+Start with `outputs/run_20260710/README.md` for the archived results,
+`demo_b/CODE_PERTURBATIONS.md` for source actions, and
+`demo_b/GRAPH_PERTURBATIONS.md` for direct graph actions.

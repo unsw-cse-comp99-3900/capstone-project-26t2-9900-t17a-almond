@@ -29,7 +29,7 @@ SVG_NS = "http://www.w3.org/2000/svg"
 DOCKER_IMAGE = "deepwukong-rtx5060-cu128:experimental"
 
 sys.path.insert(0, str(PROJECT_ROOT))
-from demo_b.perturbations import OPERATORS, is_probably_declaration  # noqa: E402
+from demo_b.code_perturbations import OPERATORS, is_probably_declaration  # noqa: E402
 
 
 @dataclass(frozen=True)

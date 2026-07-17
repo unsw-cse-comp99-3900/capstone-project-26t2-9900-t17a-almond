@@ -23,19 +23,19 @@ passed Joern parsing, and every sample has a non-empty official XFG.
 Run the five vulnerable samples:
 
 ```powershell
-python demo_b\perturbations.py --input input_sources\cwe119\vulnerable
+python demo_b\code_perturbations.py --input input_sources\cwe119\vulnerable
 ```
 
 Run the five non-vulnerable samples:
 
 ```powershell
-python demo_b\perturbations.py --input input_sources\cwe119\non_vulnerable
+python demo_b\code_perturbations.py --input input_sources\cwe119\non_vulnerable
 ```
 
 Run all ten samples in one command:
 
 ```powershell
-python demo_b\perturbations.py --input input_sources\cwe119 --recursive
+python demo_b\code_perturbations.py --input input_sources\cwe119 --recursive
 ```
 
 For minimal-flip searches, start with `vulnerable/` so the primary event is a

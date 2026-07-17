@@ -24,7 +24,7 @@ upstream licenses, and SHA-256 hashes. Use `vulnerable/` as the perturbation
 input and retain `fixed/` as the paired reference:
 
 ```powershell
-python demo_b\perturbations.py --input input_sources\cvefixes\vulnerable
+python demo_b\code_perturbations.py --input input_sources\cvefixes\vulnerable
 python demo_b\run_budget_search.py --input input_sources\cvefixes\vulnerable
 ```
 

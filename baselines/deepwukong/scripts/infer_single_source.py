@@ -116,7 +116,8 @@ def add_symbols(xfg: Any, split_token: bool) -> Any:
     file_contents = file_path.read_text(encoding="utf-8", errors="ignore").splitlines(True)
     code_lines = []
     for node in xfg:
-        line_index = int(node) - 1
+        source_line = xfg.nodes[node].get("source_line", node)
+        line_index = int(source_line) - 1
         code_lines.append(file_contents[line_index] if 0 <= line_index < len(file_contents) else "")
     sym_code_lines = clean_gadget(code_lines)
     for idx, node in enumerate(xfg):
