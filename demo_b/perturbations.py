@@ -455,7 +455,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate simple source-level perturbations for DeepWuKong robustness experiments."
     )
-    parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources")
+    parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources" / "devign")
     parser.add_argument(
         "--output",
         type=Path,

@@ -1,0 +1,294 @@
+﻿{
+    "dataset":  "DeepWuKong official CWE119",
+    "split":  "official test.json",
+    "seed":  42,
+    "selection_method":  "Random.shuffle separately within labels; take first 5 vulnerable and first 5 non-vulnerable after eligibility filters.",
+    "eligibility_filters":  [
+                                "listed in official test.json",
+                                "official XFG pickle loads and has at least one node",
+                                "referenced source file exists",
+                                "positive sample has a manifest flaw or mixed line annotation"
+                            ],
+    "samples":  [
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/153538/array/989.xfg.pkl",
+                        "xfg_relative_path":  "XFG/153538/array/989.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-3600-c/testcases/000/153/538/src/app/base/tile-manager.c",
+                        "source_relative_path":  "119-3600-c/testcases/000/153/538/src/app/base/tile-manager.c",
+                        "label":  1,
+                        "key_line":  989,
+                        "xfg_nodes":  9,
+                        "xfg_edges":  12,
+                        "flaw_or_mixed_lines":  [
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1001",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1002",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1003",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1004",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1005",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1006",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1007",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1008",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "1009",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    }
+                                                ],
+                        "sample_id":  "01_vulnerable_989",
+                        "bundle_directory":  "vulnerable",
+                        "bundled_source_file":  "01_vulnerable_989.c",
+                        "source_sha256":  "44d848f18776f43e91da3dae181f456020099287d0be9ab23cbe85f5add295a8",
+                        "xfg_sha256":  "b005a2e916541bcdd6d3df2aed5d408de9648ac3626bf5a95e9910a1f3168dd0",
+                        "local_source_path":  "input_sources/cwe119/vulnerable/01_vulnerable_989.c",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/01_vulnerable_989.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/01_vulnerable_989.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/152992/array/4064.xfg.pkl",
+                        "xfg_relative_path":  "XFG/152992/array/4064.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-4000-c/testcases/000/152/992/src/src/dfa.c",
+                        "source_relative_path":  "119-4000-c/testcases/000/152/992/src/src/dfa.c",
+                        "label":  1,
+                        "key_line":  4064,
+                        "xfg_nodes":  10,
+                        "xfg_edges":  16,
+                        "flaw_or_mixed_lines":  [
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "4078",
+                                                        "name":  "CWE-120: Buffer Copy without Checking Size of Input (\u0027Classic Buffer Overflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "4079",
+                                                        "name":  "CWE-120: Buffer Copy without Checking Size of Input (\u0027Classic Buffer Overflow\u0027)"
+                                                    },
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "4080",
+                                                        "name":  "CWE-120: Buffer Copy without Checking Size of Input (\u0027Classic Buffer Overflow\u0027)"
+                                                    }
+                                                ],
+                        "sample_id":  "02_vulnerable_4064",
+                        "bundle_directory":  "vulnerable",
+                        "bundled_source_file":  "02_vulnerable_4064.c",
+                        "source_sha256":  "363a37ae87fc490f4f6d4323c55a582b76c51a40019531421397737811466f16",
+                        "xfg_sha256":  "2494344af16c8619fc2b8d00c41fcbf58d78d72a3f3092b683d320db52c8f091",
+                        "local_source_path":  "input_sources/cwe119/vulnerable/02_vulnerable_4064.c",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/02_vulnerable_4064.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/02_vulnerable_4064.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/234319/arith/30.xfg.pkl",
+                        "xfg_relative_path":  "XFG/234319/arith/30.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-900-c/testcases/000/234/319/CWE124_Buffer_Underwrite__malloc_char_loop_14.c",
+                        "source_relative_path":  "119-900-c/testcases/000/234/319/CWE124_Buffer_Underwrite__malloc_char_loop_14.c",
+                        "label":  1,
+                        "key_line":  30,
+                        "xfg_nodes":  9,
+                        "xfg_edges":  14,
+                        "flaw_or_mixed_lines":  [
+                                                    {
+                                                        "kind":  "mixed",
+                                                        "line":  "46",
+                                                        "name":  "CWE-124: Buffer Underwrite (\u0027Buffer Underflow\u0027)"
+                                                    }
+                                                ],
+                        "sample_id":  "03_vulnerable_30",
+                        "bundle_directory":  "vulnerable",
+                        "bundled_source_file":  "03_vulnerable_30.c",
+                        "source_sha256":  "6dbfa81e8d22d30c8280c097ce85196e5afb4e0b1c1f27de532e560c390ccf3e",
+                        "xfg_sha256":  "211ec577879ef0e181c53e98562b511d2569d9a596d37357c7d6859a80714ee2",
+                        "local_source_path":  "input_sources/cwe119/vulnerable/03_vulnerable_30.c",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/03_vulnerable_30.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/03_vulnerable_30.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/832/array/55.xfg.pkl",
+                        "xfg_relative_path":  "XFG/832/array/55.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-13000-c/testcases/000/000/832/basic-00180-med.c",
+                        "source_relative_path":  "119-13000-c/testcases/000/000/832/basic-00180-med.c",
+                        "label":  1,
+                        "key_line":  55,
+                        "xfg_nodes":  5,
+                        "xfg_edges":  5,
+                        "flaw_or_mixed_lines":  [
+                                                    {
+                                                        "kind":  "flaw",
+                                                        "line":  "61",
+                                                        "name":  "CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer"
+                                                    }
+                                                ],
+                        "sample_id":  "04_vulnerable_55",
+                        "bundle_directory":  "vulnerable",
+                        "bundled_source_file":  "04_vulnerable_55.c",
+                        "source_sha256":  "a556f3317e0dd3a924408c381ee395ee853a3b7e318ed79299f96ef55a277f5b",
+                        "xfg_sha256":  "21152be8c6165a975f961b93a93353a5c9e9a3b6e338bd5d35214dd5044c748e",
+                        "local_source_path":  "input_sources/cwe119/vulnerable/04_vulnerable_55.c",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/04_vulnerable_55.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/04_vulnerable_55.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/70105/array/32.xfg.pkl",
+                        "xfg_relative_path":  "XFG/70105/array/32.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-cpp/testcases/000/070/105/CWE122_Heap_Based_Buffer_Overflow__cpp_dest_wchar_t_cat_72b.cpp",
+                        "source_relative_path":  "119-cpp/testcases/000/070/105/CWE122_Heap_Based_Buffer_Overflow__cpp_dest_wchar_t_cat_72b.cpp",
+                        "label":  1,
+                        "key_line":  32,
+                        "xfg_nodes":  4,
+                        "xfg_edges":  3,
+                        "flaw_or_mixed_lines":  [
+                                                    {
+                                                        "kind":  "mixed",
+                                                        "line":  "38",
+                                                        "name":  "CWE-122: Heap-based Buffer Overflow"
+                                                    }
+                                                ],
+                        "sample_id":  "05_vulnerable_32",
+                        "bundle_directory":  "vulnerable",
+                        "bundled_source_file":  "05_vulnerable_32.cpp",
+                        "source_sha256":  "1c7e4809fb08d1ad1d79548e1043b733ef6a8abc3c60ba2820f332246cb6d144",
+                        "xfg_sha256":  "3ec1a81d68f804e95d65e08a2970448eba53cc303f6216c366826cb739d861ac",
+                        "local_source_path":  "input_sources/cwe119/vulnerable/05_vulnerable_32.cpp",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/05_vulnerable_32.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/05_vulnerable_32.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/62847/array/63.xfg.pkl",
+                        "xfg_relative_path":  "XFG/62847/array/63.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-cpp/testcases/000/062/847/CWE121_Stack_Based_Buffer_Overflow__CWE131_loop_74a.cpp",
+                        "source_relative_path":  "119-cpp/testcases/000/062/847/CWE121_Stack_Based_Buffer_Overflow__CWE131_loop_74a.cpp",
+                        "label":  0,
+                        "key_line":  63,
+                        "xfg_nodes":  3,
+                        "xfg_edges":  2,
+                        "flaw_or_mixed_lines":  [
+
+                                                ],
+                        "sample_id":  "06_non-vulnerable_63",
+                        "bundle_directory":  "non_vulnerable",
+                        "bundled_source_file":  "06_non-vulnerable_63.cpp",
+                        "source_sha256":  "9e7f70eaaf849d61d9d82a0f2335487ce914b9a558107107a2cb66012ffc2c84",
+                        "xfg_sha256":  "00db2a277f85099ef7957a1d204ce63181ea23dc2a3c49ab7ff6042141c51cb7",
+                        "local_source_path":  "input_sources/cwe119/non_vulnerable/06_non-vulnerable_63.cpp",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/06_non-vulnerable_63.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/06_non-vulnerable_63.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/63508/arith/41.xfg.pkl",
+                        "xfg_relative_path":  "XFG/63508/arith/41.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-cpp/testcases/000/063/508/CWE121_Stack_Based_Buffer_Overflow__CWE193_wchar_t_alloca_loop_73a.cpp",
+                        "source_relative_path":  "119-cpp/testcases/000/063/508/CWE121_Stack_Based_Buffer_Overflow__CWE193_wchar_t_alloca_loop_73a.cpp",
+                        "label":  0,
+                        "key_line":  41,
+                        "xfg_nodes":  5,
+                        "xfg_edges":  4,
+                        "flaw_or_mixed_lines":  [
+
+                                                ],
+                        "sample_id":  "07_non-vulnerable_41",
+                        "bundle_directory":  "non_vulnerable",
+                        "bundled_source_file":  "07_non-vulnerable_41.cpp",
+                        "source_sha256":  "a40b8c5adad4fcdf04e9286e7e7d4eeafbdd7856b8bb759fcaf6be2a92165866",
+                        "xfg_sha256":  "50594d98ec1d2d972bee50a85e6d547f5d9be714869b7b2fc424ef39301d1fc0",
+                        "local_source_path":  "input_sources/cwe119/non_vulnerable/07_non-vulnerable_41.cpp",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/07_non-vulnerable_41.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/07_non-vulnerable_41.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/71592/arith/32.xfg.pkl",
+                        "xfg_relative_path":  "XFG/71592/arith/32.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-8100-c/testcases/000/071/592/CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68a.c",
+                        "source_relative_path":  "119-8100-c/testcases/000/071/592/CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68a.c",
+                        "label":  0,
+                        "key_line":  32,
+                        "xfg_nodes":  2,
+                        "xfg_edges":  1,
+                        "flaw_or_mixed_lines":  [
+
+                                                ],
+                        "sample_id":  "08_non-vulnerable_32",
+                        "bundle_directory":  "non_vulnerable",
+                        "bundled_source_file":  "08_non-vulnerable_32.c",
+                        "source_sha256":  "e0eb594eab2572815f9348de0e11e871ffb6fcfa230e5ac9adee722b86b3303c",
+                        "xfg_sha256":  "8d14a02f3ef1c68bdadd2f6da705b40cd305f6a66dbea11205a43671d7719804",
+                        "local_source_path":  "input_sources/cwe119/non_vulnerable/08_non-vulnerable_32.c",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/08_non-vulnerable_32.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/08_non-vulnerable_32.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/101478/array/83.xfg.pkl",
+                        "xfg_relative_path":  "XFG/101478/array/83.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-cpp/testcases/000/101/478/CWE415_Double_Free__malloc_free_struct_74a.cpp",
+                        "source_relative_path":  "119-cpp/testcases/000/101/478/CWE415_Double_Free__malloc_free_struct_74a.cpp",
+                        "label":  0,
+                        "key_line":  83,
+                        "xfg_nodes":  3,
+                        "xfg_edges":  2,
+                        "flaw_or_mixed_lines":  [
+
+                                                ],
+                        "sample_id":  "09_non-vulnerable_83",
+                        "bundle_directory":  "non_vulnerable",
+                        "bundled_source_file":  "09_non-vulnerable_83.cpp",
+                        "source_sha256":  "76ad2eca3c9f5ea5aaf6bcce2ae8b42c7b3791193910008b7895a16f53eaedc7",
+                        "xfg_sha256":  "8993269fa828d549ab9218af205902cae2ab26c8918ee19e6dcd691521609a4b",
+                        "local_source_path":  "input_sources/cwe119/non_vulnerable/09_non-vulnerable_83.cpp",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/09_non-vulnerable_83.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/09_non-vulnerable_83.cpg.bin"
+                    },
+                    {
+                        "dataset_xfg_path":  "data/CWE119/XFG/66821/array/43.xfg.pkl",
+                        "xfg_relative_path":  "XFG/66821/array/43.xfg.pkl",
+                        "source_dataset_path":  "data/CWE119/source-code/119-cpp/testcases/000/066/821/CWE121_Stack_Based_Buffer_Overflow__dest_char_declare_cpy_74a.cpp",
+                        "source_relative_path":  "119-cpp/testcases/000/066/821/CWE121_Stack_Based_Buffer_Overflow__dest_char_declare_cpy_74a.cpp",
+                        "label":  0,
+                        "key_line":  43,
+                        "xfg_nodes":  4,
+                        "xfg_edges":  3,
+                        "flaw_or_mixed_lines":  [
+
+                                                ],
+                        "sample_id":  "10_non-vulnerable_43",
+                        "bundle_directory":  "non_vulnerable",
+                        "bundled_source_file":  "10_non-vulnerable_43.cpp",
+                        "source_sha256":  "8c6c798728e16396fe6bec0c088da93db698cfdc322e29f81ccaa1edd4e3c133",
+                        "xfg_sha256":  "8a2b76cb2955bf503b63220754e22e22b5e943c603ee12c5199416701ef5805c",
+                        "local_source_path":  "input_sources/cwe119/non_vulnerable/10_non-vulnerable_43.cpp",
+                        "local_xfg_path":  "artifacts/xfg/cwe119_official/10_non-vulnerable_43.xfg.pkl",
+                        "local_cpg_path":  "artifacts/joern_cpg/cwe119_validation/10_non-vulnerable_43.cpg.bin"
+                    }
+                ]
+}

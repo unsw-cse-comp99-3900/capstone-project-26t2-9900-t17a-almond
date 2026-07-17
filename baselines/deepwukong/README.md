@@ -37,7 +37,7 @@ directory:
 ```powershell
 Push-Location baselines\deepwukong
 python .\scripts\run_demo_pipeline.py `
-  --input ..\..\input_sources\00_codexglue_devign_9763.c `
+  --input ..\..\input_sources\devign\00_codexglue_devign_9763.c `
   --output ..\..\outputs\generated\deepwukong\00_codexglue_devign_9763 `
   --config .\configs\demo_config.json `
   --no-timestamp-output

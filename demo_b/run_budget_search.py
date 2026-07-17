@@ -178,7 +178,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Search for minimal perturbation counts that flip DeepWuKong predictions.")
-    parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources")
+    parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources" / "devign")
     parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "outputs" / "generated" / "budget_search")
     parser.add_argument("--deepwukong-root", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong")
     parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong" / "configs" / "demo_config.json")
