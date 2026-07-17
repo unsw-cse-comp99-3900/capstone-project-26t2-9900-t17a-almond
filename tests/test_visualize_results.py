@@ -12,7 +12,8 @@ class VisualizationTests(unittest.TestCase):
             report = Path(directory) / "report.html"
             render_report(rows, report, "Test report")
             content = report.read_text(encoding="utf-8")
-        self.assertIn('id="filters"', content)
+        self.assertIn('id="primary-action"', content)
+        self.assertIn('id="action-checks"', content)
         self.assertIn("dead_statement", content)
         self.assertIn("largest probability shift", content)
 

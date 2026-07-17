@@ -51,11 +51,12 @@ def svg_action_chart(metrics: list[dict[str, object]]) -> str:
         bar_height = value / maximum * 155
         x = left + index * 200
         y = height - bottom - bar_height
+        action = html.escape(str(metric["action"]))
         bars.append(
-            f'<rect x="{x}" y="{y:.1f}" width="{bar_width}" height="{bar_height:.1f}" '
+            f'<g data-action-chart="{action}"><rect x="{x}" y="{y:.1f}" width="{bar_width}" height="{bar_height:.1f}" '
             f'fill="#5b8ff9"/><text x="{x + bar_width / 2}" y="{height - 22}" text-anchor="middle" '
-            f'font-size="12">{html.escape(str(metric["action"]))}</text><text x="{x + bar_width / 2}" '
-            f'y="{y - 7:.1f}" text-anchor="middle" font-size="12">{value:.4f}</text>'
+            f'font-size="12">{action}</text><text x="{x + bar_width / 2}" '
+            f'y="{y - 7:.1f}" text-anchor="middle" font-size="12">{value:.4f}</text></g>'
         )
     return (
         f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="Mean absolute probability change by action">'
@@ -94,6 +95,9 @@ def render_report(rows: list[dict[str, str]], output: Path, title: str) -> None:
         f'<label><input type="checkbox" value="{html.escape(action)}" checked> {html.escape(action)}</label>'
         for action in actions
     )
+    action_options = "".join(
+        f'<option value="{html.escape(action)}">{html.escape(action)}</option>' for action in actions
+    )
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title><style>
@@ -104,8 +108,8 @@ h1{{margin-bottom:4px}}.sub{{color:#5d687c}}.cards{{display:flex;gap:16px;flex-w
 <div class="cards"><div class="card"><div class="value">{baseline_count}</div>baseline samples</div><div class="card"><div class="value">{len(successful)}</div>successful variants</div><div class="card"><div class="value">{flips}</div>prediction flips</div><div class="card"><div class="value">{abs(number(max_change, 'delta_prob')):.4f}</div>largest probability shift</div></div>
 <section><h2>What changed most?</h2><p class="note"><strong>{html.escape(max_change['sample'])}</strong> with <strong>{html.escape(max_change['action'])}</strong> changed from {number(max_change, 'base_prob'):.6f} to {number(max_change, 'variant_prob'):.6f} ({number(max_change, 'delta_prob'):+.6f}) without a label flip.</p>{svg_action_chart(metrics)}</section>
 <section><h2>Action-level comparison</h2><table><thead><tr><th>Action</th><th>Variants</th><th>Mean probability delta</th><th>Mean Δ nodes</th><th>Mean Δ edges</th></tr></thead><tbody>{metric_rows}</tbody></table></section>
-<section><h2>Variant explorer</h2><p>Choose perturbation actions to focus the presentation table.</p><div id="filters">{controls}</div><table><thead><tr><th>Sample</th><th>Function</th><th>Action</th><th>Baseline</th><th>Variant</th><th>Δ probability</th><th>Δ nodes</th><th>Δ edges</th><th>Flipped</th></tr></thead><tbody>{table_rows}</tbody></table></section>
-</main><script>const boxes=[...document.querySelectorAll('#filters input')];function filter(){{const chosen=new Set(boxes.filter(x=>x.checked).map(x=>x.value));document.querySelectorAll('tbody tr[data-action]').forEach(row=>row.hidden=!chosen.has(row.dataset.action));}}boxes.forEach(box=>box.addEventListener('change',filter));</script></body></html>"""
+<section><h2>Variant explorer</h2><p>Use one method for a focused walkthrough, or select several methods for comparison. New actions found in the CSV appear automatically.</p><div id="filters"><label for="primary-action">Focused action</label><select id="primary-action"><option value="__all__">All actions</option>{action_options}<option value="__custom__">Custom selection</option></select><p id="selection-summary"></p><div id="action-checks">{controls}</div></div><table><thead><tr><th>Sample</th><th>Function</th><th>Action</th><th>Baseline</th><th>Variant</th><th>Δ probability</th><th>Δ nodes</th><th>Δ edges</th><th>Flipped</th></tr></thead><tbody>{table_rows}</tbody></table></section>
+</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const primary=document.getElementById('primary-action');const summary=document.getElementById('selection-summary');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filter(){{const chosen=selected();document.querySelectorAll('tbody tr[data-action]').forEach(row=>row.hidden=!chosen.has(row.dataset.action));document.querySelectorAll('[data-action-chart]').forEach(mark=>mark.hidden=!chosen.has(mark.dataset.actionChart));summary.textContent=`Showing ${{chosen.size}} of ${{boxes.length}} perturbation methods.`;}}primary.addEventListener('change',()=>{{if(primary.value==='__all__')boxes.forEach(box=>box.checked=true);else if(primary.value!=='__custom__')boxes.forEach(box=>box.checked=box.value===primary.value);filter();}});boxes.forEach(box=>box.addEventListener('change',()=>{{const chosen=selected();primary.value=chosen.size===boxes.length?'__all__':chosen.size===1?[...chosen][0]:'__custom__';filter();}}));filter();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
 
