@@ -1,0 +1,116 @@
+{
+  "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+  "prediction": {
+    "sample_id": "02_codexglue_devign_15133__edge_add",
+    "input_file": "/input/02_codexglue_devign_15133.c",
+    "function_name": "unknown",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 13,
+    "num_edges": 20,
+    "predicted_label": 0,
+    "vulnerability_probability": 4.248197882361637e-08,
+    "threshold": 0.5,
+    "confidence": 0.9999999575180212,
+    "graph_score": 4.248197882361637e-08,
+    "final_score": 4.248197882361637e-08,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+      "experiment": "graph_perturbation_round_1",
+      "dataset": "archived_devign_baseline_csv",
+      "strategy": "random",
+      "seed": 42,
+      "count": 1,
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 10,
+      "baselines_completed": 10,
+      "perturbations_attempted": 60,
+      "perturbations_successful": 57,
+      "label_flips": 1,
+      "elapsed_seconds": 5.0653942,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "02_codexglue_devign_15133",
+    "graph_action": {
+      "action": "edge_add",
+      "strategy": "random",
+      "seed": 42,
+      "requested_count": 1,
+      "applied_count": 1,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "edge_add",
+          "target_nodes": [
+            17,
+            1
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              17,
+              1,
+              "d"
+            ]
+          ],
+          "details": "added d edge 17->1"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 13,
+      "baseline_pdg_edges": 19,
+      "perturbed_pdg_nodes": 13,
+      "perturbed_pdg_edges": 20
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 4.248197882361637e-08,
+      "predicted_label": 0,
+      "xfg_count": 4,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 16.928999999999306,
+      "xfg_predictions": [
+        {
+          "category": "call",
+          "key_line": 23,
+          "vulnerability_probability": 4.248197882361637e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 27,
+          "vulnerability_probability": 1.1906930552640915e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 29,
+          "vulnerability_probability": 4.843704548562755e-09,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 23,
+          "vulnerability_probability": 4.248189711120176e-08,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 17.250500000001168
+  }
+}

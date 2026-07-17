@@ -38,7 +38,7 @@ directory:
 Push-Location baselines\deepwukong
 python .\scripts\run_demo_pipeline.py `
   --input ..\..\input_sources\devign\00_codexglue_devign_9763.c `
-  --output ..\..\outputs\generated\deepwukong\00_codexglue_devign_9763 `
+  --output ..\..\outputs\run_20260717_code_devign_round2\runs\baseline\00_codexglue_devign_9763 `
   --config .\configs\demo_config.json `
   --no-timestamp-output
 Pop-Location
@@ -57,9 +57,10 @@ A single raw inference directory contains:
 - `demo_report.md`: a short human-readable report;
 - Docker command and log files produced by the host wrapper.
 
-New raw runs belong under `../../outputs/generated/` and are ignored by Git.
-Archived experiments consolidate each sample into one JSON under
-`../../outputs/run_<id>/runs/`.
+New raw runs belong under a directory named
+`../../outputs/run_<YYYYMMDD>_<level>_<dataset>_round<N>/` and are ignored by
+Git until deliberately archived. Archived experiments consolidate each sample
+into one JSON under that run's `runs/` directory.
 
 ## Inference Semantics
 

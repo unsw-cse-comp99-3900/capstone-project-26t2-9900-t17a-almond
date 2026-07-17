@@ -30,6 +30,7 @@ python demo_b\code\code_perturbations.py
 python demo_b\code\code_perturbations.py --actions dead_statement control_wrapper
 python demo_b\code\code_perturbations.py --counts 1 2 3 5
 python demo_b\code\code_perturbations.py --run-deepwukong
+python demo_b\code\code_perturbations.py --input input_sources\cwe119 --run-round 2 --run-deepwukong
 ```
 
 Generated source variants and their manifest are written under:
@@ -38,17 +39,21 @@ Generated source variants and their manifest are written under:
 artifacts/perturbed_sources/generated/
 ```
 
-Minimal-flip search writes its tables under:
+By default, minimal-flip search writes its tables under a convention-based run
+directory such as:
 
 ```text
-outputs/generated/budget_search/
+outputs/run_20260717_code_devign_round1/
 ```
 
 Run it with:
 
 ```powershell
-python demo_b\code\run_budget_search.py --counts 1 2 3 5
+python demo_b\code\run_budget_search.py --counts 1 2 3 5 --run-round 1
 ```
+
+The default run name derives the dataset from `--input`. Use `--run-round` for
+the next experiment, or pass `--output`/`--deepwukong-output` explicitly.
 
 ## Measurement
 

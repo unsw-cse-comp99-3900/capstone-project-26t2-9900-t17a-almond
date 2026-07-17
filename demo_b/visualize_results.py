@@ -116,7 +116,7 @@ h1{{margin-bottom:4px}}.sub{{color:#5d687c}}.cards{{display:flex;gap:16px;flex-w
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Create an offline DeepWuKong perturbation dashboard.")
-    parser.add_argument("--run-dir", type=Path, default=Path("outputs/run_20260710"))
+    parser.add_argument("--run-dir", type=Path, default=Path("outputs/run_20260710_code_devign_round1"))
     parser.add_argument("--output", type=Path, default=None, help="Defaults to <run-dir>/dashboard.html")
     args = parser.parse_args()
     comparison = args.run_dir / "prediction_comparison.csv"

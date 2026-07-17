@@ -1,0 +1,146 @@
+{
+  "generated_at_utc": "2026-07-17T09:17:55.877387+00:00",
+  "prediction": {
+    "sample_id": "10_non-vulnerable_43__node_add",
+    "input_file": "/input/non_vulnerable/10_non-vulnerable_43.cpp",
+    "function_name": "bad",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 17,
+    "num_edges": 19,
+    "predicted_label": 1,
+    "vulnerability_probability": 0.9253519773483276,
+    "threshold": 0.5,
+    "confidence": 0.9253519773483276,
+    "graph_score": 0.9253519773483276,
+    "final_score": 0.9253519773483276,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-17T09:17:55.877387+00:00",
+      "experiment": "graph_perturbation_cwe119_round_1",
+      "dataset": "official_cwe119_samples",
+      "strategy": "random",
+      "seed": 42,
+      "count": 1,
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 10,
+      "baselines_completed": 10,
+      "perturbations_attempted": 60,
+      "perturbations_successful": 60,
+      "label_flips": 1,
+      "elapsed_seconds": 88.22234369199998,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "10_non-vulnerable_43",
+    "graph_action": {
+      "action": "node_add",
+      "strategy": "random",
+      "seed": 42,
+      "requested_count": 1,
+      "applied_count": 1,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_add",
+          "target_nodes": [
+            43,
+            -1
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              43,
+              -1,
+              "d"
+            ]
+          ],
+          "details": "added synthetic node -1 using source line 43"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 16,
+      "baseline_pdg_edges": 18,
+      "perturbed_pdg_nodes": 17,
+      "perturbed_pdg_edges": 19
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.9253519773483276,
+      "predicted_label": 1,
+      "xfg_count": 9,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 46.9136329999742,
+      "xfg_predictions": [
+        {
+          "category": "call",
+          "key_line": 96,
+          "vulnerability_probability": 0.0005112715298309922,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 66,
+          "vulnerability_probability": 9.959267543990791e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 68,
+          "vulnerability_probability": 7.223950525680851e-37,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 69,
+          "vulnerability_probability": 7.960990822158611e-32,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 70,
+          "vulnerability_probability": 4.526194039769159e-43,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 41,
+          "vulnerability_probability": 0.9253519773483276,
+          "predicted_label": 1
+        },
+        {
+          "category": "array",
+          "key_line": 43,
+          "vulnerability_probability": 0.08288124203681946,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 44,
+          "vulnerability_probability": 8.871318263325989e-11,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 45,
+          "vulnerability_probability": 3.458344514814022e-25,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 47.39274599995724
+  }
+}

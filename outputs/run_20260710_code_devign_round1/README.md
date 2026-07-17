@@ -41,13 +41,13 @@ artifacts/perturbed_sources/run_20260710/sources
 Consolidated baseline DeepWuKong predictions:
 
 ```text
-outputs/run_20260710/runs/baseline
+outputs/run_20260710_code_devign_round1/runs/baseline
 ```
 
 Consolidated perturbed DeepWuKong predictions:
 
 ```text
-outputs/run_20260710/runs/perturbed
+outputs/run_20260710_code_devign_round1/runs/perturbed
 ```
 
 Each sample or variant is stored as one JSON file containing both its prediction
@@ -57,9 +57,9 @@ repository-relative; original Docker paths remain under `container_*` fields.
 Compact result tables:
 
 ```text
-outputs/run_20260710/baseline_summary.csv
-outputs/run_20260710/action_summary.csv
-outputs/run_20260710/prediction_comparison.csv
+outputs/run_20260710_code_devign_round1/baseline_summary.csv
+outputs/run_20260710_code_devign_round1/action_summary.csv
+outputs/run_20260710_code_devign_round1/prediction_comparison.csv
 ```
 
 ## Summary

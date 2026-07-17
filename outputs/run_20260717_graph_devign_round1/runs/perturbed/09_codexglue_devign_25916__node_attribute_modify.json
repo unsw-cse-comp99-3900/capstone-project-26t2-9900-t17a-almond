@@ -1,0 +1,92 @@
+{
+  "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+  "prediction": {
+    "sample_id": "09_codexglue_devign_25916__node_attribute_modify",
+    "input_file": "/input/09_codexglue_devign_25916.c",
+    "function_name": "spr_write_ibatl",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 4,
+    "num_edges": 3,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.11878950893878937,
+    "threshold": 0.5,
+    "confidence": 0.8812104910612106,
+    "graph_score": 0.11878950893878937,
+    "final_score": 0.11878950893878937,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+      "experiment": "graph_perturbation_round_1",
+      "dataset": "archived_devign_baseline_csv",
+      "strategy": "random",
+      "seed": 42,
+      "count": 1,
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 10,
+      "baselines_completed": 10,
+      "perturbations_attempted": 60,
+      "perturbations_successful": 57,
+      "label_flips": 1,
+      "elapsed_seconds": 5.0653942,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "09_codexglue_devign_25916",
+    "graph_action": {
+      "action": "node_attribute_modify",
+      "strategy": "random",
+      "seed": 42,
+      "requested_count": 1,
+      "applied_count": 1,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            1,
+            11
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 1 token source from line 1 to line 11"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 4,
+      "baseline_pdg_edges": 3,
+      "perturbed_pdg_nodes": 4,
+      "perturbed_pdg_edges": 3
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.11878950893878937,
+      "predicted_label": 0,
+      "xfg_count": 1,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 21.035700000000546,
+      "xfg_predictions": [
+        {
+          "category": "arith",
+          "key_line": 9,
+          "vulnerability_probability": 0.11878950893878937,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 21.257300000000257
+  }
+}

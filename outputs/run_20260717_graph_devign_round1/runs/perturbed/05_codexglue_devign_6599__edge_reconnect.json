@@ -1,0 +1,123 @@
+{
+  "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+  "prediction": {
+    "sample_id": "05_codexglue_devign_6599__edge_reconnect",
+    "input_file": "/input/05_codexglue_devign_6599.c",
+    "function_name": "preallocate",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 26,
+    "num_edges": 54,
+    "predicted_label": 0,
+    "vulnerability_probability": 8.043635716603603e-06,
+    "threshold": 0.5,
+    "confidence": 0.9999919563642834,
+    "graph_score": 8.043635716603603e-06,
+    "final_score": 8.043635716603603e-06,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-17T09:11:33.495186+00:00",
+      "experiment": "graph_perturbation_round_1",
+      "dataset": "archived_devign_baseline_csv",
+      "strategy": "random",
+      "seed": 42,
+      "count": 1,
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 10,
+      "baselines_completed": 10,
+      "perturbations_attempted": 60,
+      "perturbations_successful": 57,
+      "label_flips": 1,
+      "elapsed_seconds": 5.0653942,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "05_codexglue_devign_6599",
+    "graph_action": {
+      "action": "edge_reconnect",
+      "strategy": "random",
+      "seed": 42,
+      "requested_count": 1,
+      "applied_count": 1,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            33,
+            41,
+            91
+          ],
+          "removed_edges": [
+            [
+              33,
+              41,
+              "c"
+            ]
+          ],
+          "added_edges": [
+            [
+              33,
+              91,
+              "c"
+            ]
+          ],
+          "details": "reconnected c edge 33->41 to 33->91"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 26,
+      "baseline_pdg_edges": 54,
+      "perturbed_pdg_nodes": 26,
+      "perturbed_pdg_edges": 54
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 8.043635716603603e-06,
+      "predicted_label": 0,
+      "xfg_count": 4,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 19.43029999999979,
+      "xfg_predictions": [
+        {
+          "category": "call",
+          "key_line": 93,
+          "vulnerability_probability": 7.994347583917261e-07,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 45,
+          "vulnerability_probability": 8.043635716603603e-06,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 95,
+          "vulnerability_probability": 5.401131602411624e-06,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 95,
+          "vulnerability_probability": 5.401131602411624e-06,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 20.598700000000747
+  }
+}

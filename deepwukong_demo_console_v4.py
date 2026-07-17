@@ -36,14 +36,14 @@ from typing import Any, Dict, List, Optional, Tuple
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 # Fixed dashboard path. Change this line only if your HTML file name/path is different.
-DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "run_20260710" / "dashboard.html"
+DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "run_20260710_code_devign_round1" / "dashboard.html"
 
 # Optional real quick demo command.
 # Keep as None for stable presentation mode using prepared outputs.
 QUICK_DEMO_COMMAND: Optional[List[str]] = None
 
 # If you want to force one run folder as default, set it here.
-# Example: DEFAULT_RUN_ID = "run_20260710"
+# Example: DEFAULT_RUN_ID = "run_20260710_code_devign_round1"
 DEFAULT_RUN_ID: Optional[str] = None
 
 PREDICTION_COMPARISON_NAMES = [

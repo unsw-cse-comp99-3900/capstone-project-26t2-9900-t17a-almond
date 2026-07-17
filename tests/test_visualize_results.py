@@ -7,7 +7,7 @@ from demo_b.visualize_results import read_rows, render_report
 
 class VisualizationTests(unittest.TestCase):
     def test_report_contains_filters_and_summary(self):
-        rows = read_rows(Path("outputs/run_20260710/prediction_comparison.csv"))
+        rows = read_rows(Path("outputs/run_20260710_code_devign_round1/prediction_comparison.csv"))
         with tempfile.TemporaryDirectory() as directory:
             report = Path(directory) / "report.html"
             render_report(rows, report, "Test report")

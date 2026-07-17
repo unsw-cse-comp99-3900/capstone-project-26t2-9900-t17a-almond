@@ -73,12 +73,12 @@ xfg_dict = build_XFG(result.graph, key_line_map)
 ```
 
 The graph CLI can load archived Joern tables and export a validated JSON audit
-record. Direct graph-to-model batch inference is not wired into the host runner
-yet.
+record. `graph/run_xfg_targeted_experiment.py` runs selectable winner-XFG macro
+actions and budgets through DeepWuKong in one container.
 
 ## Verification
 
 ```powershell
-python -m py_compile demo_b\code\code_perturbations.py demo_b\code\run_budget_search.py demo_b\graph\graph_perturbations.py
-python -m unittest tests.test_code_perturbations tests.test_graph_perturbations
+python -m py_compile demo_b\code\code_perturbations.py demo_b\code\run_budget_search.py demo_b\graph\graph_perturbations.py demo_b\graph\run_xfg_targeted_experiment.py
+python -m unittest discover -s tests -p "test_*.py"
 ```

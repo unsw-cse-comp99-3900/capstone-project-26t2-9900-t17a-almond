@@ -35,7 +35,7 @@ from typing import Any, Dict, List, Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
-# If you have a known run folder, set it here, e.g. "run_20260710".
+# If you have a known run folder, set it here, e.g. "run_20260710_code_devign_round1".
 # If set to None, the program will try to find the newest folder under outputs/.
 RUN_ID: Optional[str] = None
 

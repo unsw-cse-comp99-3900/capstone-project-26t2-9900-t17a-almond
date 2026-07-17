@@ -16,6 +16,7 @@ from demo_b.code.code_perturbations import (
     OPERATORS,
     PROJECT_ROOT,
     PerturbationResult,
+    dataset_slug,
     discover_sources,
     generation_status,
     normalize_counts,
@@ -179,7 +180,12 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Search for minimal perturbation counts that flip DeepWuKong predictions.")
     parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "input_sources" / "devign")
-    parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "outputs" / "generated" / "budget_search")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+    )
+    parser.add_argument("--run-round", type=int, default=1)
     parser.add_argument("--deepwukong-root", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong")
     parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong" / "configs" / "demo_config.json")
     parser.add_argument("--actions", nargs="+", default=list(OPERATORS), choices=sorted(OPERATORS))
@@ -191,6 +197,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--no-run", action="store_true", help="Generate variants and rows without invoking DeepWuKong.")
     args = parser.parse_args()
     args.counts = normalize_counts(args.counts)
+    if args.run_round < 1:
+        parser.error("--run-round must be at least 1")
+    if args.output is None:
+        run_name = (
+            f"run_{datetime.now().strftime('%Y%m%d')}_code_"
+            f"{dataset_slug(args.input)}_round{args.run_round}"
+        )
+        args.output = PROJECT_ROOT / "outputs" / run_name
     return args
 
 

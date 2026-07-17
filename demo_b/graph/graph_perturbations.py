@@ -21,6 +21,11 @@ ActionName = Literal[
     "edge_reconnect",
 ]
 StrategyName = Literal["random", "guided"]
+XFGTargetedActionName = Literal[
+    "winner_xfg_edge_attack",
+    "winner_xfg_feature_mask",
+    "targeted_subgraph_injection",
+]
 
 ACTION_NAMES: tuple[ActionName, ...] = (
     "node_add",
@@ -31,6 +36,11 @@ ACTION_NAMES: tuple[ActionName, ...] = (
     "edge_reconnect",
 )
 STRATEGY_NAMES: tuple[StrategyName, ...] = ("random", "guided")
+XFG_TARGETED_ACTION_NAMES: tuple[XFGTargetedActionName, ...] = (
+    "winner_xfg_edge_attack",
+    "winner_xfg_feature_mask",
+    "targeted_subgraph_injection",
+)
 EDGE_KINDS = {"c", "d"}
 
 
@@ -396,6 +406,296 @@ def apply_graph_action(
         action=action,
         strategy=strategy,
         requested_count=count,
+        applied_count=len(operations),
+        operations=tuple(operations),
+        validation_errors=validation_errors,
+        notes=notes,
+    )
+
+
+def _targeted_node_order(
+    graph: nx.DiGraph,
+    candidates: Iterable[int],
+    key_line: int,
+    rng: random.Random,
+) -> list[int]:
+    values = list(candidates)
+    rng.shuffle(values)
+    distances = _distance_to_seeds(graph, {key_line})
+    return sorted(values, key=lambda node: (distances.get(node, math.inf), -graph.degree(node), node))
+
+
+def _neutral_source_line(graph: nx.DiGraph, winner_nodes: set[int], protected_nodes: set[int]) -> int | None:
+    outside = [int(node) for node in graph.nodes if node not in winner_nodes and int(node) > 0]
+    fallback = [int(node) for node in graph.nodes if node not in protected_nodes and int(node) > 0]
+    candidates = outside or fallback
+    if not candidates:
+        return None
+    donor = min(candidates, key=lambda node: (graph.degree(node), node))
+    return int(graph.nodes[donor].get("source_line", donor))
+
+
+def _winner_xfg_edge_step(
+    graph: nx.DiGraph,
+    winner_nodes: set[int],
+    winner_anchor: int,
+    target_label: int,
+    edge_kind: str,
+    rng: random.Random,
+    step: int,
+) -> GraphOperation | None:
+    active_nodes = winner_nodes.intersection(graph.nodes)
+    if target_label == 0:
+        if graph.number_of_edges() <= 1:
+            return None
+        winner_edges = [
+            (int(source), int(target))
+            for source, target in graph.edges
+            if source in active_nodes and target in active_nodes
+        ]
+        boundary_edges = [
+            (int(source), int(target))
+            for source, target in graph.edges
+            if source in active_nodes or target in active_nodes
+        ]
+        candidates = winner_edges or boundary_edges or [(int(source), int(target)) for source, target in graph.edges]
+        if not candidates:
+            return None
+        rng.shuffle(candidates)
+        distances = _distance_to_seeds(graph, {winner_anchor})
+        source, target = min(
+            candidates,
+            key=lambda edge: (
+                0 if winner_anchor in edge else 1,
+                min(distances.get(edge[0], math.inf), distances.get(edge[1], math.inf)),
+                -(graph.degree(edge[0]) + graph.degree(edge[1])),
+                edge,
+            ),
+        )
+        removed_kind = _edge_kind(graph.edges[source, target])
+        graph.remove_edge(source, target)
+        return GraphOperation(
+            step=step,
+            action="winner_xfg_edge_attack",
+            target_nodes=(source, target),
+            removed_edges=((source, target, removed_kind),),
+            details=f"cut winner-XFG {removed_kind} edge {source}->{target} to reduce the vulnerable score",
+        )
+
+    candidates: list[tuple[int, int]] = []
+    ordered_nodes = _targeted_node_order(graph, set(graph.nodes) - {winner_anchor}, winner_anchor, rng)
+    ordered_nodes.sort(key=lambda node: 0 if node in active_nodes else 1)
+    for node in ordered_nodes:
+        for source, target in ((winner_anchor, node), (node, winner_anchor)):
+            if source != target and not graph.has_edge(source, target):
+                candidates.append((source, target))
+    if candidates:
+        source, target = candidates[0]
+    else:
+        source = target = None
+        fallback_nodes = [winner_anchor, *ordered_nodes]
+        for source_candidate in fallback_nodes:
+            for target_candidate in fallback_nodes:
+                if source_candidate != target_candidate and not graph.has_edge(source_candidate, target_candidate):
+                    source, target = source_candidate, target_candidate
+                    break
+            if source is not None:
+                break
+        if source is None or target is None:
+            return None
+    graph.add_edge(source, target, **{"c/d": edge_kind})
+    return GraphOperation(
+        step=step,
+        action="winner_xfg_edge_attack",
+        target_nodes=(source, target),
+        added_edges=((source, target, edge_kind),),
+        details=f"bridged winner-XFG {edge_kind} edge {source}->{target} to increase the vulnerable score",
+    )
+
+
+def _winner_xfg_feature_step(
+    graph: nx.DiGraph,
+    winner_nodes: set[int],
+    winner_anchor: int,
+    winner_key_line: int,
+    target_label: int,
+    neutral_source_line: int,
+    protected_nodes: set[int],
+    rng: random.Random,
+    step: int,
+) -> GraphOperation | None:
+    candidates = {
+        int(node)
+        for node in graph.nodes
+        if node not in protected_nodes and not graph.nodes[node].get("feature_modified")
+    }
+    target_source_line = winner_key_line if target_label == 1 else neutral_source_line
+    candidates = {
+        node
+        for node in candidates
+        if int(graph.nodes[node].get("source_line", node)) != target_source_line
+    }
+    ordered = _targeted_node_order(graph, candidates, winner_anchor, rng)
+    ordered.sort(key=lambda node: 0 if node in winner_nodes else 1)
+    if not ordered:
+        return None
+    node = ordered[0]
+    old_line = int(graph.nodes[node].get("source_line", node))
+    graph.nodes[node]["source_line"] = target_source_line
+    graph.nodes[node]["feature_modified"] = True
+    graph.nodes[node]["xfg_targeted"] = True
+    direction = "key-line" if target_label == 1 else "neutral"
+    return GraphOperation(
+        step=step,
+        action="winner_xfg_feature_mask",
+        target_nodes=(node,),
+        details=f"remapped winner-XFG node {node} from source line {old_line} to {direction} line {target_source_line}",
+    )
+
+
+def _targeted_subgraph_step(
+    graph: nx.DiGraph,
+    winner_nodes: set[int],
+    winner_anchor: int,
+    winner_key_line: int,
+    target_label: int,
+    neutral_source_line: int,
+    rng: random.Random,
+    step: int,
+) -> GraphOperation | None:
+    active_nodes = winner_nodes.intersection(graph.nodes)
+    ordered = _targeted_node_order(graph, active_nodes - {winner_anchor}, winner_anchor, rng)
+    anchor = ordered[0] if ordered else winner_anchor
+    feature_line = winner_key_line if target_label == 1 else neutral_source_line
+    first = _next_synthetic_node_id(graph)
+    second = first - 1
+    third = second - 1
+    for node in (first, second, third):
+        graph.add_node(
+            node,
+            synthetic=True,
+            xfg_targeted=True,
+            source_line=feature_line,
+            motif_step=step,
+        )
+    added_edges = (
+        (anchor, first, "d"),
+        (first, second, "d"),
+        (second, third, "c"),
+        (third, winner_anchor, "d"),
+    )
+    for source, target, kind in added_edges:
+        graph.add_edge(source, target, **{"c/d": kind})
+    direction = "key-line" if target_label == 1 else "neutral"
+    return GraphOperation(
+        step=step,
+        action="targeted_subgraph_injection",
+        target_nodes=(anchor, first, second, third, winner_anchor),
+        added_edges=added_edges,
+        details=f"injected a three-node {direction}-feature motif around winner key line {winner_key_line}",
+    )
+
+
+def apply_xfg_targeted_action(
+    pdg: nx.DiGraph,
+    action: XFGTargetedActionName,
+    winner_nodes: Iterable[int],
+    winner_key_line: int,
+    target_label: int,
+    budget: int = 1,
+    key_lines: Iterable[int] | dict[str, Iterable[int]] | None = None,
+    neutral_source_line: int | None = None,
+    seed: int = 0,
+    edge_kind: str = "d",
+) -> GraphPerturbationResult:
+    if action not in XFG_TARGETED_ACTION_NAMES:
+        raise ValueError(f"unknown XFG-targeted action: {action}")
+    if target_label not in {0, 1}:
+        raise ValueError("target_label must be 0 or 1")
+    if budget < 1:
+        raise ValueError("budget must be at least 1")
+    if edge_kind not in EDGE_KINDS:
+        raise ValueError("edge_kind must be 'c' or 'd'")
+
+    graph = pdg.copy()
+    protected_nodes = flatten_key_lines(key_lines)
+    active_winner_nodes = {int(node) for node in winner_nodes}.intersection(graph.nodes)
+    if not active_winner_nodes:
+        raise ValueError("winner_nodes must contain at least one PDG node")
+    winner_anchor = (
+        winner_key_line
+        if winner_key_line in active_winner_nodes
+        else min(active_winner_nodes, key=lambda node: (abs(node - winner_key_line), -graph.degree(node), node))
+    )
+    original_errors = validate_pdg(graph, protected_nodes.intersection(graph.nodes))
+    if original_errors:
+        return GraphPerturbationResult(
+            graph=graph,
+            action=action,
+            strategy="winner_xfg",
+            requested_count=budget,
+            applied_count=0,
+            operations=(),
+            validation_errors=original_errors,
+            notes="input PDG failed validation",
+        )
+
+    donor_line = neutral_source_line or _neutral_source_line(graph, active_winner_nodes, protected_nodes)
+    if donor_line is None or donor_line <= 0:
+        raise ValueError("a positive neutral_source_line is required for this PDG")
+
+    rng = random.Random(seed)
+    operations: list[GraphOperation] = []
+    for step in range(1, budget + 1):
+        if action == "winner_xfg_edge_attack":
+            operation = _winner_xfg_edge_step(
+                graph,
+                active_winner_nodes,
+                winner_anchor,
+                target_label,
+                edge_kind,
+                rng,
+                step,
+            )
+        elif action == "winner_xfg_feature_mask":
+            operation = _winner_xfg_feature_step(
+                graph,
+                active_winner_nodes,
+                winner_anchor,
+                winner_key_line,
+                target_label,
+                donor_line,
+                protected_nodes,
+                rng,
+                step,
+            )
+        else:
+            operation = _targeted_subgraph_step(
+                graph,
+                active_winner_nodes,
+                winner_anchor,
+                winner_key_line,
+                target_label,
+                donor_line,
+                rng,
+                step,
+            )
+        if operation is None:
+            break
+        operations.append(operation)
+
+    validation_errors = validate_pdg(graph, protected_nodes.intersection(pdg.nodes))
+    if len(operations) == budget:
+        notes = f"applied {budget} winner-XFG-targeted {action} operation(s)"
+    elif operations:
+        notes = f"applied {len(operations)} of {budget} requested winner-XFG-targeted operations"
+    else:
+        notes = f"no valid winner-XFG target was available for {action}"
+    return GraphPerturbationResult(
+        graph=graph,
+        action=action,
+        strategy="winner_xfg",
+        requested_count=budget,
         applied_count=len(operations),
         operations=tuple(operations),
         validation_errors=validation_errors,

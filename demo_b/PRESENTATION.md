@@ -1,6 +1,6 @@
 # DeepWuKong 扰动实验展示说明
 
-本说明用于演示已归档的 `run_20260710` 实验：对 C 源码施加保持语义的
+本说明用于演示已归档的 `run_20260710_code_devign_round1` 实验：对 C 源码施加保持语义的
 扰动，重新经过 Joern、PDG、XFG 和 DeepWuKong 推理，并比较模型输出。
 
 ## 快速开始
@@ -8,13 +8,13 @@
 从仓库根目录生成展示页面：
 
 ```powershell
-python demo_b\visualize_results.py --run-dir outputs\run_20260710
+python demo_b\visualize_results.py --run-dir outputs\run_20260710_code_devign_round1
 ```
 
 然后在浏览器中打开：
 
 ```text
-outputs/run_20260710/dashboard.html
+outputs/run_20260710_code_devign_round1/dashboard.html
 ```
 
 该页面是离线 HTML，不需要启动 Docker、Joern 或 GPU。也可以打开
@@ -26,10 +26,10 @@ outputs/run_20260710/dashboard.html
 
 | 文件 | 用途 |
 |---|---|
-| `outputs/run_20260710/prediction_comparison.csv` | 每个 baseline–扰动变体配对后的预测、概率和图结构变化。 |
-| `outputs/run_20260710/action_summary.csv` | 各扰动动作的聚合指标。 |
-| `outputs/run_20260710/baseline_summary.csv` | 10 个原始样本的 DeepWuKong 预测。 |
-| `outputs/run_20260710/runs/` | 每次 baseline 与扰动推理的完整 JSON 记录。 |
+| `outputs/run_20260710_code_devign_round1/prediction_comparison.csv` | 每个 baseline–扰动变体配对后的预测、概率和图结构变化。 |
+| `outputs/run_20260710_code_devign_round1/action_summary.csv` | 各扰动动作的聚合指标。 |
+| `outputs/run_20260710_code_devign_round1/baseline_summary.csv` | 10 个原始样本的 DeepWuKong 预测。 |
+| `outputs/run_20260710_code_devign_round1/runs/` | 每次 baseline 与扰动推理的完整 JSON 记录。 |
 
 ## 推荐演示顺序
 
@@ -48,11 +48,11 @@ outputs/run_20260710/dashboard.html
 
 ## 更新到新实验
 
-新实验完成后，只要在新的 `outputs/run_<id>/` 中写出同名的
+新实验完成后，只要在新的 `outputs/run_<YYYYMMDD>_<level>_<dataset>_round<N>/` 中写出同名的
 `prediction_comparison.csv`，即可重新生成页面：
 
 ```powershell
-python demo_b\visualize_results.py --run-dir outputs\run_<id>
+python demo_b\visualize_results.py --run-dir outputs\run_<YYYYMMDD>_<level>_<dataset>_round<N>
 ```
 
 页面会输出到该运行目录的 `dashboard.html`。

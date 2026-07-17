@@ -82,7 +82,7 @@ python demo_b\graph\graph_perturbations.py `
   --action edge_delete `
   --strategy random `
   --seed 42 `
-  --output outputs\generated\graph_perturbations\edge_delete.json
+  --output outputs\run_20260717_graph_devign_round1\audits\edge_delete.json
 ```
 
 Use `--strategy guided --key-lines <line...>` when DeepWuKong key lines are
@@ -102,6 +102,6 @@ variants. All variants completed Joern and DeepWuKong inference; none flipped
 the predicted label. The maximum absolute vulnerability-probability change was
 `0.147869`.
 
-Start with `outputs/run_20260710/README.md` for the archived results,
+Start with `outputs/run_20260710_code_devign_round1/README.md` for the archived results,
 `demo_b/code/README.md` for source actions, and `demo_b/graph/README.md` for
 direct graph actions.

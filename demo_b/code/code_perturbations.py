@@ -5,6 +5,7 @@ import csv
 import re
 import subprocess
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Callable, Iterable
 
@@ -396,6 +397,11 @@ def safe_stem(path: Path) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", path.stem).strip("._") or "sample"
 
 
+def dataset_slug(input_path: Path) -> str:
+    candidate = input_path.parent.name if input_path.suffix else input_path.name
+    return re.sub(r"[^A-Za-z0-9]+", "", candidate).lower() or "dataset"
+
+
 def deepwukong_command(deepwukong_root: Path, variant_file: Path, output_root: Path) -> str:
     run_dir = output_root / variant_file.stem
     return (
@@ -469,8 +475,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--deepwukong-output",
         type=Path,
-        default=PROJECT_ROOT / "outputs" / "generated" / "deepwukong_perturbations",
+        default=None,
     )
+    parser.add_argument("--run-round", type=int, default=1)
     parser.add_argument("--actions", nargs="+", default=list(OPERATORS), choices=sorted(OPERATORS))
     parser.add_argument("--action", dest="actions", nargs="+", choices=sorted(OPERATORS), help=argparse.SUPPRESS)
     parser.add_argument(
@@ -485,6 +492,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-deepwukong", action="store_true", help="Run DeepWuKong for each generated variant.")
     args = parser.parse_args()
     args.counts = normalize_counts(args.counts)
+    if args.run_round < 1:
+        parser.error("--run-round must be at least 1")
+    if args.deepwukong_output is None:
+        run_name = (
+            f"run_{datetime.now().strftime('%Y%m%d')}_code_"
+            f"{dataset_slug(args.input)}_round{args.run_round}"
+        )
+        args.deepwukong_output = PROJECT_ROOT / "outputs" / run_name / "runs" / "perturbed"
     return args
 
 
