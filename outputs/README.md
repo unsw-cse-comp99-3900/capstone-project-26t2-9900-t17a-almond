@@ -18,6 +18,9 @@ Examples:
 
 ```text
 run_20260710_code_devign_round1/
+run_20260717_code_cvefixes_round1/
+run_20260717_code_cwe119_round1/
+run_20260717_code_devign_round1/
 run_20260717_graph_devign_round1/
 run_20260717_graph_cwe119_round1/
 run_20260717_graph_cwe119_round2/
