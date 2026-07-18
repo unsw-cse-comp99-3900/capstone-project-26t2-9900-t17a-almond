@@ -1,0 +1,494 @@
+{
+  "generated_at_utc": "2026-07-17T14:15:17.364319+00:00",
+  "prediction": {
+    "sample_id": "00_codexglue_devign_9763__control_wrapper__c5",
+    "input_file": "C:\\Users\\weijt\\Desktop\\UNSW\\COMP9900\\project\\capstone-project-26t2-9900-t17a-almond\\outputs\\generated\\full_budget_search_20260717\\devign\\sources\\00_codexglue_devign_9763__control_wrapper__c5.c",
+    "function_name": "decode_frame_common",
+    "joern_status": "success",
+    "num_nodes": 1172,
+    "num_edges": 2475,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.0005112718208692968,
+    "threshold": 0.5,
+    "confidence": 0.9994887281791307,
+    "lexical_score": null,
+    "graph_score": 0.0005112718208692968,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 0.0005112718208692968
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/scan/output/_work/joern-parse-lf.sh",
+        "/scan/output/joern_csv",
+        "/scan/output/_work/source"
+      ],
+      "stdout": "/scan/output/_work/source/00_codexglue_devign_9763__control_wrapper__c5.c\n",
+      "stderr": "",
+      "csv_dir": "/scan/output/joern_csv",
+      "selected_csv_dir": "/scan/output/joern_csv/scan/output/_work/source/00_codexglue_devign_9763__control_wrapper__c5.c",
+      "runtime_ms": 987.7473969991115,
+      "node_count": 1172,
+      "edge_count": 2475,
+      "summary": {
+        "node_count": 1172,
+        "edge_count": 2475
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "decode_frame_common",
+        "char_length": 6247,
+        "line_count": 327
+      },
+      "graph": {
+        "available": true,
+        "node_count": 1172,
+        "edge_count": 2475
+      },
+      "xfg": {
+        "xfg_count": 50,
+        "key_line_counts": {
+          "call": 4,
+          "array": 6,
+          "ptr": 33,
+          "arith": 7
+        },
+        "xfg_predictions": [
+          {
+            "category": "call",
+            "key_line": 257,
+            "vulnerability_probability": 2.205009568618318e-18,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "call",
+            "key_line": 259,
+            "vulnerability_probability": 4.400990295414497e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "call",
+            "key_line": 253,
+            "vulnerability_probability": 9.63372753153089e-15,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "call",
+            "key_line": 263,
+            "vulnerability_probability": 2.0703482872074416e-18,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "array",
+            "key_line": 259,
+            "vulnerability_probability": 4.400973420930001e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "array",
+            "key_line": 263,
+            "vulnerability_probability": 2.0703482872074416e-18,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "array",
+            "key_line": 243,
+            "vulnerability_probability": 1.5759646032620367e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999998807907104
+          },
+          {
+            "category": "array",
+            "key_line": 277,
+            "vulnerability_probability": 2.540889454394346e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999997615814209
+          },
+          {
+            "category": "array",
+            "key_line": 251,
+            "vulnerability_probability": 6.13642896496458e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "array",
+            "key_line": 253,
+            "vulnerability_probability": 9.63376480098057e-15,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 257,
+            "vulnerability_probability": 2.205009568618318e-18,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 133,
+            "vulnerability_probability": 9.151686372052145e-33,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 141,
+            "vulnerability_probability": 6.268502562726055e-14,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 20,
+            "vulnerability_probability": 4.1171133169370933e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 277,
+            "vulnerability_probability": 2.540892012348195e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999997615814209
+          },
+          {
+            "category": "ptr",
+            "key_line": 279,
+            "vulnerability_probability": 6.312831146715325e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "ptr",
+            "key_line": 25,
+            "vulnerability_probability": 1.1904403018903054e-09,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 27,
+            "vulnerability_probability": 1.1904380814442561e-09,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 289,
+            "vulnerability_probability": 6.312831146715325e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "ptr",
+            "key_line": 293,
+            "vulnerability_probability": 3.435679332142172e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999996423721313
+          },
+          {
+            "category": "ptr",
+            "key_line": 45,
+            "vulnerability_probability": 2.0006202250399951e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 173,
+            "vulnerability_probability": 0.0005112718208692968,
+            "predicted_label": 0,
+            "confidence": 0.9994887113571167
+          },
+          {
+            "category": "ptr",
+            "key_line": 305,
+            "vulnerability_probability": 5.981418325973209e-06,
+            "predicted_label": 0,
+            "confidence": 0.9999940395355225
+          },
+          {
+            "category": "ptr",
+            "key_line": 183,
+            "vulnerability_probability": 0.0005112718208692968,
+            "predicted_label": 0,
+            "confidence": 0.9994887113571167
+          },
+          {
+            "category": "ptr",
+            "key_line": 189,
+            "vulnerability_probability": 5.633109538723258e-13,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 61,
+            "vulnerability_probability": 6.05967054312373e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 63,
+            "vulnerability_probability": 1.3521839719032869e-06,
+            "predicted_label": 0,
+            "confidence": 0.9999986886978149
+          },
+          {
+            "category": "ptr",
+            "key_line": 193,
+            "vulnerability_probability": 7.851399956885444e-15,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 322,
+            "vulnerability_probability": 4.45942172078162e-09,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 73,
+            "vulnerability_probability": 6.51203591051086e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 201,
+            "vulnerability_probability": 3.2420025789914663e-19,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 75,
+            "vulnerability_probability": 9.396740052736163e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 211,
+            "vulnerability_probability": 4.156359901058065e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 223,
+            "vulnerability_probability": 2.277980026832438e-09,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 249,
+            "vulnerability_probability": 1.995235606955248e-06,
+            "predicted_label": 0,
+            "confidence": 0.9999979734420776
+          },
+          {
+            "category": "ptr",
+            "key_line": 231,
+            "vulnerability_probability": 1.1653876546776926e-14,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 233,
+            "vulnerability_probability": 1.7726478872650158e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 107,
+            "vulnerability_probability": 4.597179669610844e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 235,
+            "vulnerability_probability": 1.7726478872650158e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 241,
+            "vulnerability_probability": 6.320855163721717e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "ptr",
+            "key_line": 243,
+            "vulnerability_probability": 1.4263530090374843e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999998807907104
+          },
+          {
+            "category": "ptr",
+            "key_line": 121,
+            "vulnerability_probability": 4.700231870380378e-10,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 251,
+            "vulnerability_probability": 5.575816430791747e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "arith",
+            "key_line": 235,
+            "vulnerability_probability": 1.7726478872650158e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "arith",
+            "key_line": 173,
+            "vulnerability_probability": 0.0005112718208692968,
+            "predicted_label": 0,
+            "confidence": 0.9994887113571167
+          },
+          {
+            "category": "arith",
+            "key_line": 243,
+            "vulnerability_probability": 1.5759646032620367e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999998807907104
+          },
+          {
+            "category": "arith",
+            "key_line": 211,
+            "vulnerability_probability": 4.156359901058065e-17,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "arith",
+            "key_line": 183,
+            "vulnerability_probability": 0.0005112718208692968,
+            "predicted_label": 0,
+            "confidence": 0.9994887113571167
+          },
+          {
+            "category": "arith",
+            "key_line": 251,
+            "vulnerability_probability": 6.136417596280808e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999994039535522
+          },
+          {
+            "category": "arith",
+            "key_line": 253,
+            "vulnerability_probability": 9.63376480098057e-15,
+            "predicted_label": 0,
+            "confidence": 1.0
+          }
+        ]
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 0.0005112718208692968,
+        "status": "ok",
+        "model": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 50
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 0.0005112718208692968
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 0.0005112718208692968,
+      "predicted_label": 0,
+      "confidence": 0.9994887281791307,
+      "threshold": 0.5
+    },
+    "runtime_ms": 7457.333546999507,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": []
+  }
+}

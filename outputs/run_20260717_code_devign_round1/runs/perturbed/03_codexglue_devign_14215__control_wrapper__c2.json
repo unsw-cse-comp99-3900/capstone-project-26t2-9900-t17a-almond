@@ -1,0 +1,145 @@
+{
+  "generated_at_utc": "2026-07-17T14:23:01.660844+00:00",
+  "prediction": {
+    "sample_id": "03_codexglue_devign_14215__control_wrapper__c2",
+    "input_file": "C:\\Users\\weijt\\Desktop\\UNSW\\COMP9900\\project\\capstone-project-26t2-9900-t17a-almond\\outputs\\generated\\full_budget_search_20260717\\devign\\sources\\03_codexglue_devign_14215__control_wrapper__c2.c",
+    "function_name": "gen_cas_asi",
+    "joern_status": "success",
+    "num_nodes": 121,
+    "num_edges": 233,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.0,
+    "threshold": 0.5,
+    "confidence": 1.0,
+    "lexical_score": null,
+    "graph_score": 0.0,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 0.0
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/scan/output/_work/joern-parse-lf.sh",
+        "/scan/output/joern_csv",
+        "/scan/output/_work/source"
+      ],
+      "stdout": "/scan/output/_work/source/03_codexglue_devign_14215__control_wrapper__c2.c\n",
+      "stderr": "",
+      "csv_dir": "/scan/output/joern_csv",
+      "selected_csv_dir": "/scan/output/joern_csv/scan/output/_work/source/03_codexglue_devign_14215__control_wrapper__c2.c",
+      "runtime_ms": 498.2907890007482,
+      "node_count": 121,
+      "edge_count": 233,
+      "summary": {
+        "node_count": 121,
+        "edge_count": 233
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "gen_cas_asi",
+        "char_length": 411,
+        "line_count": 25
+      },
+      "graph": {
+        "available": true,
+        "node_count": 121,
+        "edge_count": 233
+      },
+      "xfg": {
+        "xfg_count": 0,
+        "key_line_counts": {
+          "call": 0,
+          "array": 0,
+          "ptr": 0,
+          "arith": 0
+        },
+        "xfg_predictions": []
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 0.0,
+        "status": "ok",
+        "model": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 0
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 0.0
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 0.0,
+      "predicted_label": 0,
+      "confidence": 1.0,
+      "threshold": 0.5
+    },
+    "runtime_ms": 4926.927775999502,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": [
+      "No XFG slices were generated from the sensitive seed lines."
+    ]
+  }
+}

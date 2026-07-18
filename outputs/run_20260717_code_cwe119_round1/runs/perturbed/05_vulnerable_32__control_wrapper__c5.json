@@ -1,0 +1,172 @@
+{
+  "generated_at_utc": "2026-07-17T13:32:25.299190+00:00",
+  "prediction": {
+    "sample_id": "05_vulnerable_32__control_wrapper__c5",
+    "input_file": "C:\\Users\\weijt\\Desktop\\UNSW\\COMP9900\\project\\capstone-project-26t2-9900-t17a-almond\\outputs\\generated\\full_budget_search_20260717\\cwe119_vulnerable\\sources\\05_vulnerable_32__control_wrapper__c5.cpp",
+    "function_name": "badSink",
+    "joern_status": "success",
+    "num_nodes": 167,
+    "num_edges": 471,
+    "predicted_label": 1,
+    "vulnerability_probability": 0.9736072421073914,
+    "threshold": 0.5,
+    "confidence": 0.9736072421073914,
+    "lexical_score": null,
+    "graph_score": 0.9736072421073914,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 0.9736072421073914
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/scan/output/_work/joern-parse-lf.sh",
+        "/scan/output/joern_csv",
+        "/scan/output/_work/source"
+      ],
+      "stdout": "/scan/output/_work/source/05_vulnerable_32__control_wrapper__c5.cpp\n",
+      "stderr": "",
+      "csv_dir": "/scan/output/joern_csv",
+      "selected_csv_dir": "/scan/output/joern_csv/scan/output/_work/source/05_vulnerable_32__control_wrapper__c5.cpp",
+      "runtime_ms": 539.5722559987917,
+      "node_count": 167,
+      "edge_count": 471,
+      "summary": {
+        "node_count": 167,
+        "edge_count": 471
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "badSink",
+        "char_length": 1979,
+        "line_count": 75
+      },
+      "graph": {
+        "available": true,
+        "node_count": 167,
+        "edge_count": 471
+      },
+      "xfg": {
+        "xfg_count": 4,
+        "key_line_counts": {
+          "call": 2,
+          "array": 2,
+          "ptr": 0,
+          "arith": 0
+        },
+        "xfg_predictions": [
+          {
+            "category": "call",
+            "key_line": 64,
+            "vulnerability_probability": 0.7097340822219849,
+            "predicted_label": 1,
+            "confidence": 0.7097340822219849
+          },
+          {
+            "category": "call",
+            "key_line": 39,
+            "vulnerability_probability": 0.9736072421073914,
+            "predicted_label": 1,
+            "confidence": 0.9736072421073914
+          },
+          {
+            "category": "array",
+            "key_line": 32,
+            "vulnerability_probability": 0.8374620676040649,
+            "predicted_label": 1,
+            "confidence": 0.8374620676040649
+          },
+          {
+            "category": "array",
+            "key_line": 57,
+            "vulnerability_probability": 0.00013503190712071955,
+            "predicted_label": 0,
+            "confidence": 0.999864935874939
+          }
+        ]
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 0.9736072421073914,
+        "status": "ok",
+        "model": "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 4
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 0.9736072421073914
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 0.9736072421073914,
+      "predicted_label": 1,
+      "confidence": 0.9736072421073914,
+      "threshold": 0.5
+    },
+    "runtime_ms": 5442.607922999741,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": []
+  }
+}
