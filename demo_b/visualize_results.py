@@ -121,6 +121,40 @@ def svg_action_chart(metrics: list[dict[str, object]]) -> str:
     )
 
 
+def available_runs() -> list[Path]:
+    """Return every archived run that has a comparison table."""
+    return sorted(
+        candidate for candidate in Path("outputs").glob("run_*")
+        if (candidate / "prediction_comparison.csv").is_file()
+    )
+
+
+def render_index(runs: list[Path], output: Path) -> None:
+    """Create a compact landing page for navigating all archived experiments."""
+    cards: list[str] = []
+    for run in runs:
+        rows = read_rows(run / "prediction_comparison.csv")
+        scored = [row for row in rows if is_scored(row)]
+        selections = {selection_key(row) for row in scored}
+        kind = "Code-level" if "_code_" in run.name else "Graph-level"
+        cards.append(
+            '<a class="run-card" href="{href}"><span class="kind">{kind}</span><h2>{name}</h2>'
+            '<dl><div><dt>Samples</dt><dd>{samples}</dd></div><div><dt>Scored variants</dt><dd>{variants}</dd></div>'
+            '<div><dt>Configurations</dt><dd>{selections}</dd></div><div><dt>Prediction flips</dt><dd>{flips}</dd></div></dl></a>'.format(
+                href=html.escape(f"{run.name}/dashboard.html"), kind=kind, name=html.escape(run.name),
+                samples=len({row["sample"] for row in scored}), variants=len(scored), selections=len(selections),
+                flips=sum(row["flipped"].lower() == "true" for row in scored),
+            )
+        )
+    document = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepWuKong experiment index</title><style>
+body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}}main{{max-width:1120px;margin:auto;padding:32px}}.sub{{color:#5d687c}}.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:26px}}.run-card{{display:block;color:inherit;text-decoration:none;background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px #17203312}}.run-card:hover{{box-shadow:0 6px 18px #17203322}}.run-card h2{{font-size:18px;margin:10px 0 18px;overflow-wrap:anywhere}}.kind{{color:#2457c5;font-weight:600}}dl{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0}}dt{{font-size:13px;color:#5d687c}}dd{{font-size:24px;font-weight:700;margin:3px 0 0}}
+</style></head><body><main><h1>DeepWuKong experiment index</h1><p class="sub">Choose an archived code-level or graph-level perturbation run to view its full comparison dashboard.</p><div class="grid">{"".join(cards)}</div></main></body></html>"""
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(document, encoding="utf-8")
+
+
 def render_report(
     rows: list[dict[str, str]],
     output: Path,
@@ -136,7 +170,6 @@ def render_report(
     has_budgets = any(row["budget"] for row in scored)
     selection_name = "attack configurations" if has_budgets else "perturbation methods"
     metric_name = "Configuration" if has_budgets else "Action"
-    focus_name = "Focused configuration" if has_budgets else "Focused action"
     max_change = max(scored, key=lambda row: abs(number(row, "delta_prob")))
     flips = sum(row["flipped"].lower() == "true" for row in scored)
     baseline_count, unscored = len({row["sample"] for row in scored}), len(rows) - len(scored)
@@ -159,7 +192,6 @@ def render_report(
         ) for metric in metrics
     )
     controls = " ".join(f'<label><input type="checkbox" value="{html.escape(selection)}" checked> {html.escape(selection)}</label>' for selection in selections)
-    action_options = "".join(f'<option value="{html.escape(selection)}">{html.escape(selection)}</option>' for selection in selections)
     run_selector = ""
     if run_options:
         run_selector_options = "".join(
@@ -168,18 +200,18 @@ def render_report(
         )
         run_selector = (
             '<div class="run-switcher"><label for="run-selector">Experiment run</label>'
-            f'<select id="run-selector">{run_selector_options}</select></div>'
+            f'<select id="run-selector">{run_selector_options}</select> <a href="../index.html">All runs</a></div>'
         )
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>
-body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}}main{{max-width:1120px;margin:auto;padding:32px}}h1{{margin-bottom:4px}}.sub{{color:#5d687c}}.run-switcher{{margin:16px 0}}.cards{{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}}.card{{background:white;border-radius:12px;padding:18px;min-width:170px;box-shadow:0 2px 10px #17203312}}.value{{font-size:28px;font-weight:700;color:#2457c5}}section{{background:white;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 2px 10px #17203312}}table{{width:100%;border-collapse:collapse;font-size:14px}}th,td{{padding:9px;border-bottom:1px solid #e5e7eb;text-align:left}}th{{background:#f1f5ff}}.delta{{font-variant-numeric:tabular-nums}}label{{display:inline-block;margin:4px 14px 8px 0}}.note{{padding:12px;background:#fff8e5;border-left:4px solid #e6aa13}}.method-picker{{margin-top:14px;border:1px solid #cbd5e1;border-radius:8px;background:#f8faff}}.method-picker summary{{cursor:pointer;padding:14px 16px;font-weight:600;font-size:16px}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:4px 14px;max-height:420px;overflow-y:auto;padding:2px 16px 16px}}#action-checks label{{margin:0;padding:6px 2px;overflow-wrap:anywhere}}.variant-table{{table-layout:fixed;font-size:13px}}.variant-table th,.variant-table td{{padding:8px 7px;overflow-wrap:anywhere;vertical-align:top}}.variant-table th:nth-child(n+4),.variant-table td:nth-child(n+4){{text-align:center;white-space:nowrap}}
+body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}}main{{max-width:1120px;margin:auto;padding:32px}}h1{{margin-bottom:4px}}.sub{{color:#5d687c}}.run-switcher{{margin:16px 0}}.cards{{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}}.card{{background:white;border-radius:12px;padding:18px;min-width:170px;box-shadow:0 2px 10px #17203312}}.value{{font-size:28px;font-weight:700;color:#2457c5}}section{{background:white;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 2px 10px #17203312}}table{{width:100%;border-collapse:collapse;font-size:14px}}th,td{{padding:9px;border-bottom:1px solid #e5e7eb;text-align:left}}th{{background:#f1f5ff}}.delta{{font-variant-numeric:tabular-nums}}label{{display:inline-block;margin:4px 14px 8px 0}}.note{{padding:12px;background:#fff8e5;border-left:4px solid #e6aa13}}.method-picker{{margin-top:14px;border:1px solid #cbd5e1;border-radius:8px;background:#f8faff}}.method-picker summary{{cursor:pointer;padding:14px 16px;font-weight:600;font-size:16px}}.picker-actions{{padding:8px 16px;border-top:1px solid #dbe4f2}}.picker-actions label{{font-weight:600;margin:0}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:4px 14px;max-height:420px;overflow-y:auto;padding:2px 16px 16px}}#action-checks label{{margin:0;padding:6px 2px;overflow-wrap:anywhere}}.table-scroll{{max-height:680px;overflow-y:scroll;scrollbar-width:auto;scrollbar-color:#496b9e #e3eaf6}}.table-scroll::-webkit-scrollbar{{width:16px}}.table-scroll::-webkit-scrollbar-track{{background:#e3eaf6}}.table-scroll::-webkit-scrollbar-thumb{{background:#496b9e;border:3px solid #e3eaf6;border-radius:10px}}.table-scroll thead th{{position:sticky;top:0;z-index:1}}.variant-table{{table-layout:fixed;font-size:13px}}.variant-table th,.variant-table td{{padding:8px 7px;overflow-wrap:anywhere;vertical-align:top}}.variant-table th:nth-child(n+4),.variant-table td:nth-child(n+4){{text-align:center;white-space:nowrap}}
 </style></head><body><main>
 <h1>{html.escape(title)}</h1><p class="sub">Archived DeepWuKong robustness run - code- or graph-level perturbations compared with the same baseline prediction.</p>{run_selector}
 <div class="cards"><div class="card"><div class="value">{baseline_count}</div>baseline samples</div><div class="card"><div class="value">{len(scored)}</div>scored variants</div><div class="card"><div class="value">{flips}</div>prediction flips</div><div class="card"><div class="value">{unscored}</div>unscored / incomplete</div></div>
 <section><h2>What changed most?</h2><p class="note"><strong>{html.escape(max_change['sample'])}</strong> with <strong>{html.escape(max_change['action'])}</strong> changed from {number(max_change, 'base_prob'):.6f} to {number(max_change, 'variant_prob'):.6f} ({number(max_change, 'delta_prob'):+.6f}) {max_change_note}</p>{svg_action_chart(metrics)}</section>
 <section><h2>Action-level comparison</h2><table><thead><tr><th>{metric_name}</th><th>Scored variants</th><th>Mean probability delta</th><th>Mean delta nodes</th><th>Mean delta edges</th></tr></thead><tbody>{metric_rows}</tbody></table></section>
-<section><h2>Variant explorer</h2><p>Use one configuration for a focused walkthrough, or select several for comparison. New actions and budgets found in the CSV appear automatically.</p><div id="filters"><label for="primary-action">{focus_name}</label><select id="primary-action"><option value="__all__">All configurations</option>{action_options}<option value="__custom__">Custom selection</option></select><p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name} (checkboxes)</summary><div id="action-checks">{controls}</div></details></div><table class="variant-table"><colgroup><col style="width:10%"><col style="width:20%"><col style="width:18%"><col style="width:5%"><col style="width:8%"><col style="width:8%"><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:8%"></colgroup><thead><tr><th>Sample</th><th>Function</th><th>Action</th><th>Budget</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Flipped</th></tr></thead><tbody>{table_rows}</tbody></table></section>
-</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const primary=document.getElementById('primary-action');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filter(){{const chosen=selected();document.querySelectorAll('tbody tr[data-selection]').forEach(row=>row.hidden=!chosen.has(row.dataset.selection));document.querySelectorAll('[data-action-chart]').forEach(mark=>mark.hidden=!chosen.has(mark.dataset.actionChart));summary.textContent=`Showing ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}primary.addEventListener('change',()=>{{if(primary.value==='__all__')boxes.forEach(box=>box.checked=true);else if(primary.value!=='__custom__')boxes.forEach(box=>box.checked=box.value===primary.value);filter();}});boxes.forEach(box=>box.addEventListener('change',()=>{{const chosen=selected();primary.value=chosen.size===boxes.length?'__all__':chosen.size===1?[...chosen][0]:'__custom__';filter();}}));if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});filter();</script></body></html>"""
+<section><h2>Variant explorer</h2><p>Select one or more {selection_name} for comparison. New actions and budgets found in the CSV appear automatically.</p><div id="filters"><p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name} (checkboxes)</summary><div class="picker-actions"><label><input id="select-all" type="checkbox" checked> All</label></div><div id="action-checks">{controls}</div></details></div><div class="table-scroll"><table class="variant-table"><colgroup><col style="width:10%"><col style="width:20%"><col style="width:18%"><col style="width:5%"><col style="width:8%"><col style="width:8%"><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:8%"></colgroup><thead><tr><th>Sample</th><th>Function</th><th>Action</th><th>Budget</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Flipped</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>
+</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filter(){{const chosen=selected();allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>row.hidden=!chosen.has(row.dataset.selection));document.querySelectorAll('[data-action-chart]').forEach(mark=>mark.hidden=!chosen.has(mark.dataset.actionChart));summary.textContent=`Showing ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filter();}});boxes.forEach(box=>box.addEventListener('change',filter));if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});filter();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
 
@@ -193,18 +225,16 @@ def main() -> None:
     if not comparison.is_file():
         parser.error(f"missing comparison table: {comparison}")
     output = args.output or args.run_dir / "dashboard.html"
-    available_runs = sorted(
-        candidate for candidate in Path("outputs").glob("run_*")
-        if (candidate / "prediction_comparison.csv").is_file()
-    )
+    runs = available_runs()
     run_options = [
         (candidate.name, Path(os.path.relpath(candidate / "dashboard.html", output.parent)).as_posix())
-        for candidate in available_runs
+        for candidate in runs
     ]
     render_report(
         read_rows(comparison), output, f"DeepWuKong perturbation report: {args.run_dir.name}",
         run_options, args.run_dir.name,
     )
+    render_index(runs, Path("outputs") / "index.html")
     print(f"Wrote {output}")
 
 
