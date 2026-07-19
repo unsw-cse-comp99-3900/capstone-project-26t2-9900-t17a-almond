@@ -6,6 +6,7 @@ import argparse
 import csv
 import html
 import os
+import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -53,8 +54,28 @@ def is_scored(row: dict[str, str]) -> bool:
 
 
 def selection_key(row: dict[str, str]) -> str:
-    """Keep attack budgets distinct when a run evaluates multiple budgets."""
-    return f"{row['action']} | budget {row['budget']}" if row["budget"] else row["action"]
+    """Give every method-and-strength combination one stable display label."""
+    method, strength = perturbation_configuration(row)
+    return f"{method} | {strength}" if strength else method
+
+
+def perturbation_configuration(row: dict[str, str]) -> tuple[str, str]:
+    """Normalize graph budgets and code ``__cN`` suffixes into one configuration."""
+    if row["budget"]:
+        return row["action"], f"budget {row['budget']}"
+    match = re.fullmatch(r"(.+)__c(\d+)", row["action"])
+    if match:
+        return match.group(1), f"count {match.group(2)}"
+    return row["action"], ""
+
+
+def explicit_attack_success(rows: list[dict[str, str]]) -> bool:
+    """Whether this CSV defines a targeted-attack success outcome."""
+    return any("attack_success" in row for row in rows)
+
+
+def success_term(rows: list[dict[str, str]]) -> str:
+    return "Attack Success Rate (ASR)" if explicit_attack_success(rows) else "Prediction Flip Rate"
 
 
 def action_metrics(rows: list[dict[str, str]]) -> list[dict[str, object]]:
@@ -116,8 +137,154 @@ def svg_action_chart(metrics: list[dict[str, object]]) -> str:
             f'<text x="{label_width + bar_length + 10:.1f}" y="{y + 24}" font-size="14">{value:.4f}</text></g>'
         )
     return (
+        '<div class="chart-scroll sensitivity-chart">'
         f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="Mean absolute probability change by action">'
-        f'<text x="0" y="22" font-size="15">Top {len(shown)} configurations by mean absolute probability change</text>{"".join(bars)}</svg>'
+        f'<text x="0" y="22" font-size="15">Top {len(shown)} configurations by mean absolute probability change</text>{"".join(bars)}</svg></div>'
+    )
+
+
+def attack_succeeded(row: dict[str, str]) -> bool:
+    """Use the explicit targeted-attack outcome when available, otherwise a label flip."""
+    value = row.get("attack_success", "")
+    return value.lower() == "true" if value else row["flipped"].lower() == "true"
+
+
+def success_metrics(rows: list[dict[str, str]]) -> list[dict[str, object]]:
+    grouped: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        grouped[selection_key(row)].append(row)
+    return [
+        {
+            "selection": selection,
+            "total": len(group),
+            "successes": sum(attack_succeeded(row) for row in group),
+        }
+        for selection, group in grouped.items()
+    ]
+
+
+def robustness_summary(rows: list[dict[str, str]]) -> dict[str, tuple[int, int] | None]:
+    """Summarise outcome success overall, per sample, and per known true class."""
+    successes = sum(attack_succeeded(row) for row in rows)
+    sample_outcomes: dict[str, bool] = defaultdict(bool)
+    for row in rows:
+        sample_outcomes[row["sample"]] = sample_outcomes[row["sample"]] or attack_succeeded(row)
+    summary: dict[str, tuple[int, int] | None] = {
+        "overall": (successes, len(rows)),
+        "samples": (sum(sample_outcomes.values()), len(sample_outcomes)),
+        "vulnerable": None,
+        "non_vulnerable": None,
+    }
+    labelled = [row for row in rows if row.get("true_label", "") != ""]
+    if labelled:
+        vulnerable = [row for row in labelled if row["true_label"].strip().lower() in {"1", "true", "vulnerable"}]
+        non_vulnerable = [row for row in labelled if row not in vulnerable]
+        summary["vulnerable"] = (sum(attack_succeeded(row) for row in vulnerable), len(vulnerable))
+        summary["non_vulnerable"] = (sum(attack_succeeded(row) for row in non_vulnerable), len(non_vulnerable))
+    return summary
+
+
+def success_card(label: str, value: tuple[int, int]) -> str:
+    successful, total = value
+    rate = successful / total if total else 0.0
+    return f'<div class="card"><div class="value">{rate:.1%}</div>{html.escape(label)}<small>{successful}/{total}</small></div>'
+
+
+def svg_success_rate_chart(rows: list[dict[str, str]]) -> str:
+    """Compare each perturbation configuration by its outcome-changing rate."""
+    shown = sorted(
+        success_metrics(rows),
+        key=lambda metric: (int(metric["successes"]) / int(metric["total"]), int(metric["successes"])),
+        reverse=True,
+    )
+    width, label_width, bar_width = 960, 280, 500
+    row_height, top, bottom = 48, 50, 32
+    bars = []
+    for index, metric in enumerate(shown):
+        total, successes = int(metric["total"]), int(metric["successes"])
+        rate = successes / total if total else 0.0
+        y = top + index * row_height
+        label = html.escape(str(metric["selection"]))
+        bars.append(
+            f'<g><text x="{label_width - 12}" y="{y + 22}" text-anchor="end" font-size="14">{label}</text>'
+            f'<rect x="{label_width}" y="{y + 5}" width="{bar_width}" height="25" fill="#e5e7eb"/>'
+            f'<rect x="{label_width}" y="{y + 5}" width="{bar_width * rate:.1f}" height="25" fill="#16a34a"/>'
+            f'<text x="{label_width + bar_width + 12}" y="{y + 23}" font-size="14">{successes}/{total} ({rate:.0%})</text></g>'
+        )
+    height = top + len(shown) * row_height + bottom
+    return (
+        '<div class="chart-scroll success-chart">'
+        f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="{success_term(rows)} by configuration">'
+        f'<text x="0" y="22" font-size="15">{success_term(rows)} by configuration</text>{"".join(bars)}</svg></div>'
+    )
+
+
+def strength_sort_key(strength: str) -> tuple[int, str]:
+    match = re.search(r"(\d+)$", strength)
+    return (int(match.group(1)) if match else -1, strength)
+
+
+def method_intensity_heatmap(rows: list[dict[str, str]]) -> str:
+    """Render success rates by method and strength without mixing methods."""
+    grouped: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        method, strength = perturbation_configuration(row)
+        if strength:
+            grouped[(method, strength)].append(row)
+    if not grouped:
+        return '<p class="sub">No budget or count values were recorded for this run.</p>'
+    methods = sorted({method for method, _ in grouped})
+    strengths = sorted({strength for _, strength in grouped}, key=strength_sort_key)
+    header = "".join(f"<th>{html.escape(strength)}</th>" for strength in strengths)
+    body: list[str] = []
+    for method in methods:
+        cells = []
+        for strength in strengths:
+            group = grouped.get((method, strength), [])
+            if not group:
+                cells.append('<td class="heatmap-empty">—</td>')
+                continue
+            successes = sum(attack_succeeded(row) for row in group)
+            rate = successes / len(group)
+            cells.append(
+                f'<td class="heatmap-cell" style="--rate:{rate:.3f}" aria-label="{html.escape(method)} {html.escape(strength)}: {successes} of {len(group)}">'
+                f'<strong>{rate:.0%}</strong><span>{successes}/{len(group)}</span></td>'
+            )
+        body.append(f'<tr><th>{html.escape(method)}</th>{"".join(cells)}</tr>')
+    return (
+        '<div class="heatmap-wrap"><h3>Method–intensity heatmap</h3>'
+        f'<p class="sub">Each cell is {success_term(rows)} for one method and one strength. It shows whether stronger perturbations are consistently more effective.</p>'
+        f'<div class="data-scroll"><table class="heatmap"><thead><tr><th>Method</th>{header}</tr></thead><tbody>{"".join(body)}</tbody></table></div></div>'
+    )
+
+
+def success_matrix(rows: list[dict[str, str]]) -> str:
+    """Show which samples are compromised by which of the strongest configurations."""
+    all_metrics = sorted(
+        success_metrics(rows),
+        key=lambda metric: (int(metric["successes"]), str(metric["selection"])),
+        reverse=True,
+    )
+    metrics = all_metrics[:12] if len(all_metrics) > 12 else all_metrics
+    selections = [str(metric["selection"]) for metric in metrics]
+    samples = sorted({row["sample"] for row in rows})
+    lookup = {(row["sample"], selection_key(row)): attack_succeeded(row) for row in rows}
+    header = "".join(f'<th>{html.escape(selection)}</th>' for selection in selections)
+    body = "".join(
+        '<tr><th>{sample}</th>{cells}</tr>'.format(
+            sample=html.escape(sample),
+            cells="".join(
+                '<td class="success" aria-label="attack succeeded">✓</td>' if lookup.get((sample, selection))
+                else '<td class="failure" aria-label="attack did not succeed">–</td>'
+                for selection in selections
+            ),
+        ) for sample in samples
+    )
+    scope_note = "All configurations are shown." if len(metrics) == len(all_metrics) else "Top 12 configurations by success count are shown."
+    return (
+        '<div class="matrix-wrap"><h3>Sample robustness matrix</h3><p class="sub">'
+        f'Each row is one sample. A check mark means {success_term(rows)} succeeded. {scope_note}</p>'
+        f'<div class="data-scroll"><table class="matrix"><thead><tr><th>Sample</th>{header}</tr></thead><tbody>{body}</tbody></table></div></div>'
     )
 
 
@@ -149,7 +316,7 @@ def render_index(runs: list[Path], output: Path) -> None:
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeepWuKong experiment index</title><style>
-body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}}main{{max-width:1120px;margin:auto;padding:32px}}.sub{{color:#5d687c}}.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:26px}}.run-card{{display:block;color:inherit;text-decoration:none;background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px #17203312}}.run-card:hover{{box-shadow:0 6px 18px #17203322}}.run-card h2{{font-size:18px;margin:10px 0 18px;overflow-wrap:anywhere}}.kind{{color:#2457c5;font-weight:600}}dl{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0}}dt{{font-size:13px;color:#5d687c}}dd{{font-size:24px;font-weight:700;margin:3px 0 0}}
+body{{font-family:Inter,Segoe UI,Arial,sans-serif;font-size:clamp(16px,1vw,22px);margin:0;background:#f5f7fb;color:#172033}}main{{width:100%;box-sizing:border-box;padding:clamp(16px,2.2vw,32px)}}.sub{{color:#5d687c}}.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:26px}}.run-card{{display:block;color:inherit;text-decoration:none;background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px #17203312}}.run-card:hover{{box-shadow:0 6px 18px #17203322}}.run-card h2{{font-size:1.15em;margin:10px 0 18px;overflow-wrap:anywhere}}.kind{{color:#2457c5;font-weight:600}}dl{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0}}dt{{font-size:.8em;color:#5d687c}}dd{{font-size:1.5em;font-weight:700;margin:3px 0 0}}
 </style></head><body><main><h1>DeepWuKong experiment index</h1><p class="sub">Choose an archived code-level or graph-level perturbation run to view its full comparison dashboard.</p><div class="grid">{"".join(cards)}</div></main></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
@@ -173,6 +340,12 @@ def render_report(
     max_change = max(scored, key=lambda row: abs(number(row, "delta_prob")))
     flips = sum(row["flipped"].lower() == "true" for row in scored)
     baseline_count, unscored = len({row["sample"] for row in scored}), len(rows) - len(scored)
+    summary = robustness_summary(scored)
+    success_cards = success_card(f"overall {success_term(scored)}", summary["overall"])
+    success_cards += success_card("samples compromised at least once", summary["samples"])
+    if summary["vulnerable"] is not None:
+        success_cards += success_card("vulnerable-row success rate", summary["vulnerable"])
+        success_cards += success_card("non-vulnerable-row success rate", summary["non_vulnerable"])
     max_change_note = "and flipped the final label." if max_change["flipped"].lower() == "true" else "without a label flip."
     table_rows = "".join(
         "<tr data-selection=\"{selection}\"><td>{sample}</td><td>{function}</td><td>{action}</td><td>{budget}</td>"
@@ -204,12 +377,14 @@ def render_report(
         )
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>
-body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}}main{{max-width:1120px;margin:auto;padding:32px}}h1{{margin-bottom:4px}}.sub{{color:#5d687c}}.run-switcher{{margin:16px 0}}.cards{{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}}.card{{background:white;border-radius:12px;padding:18px;min-width:170px;box-shadow:0 2px 10px #17203312}}.value{{font-size:28px;font-weight:700;color:#2457c5}}section{{background:white;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 2px 10px #17203312}}table{{width:100%;border-collapse:collapse;font-size:14px}}th,td{{padding:9px;border-bottom:1px solid #e5e7eb;text-align:left}}th{{background:#f1f5ff}}.delta{{font-variant-numeric:tabular-nums}}label{{display:inline-block;margin:4px 14px 8px 0}}.note{{padding:12px;background:#fff8e5;border-left:4px solid #e6aa13}}.method-picker{{margin-top:14px;border:1px solid #cbd5e1;border-radius:8px;background:#f8faff}}.method-picker summary{{cursor:pointer;padding:14px 16px;font-weight:600;font-size:16px}}.picker-actions{{padding:8px 16px;border-top:1px solid #dbe4f2}}.picker-actions label{{font-weight:600;margin:0}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:4px 14px;max-height:420px;overflow-y:auto;padding:2px 16px 16px}}#action-checks label{{margin:0;padding:6px 2px;overflow-wrap:anywhere}}.table-scroll{{max-height:680px;overflow-y:scroll;scrollbar-width:auto;scrollbar-color:#496b9e #e3eaf6}}.table-scroll::-webkit-scrollbar{{width:16px}}.table-scroll::-webkit-scrollbar-track{{background:#e3eaf6}}.table-scroll::-webkit-scrollbar-thumb{{background:#496b9e;border:3px solid #e3eaf6;border-radius:10px}}.table-scroll thead th{{position:sticky;top:0;z-index:1}}.variant-table{{table-layout:fixed;font-size:13px}}.variant-table th,.variant-table td{{padding:8px 7px;overflow-wrap:anywhere;vertical-align:top}}.variant-table th:nth-child(n+4),.variant-table td:nth-child(n+4){{text-align:center;white-space:nowrap}}
+body{{font-family:Inter,Segoe UI,Arial,sans-serif;font-size:clamp(16px,1vw,22px);margin:0;background:#f5f7fb;color:#172033}}main{{width:100%;box-sizing:border-box;padding:clamp(16px,2.2vw,32px)}}h1{{font-size:1.7em;margin-bottom:4px}}h2{{font-size:1.35em}}h3{{font-size:1.1em;margin-bottom:.2em}}.sub{{color:#5d687c}}.run-switcher{{margin:16px 0}}.cards{{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}}.card{{background:white;border-radius:12px;padding:18px;min-width:170px;box-shadow:0 2px 10px #17203312}}.card small{{display:block;color:#5d687c;margin-top:4px}}.value{{font-size:2em;font-weight:700;color:#2457c5}}section{{background:white;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 2px 10px #17203312}}table{{width:100%;border-collapse:collapse;font-size:clamp(13px,.85vw,18px)}}th,td{{padding:.55em .5em;border-bottom:1px solid #e5e7eb;text-align:left}}th{{background:#f1f5ff}}.delta{{font-variant-numeric:tabular-nums}}label{{display:inline-block;margin:4px 14px 8px 0}}select,input{{font:inherit}}.note{{padding:.7em;background:#fff8e5;border-left:4px solid #e6aa13}}.method-picker{{margin-top:14px;border:1px solid #cbd5e1;border-radius:8px;background:#f8faff}}.method-picker summary{{cursor:pointer;padding:.75em 1em;font-weight:600;font-size:1.05em}}.picker-actions{{padding:.5em 1em;border-top:1px solid #dbe4f2}}.picker-actions label{{font-weight:600;margin:0}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:4px 14px;max-height:420px;overflow-y:auto;padding:2px 16px 16px}}#action-checks label{{margin:0;padding:6px 2px;overflow-wrap:anywhere}}.evaluation svg{{display:block;max-width:none;height:auto;margin:0}}.chart-scroll,.data-scroll,.table-scroll{{overflow:auto;scrollbar-width:auto;scrollbar-color:#496b9e #e3eaf6}}.chart-scroll{{max-height:min(620px,65vh);margin:16px 0}}.chart-scroll svg{{width:100%;min-width:860px}}.data-scroll{{max-height:min(520px,55vh)}}.chart-scroll::-webkit-scrollbar,.data-scroll::-webkit-scrollbar,.table-scroll::-webkit-scrollbar{{width:16px;height:16px}}.chart-scroll::-webkit-scrollbar-track,.data-scroll::-webkit-scrollbar-track,.table-scroll::-webkit-scrollbar-track{{background:#e3eaf6}}.chart-scroll::-webkit-scrollbar-thumb,.data-scroll::-webkit-scrollbar-thumb,.table-scroll::-webkit-scrollbar-thumb{{background:#496b9e;border:3px solid #e3eaf6;border-radius:10px}}.heatmap{{min-width:600px}}.heatmap th{{overflow-wrap:anywhere}}.heatmap-cell{{text-align:center;background:rgba(22,163,74,var(--rate));min-width:88px}}.heatmap-cell strong,.heatmap-cell span{{display:block}}.heatmap-cell span{{font-size:.82em}}.heatmap-empty{{text-align:center;color:#6b7280;background:#f3f4f6}}.matrix{{font-size:12px;min-width:900px}}.matrix th{{max-width:130px;overflow-wrap:anywhere}}.matrix td{{text-align:center;font-weight:700}}.matrix .success{{background:#dcfce7;color:#166534}}.matrix .failure{{background:#f3f4f6;color:#6b7280}}.data-scroll thead th,.table-scroll thead th{{position:sticky;top:0;z-index:1}}.table-scroll{{max-height:min(680px,70vh);min-height:360px;overflow-y:scroll}}.summary-table-scroll{{max-height:min(620px,65vh)}}.variant-table{{table-layout:fixed;font-size:clamp(12px,.78vw,17px)}}.variant-table th,.variant-table td{{padding:.55em .45em;overflow-wrap:anywhere;vertical-align:top}}.variant-table th:nth-child(n+4),.variant-table td:nth-child(n+4){{text-align:center;white-space:nowrap}}
 </style></head><body><main>
 <h1>{html.escape(title)}</h1><p class="sub">Archived DeepWuKong robustness run - code- or graph-level perturbations compared with the same baseline prediction.</p>{run_selector}
 <div class="cards"><div class="card"><div class="value">{baseline_count}</div>baseline samples</div><div class="card"><div class="value">{len(scored)}</div>scored variants</div><div class="card"><div class="value">{flips}</div>prediction flips</div><div class="card"><div class="value">{unscored}</div>unscored / incomplete</div></div>
-<section><h2>What changed most?</h2><p class="note"><strong>{html.escape(max_change['sample'])}</strong> with <strong>{html.escape(max_change['action'])}</strong> changed from {number(max_change, 'base_prob'):.6f} to {number(max_change, 'variant_prob'):.6f} ({number(max_change, 'delta_prob'):+.6f}) {max_change_note}</p>{svg_action_chart(metrics)}</section>
-<section><h2>Action-level comparison</h2><table><thead><tr><th>{metric_name}</th><th>Scored variants</th><th>Mean probability delta</th><th>Mean delta nodes</th><th>Mean delta edges</th></tr></thead><tbody>{metric_rows}</tbody></table></section>
+<section class="evaluation"><h2>Robustness evaluation</h2><p class="sub">{success_term(scored)} is the primary result. Targeted graph CSVs use their recorded attack success; code-level CSVs use a prediction-label flip. These measures are related but not identical.</p><div class="cards">{success_cards}</div>{svg_success_rate_chart(scored)}{method_intensity_heatmap(scored)}</section>
+<section class="evaluation">{success_matrix(scored)}</section>
+<section><h2>Sensitivity diagnostic</h2><p class="note"><strong>{html.escape(max_change['sample'])}</strong> with <strong>{html.escape(max_change['action'])}</strong> changed from {number(max_change, 'base_prob'):.6f} to {number(max_change, 'variant_prob'):.6f} ({number(max_change, 'delta_prob'):+.6f}) {max_change_note} This chart explains confidence movement; it is not the robustness success measure.</p>{svg_action_chart(metrics)}</section>
+<section><h2>Action-level comparison</h2><div class="data-scroll summary-table-scroll"><table><thead><tr><th>{metric_name}</th><th>Scored variants</th><th>Mean probability delta</th><th>Mean delta nodes</th><th>Mean delta edges</th></tr></thead><tbody>{metric_rows}</tbody></table></div></section>
 <section><h2>Variant explorer</h2><p>Select one or more {selection_name} for comparison. New actions and budgets found in the CSV appear automatically.</p><div id="filters"><p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name} (checkboxes)</summary><div class="picker-actions"><label><input id="select-all" type="checkbox" checked> All</label></div><div id="action-checks">{controls}</div></details></div><div class="table-scroll"><table class="variant-table"><colgroup><col style="width:10%"><col style="width:20%"><col style="width:18%"><col style="width:5%"><col style="width:8%"><col style="width:8%"><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:8%"></colgroup><thead><tr><th>Sample</th><th>Function</th><th>Action</th><th>Budget</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Flipped</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>
 </main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filter(){{const chosen=selected();allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>row.hidden=!chosen.has(row.dataset.selection));document.querySelectorAll('[data-action-chart]').forEach(mark=>mark.hidden=!chosen.has(mark.dataset.actionChart));summary.textContent=`Showing ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filter();}});boxes.forEach(box=>box.addEventListener('change',filter));if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});filter();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)

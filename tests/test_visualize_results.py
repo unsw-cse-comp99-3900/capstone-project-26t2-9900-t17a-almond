@@ -2,7 +2,16 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from demo_b.visualize_results import read_rows, render_index, render_report
+from demo_b.visualize_results import (
+    method_intensity_heatmap,
+    perturbation_configuration,
+    read_rows,
+    render_index,
+    render_report,
+    robustness_summary,
+    success_matrix,
+    success_term,
+)
 
 
 class VisualizationTests(unittest.TestCase):
@@ -16,10 +25,37 @@ class VisualizationTests(unittest.TestCase):
         self.assertIn('id="select-all"', content)
         self.assertIn('class="method-picker"', content)
         self.assertIn('class="table-scroll"', content)
+        self.assertIn('class="chart-scroll success-chart"', content)
+        self.assertIn('class="data-scroll summary-table-scroll"', content)
+        self.assertIn('class="data-scroll"', content)
         self.assertIn('class="variant-table"', content)
+        self.assertIn("Prediction Flip Rate by configuration", content)
+        self.assertIn("Sample robustness matrix", content)
         self.assertNotIn('id="primary-action"', content)
         self.assertIn("dead_statement", content)
-        self.assertIn("What changed most?", content)
+        self.assertIn("Sensitivity diagnostic", content)
+
+    def test_graph_targeted_run_has_asr_summary_heatmap_and_nine_column_matrix(self):
+        rows = read_rows(Path("outputs/run_20260717_graph_cwe119_round2/prediction_comparison.csv"))
+        self.assertEqual(success_term(rows), "Attack Success Rate (ASR)")
+        self.assertEqual(robustness_summary(rows)["overall"], (8, 72))
+        heatmap = method_intensity_heatmap(rows)
+        for method in ("winner_xfg_edge_attack", "winner_xfg_feature_mask", "targeted_subgraph_injection"):
+            self.assertIn(method, heatmap)
+        for budget in ("budget 1", "budget 3", "budget 5"):
+            self.assertIn(budget, heatmap)
+        matrix = success_matrix(rows)
+        self.assertEqual(matrix.count("<th>winner_xfg_"), 6)
+        self.assertEqual(matrix.count("<th>targeted_subgraph_injection"), 3)
+
+    def test_code_configuration_count_and_flip_terminology(self):
+        rows = read_rows(Path("outputs/run_20260717_code_devign_round1/prediction_comparison.csv"))
+        self.assertEqual(perturbation_configuration(rows[0]), ("data_flow_alias", "count 1"))
+        self.assertEqual(success_term(rows), "Prediction Flip Rate")
+        report = method_intensity_heatmap(rows)
+        self.assertIn("count 1", report)
+        self.assertIn("count 3", report)
+        self.assertIn("count 5", report)
 
     def test_graph_budget_schema_and_incomplete_rows_are_supported(self):
         rows = read_rows(Path("outputs/run_20260717_graph_cwe119_round2/prediction_comparison.csv"))
