@@ -14,6 +14,7 @@ class VisualizationTests(unittest.TestCase):
             content = report.read_text(encoding="utf-8")
         self.assertIn('id="primary-action"', content)
         self.assertIn('id="action-checks"', content)
+        self.assertIn('class="method-picker"', content)
         self.assertIn('class="variant-table"', content)
         self.assertIn("dead_statement", content)
         self.assertIn("What changed most?", content)
