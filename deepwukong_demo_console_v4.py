@@ -12,8 +12,7 @@ Main menu:
 0. Exit
 
 v4 changes:
-- Option 5 opens a fixed local HTML file directly:
-  outputs/dashboard.html
+- Option 5 opens the experiment dashboard index or the function-level PDG atlas.
 - Options 2 and 3 still allow selecting different run folders.
 """
 
@@ -35,8 +34,9 @@ from typing import Any, Dict, List, Optional, Tuple
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
-# Fixed dashboard path. Change this line only if your HTML file name/path is different.
-DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "run_20260710_code_devign_round1" / "dashboard.html"
+# Static browser entry points.
+EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
+PDG_ATLAS_HTML = PROJECT_ROOT / "demo_b" / "showcase" / "deepwukong_pdg_showcase.html"
 
 # Optional real quick demo command.
 # Keep as None for stable presentation mode using prepared outputs.
@@ -237,7 +237,8 @@ def print_data_location(data: Dict[str, Any]) -> None:
     print(f"- Action summary:         {data['action_file'] if data['action_file'] else 'Not found'}")
     print(f"- Baseline summary:       {data['baseline_file'] if data['baseline_file'] else 'Not found'}")
     print(f"- Perturbation manifest:  {data['manifest_file'] if data['manifest_file'] else 'Not found'}")
-    print(f"- Fixed dashboard HTML:   {DASHBOARD_HTML}")
+    print(f"- Experiment dashboard:   {EXPERIMENT_DASHBOARD_HTML}")
+    print(f"- Function PDG atlas:     {PDG_ATLAS_HTML}")
 
 
 # ============================================================
@@ -581,19 +582,36 @@ def show_sample_detail_viewer(run_dir: Optional[Path] = None) -> None:
 def open_web_dashboard() -> None:
     print_header("Open Web Dashboard")
 
-    print("Opening fixed local dashboard HTML:")
-    print(DASHBOARD_HTML)
+    options = [
+        ("Experiment dashboard index", EXPERIMENT_DASHBOARD_HTML),
+        ("Function-scoped PDG atlas", PDG_ATLAS_HTML),
+    ]
+    for index, (label, _) in enumerate(options, start=1):
+        print(f"{index}. {label}")
+    print("0. Back")
 
-    if not DASHBOARD_HTML.exists():
-        print("\nERROR: Dashboard HTML file was not found.")
-        print("Please check this path in the code:")
-        print("DASHBOARD_HTML = PROJECT_ROOT / 'outputs' / 'dashboard.html'")
+    choice = input("\nSelect a dashboard: ").strip()
+    if choice == "0":
+        return
+    try:
+        selected_index = int(choice)
+    except ValueError:
+        selected_index = -1
+    if not 1 <= selected_index <= len(options):
+        print("Invalid dashboard selection.")
+        pause()
+        return
+    label, dashboard_path = options[selected_index - 1]
+
+    if not dashboard_path.exists():
+        print(f"\nERROR: {label} HTML file was not found:")
+        print(dashboard_path)
         pause()
         return
 
     try:
-        webbrowser.open(DASHBOARD_HTML.resolve().as_uri())
-        print("\nBrowser open command sent.")
+        webbrowser.open(dashboard_path.resolve().as_uri())
+        print(f"\nOpened {label}.")
     except Exception as e:
         print("\nFailed to open browser automatically.")
         print(f"Error: {e}")
