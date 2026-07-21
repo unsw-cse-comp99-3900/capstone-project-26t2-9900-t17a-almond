@@ -27,7 +27,7 @@ end-to-end through Joern and DeepWuKong.
 Start Docker Desktop, then run this single command from the project root:
 
 ```powershell
-docker compose run --rm --build --service-ports almond
+.\Start.ps1
 ```
 
 This creates the `t17a-almond:latest` image and starts the normal interactive
@@ -37,7 +37,9 @@ perturbations through Joern and DeepWuKong on the NVIDIA GPU, then writes the
 new result folder under `outputs/` on the host. Selecting option `5` prints the host-browser URL for the
 chosen dashboard; the dashboard is also available at
 `http://localhost:8000/outputs/index.html` and the PDG atlas at
-`http://localhost:8000/demo_b/showcase/deepwukong_pdg_showcase.html`. Press
+`http://localhost:8000/demo_b/showcase/deepwukong_pdg_showcase.html`. When
+started through `start-almond.ps1`, selecting a dashboard opens it automatically
+in the default Windows browser. Press
 `Ctrl+C` to stop it. Do not use `docker compose up` for this console: Compose
 then prefixes output with `almond-1` and does not pass menu input through.
 

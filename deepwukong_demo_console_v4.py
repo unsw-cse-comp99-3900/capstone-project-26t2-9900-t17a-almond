@@ -26,6 +26,8 @@ import webbrowser
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
 
 # ============================================================
@@ -639,9 +641,21 @@ def open_web_dashboard() -> None:
     dashboard_base_url = os.environ.get("ALMOND_DASHBOARD_BASE_URL")
     if dashboard_base_url:
         relative_path = dashboard_path.relative_to(PROJECT_ROOT).as_posix()
-        print(f"\n{label} is available on the host at:")
-        print(f"{dashboard_base_url}/{relative_path}")
-        print("Open this URL in your host browser; the Docker container has no desktop browser.")
+        dashboard_url = f"{dashboard_base_url}/{relative_path}"
+        browser_bridge_url = os.environ.get("ALMOND_BROWSER_BRIDGE_URL")
+        if browser_bridge_url:
+            try:
+                with urlopen(f"{browser_bridge_url}?{urlencode({'url': dashboard_url})}", timeout=3) as response:
+                    if response.status != 200:
+                        raise RuntimeError(f"bridge responded with HTTP {response.status}")
+                print(f"\nOpened {label} in the default host browser.")
+            except Exception as e:
+                print(f"\nCould not open the default browser automatically: {e}")
+                print(f"Open this URL manually: {dashboard_url}")
+        else:
+            print(f"\n{label} is available on the host at:")
+            print(dashboard_url)
+            print("Use .\\start-almond.ps1 to open dashboards automatically.")
         pause()
         return
 

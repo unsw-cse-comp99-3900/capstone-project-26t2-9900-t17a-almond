@@ -9,6 +9,9 @@ services:
     ports:
       - "8000:8000"
     gpus: all
+    environment:
+      # Set by start-almond.ps1 when host-browser auto-open is required.
+      ALMOND_BROWSER_BRIDGE_URL: ${ALMOND_BROWSER_BRIDGE_URL:-}
     volumes:
       # Keep live Quick Demo outputs after the one-off container is removed.
       - ./outputs:/repo/outputs
