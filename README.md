@@ -22,6 +22,35 @@ JSON audit records. Automatic batch inference directly from those perturbed
 graphs is the next integration step; the existing source branch already runs
 end-to-end through Joern and DeepWuKong.
 
+## Docker Quick Start
+
+Start Docker Desktop, then run this single command from the project root:
+
+```powershell
+docker compose run --rm --build --service-ports almond
+```
+
+This creates the `t17a-almond:latest` image and starts the normal interactive
+`deepwukong_demo_console_v4.py` menu in the terminal. All original options
+remain available. Selecting option `1` runs a fresh baseline plus two source
+perturbations through Joern and DeepWuKong on the NVIDIA GPU, then writes the
+new result folder under `outputs/` on the host. Selecting option `5` prints the host-browser URL for the
+chosen dashboard; the dashboard is also available at
+`http://localhost:8000/outputs/index.html` and the PDG atlas at
+`http://localhost:8000/demo_b/showcase/deepwukong_pdg_showcase.html`. Press
+`Ctrl+C` to stop it. Do not use `docker compose up` for this console: Compose
+then prefixes output with `almond-1` and does not pass menu input through.
+
+The image extends the existing local DeepWuKong runtime image
+`deepwukong-rtx5060-cu128:experimental`, which supplies the pinned Joern and
+model runtime. If that image uses a different local tag, set
+`DEEPWUKONG_IMAGE` before running the same command. The image also exposes the
+project console and test runner, for example:
+
+```powershell
+docker compose run --rm almond tests
+```
+
 ## Two Perturbation Branches
 
 ```text

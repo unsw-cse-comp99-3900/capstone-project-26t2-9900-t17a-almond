@@ -38,9 +38,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
 PDG_ATLAS_HTML = PROJECT_ROOT / "demo_b" / "showcase" / "deepwukong_pdg_showcase.html"
 
-# Optional real quick demo command.
-# Keep as None for stable presentation mode using prepared outputs.
-QUICK_DEMO_COMMAND: Optional[List[str]] = None
+# Run a fresh, small end-to-end experiment inside the packaged DeepWuKong image.
+QUICK_DEMO_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_quick_demo_live.py"]
 
 # If you want to force one run folder as default, set it here.
 # Example: DEFAULT_RUN_ID = "run_20260710_code_devign_round1"
@@ -254,6 +253,16 @@ def to_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
+def format_table_number(value: Any, width: int = 14) -> str:
+    """Format numeric table cells compactly without breaking fixed-width columns."""
+    try:
+        number = float(str(value).strip())
+    except (TypeError, ValueError):
+        return str(value or "")[:width].rjust(width)
+    text = f"{number:.6f}" if number == 0 or abs(number) >= 0.0001 else f"{number:.3e}"
+    return text[:width].rjust(width)
+
+
 def pick_column(row: Dict[str, str], options: List[str]) -> Optional[str]:
     lower = {k.lower(): k for k in row.keys()}
     for option in options:
@@ -289,13 +298,13 @@ def get_delta_probability(row: Dict[str, str]) -> float:
 
 
 def is_flip(row: Dict[str, str]) -> bool:
-    for key in ["flip", "prediction_flip", "changed_label", "label_flip"]:
+    for key in ["flipped", "flip", "prediction_flip", "changed_label", "label_flip"]:
         if key in row:
             value = str(row.get(key, "")).strip().lower()
             return value in ["1", "true", "yes", "y"]
 
-    original_col = pick_column(row, ["original_label", "orig_label", "baseline_label"])
-    perturbed_col = pick_column(row, ["perturbed_label", "new_label", "prediction_label"])
+    original_col = pick_column(row, ["original_label", "orig_label", "baseline_label", "base_label"])
+    perturbed_col = pick_column(row, ["perturbed_label", "new_label", "prediction_label", "variant_label"])
 
     if original_col and perturbed_col:
         return str(row.get(original_col)).strip() != str(row.get(perturbed_col)).strip()
@@ -363,13 +372,14 @@ def run_quick_demo() -> None:
     slow_print([
         "Quick Demo Mode",
         "",
-        "This demo uses a small prepared dataset to keep the presentation fast.",
+        "This demo runs a small live DeepWuKong experiment.",
         "The workflow is:",
-        "1. Load original C/C++ samples",
-        "2. Apply source-level perturbations",
-        "3. Run or load DeepWuKong predictions",
+        "1. Load one CWE-119 C++ source sample",
+        "2. Apply two source-level perturbations",
+        "3. Run baseline and perturbed DeepWuKong predictions",
         "4. Compare original and perturbed predictions",
         "5. Generate robustness analysis outputs",
+        "This requires the NVIDIA GPU and usually takes a few minutes.",
         "",
     ])
 
@@ -385,9 +395,7 @@ def run_quick_demo() -> None:
             print(f"Return code: {e.returncode}")
             print("You can still inspect prepared outputs if they exist.")
     else:
-        print("Presentation mode: using prepared result files.")
-        print("No full DeepWuKong inference is executed here.")
-        print("This keeps the live demo stable and fast.")
+        print("No live command is configured; using prepared result files.")
         time.sleep(0.8)
 
     run_dir = get_default_run_dir()
@@ -475,10 +483,29 @@ def show_perturbation_impact_analysis(run_dir: Optional[Path] = None) -> None:
         if len(selected) < 4:
             selected = columns[:6]
 
-        print(" | ".join(selected))
-        print("-" * 72)
-        for row in action_rows[:20]:
-            print(" | ".join(str(row.get(c, ""))[:22] for c in selected))
+        if len(selected) >= 5:
+            selected = selected[:5]
+            widths = [22, 5, 5, 14, 14]
+            header = " | ".join(
+                column[:width].ljust(width) if index == 0 else column[:width].rjust(width)
+                for index, (column, width) in enumerate(zip(selected, widths))
+            )
+            print(header)
+            print("-" * len(header))
+            for row in action_rows[:20]:
+                action = str(row.get(selected[0], ""))[: widths[0]].ljust(widths[0])
+                count = str(row.get(selected[1], ""))[: widths[1]].rjust(widths[1])
+                flips = str(row.get(selected[2], ""))[: widths[2]].rjust(widths[2])
+                average = format_table_number(row.get(selected[3], ""), widths[3])
+                maximum = format_table_number(row.get(selected[4], ""), widths[4])
+                print(f"{action} | {count} | {flips} | {average} | {maximum}")
+        else:
+            widths = [max(10, min(24, len(column))) for column in selected]
+            header = " | ".join(f"{column[:width]:<{width}}" for column, width in zip(selected, widths))
+            print(header)
+            print("-" * len(header))
+            for row in action_rows[:20]:
+                print(" | ".join(str(row.get(column, ""))[:width].ljust(width) for column, width in zip(selected, widths)))
 
         print("\nInterpretation:")
         print("This table compares perturbation methods across this selected run.")
@@ -606,6 +633,15 @@ def open_web_dashboard() -> None:
     if not dashboard_path.exists():
         print(f"\nERROR: {label} HTML file was not found:")
         print(dashboard_path)
+        pause()
+        return
+
+    dashboard_base_url = os.environ.get("ALMOND_DASHBOARD_BASE_URL")
+    if dashboard_base_url:
+        relative_path = dashboard_path.relative_to(PROJECT_ROOT).as_posix()
+        print(f"\n{label} is available on the host at:")
+        print(f"{dashboard_base_url}/{relative_path}")
+        print("Open this URL in your host browser; the Docker container has no desktop browser.")
         pause()
         return
 
