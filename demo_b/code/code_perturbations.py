@@ -18,6 +18,7 @@ class PerturbationResult:
     source_text: str
     applied_count: int
     notes: str
+    selected_source_lines: tuple[int, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,7 @@ class Operator:
     graph_action: str
     expected_graph_effect: str
     apply: Callable[[str, int], PerturbationResult]
+    winner_xfg_targetable: bool = False
 
 
 @dataclass(frozen=True)
@@ -134,14 +136,46 @@ def simple_statement_indices(lines: list[str]) -> list[int]:
     return [idx for idx in range(body_start + 1, len(lines)) if is_simple_statement_candidate(lines[idx])]
 
 
-def apply_dead_statement_insertion(text: str, count: int = 1) -> PerturbationResult:
+def select_line_indices(candidates: list[int], count: int, target_line: int | None = None) -> list[int]:
+    """Select candidates in source order, or by proximity to a baseline XFG seed line."""
+    if target_line is None:
+        return candidates[:count]
+    return sorted(candidates, key=lambda idx: (abs((idx + 1) - target_line), idx))[:count]
+
+
+def select_indexed_targets(candidates: list[tuple], count: int, target_line: int | None = None) -> list[tuple]:
+    """Rank tuple candidates whose first item is a zero-based source line index."""
+    if target_line is None:
+        return candidates[:count]
+    return sorted(candidates, key=lambda item: (abs((int(item[0]) + 1) - target_line), int(item[0])))[:count]
+
+
+def winner_target_note(target_line: int | None) -> str:
+    if target_line is None:
+        return ""
+    return f" nearest baseline winner-XFG key line {target_line}"
+
+
+def apply_dead_statement_insertion(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     body_line = find_first_function_body_line(lines)
     if body_line is None:
         return PerturbationResult(text, 0, "no function body opening brace found")
 
     nl = newline_for(lines)
-    indent = line_indent(lines[body_line]) + "    "
+    selected_source_lines: tuple[int, ...] = ()
+    if target_line is None:
+        insert_at = body_line + 1
+        indent = line_indent(lines[body_line]) + "    "
+    else:
+        candidates = simple_statement_indices(lines)
+        if not candidates:
+            return PerturbationResult(text, 0, "no safe statement found near winner-XFG key line")
+        insert_at = select_line_indices(candidates, 1, target_line)[0]
+        indent = line_indent(lines[insert_at])
+        selected_source_lines = (insert_at + 1,)
     inserted: list[str] = []
     for index in range(1, count + 1):
         inserted.extend(
@@ -151,23 +185,24 @@ def apply_dead_statement_insertion(text: str, count: int = 1) -> PerturbationRes
             ]
         )
 
-    insert_at = body_line + 1
     lines[insert_at:insert_at] = inserted
     return PerturbationResult(
         "".join(lines),
         count,
-        f"inserted {count} harmless dummy integer statement pair(s) after first function brace",
+        f"inserted {count} harmless dummy integer statement pair(s)"
+        f"{' after first function brace' if target_line is None else winner_target_note(target_line)}",
+        selected_source_lines,
     )
 
 
-def apply_control_wrapper(text: str, count: int = 1) -> PerturbationResult:
+def apply_control_wrapper(text: str, count: int = 1, target_line: int | None = None) -> PerturbationResult:
     lines = split_lines(text)
     candidates = simple_statement_indices(lines)
     if not candidates:
         return PerturbationResult(text, 0, "no safe single-line statement candidate found")
 
     nl = newline_for(lines)
-    selected = candidates[:count]
+    selected = select_line_indices(candidates, count, target_line)
     for idx in reversed(selected):
         original = lines[idx]
         indent = line_indent(original)
@@ -180,7 +215,8 @@ def apply_control_wrapper(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"wrapped {len(selected)} safe single-line statement(s) with if (1) blocks",
+        f"wrapped {len(selected)} safe single-line statement(s) with if (1) blocks{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx in selected),
     )
 
 
@@ -204,14 +240,16 @@ def assignment_split_indices(lines: list[str]) -> list[tuple[int, re.Match[str]]
     return matches
 
 
-def apply_temporary_variable_split(text: str, count: int = 1) -> PerturbationResult:
+def apply_temporary_variable_split(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     candidates = assignment_split_indices(lines)
     if not candidates:
         return PerturbationResult(text, 0, "no simple integer-like assignment candidate found")
 
     nl = newline_for(lines)
-    selected = candidates[:count]
+    selected = select_indexed_targets(candidates, count, target_line)
     for temp_id, (idx, match) in reversed(list(enumerate(selected, start=1))):
         indent = match.group("indent")
         lhs = match.group("lhs")
@@ -225,7 +263,8 @@ def apply_temporary_variable_split(text: str, count: int = 1) -> PerturbationRes
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"split {len(selected)} simple assignment(s) through temporary integer variables",
+        f"split {len(selected)} simple assignment(s) through temporary integer variables{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _match in selected),
     )
 
 
@@ -300,14 +339,14 @@ def find_sensitive_call_targets(lines: list[str]) -> list[tuple[int, re.Match[st
     return targets
 
 
-def apply_range_clamp(text: str, count: int = 1) -> PerturbationResult:
+def apply_range_clamp(text: str, count: int = 1, target_line: int | None = None) -> PerturbationResult:
     lines = split_lines(text)
     targets = find_sensitive_call_targets(lines)
     if not targets:
         return PerturbationResult(text, 0, "no sensitive call with a clampable size/count argument found")
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for clamp_id, (idx, match, args, arg_index) in reversed(list(enumerate(selected, start=1))):
         indent = line_indent(lines[idx])
         original_arg = args[arg_index]
@@ -327,17 +366,20 @@ def apply_range_clamp(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"clamped {len(selected)} sensitive sink size/count argument(s) through bounded local variables",
+        f"clamped {len(selected)} sensitive sink size/count argument(s) through bounded local variables{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _match, _args, _arg_index in selected),
     )
 
 
-def apply_safe_source_substitution(text: str, count: int = 1) -> PerturbationResult:
+def apply_safe_source_substitution(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     body_start = find_first_function_body_line(lines)
     if body_start is None:
         return PerturbationResult(text, 0, "no function body opening brace found")
 
-    applied = 0
+    targets: list[tuple[int, re.Match[str]]] = []
     for idx in range(body_start + 1, len(lines)):
         stripped = lines[idx].strip()
         if not stripped or stripped.startswith(("#", "//", "/*", "*")):
@@ -345,32 +387,33 @@ def apply_safe_source_substitution(text: str, count: int = 1) -> PerturbationRes
         match = NESTED_DEREF_RE.search(lines[idx])
         if not match:
             continue
+        targets.append((idx, match))
+
+    selected = select_indexed_targets(targets, count, target_line)
+    for idx, match in reversed(selected):
         base = match.group("base")
         mid = match.group("mid")
         field = match.group("field")
-        original = match.group(0)
         guarded = f"(({base} && {base}->{mid}) ? {base}->{mid}->{field} : 0)"
         lines[idx] = lines[idx][: match.start()] + guarded + lines[idx][match.end() :]
-        applied += 1
-        if applied >= count:
-            break
-    if applied == 0:
+    if not selected:
         return PerturbationResult(text, 0, "no nested pointer dereference source found")
     return PerturbationResult(
         "".join(lines),
-        applied,
-        f"replaced {applied} nested pointer source expression(s) with guarded fallback expressions",
+        len(selected),
+        f"replaced {len(selected)} nested pointer source expression(s) with guarded fallback expressions{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _match in selected),
     )
 
 
-def apply_sink_bound_guard(text: str, count: int = 1) -> PerturbationResult:
+def apply_sink_bound_guard(text: str, count: int = 1, target_line: int | None = None) -> PerturbationResult:
     lines = split_lines(text)
     targets = find_sensitive_call_targets(lines)
     if not targets:
         return PerturbationResult(text, 0, "no sensitive sink call found for bound guard insertion")
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for guard_id, (idx, _match, args, arg_index) in reversed(list(enumerate(selected, start=1))):
         indent = line_indent(lines[idx])
         arg = args[arg_index]
@@ -382,7 +425,8 @@ def apply_sink_bound_guard(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"inserted {len(selected)} early-return bound guard(s) before sensitive sink calls",
+        f"inserted {len(selected)} early-return bound guard(s) before sensitive sink calls{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _match, _args, _arg_index in selected),
     )
 
 
@@ -430,7 +474,9 @@ def apply_postcondition_validation(text: str, count: int = 1) -> PerturbationRes
     )
 
 
-def apply_integer_overflow_guard(text: str, count: int = 1) -> PerturbationResult:
+def apply_integer_overflow_guard(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     body_start = find_first_function_body_line(lines)
     if body_start is None:
@@ -448,7 +494,7 @@ def apply_integer_overflow_guard(text: str, count: int = 1) -> PerturbationResul
     if not targets:
         return PerturbationResult(text, 0, "no allocation size addition or multiplication expression found")
 
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for idx, left, right in reversed(selected):
         indent = line_indent(lines[idx])
         lines[idx:idx] = [
@@ -459,7 +505,8 @@ def apply_integer_overflow_guard(text: str, count: int = 1) -> PerturbationResul
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"inserted {len(selected)} integer overflow guard(s) before allocation or size arithmetic",
+        f"inserted {len(selected)} integer overflow guard(s) before allocation or size arithmetic{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _left, _right in selected),
     )
 
 
@@ -519,14 +566,16 @@ def array_write_targets(lines: list[str]) -> list[tuple[int, tuple[str, str, str
     return targets
 
 
-def apply_array_index_bound_guard(text: str, count: int = 1) -> PerturbationResult:
+def apply_array_index_bound_guard(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     targets = array_write_targets(lines)
     if not targets:
         return PerturbationResult(text, 0, "no array write found for index bound guard")
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for idx, parsed in reversed(selected):
         indent, array_expr, index_expr, op, rhs = parsed
         array_expr = normalized_expr(array_expr)
@@ -540,7 +589,8 @@ def apply_array_index_bound_guard(text: str, count: int = 1) -> PerturbationResu
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"wrapped {len(selected)} array write(s) with index lower/upper bound guards",
+        f"wrapped {len(selected)} array write(s) with index lower/upper bound guards{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _parsed in selected),
     )
 
 
@@ -559,14 +609,16 @@ def wide_char_sink_targets(lines: list[str]) -> list[tuple[int, re.Match[str]]]:
     return targets
 
 
-def apply_wide_char_sink_guard(text: str, count: int = 1) -> PerturbationResult:
+def apply_wide_char_sink_guard(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     targets = wide_char_sink_targets(lines)
     if not targets:
         return PerturbationResult(text, 0, "no wcscat/wcscpy wide-character sink found")
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for guard_id, (idx, match) in reversed(list(enumerate(selected, start=1))):
         indent = match.group("indent")
         name = match.group("name")
@@ -584,7 +636,8 @@ def apply_wide_char_sink_guard(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"rewrote {len(selected)} wcscat/wcscpy sink(s) to bounded wide-character operations",
+        f"rewrote {len(selected)} wcscat/wcscpy sink(s) to bounded wide-character operations{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _match in selected),
     )
 
 
@@ -617,15 +670,20 @@ def targeted_statement_indices(lines: list[str]) -> list[int]:
     return targets
 
 
-def apply_pattern_dead_code(text: str, count: int = 1) -> PerturbationResult:
+def apply_pattern_dead_code(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     targets = targeted_statement_indices(lines)
     body_line = find_first_function_body_line(lines)
-    if not targets and body_line is None:
-        return PerturbationResult(text, 0, "no function body opening brace found")
+    if not targets:
+        if target_line is not None:
+            return PerturbationResult(text, 0, "no structural statement found near winner-XFG key line")
+        if body_line is None:
+            return PerturbationResult(text, 0, "no function body opening brace found")
 
     nl = newline_for(lines)
-    selected = targets[:count] if targets else [body_line + 1]  # type: ignore[operator]
+    selected = select_line_indices(targets, count, target_line) if targets else [body_line + 1]  # type: ignore[operator]
     for block_id, idx in reversed(list(enumerate(selected, start=1))):
         indent = line_indent(lines[idx]) if idx < len(lines) else "    "
         lines[idx:idx] = [
@@ -641,7 +699,8 @@ def apply_pattern_dead_code(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"inserted {len(selected)} unreachable pointer/array/length pattern block(s) near sensitive or structural lines",
+        f"inserted {len(selected)} unreachable pointer/array/length pattern block(s) near sensitive or structural lines{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx in selected),
     )
 
 
@@ -668,14 +727,14 @@ def data_flow_alias_indices(lines: list[str]) -> list[tuple[int, str, str]]:
     return targets
 
 
-def apply_data_flow_alias(text: str, count: int = 1) -> PerturbationResult:
+def apply_data_flow_alias(text: str, count: int = 1, target_line: int | None = None) -> PerturbationResult:
     lines = split_lines(text)
     targets = data_flow_alias_indices(lines)
     if not targets:
-        return apply_temporary_variable_split(text, count)
+        return apply_temporary_variable_split(text, count, target_line)
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_indexed_targets(targets, count, target_line)
     for alias_id, (idx, arg, kind) in reversed(list(enumerate(selected, start=1))):
         indent = line_indent(lines[idx])
         if kind == "integer":
@@ -691,18 +750,21 @@ def apply_data_flow_alias(text: str, count: int = 1) -> PerturbationResult:
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"inserted {len(selected)} alias-preserving data-flow no-op(s) near call arguments",
+        f"inserted {len(selected)} alias-preserving data-flow no-op(s) near call arguments{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx, _arg, _kind in selected),
     )
 
 
-def apply_xfg_targeted_dead_code(text: str, count: int = 1) -> PerturbationResult:
+def apply_xfg_targeted_dead_code(
+    text: str, count: int = 1, target_line: int | None = None
+) -> PerturbationResult:
     lines = split_lines(text)
     targets = targeted_statement_indices(lines)
     if not targets:
         return PerturbationResult(text, 0, "no sensitive, pointer, array, or arithmetic target line found")
 
     nl = newline_for(lines)
-    selected = targets[:count]
+    selected = select_line_indices(targets, count, target_line)
     for block_id, idx in reversed(list(enumerate(selected, start=1))):
         indent = line_indent(lines[idx])
         lines[idx:idx] = [
@@ -714,7 +776,8 @@ def apply_xfg_targeted_dead_code(text: str, count: int = 1) -> PerturbationResul
     return PerturbationResult(
         "".join(lines),
         len(selected),
-        f"inserted {len(selected)} unreachable no-op block(s) near XFG-relevant target lines",
+        f"inserted {len(selected)} unreachable no-op block(s) near XFG-relevant target lines{winner_target_note(target_line)}",
+        tuple(idx + 1 for idx in selected),
     )
 
 
@@ -724,36 +787,42 @@ OPERATORS = {
         graph_action="data_edge_rewire",
         expected_graph_effect="adds alias-preserving data-flow no-ops near sink/call arguments or falls back to temp split",
         apply=apply_data_flow_alias,
+        winner_xfg_targetable=True,
     ),
     "dead_statement": Operator(
         name="dead_statement",
         graph_action="node_add",
         expected_graph_effect="adds harmless statement nodes and local DEF/USE-like structure near function entry",
         apply=apply_dead_statement_insertion,
+        winner_xfg_targetable=True,
     ),
     "xfg_targeted_dead_code": Operator(
         name="xfg_targeted_dead_code",
         graph_action="targeted_node_add",
         expected_graph_effect="adds unreachable no-op nodes near sensitive calls, pointer operations, arrays, or arithmetic lines",
         apply=apply_xfg_targeted_dead_code,
+        winner_xfg_targetable=True,
     ),
     "range_clamp": Operator(
         name="range_clamp",
         graph_action="security_fix_data_sanitize",
         expected_graph_effect="adds bounded local variables before sensitive sink size/count arguments",
         apply=apply_range_clamp,
+        winner_xfg_targetable=True,
     ),
     "safe_source_substitution": Operator(
         name="safe_source_substitution",
         graph_action="security_fix_source_replace",
         expected_graph_effect="replaces nested pointer sources with guarded fallback expressions",
         apply=apply_safe_source_substitution,
+        winner_xfg_targetable=True,
     ),
     "sink_bound_guard": Operator(
         name="sink_bound_guard",
         graph_action="security_fix_control_guard",
         expected_graph_effect="adds early-return bound checks immediately before sensitive sink calls",
         apply=apply_sink_bound_guard,
+        winner_xfg_targetable=True,
     ),
     "postcondition_validation": Operator(
         name="postcondition_validation",
@@ -766,36 +835,42 @@ OPERATORS = {
         graph_action="security_fix_arithmetic_guard",
         expected_graph_effect="adds overflow checks before allocation or size arithmetic",
         apply=apply_integer_overflow_guard,
+        winner_xfg_targetable=True,
     ),
     "array_index_bound_guard": Operator(
         name="array_index_bound_guard",
         graph_action="security_fix_array_index_guard",
         expected_graph_effect="wraps array writes with lower/upper index bound checks",
         apply=apply_array_index_bound_guard,
+        winner_xfg_targetable=True,
     ),
     "wide_char_sink_guard": Operator(
         name="wide_char_sink_guard",
         graph_action="security_fix_wide_string_sink",
         expected_graph_effect="rewrites wcscat/wcscpy calls to bounded wide-character operations",
         apply=apply_wide_char_sink_guard,
+        winner_xfg_targetable=True,
     ),
     "pattern_dead_code": Operator(
         name="pattern_dead_code",
         graph_action="pattern_node_add",
         expected_graph_effect="adds unreachable pointer/array/length pattern nodes near sensitive APIs or structural lines",
         apply=apply_pattern_dead_code,
+        winner_xfg_targetable=True,
     ),
     "control_wrapper": Operator(
         name="control_wrapper",
         graph_action="control_edge_add",
         expected_graph_effect="adds if(1) control structure around existing statements, usually affecting CONTROLS edges",
         apply=apply_control_wrapper,
+        winner_xfg_targetable=True,
     ),
     "temp_variable_split": Operator(
         name="temp_variable_split",
         graph_action="data_edge_rewire",
         expected_graph_effect="rewrites simple assignments through temporary variables, usually affecting DEF/USE/REACHES edges",
         apply=apply_temporary_variable_split,
+        winner_xfg_targetable=True,
     ),
 }
 
