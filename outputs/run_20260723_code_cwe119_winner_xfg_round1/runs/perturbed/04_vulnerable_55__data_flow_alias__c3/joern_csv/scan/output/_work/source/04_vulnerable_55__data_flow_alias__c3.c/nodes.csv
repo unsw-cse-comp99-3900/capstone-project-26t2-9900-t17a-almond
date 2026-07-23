@@ -1,0 +1,106 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/04_vulnerable_55__data_flow_alias__c3.c								
+ANR	2	Function	main	51:0:1829:2182							
+ANR	3	FunctionDef	"main (int argc , char * argv [ ])"		2	0					
+ANR	4	CompoundStatement		52:0:1862:2182	2	0					
+ANR	5	IdentifierDeclStatement	char buf [ 10 ] ;	53:2:1866:1878	2	0	True				
+ANR	6	IdentifierDecl	buf [ 10 ]		2	0					
+ANR	7	IdentifierDeclType	char [ 10 ]		2	0					
+ANR	8	Identifier	buf		2	1					
+ANR	9	PrimaryExpression	10		2	2					
+ANR	10	IdentifierDeclStatement	void * dwk_alias_2 = ( void * ) ( argv [ 3 ] ) ;	55:2:1883:1920	2	1	True				
+ANR	11	IdentifierDecl	* dwk_alias_2 = ( void * ) ( argv [ 3 ] )		2	0					
+ANR	12	IdentifierDeclType	void *		2	0					
+ANR	13	Identifier	dwk_alias_2		2	1					
+ANR	14	AssignmentExpression	* dwk_alias_2 = ( void * ) ( argv [ 3 ] )		2	2		=			
+ANR	15	Identifier	dwk_alias_2		2	0					
+ANR	16	CastExpression	( void * ) ( argv [ 3 ] )		2	1					
+ANR	17	CastTarget	void *		2	0					
+ANR	18	ArrayIndexing	argv [ 3 ]		2	1					
+ANR	19	Identifier	argv		2	0					
+ANR	20	PrimaryExpression	3		2	1					
+ANR	21	ExpressionStatement	dwk_alias_2 = ( void * ) ( ( char * ) dwk_alias_2 + 0 )	56:2:1924:1971	2	2	True				
+ANR	22	AssignmentExpression	dwk_alias_2 = ( void * ) ( ( char * ) dwk_alias_2 + 0 )		2	0		=			
+ANR	23	Identifier	dwk_alias_2		2	0					
+ANR	24	CastExpression	( void * ) ( ( char * ) dwk_alias_2 + 0 )		2	1					
+ANR	25	CastTarget	void *		2	0					
+ANR	26	AdditiveExpression	( char * ) dwk_alias_2 + 0		2	1		+			
+ANR	27	CastExpression	( char * ) dwk_alias_2		2	0					
+ANR	28	CastTarget	char *		2	0					
+ANR	29	Identifier	dwk_alias_2		2	1					
+ANR	30	PrimaryExpression	0		2	1					
+ANR	31	IfStatement	if ( ( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 ) )		2	3					
+ANR	32	Condition	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )	57:6:1979:2012	2	0	True				
+ANR	33	OrExpression	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )		2	0		||			
+ANR	34	RelationalExpression	argc < 5		2	0		<			
+ANR	35	Identifier	argc		2	0					
+ANR	36	PrimaryExpression	5		2	1					
+ANR	37	RelationalExpression	atoi ( argv [ 3 ] ) > 17		2	1		>			
+ANR	38	CallExpression	atoi ( argv [ 3 ] )		2	0					
+ANR	39	Callee	atoi		2	0					
+ANR	40	Identifier	atoi		2	0					
+ANR	41	ArgumentList	argv [ 3 ]		2	1					
+ANR	42	Argument	argv [ 3 ]		2	0					
+ANR	43	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	44	Identifier	argv		2	0					
+ANR	45	PrimaryExpression	3		2	1					
+ANR	46	PrimaryExpression	17		2	1					
+ANR	47	CompoundStatement		7:2:154:154	2	1					
+ANR	48	ReturnStatement	return 0 ;	59:4:2023:2031	2	0	True				
+ANR	49	PrimaryExpression	0		2	0					
+ANR	50	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( argv [ 3 ] ) ;	61:0:2037:2074	2	4	True				
+ANR	51	IdentifierDecl	* dwk_alias_1 = ( void * ) ( argv [ 3 ] )		2	0					
+ANR	52	IdentifierDeclType	void *		2	0					
+ANR	53	Identifier	dwk_alias_1		2	1					
+ANR	54	AssignmentExpression	* dwk_alias_1 = ( void * ) ( argv [ 3 ] )		2	2		=			
+ANR	55	Identifier	dwk_alias_1		2	0					
+ANR	56	CastExpression	( void * ) ( argv [ 3 ] )		2	1					
+ANR	57	CastTarget	void *		2	0					
+ANR	58	ArrayIndexing	argv [ 3 ]		2	1					
+ANR	59	Identifier	argv		2	0					
+ANR	60	PrimaryExpression	3		2	1					
+ANR	61	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	62:0:2076:2123	2	5	True				
+ANR	62	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	63	Identifier	dwk_alias_1		2	0					
+ANR	64	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	65	CastTarget	void *		2	0					
+ANR	66	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	67	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	68	CastTarget	char *		2	0					
+ANR	69	Identifier	dwk_alias_1		2	1					
+ANR	70	PrimaryExpression	0		2	1					
+ANR	71	ExpressionStatement	buf [ atoi ( argv [ 3 ] ) ] = 'A'	65:2:2142:2166	2	6	True				
+ANR	72	AssignmentExpression	buf [ atoi ( argv [ 3 ] ) ] = 'A'		2	0		=			
+ANR	73	ArrayIndexing	buf [ atoi ( argv [ 3 ] ) ]		2	0					
+ANR	74	Identifier	buf		2	0					
+ANR	75	CallExpression	atoi ( argv [ 3 ] )		2	1					
+ANR	76	Callee	atoi		2	0					
+ANR	77	Identifier	atoi		2	0					
+ANR	78	ArgumentList	argv [ 3 ]		2	1					
+ANR	79	Argument	argv [ 3 ]		2	0					
+ANR	80	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	81	Identifier	argv		2	0					
+ANR	82	PrimaryExpression	3		2	1					
+ANR	83	PrimaryExpression	'A'		2	1					
+ANR	84	ReturnStatement	return 0 ;	68:2:2172:2180	2	7	True				
+ANR	85	PrimaryExpression	0		2	0					
+ANR	86	ReturnType	int		2	1					
+ANR	87	Identifier	main		2	2					
+ANR	88	ParameterList	"int argc , char * argv [ ]"		2	3					
+ANR	89	Parameter	int argc	51:9:1838:1845	2	0	True				
+ANR	90	ParameterType	int		2	0					
+ANR	91	Identifier	argc		2	1					
+ANR	92	Parameter	char * argv [ ]	51:19:1848:1859	2	1	True				
+ANR	93	ParameterType	char * [ ]		2	0					
+ANR	94	Identifier	argv		2	1					
+ANR	95	CFGEntryNode	ENTRY		2		True				
+ANR	96	CFGExitNode	EXIT		2		True				
+ANR	97	Symbol	argc		2						
+ANR	98	Symbol	atoi		2						
+ANR	99	Symbol	buf		2						
+ANR	100	Symbol	* buf		2						
+ANR	101	Symbol	* argv		2						
+ANR	102	Symbol	dwk_alias_1		2						
+ANR	103	Symbol	dwk_alias_2		2						
+ANR	104	Symbol	argv		2						
+ANR	105	Symbol	* atoi		2						

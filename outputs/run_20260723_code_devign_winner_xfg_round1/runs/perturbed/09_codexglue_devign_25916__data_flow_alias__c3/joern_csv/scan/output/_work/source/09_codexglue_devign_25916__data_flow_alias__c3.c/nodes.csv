@@ -1,0 +1,81 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/09_codexglue_devign_25916__data_flow_alias__c3.c								
+ANR	2	Function	spr_write_ibatl	1:0:0:335							
+ANR	3	FunctionDef	"spr_write_ibatl (void * opaque , int sprn)"		2	0					
+ANR	4	CompoundStatement		3:0:54:335	2	0					
+ANR	5	IdentifierDeclStatement	DisasContext * ctx = opaque ;	5:4:61:87	2	0	True				
+ANR	6	IdentifierDecl	* ctx = opaque		2	0					
+ANR	7	IdentifierDeclType	DisasContext *		2	0					
+ANR	8	Identifier	ctx		2	1					
+ANR	9	AssignmentExpression	* ctx = opaque		2	2		=			
+ANR	10	Identifier	opaque		2	0					
+ANR	11	Identifier	opaque		2	1					
+ANR	12	Statement	int	9:4:96:98	2	1	True				
+ANR	13	Statement	dwk_flow_value_1	9:8:100:115	2	2	True				
+ANR	14	Statement	=	9:25:117:117	2	3	True				
+ANR	15	Statement	(	9:27:119:119	2	4	True				
+ANR	16	Statement	int	9:28:120:122	2	5	True				
+ANR	17	Statement	)	9:31:123:123	2	6	True				
+ANR	18	Statement	(	9:32:124:124	2	7	True				
+ANR	19	ExpressionStatement	sprn - SPR_IBAT0L	9:33:125:144	2	8	True				
+ANR	20	AdditiveExpression	sprn - SPR_IBAT0L		2	0		-			
+ANR	21	Identifier	sprn		2	0					
+ANR	22	Identifier	SPR_IBAT0L		2	1					
+ANR	23	ExpressionStatement	dwk_flow_value_1 += 0	10:4:150:171	2	9	True				
+ANR	24	AssignmentExpression	dwk_flow_value_1 += 0		2	0		+=			
+ANR	25	Identifier	dwk_flow_value_1		2	0					
+ANR	26	PrimaryExpression	0		2	1					
+ANR	27	ExpressionStatement	gen_op_store_ibatl ( ( sprn - SPR_IBAT0L ) / 2 )	11:4:177:220	2	10	True				
+ANR	28	CallExpression	gen_op_store_ibatl ( ( sprn - SPR_IBAT0L ) / 2 )		2	0					
+ANR	29	Callee	gen_op_store_ibatl		2	0					
+ANR	30	Identifier	gen_op_store_ibatl		2	0					
+ANR	31	ArgumentList	( sprn - SPR_IBAT0L ) / 2		2	1					
+ANR	32	Argument	( sprn - SPR_IBAT0L ) / 2		2	0					
+ANR	33	MultiplicativeExpression	( sprn - SPR_IBAT0L ) / 2		2	0		/			
+ANR	34	AdditiveExpression	sprn - SPR_IBAT0L		2	0		-			
+ANR	35	Identifier	sprn		2	0					
+ANR	36	Identifier	SPR_IBAT0L		2	1					
+ANR	37	PrimaryExpression	2		2	1					
+ANR	38	IdentifierDeclStatement	void * dwk_alias_2 = ( void * ) ( ctx ) ;	13:4:227:260	2	11	True				
+ANR	39	IdentifierDecl	* dwk_alias_2 = ( void * ) ( ctx )		2	0					
+ANR	40	IdentifierDeclType	void *		2	0					
+ANR	41	Identifier	dwk_alias_2		2	1					
+ANR	42	AssignmentExpression	* dwk_alias_2 = ( void * ) ( ctx )		2	2		=			
+ANR	43	Identifier	dwk_alias_2		2	0					
+ANR	44	CastExpression	( void * ) ( ctx )		2	1					
+ANR	45	CastTarget	void *		2	0					
+ANR	46	Identifier	ctx		2	1					
+ANR	47	ExpressionStatement	dwk_alias_2 = ( void * ) ( ( char * ) dwk_alias_2 + 0 )	14:4:266:313	2	12	True				
+ANR	48	AssignmentExpression	dwk_alias_2 = ( void * ) ( ( char * ) dwk_alias_2 + 0 )		2	0		=			
+ANR	49	Identifier	dwk_alias_2		2	0					
+ANR	50	CastExpression	( void * ) ( ( char * ) dwk_alias_2 + 0 )		2	1					
+ANR	51	CastTarget	void *		2	0					
+ANR	52	AdditiveExpression	( char * ) dwk_alias_2 + 0		2	1		+			
+ANR	53	CastExpression	( char * ) dwk_alias_2		2	0					
+ANR	54	CastTarget	char *		2	0					
+ANR	55	Identifier	dwk_alias_2		2	1					
+ANR	56	PrimaryExpression	0		2	1					
+ANR	57	ExpressionStatement	RET_STOP ( ctx )	15:4:319:332	2	13	True				
+ANR	58	CallExpression	RET_STOP ( ctx )		2	0					
+ANR	59	Callee	RET_STOP		2	0					
+ANR	60	Identifier	RET_STOP		2	0					
+ANR	61	ArgumentList	ctx		2	1					
+ANR	62	Argument	ctx		2	0					
+ANR	63	Identifier	ctx		2	0					
+ANR	64	ReturnType	static void		2	1					
+ANR	65	Identifier	spr_write_ibatl		2	2					
+ANR	66	ParameterList	"void * opaque , int sprn"		2	3					
+ANR	67	Parameter	void * opaque	1:29:29:40	2	0	True				
+ANR	68	ParameterType	void *		2	0					
+ANR	69	Identifier	opaque		2	1					
+ANR	70	Parameter	int sprn	1:43:43:50	2	1	True				
+ANR	71	ParameterType	int		2	0					
+ANR	72	Identifier	sprn		2	1					
+ANR	73	CFGEntryNode	ENTRY		2		True				
+ANR	74	CFGExitNode	EXIT		2		True				
+ANR	75	Symbol	opaque		2						
+ANR	76	Symbol	ctx		2						
+ANR	77	Symbol	SPR_IBAT0L		2						
+ANR	78	Symbol	sprn		2						
+ANR	79	Symbol	dwk_alias_2		2						
+ANR	80	Symbol	dwk_flow_value_1		2						

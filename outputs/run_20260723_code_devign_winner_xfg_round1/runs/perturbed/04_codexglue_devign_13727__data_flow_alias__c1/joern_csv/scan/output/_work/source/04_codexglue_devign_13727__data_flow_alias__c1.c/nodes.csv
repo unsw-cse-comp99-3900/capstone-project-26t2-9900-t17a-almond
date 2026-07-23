@@ -1,0 +1,66 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/04_codexglue_devign_13727__data_flow_alias__c1.c								
+ANR	2	Function	emulate_spapr_hypercall	1:0:0:218							
+ANR	3	FunctionDef	emulate_spapr_hypercall (CPUPPCState * env)		2	0					
+ANR	4	CompoundStatement		3:0:55:218	2	0					
+ANR	5	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( env ) ;	5:4:62:95	2	0	True				
+ANR	6	IdentifierDecl	* dwk_alias_1 = ( void * ) ( env )		2	0					
+ANR	7	IdentifierDeclType	void *		2	0					
+ANR	8	Identifier	dwk_alias_1		2	1					
+ANR	9	AssignmentExpression	* dwk_alias_1 = ( void * ) ( env )		2	2		=			
+ANR	10	Identifier	dwk_alias_1		2	0					
+ANR	11	CastExpression	( void * ) ( env )		2	1					
+ANR	12	CastTarget	void *		2	0					
+ANR	13	Identifier	env		2	1					
+ANR	14	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	6:4:101:148	2	1	True				
+ANR	15	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	16	Identifier	dwk_alias_1		2	0					
+ANR	17	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	18	CastTarget	void *		2	0					
+ANR	19	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	20	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	21	CastTarget	char *		2	0					
+ANR	22	Identifier	dwk_alias_1		2	1					
+ANR	23	PrimaryExpression	0		2	1					
+ANR	24	ExpressionStatement	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"	7:4:154:215	2	2	True				
+ANR	25	AssignmentExpression	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	0		=			
+ANR	26	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	27	PtrMemberAccess	env -> gpr		2	0					
+ANR	28	Identifier	env		2	0					
+ANR	29	Identifier	gpr		2	1					
+ANR	30	PrimaryExpression	3		2	1					
+ANR	31	CallExpression	"spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	1					
+ANR	32	Callee	spapr_hypercall		2	0					
+ANR	33	Identifier	spapr_hypercall		2	0					
+ANR	34	ArgumentList	env		2	1					
+ANR	35	Argument	env		2	0					
+ANR	36	Identifier	env		2	0					
+ANR	37	Argument	env -> gpr [ 3 ]		2	1					
+ANR	38	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	39	PtrMemberAccess	env -> gpr		2	0					
+ANR	40	Identifier	env		2	0					
+ANR	41	Identifier	gpr		2	1					
+ANR	42	PrimaryExpression	3		2	1					
+ANR	43	Argument	& env -> gpr [ 4 ]		2	2					
+ANR	44	UnaryOperationExpression	& env -> gpr [ 4 ]		2	0					
+ANR	45	UnaryOperator	&		2	0					
+ANR	46	ArrayIndexing	env -> gpr [ 4 ]		2	1					
+ANR	47	PtrMemberAccess	env -> gpr		2	0					
+ANR	48	Identifier	env		2	0					
+ANR	49	Identifier	gpr		2	1					
+ANR	50	PrimaryExpression	4		2	1					
+ANR	51	ReturnType	static void		2	1					
+ANR	52	Identifier	emulate_spapr_hypercall		2	2					
+ANR	53	ParameterList	CPUPPCState * env		2	3					
+ANR	54	Parameter	CPUPPCState * env	1:36:36:51	2	0	True				
+ANR	55	ParameterType	CPUPPCState *		2	0					
+ANR	56	Identifier	env		2	1					
+ANR	57	CFGEntryNode	ENTRY		2		True				
+ANR	58	CFGExitNode	EXIT		2		True				
+ANR	59	Symbol	* * env		2						
+ANR	60	Symbol	* env -> gpr		2						
+ANR	61	Symbol	spapr_hypercall		2						
+ANR	62	Symbol	* env		2						
+ANR	63	Symbol	env -> gpr		2						
+ANR	64	Symbol	dwk_alias_1		2						
+ANR	65	Symbol	env		2						

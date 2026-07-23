@@ -1,0 +1,104 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/06_codexglue_devign_15513__data_flow_alias__c5.c								
+ANR	2	Function	tta_decode_init	1:0:0:3361							
+ANR	3	FunctionDef	tta_decode_init (AVCodecContext * avctx)		2	0					
+ANR	4	CompoundStatement		2:0:51:3361	2	0					
+ANR	5	IdentifierDeclStatement	TTAContext * s = avctx -> priv_data ;	3:4:57:89	2	0	True				
+ANR	6	IdentifierDecl	* s = avctx -> priv_data		2	0					
+ANR	7	IdentifierDeclType	TTAContext *		2	0					
+ANR	8	Identifier	s		2	1					
+ANR	9	AssignmentExpression	* s = avctx -> priv_data		2	2		=			
+ANR	10	Identifier	s		2	0					
+ANR	11	PtrMemberAccess	avctx -> priv_data		2	1					
+ANR	12	Identifier	avctx		2	0					
+ANR	13	Identifier	priv_data		2	1					
+ANR	14	IdentifierDeclStatement	int i ;	4:4:95:100	2	1	True				
+ANR	15	IdentifierDecl	i		2	0					
+ANR	16	IdentifierDeclType	int		2	0					
+ANR	17	Identifier	i		2	1					
+ANR	18	ExpressionStatement	s -> avctx = avctx	5:4:106:122	2	2	True				
+ANR	19	AssignmentExpression	s -> avctx = avctx		2	0		=			
+ANR	20	PtrMemberAccess	s -> avctx		2	0					
+ANR	21	Identifier	s		2	0					
+ANR	22	Identifier	avctx		2	1					
+ANR	23	Identifier	avctx		2	1					
+ANR	24	IfStatement	if ( avctx -> extradata_size < 30 )		2	3					
+ANR	25	Condition	avctx -> extradata_size < 30	7:8:183:208	2	0	True				
+ANR	26	RelationalExpression	avctx -> extradata_size < 30		2	0		<			
+ANR	27	PtrMemberAccess	avctx -> extradata_size		2	0					
+ANR	28	Identifier	avctx		2	0					
+ANR	29	Identifier	extradata_size		2	1					
+ANR	30	PrimaryExpression	30		2	1					
+ANR	31	IdentifierDeclStatement	int dwk_flow_value_1 = ( int ) ( & s -> gb ) ;	8:4:215:251	2	1	True				
+ANR	32	IdentifierDecl	dwk_flow_value_1 = ( int ) ( & s -> gb )		2	0					
+ANR	33	IdentifierDeclType	int		2	0					
+ANR	34	Identifier	dwk_flow_value_1		2	1					
+ANR	35	AssignmentExpression	dwk_flow_value_1 = ( int ) ( & s -> gb )		2	2		=			
+ANR	36	Identifier	dwk_flow_value_1		2	0					
+ANR	37	CastExpression	( int ) ( & s -> gb )		2	1					
+ANR	38	CastTarget	int		2	0					
+ANR	39	UnaryOperationExpression	& s -> gb		2	1					
+ANR	40	UnaryOperator	&		2	0					
+ANR	41	PtrMemberAccess	s -> gb		2	1					
+ANR	42	Identifier	s		2	0					
+ANR	43	Identifier	gb		2	1					
+ANR	44	ExpressionStatement	dwk_flow_value_1 += 0	9:4:257:278	2	4	True				
+ANR	45	AssignmentExpression	dwk_flow_value_1 += 0		2	0		+=			
+ANR	46	Identifier	dwk_flow_value_1		2	0					
+ANR	47	PrimaryExpression	0		2	1					
+ANR	48	ExpressionStatement	"init_get_bits ( & s -> gb , avctx -> extradata , avctx -> extradata_size )"	10:4:284:346	2	5	True				
+ANR	49	CallExpression	"init_get_bits ( & s -> gb , avctx -> extradata , avctx -> extradata_size )"		2	0					
+ANR	50	Callee	init_get_bits		2	0					
+ANR	51	Identifier	init_get_bits		2	0					
+ANR	52	ArgumentList	& s -> gb		2	1					
+ANR	53	Argument	& s -> gb		2	0					
+ANR	54	UnaryOperationExpression	& s -> gb		2	0					
+ANR	55	UnaryOperator	&		2	0					
+ANR	56	PtrMemberAccess	s -> gb		2	1					
+ANR	57	Identifier	s		2	0					
+ANR	58	Identifier	gb		2	1					
+ANR	59	Argument	avctx -> extradata		2	1					
+ANR	60	PtrMemberAccess	avctx -> extradata		2	0					
+ANR	61	Identifier	avctx		2	0					
+ANR	62	Identifier	extradata		2	1					
+ANR	63	Argument	avctx -> extradata_size		2	2					
+ANR	64	PtrMemberAccess	avctx -> extradata_size		2	0					
+ANR	65	Identifier	avctx		2	0					
+ANR	66	Identifier	extradata_size		2	1					
+ANR	67	IdentifierDeclStatement	int dwk_flow_value_2 = ( int ) ( & s -> gb ) ;	11:4:352:388	2	6	True				
+ANR	68	IdentifierDecl	dwk_flow_value_2 = ( int ) ( & s -> gb )		2	0					
+ANR	69	IdentifierDeclType	int		2	0					
+ANR	70	Identifier	dwk_flow_value_2		2	1					
+ANR	71	AssignmentExpression	dwk_flow_value_2 = ( int ) ( & s -> gb )		2	2		=			
+ANR	72	Identifier	dwk_flow_value_2		2	0					
+ANR	73	CastExpression	( int ) ( & s -> gb )		2	1					
+ANR	74	CastTarget	int		2	0					
+ANR	75	UnaryOperationExpression	& s -> gb		2	1					
+ANR	76	UnaryOperator	&		2	0					
+ANR	77	PtrMemberAccess	s -> gb		2	1					
+ANR	78	Identifier	s		2	0					
+ANR	79	Identifier	gb		2	1					
+ANR	80	ExpressionStatement	dwk_flow_value_2 += 0	12:4:394:415	2	7	True				
+ANR	81	AssignmentExpression	dwk_flow_value_2 += 0		2	0		+=			
+ANR	82	Identifier	dwk_flow_value_2		2	0					
+ANR	83	PrimaryExpression	0		2	1					
+ANR	84	ReturnType	static int		2	1					
+ANR	85	Identifier	tta_decode_init		2	2					
+ANR	86	ParameterList	AVCodecContext * avctx		2	3					
+ANR	87	Parameter	AVCodecContext * avctx	1:27:27:48	2	0	True				
+ANR	88	ParameterType	AVCodecContext *		2	0					
+ANR	89	Identifier	avctx		2	1					
+ANR	90	CFGEntryNode	ENTRY		2		True				
+ANR	91	CFGExitNode	EXIT		2		True				
+ANR	92	Symbol	avctx -> extradata		2						
+ANR	93	Symbol	* avctx		2						
+ANR	94	Symbol	s		2						
+ANR	95	Symbol	avctx -> extradata_size		2						
+ANR	96	Symbol	i		2						
+ANR	97	Symbol	avctx		2						
+ANR	98	Symbol	avctx -> priv_data		2						
+ANR	99	Symbol	s -> avctx		2						
+ANR	100	Symbol	* s		2						
+ANR	101	Symbol	dwk_flow_value_1		2						
+ANR	102	Symbol	dwk_flow_value_2		2						
+ANR	103	Symbol	& s -> gb		2						

@@ -1,0 +1,164 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/05_vulnerable_32__xfg_targeted_dead_code__c1.cpp								
+ANR	2	Function	badSink	29:0:798:1354							
+ANR	3	FunctionDef	badSink (vector < wchar_t * > dataVector)		2	0					
+ANR	4	CompoundStatement		30:0:841:1354	2	0					
+ANR	5	IdentifierDeclStatement	wchar_t * data = dataVector [ 2 ] ;	32:4:885:915	2	0	True				
+ANR	6	IdentifierDecl	* data = dataVector [ 2 ]		2	0					
+ANR	7	IdentifierDeclType	wchar_t *		2	0					
+ANR	8	Identifier	data		2	1					
+ANR	9	AssignmentExpression	* data = dataVector [ 2 ]		2	2		=			
+ANR	10	Identifier	data		2	0					
+ANR	11	ArrayIndexing	dataVector [ 2 ]		2	1					
+ANR	12	Identifier	dataVector		2	0					
+ANR	13	PrimaryExpression	2		2	1					
+ANR	14	CompoundStatement		5:8:89:108	2	1					
+ANR	15	IdentifierDeclStatement	wchar_t source [ 100 ] ;	34:8:931:950	2	0	True				
+ANR	16	IdentifierDecl	source [ 100 ]		2	0					
+ANR	17	IdentifierDeclType	wchar_t [ 100 ]		2	0					
+ANR	18	Identifier	source		2	1					
+ANR	19	PrimaryExpression	100		2	2					
+ANR	20	Statement	wmemset	35:8:960:966	2	1	True				
+ANR	21	Statement	(	35:15:967:967	2	2	True				
+ANR	22	Statement	source	35:16:968:973	2	3	True				
+ANR	23	Statement	","	35:22:974:974	2	4	True				
+ANR	24	Statement	L	35:24:976:976	2	5	True				
+ANR	25	Statement	'C'	35:25:977:979	2	6	True				
+ANR	26	Statement	","	35:28:980:980	2	7	True				
+ANR	27	Statement	100	35:30:982:984	2	8	True				
+ANR	28	Statement	-	35:33:985:985	2	9	True				
+ANR	29	Statement	1	35:34:986:986	2	10	True				
+ANR	30	Statement	)	35:35:987:987	2	11	True				
+ANR	31	ExpressionStatement		35:36:988:988	2	12	True				
+ANR	32	Statement	source	36:8:1020:1025	2	13	True				
+ANR	33	Statement	[	36:14:1026:1026	2	14	True				
+ANR	34	Statement	100	36:15:1027:1029	2	15	True				
+ANR	35	Statement	-	36:18:1030:1030	2	16	True				
+ANR	36	Statement	1	36:19:1031:1031	2	17	True				
+ANR	37	Statement	]	36:20:1032:1032	2	18	True				
+ANR	38	Statement	=	36:22:1034:1034	2	19	True				
+ANR	39	Statement	L	36:24:1036:1036	2	20	True				
+ANR	40	ExpressionStatement	'\\0'	36:25:1037:1041	2	21	True				
+ANR	41	PrimaryExpression	'\\0'		2	0					
+ANR	42	IfStatement	if ( 0 )		2	22					
+ANR	43	Condition	0	38:12:1182:1182	2	0	True				
+ANR	44	PrimaryExpression	0		2	0					
+ANR	45	CompoundStatement		10:12:357:380	2	1					
+ANR	46	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	39:12:1199:1222	2	0	True				
+ANR	47	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	48	IdentifierDeclType	int		2	0					
+ANR	49	Identifier	dwk_xfg_guard_1		2	1					
+ANR	50	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	51	Identifier	dwk_xfg_guard_1		2	0					
+ANR	52	PrimaryExpression	1		2	1					
+ANR	53	ExpressionStatement	dwk_xfg_guard_1 += 0	40:12:1236:1256	2	1	True				
+ANR	54	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	55	Identifier	dwk_xfg_guard_1		2	0					
+ANR	56	PrimaryExpression	0		2	1					
+ANR	57	ExpressionStatement	"wcscat ( data , source )"	42:8:1276:1296	2	23	True				
+ANR	58	CallExpression	"wcscat ( data , source )"		2	0					
+ANR	59	Callee	wcscat		2	0					
+ANR	60	Identifier	wcscat		2	0					
+ANR	61	ArgumentList	data		2	1					
+ANR	62	Argument	data		2	0					
+ANR	63	Identifier	data		2	0					
+ANR	64	Argument	source		2	1					
+ANR	65	Identifier	source		2	0					
+ANR	66	ExpressionStatement	printWLine ( data )	43:8:1306:1322	2	24	True				
+ANR	67	CallExpression	printWLine ( data )		2	0					
+ANR	68	Callee	printWLine		2	0					
+ANR	69	Identifier	printWLine		2	0					
+ANR	70	ArgumentList	data		2	1					
+ANR	71	Argument	data		2	0					
+ANR	72	Identifier	data		2	0					
+ANR	73	Statement	delete	44:8:1332:1337	2	25	True				
+ANR	74	Statement	[	44:15:1339:1339	2	26	True				
+ANR	75	Statement	]	44:16:1340:1340	2	27	True				
+ANR	76	ExpressionStatement	data	44:18:1342:1346	2	28	True				
+ANR	77	Identifier	data		2	0					
+ANR	78	ReturnType	void		2	1					
+ANR	79	Identifier	badSink		2	2					
+ANR	80	ParameterList	vector < wchar_t * > dataVector		2	3					
+ANR	81	Parameter	vector < wchar_t * > dataVector	29:13:811:838	2	0	True				
+ANR	82	ParameterType	vector < wchar_t * >		2	0					
+ANR	83	Identifier	dataVector		2	1					
+ANR	84	CFGEntryNode	ENTRY		2		True				
+ANR	85	CFGExitNode	EXIT		2		True				
+ANR	86	Symbol	data		2						
+ANR	87	Symbol	dwk_xfg_guard_1		2						
+ANR	88	Symbol	source		2						
+ANR	89	Symbol	dataVector		2						
+ANR	90	Symbol	* dataVector		2						
+ANR	91	Function	goodG2BSink	53:0:1448:1872							
+ANR	92	FunctionDef	goodG2BSink (vector < wchar_t * > dataVector)		91	0					
+ANR	93	CompoundStatement		54:0:1495:1872	91	0					
+ANR	94	IdentifierDeclStatement	wchar_t * data = dataVector [ 2 ] ;	55:4:1501:1531	91	0	True				
+ANR	95	IdentifierDecl	* data = dataVector [ 2 ]		91	0					
+ANR	96	IdentifierDeclType	wchar_t *		91	0					
+ANR	97	Identifier	data		91	1					
+ANR	98	AssignmentExpression	* data = dataVector [ 2 ]		91	2		=			
+ANR	99	Identifier	data		91	0					
+ANR	100	ArrayIndexing	dataVector [ 2 ]		91	1					
+ANR	101	Identifier	dataVector		91	0					
+ANR	102	PrimaryExpression	2		91	1					
+ANR	103	CompoundStatement		4:8:51:70	91	1					
+ANR	104	IdentifierDeclStatement	wchar_t source [ 100 ] ;	57:8:1547:1566	91	0	True				
+ANR	105	IdentifierDecl	source [ 100 ]		91	0					
+ANR	106	IdentifierDeclType	wchar_t [ 100 ]		91	0					
+ANR	107	Identifier	source		91	1					
+ANR	108	PrimaryExpression	100		91	2					
+ANR	109	Statement	wmemset	58:8:1576:1582	91	1	True				
+ANR	110	Statement	(	58:15:1583:1583	91	2	True				
+ANR	111	Statement	source	58:16:1584:1589	91	3	True				
+ANR	112	Statement	","	58:22:1590:1590	91	4	True				
+ANR	113	Statement	L	58:24:1592:1592	91	5	True				
+ANR	114	Statement	'C'	58:25:1593:1595	91	6	True				
+ANR	115	Statement	","	58:28:1596:1596	91	7	True				
+ANR	116	Statement	100	58:30:1598:1600	91	8	True				
+ANR	117	Statement	-	58:33:1601:1601	91	9	True				
+ANR	118	Statement	1	58:34:1602:1602	91	10	True				
+ANR	119	Statement	)	58:35:1603:1603	91	11	True				
+ANR	120	ExpressionStatement		58:36:1604:1604	91	12	True				
+ANR	121	Statement	source	59:8:1636:1641	91	13	True				
+ANR	122	Statement	[	59:14:1642:1642	91	14	True				
+ANR	123	Statement	100	59:15:1643:1645	91	15	True				
+ANR	124	Statement	-	59:18:1646:1646	91	16	True				
+ANR	125	Statement	1	59:19:1647:1647	91	17	True				
+ANR	126	Statement	]	59:20:1648:1648	91	18	True				
+ANR	127	Statement	=	59:22:1650:1650	91	19	True				
+ANR	128	Statement	L	59:24:1652:1652	91	20	True				
+ANR	129	ExpressionStatement	'\\0'	59:25:1653:1657	91	21	True				
+ANR	130	PrimaryExpression	'\\0'		91	0					
+ANR	131	ExpressionStatement	"wcscat ( data , source )"	61:8:1794:1814	91	22	True				
+ANR	132	CallExpression	"wcscat ( data , source )"		91	0					
+ANR	133	Callee	wcscat		91	0					
+ANR	134	Identifier	wcscat		91	0					
+ANR	135	ArgumentList	data		91	1					
+ANR	136	Argument	data		91	0					
+ANR	137	Identifier	data		91	0					
+ANR	138	Argument	source		91	1					
+ANR	139	Identifier	source		91	0					
+ANR	140	ExpressionStatement	printWLine ( data )	62:8:1824:1840	91	23	True				
+ANR	141	CallExpression	printWLine ( data )		91	0					
+ANR	142	Callee	printWLine		91	0					
+ANR	143	Identifier	printWLine		91	0					
+ANR	144	ArgumentList	data		91	1					
+ANR	145	Argument	data		91	0					
+ANR	146	Identifier	data		91	0					
+ANR	147	Statement	delete	63:8:1850:1855	91	24	True				
+ANR	148	Statement	[	63:15:1857:1857	91	25	True				
+ANR	149	Statement	]	63:16:1858:1858	91	26	True				
+ANR	150	ExpressionStatement	data	63:18:1860:1864	91	27	True				
+ANR	151	Identifier	data		91	0					
+ANR	152	ReturnType	void		91	1					
+ANR	153	Identifier	goodG2BSink		91	2					
+ANR	154	ParameterList	vector < wchar_t * > dataVector		91	3					
+ANR	155	Parameter	vector < wchar_t * > dataVector	53:17:1465:1492	91	0	True				
+ANR	156	ParameterType	vector < wchar_t * >		91	0					
+ANR	157	Identifier	dataVector		91	1					
+ANR	158	CFGEntryNode	ENTRY		91		True				
+ANR	159	CFGExitNode	EXIT		91		True				
+ANR	160	Symbol	data		91						
+ANR	161	Symbol	source		91						
+ANR	162	Symbol	dataVector		91						
+ANR	163	Symbol	* dataVector		91						

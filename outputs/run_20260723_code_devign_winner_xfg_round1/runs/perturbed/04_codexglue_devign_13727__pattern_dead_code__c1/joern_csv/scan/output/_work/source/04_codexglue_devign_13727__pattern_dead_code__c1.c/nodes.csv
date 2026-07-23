@@ -1,0 +1,101 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/04_codexglue_devign_13727__pattern_dead_code__c1.c								
+ANR	2	Function	emulate_spapr_hypercall	1:0:0:351							
+ANR	3	FunctionDef	emulate_spapr_hypercall (CPUPPCState * env)		2	0					
+ANR	4	CompoundStatement		3:0:55:351	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	5:8:66:66	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		6:8:89:127	2	1					
+ANR	9	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	6:8:79:102	2	0	True				
+ANR	10	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		2	0					
+ANR	11	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	12	Identifier	dwk_src_1		2	1					
+ANR	13	PrimaryExpression	8		2	2					
+ANR	14	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		2	3		=			
+ANR	15	Identifier	dwk_src_1		2	0					
+ANR	16	InitializerList	0		2	1					
+ANR	17	PrimaryExpression	0		2	0					
+ANR	18	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	7:8:112:135	2	1	True				
+ANR	19	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		2	0					
+ANR	20	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	21	Identifier	dwk_dst_1		2	1					
+ANR	22	PrimaryExpression	8		2	2					
+ANR	23	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		2	3		=			
+ANR	24	Identifier	dwk_dst_1		2	0					
+ANR	25	InitializerList	0		2	1					
+ANR	26	PrimaryExpression	0		2	0					
+ANR	27	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	8:8:145:183	2	2	True				
+ANR	28	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	0					
+ANR	29	IdentifierDeclType	int		2	0					
+ANR	30	Identifier	dwk_len_1		2	1					
+ANR	31	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	2		=			
+ANR	32	Identifier	dwk_len_1		2	0					
+ANR	33	CastExpression	( int ) sizeof ( dwk_dst_1 )		2	1					
+ANR	34	CastTarget	int		2	0					
+ANR	35	SizeofExpression	sizeof ( dwk_dst_1 )		2	1					
+ANR	36	Sizeof	sizeof		2	0					
+ANR	37	SizeofOperand	dwk_dst_1		2	1					
+ANR	38	IfStatement	if ( dwk_len_1 > 0 )		2	3					
+ANR	39	Condition	dwk_len_1 > 0	9:12:197:209	2	0	True				
+ANR	40	RelationalExpression	dwk_len_1 > 0		2	0		>			
+ANR	41	Identifier	dwk_len_1		2	0					
+ANR	42	PrimaryExpression	0		2	1					
+ANR	43	CompoundStatement		7:27:156:156	2	1					
+ANR	44	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	10:12:226:265	2	0	True				
+ANR	45	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		2	0		=			
+ANR	46	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		2	0					
+ANR	47	Identifier	dwk_dst_1		2	0					
+ANR	48	AdditiveExpression	dwk_len_1 - 1		2	1		-			
+ANR	49	Identifier	dwk_len_1		2	0					
+ANR	50	PrimaryExpression	1		2	1					
+ANR	51	ArrayIndexing	dwk_src_1 [ 0 ]		2	1					
+ANR	52	Identifier	dwk_src_1		2	0					
+ANR	53	PrimaryExpression	0		2	1					
+ANR	54	ExpressionStatement	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"	13:4:287:348	2	1	True				
+ANR	55	AssignmentExpression	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	0		=			
+ANR	56	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	57	PtrMemberAccess	env -> gpr		2	0					
+ANR	58	Identifier	env		2	0					
+ANR	59	Identifier	gpr		2	1					
+ANR	60	PrimaryExpression	3		2	1					
+ANR	61	CallExpression	"spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	1					
+ANR	62	Callee	spapr_hypercall		2	0					
+ANR	63	Identifier	spapr_hypercall		2	0					
+ANR	64	ArgumentList	env		2	1					
+ANR	65	Argument	env		2	0					
+ANR	66	Identifier	env		2	0					
+ANR	67	Argument	env -> gpr [ 3 ]		2	1					
+ANR	68	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	69	PtrMemberAccess	env -> gpr		2	0					
+ANR	70	Identifier	env		2	0					
+ANR	71	Identifier	gpr		2	1					
+ANR	72	PrimaryExpression	3		2	1					
+ANR	73	Argument	& env -> gpr [ 4 ]		2	2					
+ANR	74	UnaryOperationExpression	& env -> gpr [ 4 ]		2	0					
+ANR	75	UnaryOperator	&		2	0					
+ANR	76	ArrayIndexing	env -> gpr [ 4 ]		2	1					
+ANR	77	PtrMemberAccess	env -> gpr		2	0					
+ANR	78	Identifier	env		2	0					
+ANR	79	Identifier	gpr		2	1					
+ANR	80	PrimaryExpression	4		2	1					
+ANR	81	ReturnType	static void		2	1					
+ANR	82	Identifier	emulate_spapr_hypercall		2	2					
+ANR	83	ParameterList	CPUPPCState * env		2	3					
+ANR	84	Parameter	CPUPPCState * env	1:36:36:51	2	0	True				
+ANR	85	ParameterType	CPUPPCState *		2	0					
+ANR	86	Identifier	env		2	1					
+ANR	87	CFGEntryNode	ENTRY		2		True				
+ANR	88	CFGExitNode	EXIT		2		True				
+ANR	89	Symbol	* env -> gpr		2						
+ANR	90	Symbol	* * env		2						
+ANR	91	Symbol	* dwk_src_1		2						
+ANR	92	Symbol	* dwk_dst_1		2						
+ANR	93	Symbol	spapr_hypercall		2						
+ANR	94	Symbol	dwk_dst_1		2						
+ANR	95	Symbol	dwk_src_1		2						
+ANR	96	Symbol	* env		2						
+ANR	97	Symbol	* dwk_len_1		2						
+ANR	98	Symbol	env -> gpr		2						
+ANR	99	Symbol	env		2						
+ANR	100	Symbol	dwk_len_1		2						

@@ -1,0 +1,264 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/05_codexglue_devign_6599__data_flow_alias__c1.c								
+ANR	2	Function	preallocate	1:0:0:1680							
+ANR	3	FunctionDef	preallocate (BlockDriverState * bs)		2	0					
+ANR	4	CompoundStatement		3:0:46:1680	2	0					
+ANR	5	IdentifierDeclStatement	uint64_t nb_sectors ;	5:4:53:72	2	0	True				
+ANR	6	IdentifierDecl	nb_sectors		2	0					
+ANR	7	IdentifierDeclType	uint64_t		2	0					
+ANR	8	Identifier	nb_sectors		2	1					
+ANR	9	IdentifierDeclStatement	uint64_t offset ;	7:4:79:94	2	1	True				
+ANR	10	IdentifierDecl	offset		2	0					
+ANR	11	IdentifierDeclType	uint64_t		2	0					
+ANR	12	Identifier	offset		2	1					
+ANR	13	IdentifierDeclStatement	uint64_t host_offset = 0 ;	9:4:101:125	2	2	True				
+ANR	14	IdentifierDecl	host_offset = 0		2	0					
+ANR	15	IdentifierDeclType	uint64_t		2	0					
+ANR	16	Identifier	host_offset		2	1					
+ANR	17	AssignmentExpression	host_offset = 0		2	2		=			
+ANR	18	Identifier	host_offset		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	int num ;	11:4:132:139	2	3	True				
+ANR	21	IdentifierDecl	num		2	0					
+ANR	22	IdentifierDeclType	int		2	0					
+ANR	23	Identifier	num		2	1					
+ANR	24	IdentifierDeclStatement	int ret ;	13:4:146:153	2	4	True				
+ANR	25	IdentifierDecl	ret		2	0					
+ANR	26	IdentifierDeclType	int		2	0					
+ANR	27	Identifier	ret		2	1					
+ANR	28	IdentifierDeclStatement	QCowL2Meta * meta ;	15:4:160:176	2	5	True				
+ANR	29	IdentifierDecl	* meta		2	0					
+ANR	30	IdentifierDeclType	QCowL2Meta *		2	0					
+ANR	31	Identifier	meta		2	1					
+ANR	32	ExpressionStatement	nb_sectors = bdrv_getlength ( bs ) >> 9	19:4:185:221	2	6	True				
+ANR	33	AssignmentExpression	nb_sectors = bdrv_getlength ( bs ) >> 9		2	0		=			
+ANR	34	Identifier	nb_sectors		2	0					
+ANR	35	ShiftExpression	bdrv_getlength ( bs ) >> 9		2	1		>>			
+ANR	36	CallExpression	bdrv_getlength ( bs )		2	0					
+ANR	37	Callee	bdrv_getlength		2	0					
+ANR	38	Identifier	bdrv_getlength		2	0					
+ANR	39	ArgumentList	bs		2	1					
+ANR	40	Argument	bs		2	0					
+ANR	41	Identifier	bs		2	0					
+ANR	42	PrimaryExpression	9		2	1					
+ANR	43	ExpressionStatement	offset = 0	21:4:228:238	2	7	True				
+ANR	44	AssignmentExpression	offset = 0		2	0		=			
+ANR	45	Identifier	offset		2	0					
+ANR	46	PrimaryExpression	0		2	1					
+ANR	47	WhileStatement	while ( nb_sectors )		2	8					
+ANR	48	Condition	nb_sectors	25:11:254:263	2	0	True				
+ANR	49	Identifier	nb_sectors		2	0					
+ANR	50	CompoundStatement		23:23:219:219	2	1					
+ANR	51	ExpressionStatement	"num = MIN ( nb_sectors , INT_MAX >> 9 )"	27:8:277:312	2	0	True				
+ANR	52	AssignmentExpression	"num = MIN ( nb_sectors , INT_MAX >> 9 )"		2	0		=			
+ANR	53	Identifier	num		2	0					
+ANR	54	CallExpression	"MIN ( nb_sectors , INT_MAX >> 9 )"		2	1					
+ANR	55	Callee	MIN		2	0					
+ANR	56	Identifier	MIN		2	0					
+ANR	57	ArgumentList	nb_sectors		2	1					
+ANR	58	Argument	nb_sectors		2	0					
+ANR	59	Identifier	nb_sectors		2	0					
+ANR	60	Argument	INT_MAX >> 9		2	1					
+ANR	61	ShiftExpression	INT_MAX >> 9		2	0		>>			
+ANR	62	Identifier	INT_MAX		2	0					
+ANR	63	PrimaryExpression	9		2	1					
+ANR	64	ExpressionStatement	"ret = qcow2_alloc_cluster_offset ( bs , offset , & num , & host_offset , & meta )"	29:8:323:436	2	1	True				
+ANR	65	AssignmentExpression	"ret = qcow2_alloc_cluster_offset ( bs , offset , & num , & host_offset , & meta )"		2	0		=			
+ANR	66	Identifier	ret		2	0					
+ANR	67	CallExpression	"qcow2_alloc_cluster_offset ( bs , offset , & num , & host_offset , & meta )"		2	1					
+ANR	68	Callee	qcow2_alloc_cluster_offset		2	0					
+ANR	69	Identifier	qcow2_alloc_cluster_offset		2	0					
+ANR	70	ArgumentList	bs		2	1					
+ANR	71	Argument	bs		2	0					
+ANR	72	Identifier	bs		2	0					
+ANR	73	Argument	offset		2	1					
+ANR	74	Identifier	offset		2	0					
+ANR	75	Argument	& num		2	2					
+ANR	76	UnaryOperationExpression	& num		2	0					
+ANR	77	UnaryOperator	&		2	0					
+ANR	78	Identifier	num		2	1					
+ANR	79	Argument	& host_offset		2	3					
+ANR	80	UnaryOperationExpression	& host_offset		2	0					
+ANR	81	UnaryOperator	&		2	0					
+ANR	82	Identifier	host_offset		2	1					
+ANR	83	Argument	& meta		2	4					
+ANR	84	UnaryOperationExpression	& meta		2	0					
+ANR	85	UnaryOperator	&		2	0					
+ANR	86	Identifier	meta		2	1					
+ANR	87	IfStatement	if ( ret < 0 )		2	2					
+ANR	88	Condition	ret < 0	33:12:451:457	2	0	True				
+ANR	89	RelationalExpression	ret < 0		2	0		<			
+ANR	90	Identifier	ret		2	0					
+ANR	91	PrimaryExpression	0		2	1					
+ANR	92	CompoundStatement		31:21:413:413	2	1					
+ANR	93	ReturnStatement	return ret ;	35:12:475:485	2	0	True				
+ANR	94	Identifier	ret		2	0					
+ANR	95	ExpressionStatement	"ret = qcow2_alloc_cluster_link_l2 ( bs , meta )"	41:8:509:552	2	3	True				
+ANR	96	AssignmentExpression	"ret = qcow2_alloc_cluster_link_l2 ( bs , meta )"		2	0		=			
+ANR	97	Identifier	ret		2	0					
+ANR	98	CallExpression	"qcow2_alloc_cluster_link_l2 ( bs , meta )"		2	1					
+ANR	99	Callee	qcow2_alloc_cluster_link_l2		2	0					
+ANR	100	Identifier	qcow2_alloc_cluster_link_l2		2	0					
+ANR	101	ArgumentList	bs		2	1					
+ANR	102	Argument	bs		2	0					
+ANR	103	Identifier	bs		2	0					
+ANR	104	Argument	meta		2	1					
+ANR	105	Identifier	meta		2	0					
+ANR	106	IfStatement	if ( ret < 0 )		2	4					
+ANR	107	Condition	ret < 0	43:12:567:573	2	0	True				
+ANR	108	RelationalExpression	ret < 0		2	0		<			
+ANR	109	Identifier	ret		2	0					
+ANR	110	PrimaryExpression	0		2	1					
+ANR	111	CompoundStatement		43:12:544:576	2	1					
+ANR	112	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( bs ) ;	45:12:591:623	2	0	True				
+ANR	113	IdentifierDecl	* dwk_alias_1 = ( void * ) ( bs )		2	0					
+ANR	114	IdentifierDeclType	void *		2	0					
+ANR	115	Identifier	dwk_alias_1		2	1					
+ANR	116	AssignmentExpression	* dwk_alias_1 = ( void * ) ( bs )		2	2		=			
+ANR	117	Identifier	dwk_alias_1		2	0					
+ANR	118	CastExpression	( void * ) ( bs )		2	1					
+ANR	119	CastTarget	void *		2	0					
+ANR	120	Identifier	bs		2	1					
+ANR	121	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	46:12:637:684	2	1	True				
+ANR	122	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	123	Identifier	dwk_alias_1		2	0					
+ANR	124	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	125	CastTarget	void *		2	0					
+ANR	126	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	127	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	128	CastTarget	char *		2	0					
+ANR	129	Identifier	dwk_alias_1		2	1					
+ANR	130	PrimaryExpression	0		2	1					
+ANR	131	ExpressionStatement	"qcow2_free_any_clusters ( bs , meta -> alloc_offset , meta -> nb_clusters , QCOW2_DISCARD_NEVER )"	47:12:698:822	2	2	True				
+ANR	132	CallExpression	"qcow2_free_any_clusters ( bs , meta -> alloc_offset , meta -> nb_clusters , QCOW2_DISCARD_NEVER )"		2	0					
+ANR	133	Callee	qcow2_free_any_clusters		2	0					
+ANR	134	Identifier	qcow2_free_any_clusters		2	0					
+ANR	135	ArgumentList	bs		2	1					
+ANR	136	Argument	bs		2	0					
+ANR	137	Identifier	bs		2	0					
+ANR	138	Argument	meta -> alloc_offset		2	1					
+ANR	139	PtrMemberAccess	meta -> alloc_offset		2	0					
+ANR	140	Identifier	meta		2	0					
+ANR	141	Identifier	alloc_offset		2	1					
+ANR	142	Argument	meta -> nb_clusters		2	2					
+ANR	143	PtrMemberAccess	meta -> nb_clusters		2	0					
+ANR	144	Identifier	meta		2	0					
+ANR	145	Identifier	nb_clusters		2	1					
+ANR	146	Argument	QCOW2_DISCARD_NEVER		2	3					
+ANR	147	Identifier	QCOW2_DISCARD_NEVER		2	0					
+ANR	148	ReturnStatement	return ret ;	51:12:837:847	2	3	True				
+ANR	149	Identifier	ret		2	0					
+ANR	150	IfStatement	if ( meta != NULL )		2	5					
+ANR	151	Condition	meta != NULL	61:12:1005:1016	2	0	True				
+ANR	152	EqualityExpression	meta != NULL		2	0		!=			
+ANR	153	Identifier	meta		2	0					
+ANR	154	Identifier	NULL		2	1					
+ANR	155	CompoundStatement		59:26:972:972	2	1					
+ANR	156	ExpressionStatement	"QLIST_REMOVE ( meta , next_in_flight )"	63:12:1034:1068	2	0	True				
+ANR	157	CallExpression	"QLIST_REMOVE ( meta , next_in_flight )"		2	0					
+ANR	158	Callee	QLIST_REMOVE		2	0					
+ANR	159	Identifier	QLIST_REMOVE		2	0					
+ANR	160	ArgumentList	meta		2	1					
+ANR	161	Argument	meta		2	0					
+ANR	162	Identifier	meta		2	0					
+ANR	163	Argument	next_in_flight		2	1					
+ANR	164	Identifier	next_in_flight		2	0					
+ANR	165	ExpressionStatement	nb_sectors -= num	73:8:1144:1161	2	6	True				
+ANR	166	AssignmentExpression	nb_sectors -= num		2	0		-=			
+ANR	167	Identifier	nb_sectors		2	0					
+ANR	168	Identifier	num		2	1					
+ANR	169	ExpressionStatement	offset += num << 9	75:8:1172:1190	2	7	True				
+ANR	170	AssignmentExpression	offset += num << 9		2	0		+=			
+ANR	171	Identifier	offset		2	0					
+ANR	172	ShiftExpression	num << 9		2	1		<<			
+ANR	173	Identifier	num		2	0					
+ANR	174	PrimaryExpression	9		2	1					
+ANR	175	IfStatement	if ( host_offset != 0 )		2	9					
+ANR	176	Condition	host_offset != 0	91:8:1443:1458	2	0	True				
+ANR	177	EqualityExpression	host_offset != 0		2	0		!=			
+ANR	178	Identifier	host_offset		2	0					
+ANR	179	PrimaryExpression	0		2	1					
+ANR	180	CompoundStatement		91:8:1425:1441	2	1					
+ANR	181	IdentifierDeclStatement	uint8_t buf [ 512 ] ;	93:8:1472:1488	2	0	True				
+ANR	182	IdentifierDecl	buf [ 512 ]		2	0					
+ANR	183	IdentifierDeclType	uint8_t [ 512 ]		2	0					
+ANR	184	Identifier	buf		2	1					
+ANR	185	PrimaryExpression	512		2	2					
+ANR	186	ExpressionStatement	"memset ( buf , 0 , 512 )"	95:8:1499:1518	2	1	True				
+ANR	187	CallExpression	"memset ( buf , 0 , 512 )"		2	0					
+ANR	188	Callee	memset		2	0					
+ANR	189	Identifier	memset		2	0					
+ANR	190	ArgumentList	buf		2	1					
+ANR	191	Argument	buf		2	0					
+ANR	192	Identifier	buf		2	0					
+ANR	193	Argument	0		2	1					
+ANR	194	PrimaryExpression	0		2	0					
+ANR	195	Argument	512		2	2					
+ANR	196	PrimaryExpression	512		2	0					
+ANR	197	ExpressionStatement	"ret = bdrv_write ( bs -> file , ( host_offset >> 9 ) + num - 1 , buf , 1 )"	97:8:1529:1593	2	2	True				
+ANR	198	AssignmentExpression	"ret = bdrv_write ( bs -> file , ( host_offset >> 9 ) + num - 1 , buf , 1 )"		2	0		=			
+ANR	199	Identifier	ret		2	0					
+ANR	200	CallExpression	"bdrv_write ( bs -> file , ( host_offset >> 9 ) + num - 1 , buf , 1 )"		2	1					
+ANR	201	Callee	bdrv_write		2	0					
+ANR	202	Identifier	bdrv_write		2	0					
+ANR	203	ArgumentList	bs -> file		2	1					
+ANR	204	Argument	bs -> file		2	0					
+ANR	205	PtrMemberAccess	bs -> file		2	0					
+ANR	206	Identifier	bs		2	0					
+ANR	207	Identifier	file		2	1					
+ANR	208	Argument	( host_offset >> 9 ) + num - 1		2	1					
+ANR	209	AdditiveExpression	( host_offset >> 9 ) + num - 1		2	0		+			
+ANR	210	ShiftExpression	host_offset >> 9		2	0		>>			
+ANR	211	Identifier	host_offset		2	0					
+ANR	212	PrimaryExpression	9		2	1					
+ANR	213	AdditiveExpression	num - 1		2	1		-			
+ANR	214	Identifier	num		2	0					
+ANR	215	PrimaryExpression	1		2	1					
+ANR	216	Argument	buf		2	2					
+ANR	217	Identifier	buf		2	0					
+ANR	218	Argument	1		2	3					
+ANR	219	PrimaryExpression	1		2	0					
+ANR	220	IfStatement	if ( ret < 0 )		2	3					
+ANR	221	Condition	ret < 0	99:12:1608:1614	2	0	True				
+ANR	222	RelationalExpression	ret < 0		2	0		<			
+ANR	223	Identifier	ret		2	0					
+ANR	224	PrimaryExpression	0		2	1					
+ANR	225	CompoundStatement		97:21:1570:1570	2	1					
+ANR	226	ReturnStatement	return ret ;	101:12:1632:1642	2	0	True				
+ANR	227	Identifier	ret		2	0					
+ANR	228	ReturnStatement	return 0 ;	109:4:1669:1677	2	10	True				
+ANR	229	PrimaryExpression	0		2	0					
+ANR	230	ReturnType	static int		2	1					
+ANR	231	Identifier	preallocate		2	2					
+ANR	232	ParameterList	BlockDriverState * bs		2	3					
+ANR	233	Parameter	BlockDriverState * bs	1:23:23:42	2	0	True				
+ANR	234	ParameterType	BlockDriverState *		2	0					
+ANR	235	Identifier	bs		2	1					
+ANR	236	CFGEntryNode	ENTRY		2		True				
+ANR	237	CFGExitNode	EXIT		2		True				
+ANR	238	Symbol	nb_sectors		2						
+ANR	239	Symbol	bs -> file		2						
+ANR	240	Symbol	& host_offset		2						
+ANR	241	Symbol	num		2						
+ANR	242	Symbol	qcow2_alloc_cluster_offset		2						
+ANR	243	Symbol	bs		2						
+ANR	244	Symbol	* bs		2						
+ANR	245	Symbol	INT_MAX		2						
+ANR	246	Symbol	* meta		2						
+ANR	247	Symbol	dwk_alias_1		2						
+ANR	248	Symbol	bdrv_getlength		2						
+ANR	249	Symbol	qcow2_alloc_cluster_link_l2		2						
+ANR	250	Symbol	ret		2						
+ANR	251	Symbol	NULL		2						
+ANR	252	Symbol	offset		2						
+ANR	253	Symbol	host_offset		2						
+ANR	254	Symbol	next_in_flight		2						
+ANR	255	Symbol	QCOW2_DISCARD_NEVER		2						
+ANR	256	Symbol	& num		2						
+ANR	257	Symbol	meta -> nb_clusters		2						
+ANR	258	Symbol	& meta		2						
+ANR	259	Symbol	buf		2						
+ANR	260	Symbol	MIN		2						
+ANR	261	Symbol	meta		2						
+ANR	262	Symbol	bdrv_write		2						
+ANR	263	Symbol	meta -> alloc_offset		2						

@@ -1,0 +1,50 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/04_codexglue_devign_13727__control_wrapper__c2.c								
+ANR	2	Function	emulate_spapr_hypercall	1:0:0:149							
+ANR	3	FunctionDef	emulate_spapr_hypercall (CPUPPCState * env)		2	0					
+ANR	4	CompoundStatement		3:0:55:149	2	0					
+ANR	5	IfStatement	if ( 1 )		2	0					
+ANR	6	Condition	1	5:8:66:66	2	0	True				
+ANR	7	PrimaryExpression	1		2	0					
+ANR	8	CompoundStatement		3:11:13:13	2	1					
+ANR	9	ExpressionStatement	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"	6:8:79:140	2	0	True				
+ANR	10	AssignmentExpression	"env -> gpr [ 3 ] = spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	0		=			
+ANR	11	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	12	PtrMemberAccess	env -> gpr		2	0					
+ANR	13	Identifier	env		2	0					
+ANR	14	Identifier	gpr		2	1					
+ANR	15	PrimaryExpression	3		2	1					
+ANR	16	CallExpression	"spapr_hypercall ( env , env -> gpr [ 3 ] , & env -> gpr [ 4 ] )"		2	1					
+ANR	17	Callee	spapr_hypercall		2	0					
+ANR	18	Identifier	spapr_hypercall		2	0					
+ANR	19	ArgumentList	env		2	1					
+ANR	20	Argument	env		2	0					
+ANR	21	Identifier	env		2	0					
+ANR	22	Argument	env -> gpr [ 3 ]		2	1					
+ANR	23	ArrayIndexing	env -> gpr [ 3 ]		2	0					
+ANR	24	PtrMemberAccess	env -> gpr		2	0					
+ANR	25	Identifier	env		2	0					
+ANR	26	Identifier	gpr		2	1					
+ANR	27	PrimaryExpression	3		2	1					
+ANR	28	Argument	& env -> gpr [ 4 ]		2	2					
+ANR	29	UnaryOperationExpression	& env -> gpr [ 4 ]		2	0					
+ANR	30	UnaryOperator	&		2	0					
+ANR	31	ArrayIndexing	env -> gpr [ 4 ]		2	1					
+ANR	32	PtrMemberAccess	env -> gpr		2	0					
+ANR	33	Identifier	env		2	0					
+ANR	34	Identifier	gpr		2	1					
+ANR	35	PrimaryExpression	4		2	1					
+ANR	36	ReturnType	static void		2	1					
+ANR	37	Identifier	emulate_spapr_hypercall		2	2					
+ANR	38	ParameterList	CPUPPCState * env		2	3					
+ANR	39	Parameter	CPUPPCState * env	1:36:36:51	2	0	True				
+ANR	40	ParameterType	CPUPPCState *		2	0					
+ANR	41	Identifier	env		2	1					
+ANR	42	CFGEntryNode	ENTRY		2		True				
+ANR	43	CFGExitNode	EXIT		2		True				
+ANR	44	Symbol	* env -> gpr		2						
+ANR	45	Symbol	* * env		2						
+ANR	46	Symbol	spapr_hypercall		2						
+ANR	47	Symbol	* env		2						
+ANR	48	Symbol	env -> gpr		2						
+ANR	49	Symbol	env		2						

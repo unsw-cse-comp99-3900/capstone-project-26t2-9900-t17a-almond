@@ -1,0 +1,435 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/01_codexglue_devign_10453__temp_variable_split__c2.c								
+ANR	2	Function	uhci_handle_td	1:0:0:2093							
+ANR	3	FunctionDef	"uhci_handle_td (UHCIState * s , uint32_t addr , UHCI_TD * td , uint32_t * int_mask)"		2	0					
+ANR	4	CompoundStatement		3:0:89:2093	2	0					
+ANR	5	IdentifierDeclStatement	UHCIAsync * async ;	5:4:96:112	2	0	True				
+ANR	6	IdentifierDecl	* async		2	0					
+ANR	7	IdentifierDeclType	UHCIAsync *		2	0					
+ANR	8	Identifier	async		2	1					
+ANR	9	IdentifierDeclStatement	"int len = 0 , max_len ;"	7:4:119:139	2	1	True				
+ANR	10	IdentifierDecl	len = 0		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	len		2	1					
+ANR	13	AssignmentExpression	len = 0		2	2		=			
+ANR	14	Identifier	len		2	0					
+ANR	15	PrimaryExpression	0		2	1					
+ANR	16	IdentifierDecl	max_len		2	1					
+ANR	17	IdentifierDeclType	int		2	0					
+ANR	18	Identifier	max_len		2	1					
+ANR	19	IdentifierDeclStatement	uint8_t pid ;	9:4:146:157	2	2	True				
+ANR	20	IdentifierDecl	pid		2	0					
+ANR	21	IdentifierDeclType	uint8_t		2	0					
+ANR	22	Identifier	pid		2	1					
+ANR	23	IdentifierDeclStatement	USBDevice * dev ;	11:4:164:178	2	3	True				
+ANR	24	IdentifierDecl	* dev		2	0					
+ANR	25	IdentifierDeclType	USBDevice *		2	0					
+ANR	26	Identifier	dev		2	1					
+ANR	27	IdentifierDeclStatement	USBEndpoint * ep ;	13:4:185:200	2	4	True				
+ANR	28	IdentifierDecl	* ep		2	0					
+ANR	29	IdentifierDeclType	USBEndpoint *		2	0					
+ANR	30	Identifier	ep		2	1					
+ANR	31	IfStatement	if ( ! ( td -> ctrl & TD_CTRL_ACTIVE ) )		2	5					
+ANR	32	Condition	! ( td -> ctrl & TD_CTRL_ACTIVE )	19:8:236:263	2	0	True				
+ANR	33	UnaryOperationExpression	! ( td -> ctrl & TD_CTRL_ACTIVE )		2	0					
+ANR	34	UnaryOperator	!		2	0					
+ANR	35	BitAndExpression	td -> ctrl & TD_CTRL_ACTIVE		2	1		&			
+ANR	36	PtrMemberAccess	td -> ctrl		2	0					
+ANR	37	Identifier	td		2	0					
+ANR	38	Identifier	ctrl		2	1					
+ANR	39	Identifier	TD_CTRL_ACTIVE		2	1					
+ANR	40	ReturnStatement	return TD_RESULT_NEXT_QH ;	21:8:275:299	2	1	True				
+ANR	41	Identifier	TD_RESULT_NEXT_QH		2	0					
+ANR	42	ExpressionStatement	"async = uhci_async_find_td ( s , addr , td )"	25:4:308:347	2	6	True				
+ANR	43	AssignmentExpression	"async = uhci_async_find_td ( s , addr , td )"		2	0		=			
+ANR	44	Identifier	async		2	0					
+ANR	45	CallExpression	"uhci_async_find_td ( s , addr , td )"		2	1					
+ANR	46	Callee	uhci_async_find_td		2	0					
+ANR	47	Identifier	uhci_async_find_td		2	0					
+ANR	48	ArgumentList	s		2	1					
+ANR	49	Argument	s		2	0					
+ANR	50	Identifier	s		2	0					
+ANR	51	Argument	addr		2	1					
+ANR	52	Identifier	addr		2	0					
+ANR	53	Argument	td		2	2					
+ANR	54	Identifier	td		2	0					
+ANR	55	IfStatement	if ( async )		2	7					
+ANR	56	Condition	async	27:8:358:362	2	0	True				
+ANR	57	Identifier	async		2	0					
+ANR	58	CompoundStatement		25:15:275:275	2	1					
+ANR	59	ExpressionStatement	async -> queue -> valid = 32	31:8:409:433	2	0	True				
+ANR	60	AssignmentExpression	async -> queue -> valid = 32		2	0		=			
+ANR	61	PtrMemberAccess	async -> queue -> valid		2	0					
+ANR	62	PtrMemberAccess	async -> queue		2	0					
+ANR	63	Identifier	async		2	0					
+ANR	64	Identifier	queue		2	1					
+ANR	65	Identifier	valid		2	1					
+ANR	66	PrimaryExpression	32		2	1					
+ANR	67	IfStatement	if ( ! async -> done )		2	1					
+ANR	68	Condition	! async -> done	35:12:450:461	2	0	True				
+ANR	69	UnaryOperationExpression	! async -> done		2	0					
+ANR	70	UnaryOperator	!		2	0					
+ANR	71	PtrMemberAccess	async -> done		2	1					
+ANR	72	Identifier	async		2	0					
+ANR	73	Identifier	done		2	1					
+ANR	74	ReturnStatement	return TD_RESULT_ASYNC_CONT ;	37:12:477:504	2	1	True				
+ANR	75	Identifier	TD_RESULT_ASYNC_CONT		2	0					
+ANR	76	ExpressionStatement	uhci_async_unlink ( async )	41:8:517:541	2	2	True				
+ANR	77	CallExpression	uhci_async_unlink ( async )		2	0					
+ANR	78	Callee	uhci_async_unlink		2	0					
+ANR	79	Identifier	uhci_async_unlink		2	0					
+ANR	80	ArgumentList	async		2	1					
+ANR	81	Argument	async		2	0					
+ANR	82	Identifier	async		2	0					
+ANR	83	GotoStatement	goto done ;	43:8:552:561	2	3	True				
+ANR	84	Identifier	done		2	0					
+ANR	85	ExpressionStatement	"async = uhci_async_alloc ( uhci_queue_get ( s , td ) , addr )"	51:4:608:661	2	8	True				
+ANR	86	AssignmentExpression	"async = uhci_async_alloc ( uhci_queue_get ( s , td ) , addr )"		2	0		=			
+ANR	87	Identifier	async		2	0					
+ANR	88	CallExpression	"uhci_async_alloc ( uhci_queue_get ( s , td ) , addr )"		2	1					
+ANR	89	Callee	uhci_async_alloc		2	0					
+ANR	90	Identifier	uhci_async_alloc		2	0					
+ANR	91	ArgumentList	"uhci_queue_get ( s , td )"		2	1					
+ANR	92	Argument	"uhci_queue_get ( s , td )"		2	0					
+ANR	93	CallExpression	"uhci_queue_get ( s , td )"		2	0					
+ANR	94	Callee	uhci_queue_get		2	0					
+ANR	95	Identifier	uhci_queue_get		2	0					
+ANR	96	ArgumentList	s		2	1					
+ANR	97	Argument	s		2	0					
+ANR	98	Identifier	s		2	0					
+ANR	99	Argument	td		2	1					
+ANR	100	Identifier	td		2	0					
+ANR	101	Argument	addr		2	1					
+ANR	102	Identifier	addr		2	0					
+ANR	103	IfStatement	if ( ! async )		2	9					
+ANR	104	Condition	! async	53:8:672:677	2	0	True				
+ANR	105	UnaryOperationExpression	! async		2	0					
+ANR	106	UnaryOperator	!		2	0					
+ANR	107	Identifier	async		2	1					
+ANR	108	ReturnStatement	return TD_RESULT_NEXT_QH ;	55:8:689:713	2	1	True				
+ANR	109	Identifier	TD_RESULT_NEXT_QH		2	0					
+ANR	110	ExpressionStatement	async -> queue -> valid = 32	65:4:836:860	2	10	True				
+ANR	111	AssignmentExpression	async -> queue -> valid = 32		2	0		=			
+ANR	112	PtrMemberAccess	async -> queue -> valid		2	0					
+ANR	113	PtrMemberAccess	async -> queue		2	0					
+ANR	114	Identifier	async		2	0					
+ANR	115	Identifier	queue		2	1					
+ANR	116	Identifier	valid		2	1					
+ANR	117	PrimaryExpression	32		2	1					
+ANR	118	ExpressionStatement	async -> isoc = td -> ctrl & TD_CTRL_IOS	67:4:867:904	2	11	True				
+ANR	119	AssignmentExpression	async -> isoc = td -> ctrl & TD_CTRL_IOS		2	0		=			
+ANR	120	PtrMemberAccess	async -> isoc		2	0					
+ANR	121	Identifier	async		2	0					
+ANR	122	Identifier	isoc		2	1					
+ANR	123	BitAndExpression	td -> ctrl & TD_CTRL_IOS		2	1		&			
+ANR	124	PtrMemberAccess	td -> ctrl		2	0					
+ANR	125	Identifier	td		2	0					
+ANR	126	Identifier	ctrl		2	1					
+ANR	127	Identifier	TD_CTRL_IOS		2	1					
+ANR	128	ExpressionStatement	max_len = ( ( td -> token >> 21 ) + 1 ) & 0x7ff	71:4:913:954	2	12	True				
+ANR	129	AssignmentExpression	max_len = ( ( td -> token >> 21 ) + 1 ) & 0x7ff		2	0		=			
+ANR	130	Identifier	max_len		2	0					
+ANR	131	BitAndExpression	( ( td -> token >> 21 ) + 1 ) & 0x7ff		2	1		&			
+ANR	132	AdditiveExpression	( td -> token >> 21 ) + 1		2	0		+			
+ANR	133	ShiftExpression	td -> token >> 21		2	0		>>			
+ANR	134	PtrMemberAccess	td -> token		2	0					
+ANR	135	Identifier	td		2	0					
+ANR	136	Identifier	token		2	1					
+ANR	137	PrimaryExpression	21		2	1					
+ANR	138	PrimaryExpression	1		2	1					
+ANR	139	PrimaryExpression	0x7ff		2	1					
+ANR	140	ExpressionStatement	pid = td -> token & 0xff	73:4:961:983	2	13	True				
+ANR	141	AssignmentExpression	pid = td -> token & 0xff		2	0		=			
+ANR	142	Identifier	pid		2	0					
+ANR	143	BitAndExpression	td -> token & 0xff		2	1		&			
+ANR	144	PtrMemberAccess	td -> token		2	0					
+ANR	145	Identifier	td		2	0					
+ANR	146	Identifier	token		2	1					
+ANR	147	PrimaryExpression	0xff		2	1					
+ANR	148	ExpressionStatement	"dev = uhci_find_device ( s , ( td -> token >> 8 ) & 0x7f )"	77:4:992:1042	2	14	True				
+ANR	149	AssignmentExpression	"dev = uhci_find_device ( s , ( td -> token >> 8 ) & 0x7f )"		2	0		=			
+ANR	150	Identifier	dev		2	0					
+ANR	151	CallExpression	"uhci_find_device ( s , ( td -> token >> 8 ) & 0x7f )"		2	1					
+ANR	152	Callee	uhci_find_device		2	0					
+ANR	153	Identifier	uhci_find_device		2	0					
+ANR	154	ArgumentList	s		2	1					
+ANR	155	Argument	s		2	0					
+ANR	156	Identifier	s		2	0					
+ANR	157	Argument	( td -> token >> 8 ) & 0x7f		2	1					
+ANR	158	BitAndExpression	( td -> token >> 8 ) & 0x7f		2	0		&			
+ANR	159	ShiftExpression	td -> token >> 8		2	0		>>			
+ANR	160	PtrMemberAccess	td -> token		2	0					
+ANR	161	Identifier	td		2	0					
+ANR	162	Identifier	token		2	1					
+ANR	163	PrimaryExpression	8		2	1					
+ANR	164	PrimaryExpression	0x7f		2	1					
+ANR	165	ExpressionStatement	"ep = usb_ep_get ( dev , pid , ( td -> token >> 15 ) & 0xf )"	79:4:1049:1099	2	15	True				
+ANR	166	AssignmentExpression	"ep = usb_ep_get ( dev , pid , ( td -> token >> 15 ) & 0xf )"		2	0		=			
+ANR	167	Identifier	ep		2	0					
+ANR	168	CallExpression	"usb_ep_get ( dev , pid , ( td -> token >> 15 ) & 0xf )"		2	1					
+ANR	169	Callee	usb_ep_get		2	0					
+ANR	170	Identifier	usb_ep_get		2	0					
+ANR	171	ArgumentList	dev		2	1					
+ANR	172	Argument	dev		2	0					
+ANR	173	Identifier	dev		2	0					
+ANR	174	Argument	pid		2	1					
+ANR	175	Identifier	pid		2	0					
+ANR	176	Argument	( td -> token >> 15 ) & 0xf		2	2					
+ANR	177	BitAndExpression	( td -> token >> 15 ) & 0xf		2	0		&			
+ANR	178	ShiftExpression	td -> token >> 15		2	0		>>			
+ANR	179	PtrMemberAccess	td -> token		2	0					
+ANR	180	Identifier	td		2	0					
+ANR	181	Identifier	token		2	1					
+ANR	182	PrimaryExpression	15		2	1					
+ANR	183	PrimaryExpression	0xf		2	1					
+ANR	184	ExpressionStatement	"usb_packet_setup ( & async -> packet , pid , ep )"	81:4:1106:1147	2	16	True				
+ANR	185	CallExpression	"usb_packet_setup ( & async -> packet , pid , ep )"		2	0					
+ANR	186	Callee	usb_packet_setup		2	0					
+ANR	187	Identifier	usb_packet_setup		2	0					
+ANR	188	ArgumentList	& async -> packet		2	1					
+ANR	189	Argument	& async -> packet		2	0					
+ANR	190	UnaryOperationExpression	& async -> packet		2	0					
+ANR	191	UnaryOperator	&		2	0					
+ANR	192	PtrMemberAccess	async -> packet		2	1					
+ANR	193	Identifier	async		2	0					
+ANR	194	Identifier	packet		2	1					
+ANR	195	Argument	pid		2	1					
+ANR	196	Identifier	pid		2	0					
+ANR	197	Argument	ep		2	2					
+ANR	198	Identifier	ep		2	0					
+ANR	199	ExpressionStatement	"qemu_sglist_add ( & async -> sgl , td -> buffer , max_len )"	83:4:1154:1203	2	17	True				
+ANR	200	CallExpression	"qemu_sglist_add ( & async -> sgl , td -> buffer , max_len )"		2	0					
+ANR	201	Callee	qemu_sglist_add		2	0					
+ANR	202	Identifier	qemu_sglist_add		2	0					
+ANR	203	ArgumentList	& async -> sgl		2	1					
+ANR	204	Argument	& async -> sgl		2	0					
+ANR	205	UnaryOperationExpression	& async -> sgl		2	0					
+ANR	206	UnaryOperator	&		2	0					
+ANR	207	PtrMemberAccess	async -> sgl		2	1					
+ANR	208	Identifier	async		2	0					
+ANR	209	Identifier	sgl		2	1					
+ANR	210	Argument	td -> buffer		2	1					
+ANR	211	PtrMemberAccess	td -> buffer		2	0					
+ANR	212	Identifier	td		2	0					
+ANR	213	Identifier	buffer		2	1					
+ANR	214	Argument	max_len		2	2					
+ANR	215	Identifier	max_len		2	0					
+ANR	216	ExpressionStatement	"usb_packet_map ( & async -> packet , & async -> sgl )"	85:4:1210:1253	2	18	True				
+ANR	217	CallExpression	"usb_packet_map ( & async -> packet , & async -> sgl )"		2	0					
+ANR	218	Callee	usb_packet_map		2	0					
+ANR	219	Identifier	usb_packet_map		2	0					
+ANR	220	ArgumentList	& async -> packet		2	1					
+ANR	221	Argument	& async -> packet		2	0					
+ANR	222	UnaryOperationExpression	& async -> packet		2	0					
+ANR	223	UnaryOperator	&		2	0					
+ANR	224	PtrMemberAccess	async -> packet		2	1					
+ANR	225	Identifier	async		2	0					
+ANR	226	Identifier	packet		2	1					
+ANR	227	Argument	& async -> sgl		2	1					
+ANR	228	UnaryOperationExpression	& async -> sgl		2	0					
+ANR	229	UnaryOperator	&		2	0					
+ANR	230	PtrMemberAccess	async -> sgl		2	1					
+ANR	231	Identifier	async		2	0					
+ANR	232	Identifier	sgl		2	1					
+ANR	233	SwitchStatement	switch ( pid )		2	19					
+ANR	234	Condition	pid	89:11:1269:1271	2	0	True				
+ANR	235	Identifier	pid		2	0					
+ANR	236	CompoundStatement		97:12:1329:1352	2	1					
+ANR	237	Label	case USB_TOKEN_OUT :	91:4:1281:1299	2	0	True				
+ANR	238	Identifier	USB_TOKEN_OUT		2	0					
+ANR	239	Label	case USB_TOKEN_SETUP :	93:4:1306:1326	2	1	True				
+ANR	240	Identifier	USB_TOKEN_SETUP		2	0					
+ANR	241	ExpressionStatement	"len = usb_handle_packet ( dev , & async -> packet )"	95:8:1337:1381	2	2	True				
+ANR	242	AssignmentExpression	"len = usb_handle_packet ( dev , & async -> packet )"		2	0		=			
+ANR	243	Identifier	len		2	0					
+ANR	244	CallExpression	"usb_handle_packet ( dev , & async -> packet )"		2	1					
+ANR	245	Callee	usb_handle_packet		2	0					
+ANR	246	Identifier	usb_handle_packet		2	0					
+ANR	247	ArgumentList	dev		2	1					
+ANR	248	Argument	dev		2	0					
+ANR	249	Identifier	dev		2	0					
+ANR	250	Argument	& async -> packet		2	1					
+ANR	251	UnaryOperationExpression	& async -> packet		2	0					
+ANR	252	UnaryOperator	&		2	0					
+ANR	253	PtrMemberAccess	async -> packet		2	1					
+ANR	254	Identifier	async		2	0					
+ANR	255	Identifier	packet		2	1					
+ANR	256	IfStatement	if ( len >= 0 )		2	3					
+ANR	257	Condition	len >= 0	97:12:1396:1403	2	0	True				
+ANR	258	RelationalExpression	len >= 0		2	0		>=			
+ANR	259	Identifier	len		2	0					
+ANR	260	PrimaryExpression	0		2	1					
+ANR	261	IdentifierDeclStatement	int dwk_tmp_1 = max_len ;	99:12:1419:1442	2	1	True				
+ANR	262	IdentifierDecl	dwk_tmp_1 = max_len		2	0					
+ANR	263	IdentifierDeclType	int		2	0					
+ANR	264	Identifier	dwk_tmp_1		2	1					
+ANR	265	AssignmentExpression	dwk_tmp_1 = max_len		2	2		=			
+ANR	266	Identifier	max_len		2	0					
+ANR	267	Identifier	max_len		2	1					
+ANR	268	ExpressionStatement	len = dwk_tmp_1	100:12:1456:1471	2	4	True				
+ANR	269	AssignmentExpression	len = dwk_tmp_1		2	0		=			
+ANR	270	Identifier	len		2	0					
+ANR	271	Identifier	dwk_tmp_1		2	1					
+ANR	272	BreakStatement	break ;	102:8:1482:1487	2	5	True				
+ANR	273	Label	case USB_TOKEN_IN :	106:4:1496:1513	2	6	True				
+ANR	274	Identifier	USB_TOKEN_IN		2	0					
+ANR	275	ExpressionStatement	"len = usb_handle_packet ( dev , & async -> packet )"	108:8:1524:1568	2	7	True				
+ANR	276	AssignmentExpression	"len = usb_handle_packet ( dev , & async -> packet )"		2	0		=			
+ANR	277	Identifier	len		2	0					
+ANR	278	CallExpression	"usb_handle_packet ( dev , & async -> packet )"		2	1					
+ANR	279	Callee	usb_handle_packet		2	0					
+ANR	280	Identifier	usb_handle_packet		2	0					
+ANR	281	ArgumentList	dev		2	1					
+ANR	282	Argument	dev		2	0					
+ANR	283	Identifier	dev		2	0					
+ANR	284	Argument	& async -> packet		2	1					
+ANR	285	UnaryOperationExpression	& async -> packet		2	0					
+ANR	286	UnaryOperator	&		2	0					
+ANR	287	PtrMemberAccess	async -> packet		2	1					
+ANR	288	Identifier	async		2	0					
+ANR	289	Identifier	packet		2	1					
+ANR	290	BreakStatement	break ;	110:8:1579:1584	2	8	True				
+ANR	291	Label	default :	114:4:1593:1600	2	9	True				
+ANR	292	Identifier	default		2	0					
+ANR	293	ExpressionStatement	uhci_async_free ( async )	118:8:1658:1680	2	10	True				
+ANR	294	CallExpression	uhci_async_free ( async )		2	0					
+ANR	295	Callee	uhci_async_free		2	0					
+ANR	296	Identifier	uhci_async_free		2	0					
+ANR	297	ArgumentList	async		2	1					
+ANR	298	Argument	async		2	0					
+ANR	299	Identifier	async		2	0					
+ANR	300	ExpressionStatement	s -> status |= UHCI_STS_HCPERR	120:8:1691:1719	2	11	True				
+ANR	301	AssignmentExpression	s -> status |= UHCI_STS_HCPERR		2	0		|=			
+ANR	302	PtrMemberAccess	s -> status		2	0					
+ANR	303	Identifier	s		2	0					
+ANR	304	Identifier	status		2	1					
+ANR	305	Identifier	UHCI_STS_HCPERR		2	1					
+ANR	306	ExpressionStatement	uhci_update_irq ( s )	122:8:1730:1748	2	12	True				
+ANR	307	CallExpression	uhci_update_irq ( s )		2	0					
+ANR	308	Callee	uhci_update_irq		2	0					
+ANR	309	Identifier	uhci_update_irq		2	0					
+ANR	310	ArgumentList	s		2	1					
+ANR	311	Argument	s		2	0					
+ANR	312	Identifier	s		2	0					
+ANR	313	ReturnStatement	return TD_RESULT_STOP_FRAME ;	124:8:1759:1786	2	13	True				
+ANR	314	Identifier	TD_RESULT_STOP_FRAME		2	0					
+ANR	315	IfStatement	if ( len == USB_RET_ASYNC )		2	20					
+ANR	316	Condition	len == USB_RET_ASYNC	130:8:1807:1826	2	0	True				
+ANR	317	EqualityExpression	len == USB_RET_ASYNC		2	0		==			
+ANR	318	Identifier	len		2	0					
+ANR	319	Identifier	USB_RET_ASYNC		2	1					
+ANR	320	CompoundStatement		128:30:1739:1739	2	1					
+ANR	321	ExpressionStatement	uhci_async_link ( async )	132:8:1840:1862	2	0	True				
+ANR	322	CallExpression	uhci_async_link ( async )		2	0					
+ANR	323	Callee	uhci_async_link		2	0					
+ANR	324	Identifier	uhci_async_link		2	0					
+ANR	325	ArgumentList	async		2	1					
+ANR	326	Argument	async		2	0					
+ANR	327	Identifier	async		2	0					
+ANR	328	ReturnStatement	return TD_RESULT_ASYNC_START ;	134:8:1873:1901	2	1	True				
+ANR	329	Identifier	TD_RESULT_ASYNC_START		2	0					
+ANR	330	ExpressionStatement	async -> packet . result = len	140:4:1917:1943	2	21	True				
+ANR	331	AssignmentExpression	async -> packet . result = len		2	0		=			
+ANR	332	MemberAccess	async -> packet . result		2	0					
+ANR	333	PtrMemberAccess	async -> packet		2	0					
+ANR	334	Identifier	async		2	0					
+ANR	335	Identifier	packet		2	1					
+ANR	336	Identifier	result		2	1					
+ANR	337	Identifier	len		2	1					
+ANR	338	Label	done :	144:0:1948:1952	2	22	True				
+ANR	339	Identifier	done		2	0					
+ANR	340	ExpressionStatement	"len = uhci_complete_td ( s , td , async , int_mask )"	146:4:1959:2005	2	23	True				
+ANR	341	AssignmentExpression	"len = uhci_complete_td ( s , td , async , int_mask )"		2	0		=			
+ANR	342	Identifier	len		2	0					
+ANR	343	CallExpression	"uhci_complete_td ( s , td , async , int_mask )"		2	1					
+ANR	344	Callee	uhci_complete_td		2	0					
+ANR	345	Identifier	uhci_complete_td		2	0					
+ANR	346	ArgumentList	s		2	1					
+ANR	347	Argument	s		2	0					
+ANR	348	Identifier	s		2	0					
+ANR	349	Argument	td		2	1					
+ANR	350	Identifier	td		2	0					
+ANR	351	Argument	async		2	2					
+ANR	352	Identifier	async		2	0					
+ANR	353	Argument	int_mask		2	3					
+ANR	354	Identifier	int_mask		2	0					
+ANR	355	ExpressionStatement	usb_packet_unmap ( & async -> packet )	148:4:2012:2044	2	24	True				
+ANR	356	CallExpression	usb_packet_unmap ( & async -> packet )		2	0					
+ANR	357	Callee	usb_packet_unmap		2	0					
+ANR	358	Identifier	usb_packet_unmap		2	0					
+ANR	359	ArgumentList	& async -> packet		2	1					
+ANR	360	Argument	& async -> packet		2	0					
+ANR	361	UnaryOperationExpression	& async -> packet		2	0					
+ANR	362	UnaryOperator	&		2	0					
+ANR	363	PtrMemberAccess	async -> packet		2	1					
+ANR	364	Identifier	async		2	0					
+ANR	365	Identifier	packet		2	1					
+ANR	366	ExpressionStatement	uhci_async_free ( async )	150:4:2051:2073	2	25	True				
+ANR	367	CallExpression	uhci_async_free ( async )		2	0					
+ANR	368	Callee	uhci_async_free		2	0					
+ANR	369	Identifier	uhci_async_free		2	0					
+ANR	370	ArgumentList	async		2	1					
+ANR	371	Argument	async		2	0					
+ANR	372	Identifier	async		2	0					
+ANR	373	ReturnStatement	return len ;	152:4:2080:2090	2	26	True				
+ANR	374	Identifier	len		2	0					
+ANR	375	ReturnType	static int		2	1					
+ANR	376	Identifier	uhci_handle_td		2	2					
+ANR	377	ParameterList	"UHCIState * s , uint32_t addr , UHCI_TD * td , uint32_t * int_mask"		2	3					
+ANR	378	Parameter	UHCIState * s	1:26:26:37	2	0	True				
+ANR	379	ParameterType	UHCIState *		2	0					
+ANR	380	Identifier	s		2	1					
+ANR	381	Parameter	uint32_t addr	1:40:40:52	2	1	True				
+ANR	382	ParameterType	uint32_t		2	0					
+ANR	383	Identifier	addr		2	1					
+ANR	384	Parameter	UHCI_TD * td	1:55:55:65	2	2	True				
+ANR	385	ParameterType	UHCI_TD *		2	0					
+ANR	386	Identifier	td		2	1					
+ANR	387	Parameter	uint32_t * int_mask	1:68:68:85	2	3	True				
+ANR	388	ParameterType	uint32_t *		2	0					
+ANR	389	Identifier	int_mask		2	1					
+ANR	390	CFGEntryNode	ENTRY		2		True				
+ANR	391	CFGExitNode	EXIT		2		True				
+ANR	392	Symbol	async -> done		2						
+ANR	393	Symbol	uhci_async_find_td		2						
+ANR	394	Symbol	s -> status		2						
+ANR	395	Symbol	uhci_async_alloc		2						
+ANR	396	Symbol	async -> isoc		2						
+ANR	397	Symbol	uhci_complete_td		2						
+ANR	398	Symbol	pid		2						
+ANR	399	Symbol	TD_RESULT_ASYNC_CONT		2						
+ANR	400	Symbol	uhci_queue_get		2						
+ANR	401	Symbol	async -> packet		2						
+ANR	402	Symbol	& async -> sgl		2						
+ANR	403	Symbol	td -> token		2						
+ANR	404	Symbol	USB_RET_ASYNC		2						
+ANR	405	Symbol	int_mask		2						
+ANR	406	Symbol	len		2						
+ANR	407	Symbol	dev		2						
+ANR	408	Symbol	td -> ctrl		2						
+ANR	409	Symbol	dwk_tmp_1		2						
+ANR	410	Symbol	addr		2						
+ANR	411	Symbol	async -> queue -> valid		2						
+ANR	412	Symbol	TD_RESULT_ASYNC_START		2						
+ANR	413	Symbol	* * async		2						
+ANR	414	Symbol	async -> packet . result		2						
+ANR	415	Symbol	TD_CTRL_ACTIVE		2						
+ANR	416	Symbol	uhci_find_device		2						
+ANR	417	Symbol	td -> buffer		2						
+ANR	418	Symbol	ep		2						
+ANR	419	Symbol	* async		2						
+ANR	420	Symbol	max_len		2						
+ANR	421	Symbol	* async -> queue		2						
+ANR	422	Symbol	& async -> packet		2						
+ANR	423	Symbol	td		2						
+ANR	424	Symbol	async		2						
+ANR	425	Symbol	TD_RESULT_NEXT_QH		2						
+ANR	426	Symbol	async -> queue		2						
+ANR	427	Symbol	s		2						
+ANR	428	Symbol	* td		2						
+ANR	429	Symbol	UHCI_STS_HCPERR		2						
+ANR	430	Symbol	usb_handle_packet		2						
+ANR	431	Symbol	TD_CTRL_IOS		2						
+ANR	432	Symbol	TD_RESULT_STOP_FRAME		2						
+ANR	433	Symbol	* s		2						
+ANR	434	Symbol	usb_ep_get		2						

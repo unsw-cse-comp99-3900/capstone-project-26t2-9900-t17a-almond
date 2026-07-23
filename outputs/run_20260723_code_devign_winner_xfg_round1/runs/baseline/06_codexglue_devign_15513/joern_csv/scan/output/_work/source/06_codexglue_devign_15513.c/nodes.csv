@@ -1,0 +1,68 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/06_codexglue_devign_15513.c								
+ANR	2	Function	tta_decode_init	1:0:0:3040							
+ANR	3	FunctionDef	tta_decode_init (AVCodecContext * avctx)		2	0					
+ANR	4	CompoundStatement		2:0:52:3040	2	0					
+ANR	5	IdentifierDeclStatement	TTAContext * s = avctx -> priv_data ;	3:4:59:91	2	0	True				
+ANR	6	IdentifierDecl	* s = avctx -> priv_data		2	0					
+ANR	7	IdentifierDeclType	TTAContext *		2	0					
+ANR	8	Identifier	s		2	1					
+ANR	9	AssignmentExpression	* s = avctx -> priv_data		2	2		=			
+ANR	10	Identifier	s		2	0					
+ANR	11	PtrMemberAccess	avctx -> priv_data		2	1					
+ANR	12	Identifier	avctx		2	0					
+ANR	13	Identifier	priv_data		2	1					
+ANR	14	IdentifierDeclStatement	int i ;	4:4:98:103	2	1	True				
+ANR	15	IdentifierDecl	i		2	0					
+ANR	16	IdentifierDeclType	int		2	0					
+ANR	17	Identifier	i		2	1					
+ANR	18	ExpressionStatement	s -> avctx = avctx	5:4:110:126	2	2	True				
+ANR	19	AssignmentExpression	s -> avctx = avctx		2	0		=			
+ANR	20	PtrMemberAccess	s -> avctx		2	0					
+ANR	21	Identifier	s		2	0					
+ANR	22	Identifier	avctx		2	1					
+ANR	23	Identifier	avctx		2	1					
+ANR	24	IfStatement	if ( avctx -> extradata_size < 30 )		2	3					
+ANR	25	Condition	avctx -> extradata_size < 30	7:8:189:214	2	0	True				
+ANR	26	RelationalExpression	avctx -> extradata_size < 30		2	0		<			
+ANR	27	PtrMemberAccess	avctx -> extradata_size		2	0					
+ANR	28	Identifier	avctx		2	0					
+ANR	29	Identifier	extradata_size		2	1					
+ANR	30	PrimaryExpression	30		2	1					
+ANR	31	ExpressionStatement	"init_get_bits ( & s -> gb , avctx -> extradata , avctx -> extradata_size )"	8:4:222:284	2	1	True				
+ANR	32	CallExpression	"init_get_bits ( & s -> gb , avctx -> extradata , avctx -> extradata_size )"		2	0					
+ANR	33	Callee	init_get_bits		2	0					
+ANR	34	Identifier	init_get_bits		2	0					
+ANR	35	ArgumentList	& s -> gb		2	1					
+ANR	36	Argument	& s -> gb		2	0					
+ANR	37	UnaryOperationExpression	& s -> gb		2	0					
+ANR	38	UnaryOperator	&		2	0					
+ANR	39	PtrMemberAccess	s -> gb		2	1					
+ANR	40	Identifier	s		2	0					
+ANR	41	Identifier	gb		2	1					
+ANR	42	Argument	avctx -> extradata		2	1					
+ANR	43	PtrMemberAccess	avctx -> extradata		2	0					
+ANR	44	Identifier	avctx		2	0					
+ANR	45	Identifier	extradata		2	1					
+ANR	46	Argument	avctx -> extradata_size		2	2					
+ANR	47	PtrMemberAccess	avctx -> extradata_size		2	0					
+ANR	48	Identifier	avctx		2	0					
+ANR	49	Identifier	extradata_size		2	1					
+ANR	50	ReturnType	static int		2	1					
+ANR	51	Identifier	tta_decode_init		2	2					
+ANR	52	ParameterList	AVCodecContext * avctx		2	3					
+ANR	53	Parameter	AVCodecContext * avctx	1:27:27:48	2	0	True				
+ANR	54	ParameterType	AVCodecContext *		2	0					
+ANR	55	Identifier	avctx		2	1					
+ANR	56	CFGEntryNode	ENTRY		2		True				
+ANR	57	CFGExitNode	EXIT		2		True				
+ANR	58	Symbol	avctx -> extradata		2						
+ANR	59	Symbol	* avctx		2						
+ANR	60	Symbol	s		2						
+ANR	61	Symbol	avctx -> extradata_size		2						
+ANR	62	Symbol	i		2						
+ANR	63	Symbol	avctx		2						
+ANR	64	Symbol	avctx -> priv_data		2						
+ANR	65	Symbol	s -> avctx		2						
+ANR	66	Symbol	* s		2						
+ANR	67	Symbol	& s -> gb		2						
