@@ -193,50 +193,171 @@ Each count is generated from the original source, not from the previously
 perturbed variant. This keeps the experiment reproducible and makes the
 minimal perturbation budget easier to interpret.
 
+## Execution Model: Actions, Counts, and Combinations
+
+The code runner performs **single-action budget experiments**. It does not
+combine actions automatically.
+
+For example, with `--actions dead_statement control_wrapper --counts 1 3 5`,
+the runner creates these independent source variants:
+
+```text
+original -> dead_statement x1 -> predict
+original -> dead_statement x3 -> predict
+original -> dead_statement x5 -> predict
+original -> control_wrapper x1 -> predict
+original -> control_wrapper x3 -> predict
+original -> control_wrapper x5 -> predict
+```
+
+It does **not** generate a variant such as:
+
+```text
+dead_statement x1 + control_wrapper x1
+```
+
+The same isolation rule applies to every count: `count=3` is created from the
+original source and contains three applications of the same action. It is not
+created by taking the `count=1` source variant and adding two more operations.
+
+`run_budget_search.py` differs slightly from the graph experiment runner:
+
+| Behaviour | Code budget search | Graph winner-XFG runner |
+|---|---|---|
+| Default budgets | `1, 2, 3, 5` | `1, 3, 5` |
+| Starting point for each budget | Original source | Original PDG |
+| Mixed actions | No | No |
+| Stop after first flip | Yes, for the same sample + action | No |
+
+To use the same budget set as graph perturbation, pass `--counts 1 3 5`.
+The code runner still keeps its minimal-flip stop rule, which records the
+smallest successful count and avoids unnecessary DeepWuKong runs.
+
+Action combinations should be a separate follow-up experiment. They should
+only be tested after the corresponding single actions have been measured, so
+that an observed probability change can be attributed to an action.
+
+## Winner-XFG Targeting
+
+`run_budget_search.py` supports two target modes:
+
+| Mode | Command value | Behaviour |
+|---|---|---|
+| Global | `--target-mode global` | Uses each action's normal source-wide candidate selection. This is the default. |
+| Winner XFG | `--target-mode winner-xfg` | Runs the baseline first, selects the XFG with the largest vulnerability probability, and ranks each action's source candidates by distance to that XFG's `key_line`. |
+
+Winner-XFG mode is still a source-level experiment: the script edits source,
+then reruns Joern, PDG/XFG construction, and DeepWuKong. It does not edit the
+baseline XFG directly. It requires real model inference and therefore cannot
+be used with `--no-run`.
+
+The following fields are included in `perturbation_results.csv` and
+`details.json` for winner-XFG experiments:
+
+```text
+target_mode
+winner_xfg_category
+winner_xfg_key_line
+winner_xfg_probability
+targeted_source_lines
+```
+
+`postcondition_validation` has no winner-XFG-specific source location, so it
+may be recorded as unavailable in winner-XFG mode rather than being forced at
+an unrelated line.
+
+## Prerequisites and Preflight
+
+Run commands from the repository root:
+
+```text
+capstone-project-26t2-9900-t17a-almond/
+```
+
+The full budget search launches the configured DeepWuKong Docker image through
+the existing demo pipeline. Docker Desktop must be running before a real model
+run. The repository's CPU fallback configuration uses `"use_gpus": false` in
+the DeepWuKong demo configuration; keep that setting for a GPU that is not
+compatible with the configured CUDA image.
+
+Check the local prerequisites:
+
+```powershell
+docker version
+docker image inspect deepwukong-rtx5060-cu128:experimental
+python -m py_compile demo_b\code\code_perturbations.py demo_b\code\run_budget_search.py demo_b\visualize_results.py
+```
+
+`docker compose up` is not required for this workflow. The Python runner starts
+one-off DeepWuKong containers as needed.
+
 ## Usage
 
-Generate source variants only:
+### 1. Generate Source Variants Only
+
+Generate selected Devign variants without model inference:
 
 ```powershell
-python demo_b\code\code_perturbations.py
+python demo_b\code\code_perturbations.py --input input_sources\devign --dataset devign --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 3 5 --output artifacts\perturbed_sources\code_smoke
 ```
 
-Run selected actions:
+Generate variants and invoke the configured DeepWuKong pipeline for every
+generated source:
 
 ```powershell
-python demo_b\code\code_perturbations.py --actions data_flow_alias dead_statement xfg_targeted_dead_code
+python demo_b\code\code_perturbations.py --input input_sources\devign --dataset devign --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 --run-deepwukong --output artifacts\perturbed_sources\code_with_model --deepwukong-output outputs\generated\code_with_model
 ```
 
-Generate variants with selected counts:
+The source generator writes a `manifest.csv`; it is useful for checking action
+applicability. Use the budget runner below for reproducible baseline versus
+variant comparisons and flip statistics.
+
+### 2. Dry Run the Budget Search
+
+This confirms source discovery and source generation without Docker inference.
+It can only use global targeting because winner-XFG targeting needs a baseline
+model prediction.
 
 ```powershell
-python demo_b\code\code_perturbations.py --counts 1 2 3 5
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode global --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 3 5 --no-run --output outputs\code_smoke_no_run
 ```
 
-Generate variants and run DeepWuKong:
+### 3. Run a Small DeepWuKong Smoke Test
 
 ```powershell
-python demo_b\code\code_perturbations.py --run-deepwukong
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 3 --run-round 1 --output outputs\code_smoke_winner_xfg
 ```
 
-Run minimal flip search:
+### 4. Run a Full Winner-XFG Budget Search
+
+Omit `--actions` to run every registered action. Each command below uses the
+graph-aligned budget set `1, 3, 5`; use `--counts 1 2 3 5` when the extra
+`count=2` measurement is required.
 
 ```powershell
-python demo_b\code\run_budget_search.py --counts 1 2 3 5 --run-round 1
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --counts 1 3 5 --run-round 1 --output outputs\run_20260724_code_devign_winner_xfg_round1
 ```
 
-Run minimal flip search on a specific dataset:
+Run the vulnerable CWE119 and CVEFixes samples explicitly:
 
 ```powershell
-python demo_b\code\run_budget_search.py --input input_sources\cwe119 --counts 1 2 3 5 --run-round 1
-python demo_b\code\run_budget_search.py --input input_sources\cvefixes --counts 1 2 3 5 --run-round 1
-python demo_b\code\run_budget_search.py --input input_sources\devign --counts 1 2 3 5 --run-round 1
+python demo_b\code\run_budget_search.py --input input_sources\cwe119\vulnerable --target-mode winner-xfg --counts 1 3 5 --run-round 1 --output outputs\run_20260724_code_cwe119_winner_xfg_round1
+python demo_b\code\run_budget_search.py --input input_sources\cvefixes\vulnerable --target-mode winner-xfg --counts 1 3 5 --run-round 1 --output outputs\run_20260724_code_cvefixes_winner_xfg_round1
 ```
 
-Run only high-priority actions:
+### 5. Run One Action or a Controlled Set of Actions
+
+Use this form to isolate an action before considering combinations:
 
 ```powershell
-python demo_b\code\run_budget_search.py --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 2 3 5
+python demo_b\code\run_budget_search.py --input input_sources\cvefixes\vulnerable --target-mode winner-xfg --actions sink_bound_guard --counts 1 3 5 --run-round 1 --output outputs\cvefixes_sink_guard_winner_xfg
+```
+
+The default timeout per DeepWuKong variant is 900 seconds. Increase it only
+when a valid large sample consistently times out:
+
+```powershell
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --counts 1 3 5 --timeout-seconds 1200 --run-round 1
 ```
 
 ## Output Files
@@ -264,6 +385,12 @@ Common output files:
 | `runs/perturbed/<sample>__<action>__c<count>/predictions.json` | DeepWuKong prediction for the perturbed sample. |
 | `sources/*.c/.cpp` | Generated perturbed source files. |
 
+For a winner-XFG run, the directory name defaults to:
+
+```text
+outputs/run_<YYYYMMDD>_code_<dataset>_winner_xfg_round<round>/
+```
+
 When results are reformatted to match the graph-perturbation output layout,
 the following files are also produced:
 
@@ -277,6 +404,33 @@ the following files are also produced:
 | `action_metrics.csv` | Successful runs, failed runs, flips, and average deltas by action. |
 | `summary.json` | Compact experiment summary. |
 | `details.json` | Source paths, run directories, notes, errors, and flip details. |
+| `dashboard.html` | Offline interactive summary generated from the comparison data. |
+
+The dashboard is written inside its own run directory. Normal report
+generation does not rebuild `outputs/index.html`; that shared index changes
+only when `demo_b/visualize_results.py` is explicitly invoked with
+`--update-index`.
+
+## Reading Results
+
+Start with the summary files rather than raw Joern working directories:
+
+```powershell
+Get-Content outputs\run_20260724_code_devign_winner_xfg_round1\budget_search.json
+Import-Csv outputs\run_20260724_code_devign_winner_xfg_round1\action_summary.csv | Format-Table -AutoSize
+Import-Csv outputs\run_20260724_code_devign_winner_xfg_round1\perturbation_results.csv | Where-Object { $_.flipped -eq 'True' } | Format-Table sample_id,action,count,base_probability,variant_probability -AutoSize
+```
+
+Interpret a flip direction carefully:
+
+```text
+1 -> 0 : vulnerable prediction changed to non-vulnerable
+0 -> 1 : non-vulnerable prediction changed to vulnerable
+```
+
+For an evasion-style experiment, only samples whose baseline prediction is `1`
+can achieve a `1 -> 0` flip. A vulnerable dataset sample that begins at model
+label `0` is a baseline false negative, not a perturbation success.
 
 ## Measurement
 
