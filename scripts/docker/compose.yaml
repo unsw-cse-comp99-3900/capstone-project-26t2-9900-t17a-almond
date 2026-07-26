@@ -1,0 +1,25 @@
+services:
+  almond:
+    build:
+      # The Compose file is in scripts/docker, while the build context remains
+      # the project root so the image contains the complete application.
+      context: ../..
+      dockerfile: scripts/docker/Dockerfile
+      args:
+        # Override only when the DeepWuKong runtime image has a different tag.
+        BASE_IMAGE: ${DEEPWUKONG_IMAGE:-deepwukong-rtx5060-cu128:experimental}
+    image: t17a-almond:latest
+    ports:
+      - "8000:8000"
+    gpus: all
+    environment:
+      # Set by Start.ps1 when host-browser auto-open is required.
+      ALMOND_BROWSER_BRIDGE_URL: ${ALMOND_BROWSER_BRIDGE_URL:-}
+    volumes:
+      # Keep Run Full Test outputs after the one-off container is removed.
+      - ../../outputs:/repo/outputs
+    # Use `docker compose -f scripts/docker/compose.yaml run`, not `up`, so this console owns the terminal.
+    command: console
+    stdin_open: true
+    tty: true
+    init: true
