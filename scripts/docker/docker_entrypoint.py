@@ -13,7 +13,8 @@ import threading
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+# This entrypoint is stored below scripts/docker; the application root is /repo.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def create_dashboard_server(host: str, port: int) -> http.server.ThreadingHTTPServer:

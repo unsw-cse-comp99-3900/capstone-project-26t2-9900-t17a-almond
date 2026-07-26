@@ -4,22 +4,25 @@ DeepWuKong Robustness Testing Demo Console v4
 T17A Almond - COMP9900
 
 Main menu:
-1. Run Quick Demo
-2. Results Summary
-3. Perturbation Impact Analysis
-4. Sample Detail Viewer
-5. Open Web Dashboard
+1. Run Full Test
+2. Run Smoke Test
+3. Results Summary
+4. Perturbation Impact Analysis
+5. Sample Detail Viewer
+6. Open Web Dashboard
 0. Exit
 
 v4 changes:
-- Option 5 opens the experiment dashboard index or the function-level PDG atlas.
-- Options 2 and 3 still allow selecting different run folders.
+- Option 6 opens the experiment dashboard index or the function-level PDG atlas.
+- Options 3 and 4 still allow selecting different run folders.
+- Option 4 normalizes perturbation metrics across all supported run formats.
 """
 
 from __future__ import annotations
 
 import csv
 import os
+import re
 import sys
 import time
 import webbrowser
@@ -40,8 +43,11 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
 PDG_ATLAS_HTML = PROJECT_ROOT / "demo_b" / "showcase" / "deepwukong_pdg_showcase.html"
 
-# Run a fresh, small end-to-end experiment inside the packaged DeepWuKong image.
-QUICK_DEMO_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_quick_demo_live.py"]
+# Run the full perturbation experiment inside the packaged DeepWuKong image.
+START_TEST_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_quick_demo_live.py"]
+
+# Run one baseline inference to verify the live pipeline without generating perturbations.
+QUICK_TEST_COMMAND: Optional[List[str]] = [sys.executable, "tests/run_quick_test.py"]
 
 # If you want to force one run folder as default, set it here.
 # Example: DEFAULT_RUN_ID = "run_20260710_code_devign_round1"
@@ -328,6 +334,282 @@ def get_sample_id(row: Dict[str, str]) -> str:
     return "unknown_sample"
 
 
+
+def get_signed_delta_probability(row: Dict[str, str]) -> float:
+    for key in [
+        "delta_probability", "delta_prob", "prob_delta",
+        "confidence_change", "delta_confidence", "probability_change",
+    ]:
+        if key in row and str(row.get(key, "")).strip() != "":
+            return to_float(row.get(key))
+
+    original_col, perturbed_col = detect_probability_columns(row)
+    if original_col and perturbed_col:
+        return to_float(row.get(perturbed_col)) - to_float(row.get(original_col))
+
+    return 0.0
+
+
+def first_value(row: Dict[str, str], keys: List[str]) -> Optional[str]:
+    lower_map = {key.lower(): key for key in row.keys()}
+    for key in keys:
+        actual_key = lower_map.get(key.lower())
+        if actual_key is not None:
+            value = row.get(actual_key)
+            if value is not None and str(value).strip() != "":
+                return str(value).strip()
+    return None
+
+
+def optional_float(row: Dict[str, str], keys: List[str]) -> Optional[float]:
+    value = first_value(row, keys)
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def optional_int(row: Dict[str, str], keys: List[str]) -> Optional[int]:
+    value = optional_float(row, keys)
+    return int(value) if value is not None else None
+
+
+def truthy(value: Any) -> bool:
+    return str(value).strip().lower() in {"1", "true", "yes", "y"}
+
+
+def base_action_name(row: Dict[str, str]) -> str:
+    return re.sub(r"__c\d+$", "", get_action(row))
+
+
+def is_scored(row: Dict[str, str]) -> bool:
+    status = str(row.get("status", "")).strip().lower()
+    if status and status != "success":
+        return False
+    original_col, perturbed_col = detect_probability_columns(row)
+    return bool(original_col and perturbed_col and str(row.get(perturbed_col, "")).strip())
+
+
+def mean_or_none(values: List[float]) -> Optional[float]:
+    return sum(values) / len(values) if values else None
+
+
+def matching_prediction_rows(
+    prediction_rows: List[Dict[str, str]],
+    action: str,
+    budget: Optional[str],
+) -> List[Dict[str, str]]:
+    matches = [row for row in prediction_rows if base_action_name(row) == action]
+    if budget is not None:
+        matches = [row for row in matches if str(row.get("budget", "")).strip() == budget]
+    return matches
+
+
+def synthesize_action_rows(prediction_rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    grouped: Dict[Tuple[str, str], List[Dict[str, str]]] = {}
+    for row in prediction_rows:
+        key = (base_action_name(row), str(row.get("budget", "")).strip())
+        grouped.setdefault(key, []).append(row)
+
+    summaries: List[Dict[str, str]] = []
+    for (action, budget), rows in sorted(grouped.items()):
+        scored_rows = [row for row in rows if is_scored(row)]
+        summary = {
+            "action": action,
+            "attempted": str(len(rows)),
+            "successful": str(len(scored_rows)),
+            "failed": str(len(rows) - len(scored_rows)),
+            "flips": str(sum(is_flip(row) for row in scored_rows)),
+        }
+        if budget:
+            summary["budget"] = budget
+        if any("attack_success" in row for row in scored_rows):
+            summary["attack_successes"] = str(sum(truthy(row.get("attack_success")) for row in scored_rows))
+        summaries.append(summary)
+    return summaries
+
+
+def normalize_action_metric(
+    row: Dict[str, str],
+    prediction_rows: List[Dict[str, str]],
+) -> Dict[str, Any]:
+    action = first_value(row, ["action", "perturbation", "method"]) or "unknown"
+    budget = first_value(row, ["budget"])
+    matching_rows = matching_prediction_rows(prediction_rows, action, budget)
+    scored_rows = [item for item in matching_rows if is_scored(item)]
+
+    count = optional_int(row, ["count", "variants", "num_variants"])
+    attempted = optional_int(row, ["attempted"])
+    successful = optional_int(row, ["successful", "scored"])
+    failed = optional_int(row, ["failed"])
+
+    if attempted is None:
+        attempted = count if count is not None else len(matching_rows)
+    if successful is None:
+        if attempted is not None and failed is not None:
+            successful = max(attempted - failed, 0)
+        elif count is not None:
+            successful = count
+        else:
+            successful = len(scored_rows)
+    if failed is None:
+        failed = max(attempted - successful, 0) if attempted is not None and successful is not None else None
+
+    flips = optional_int(row, ["flips", "flip_count"])
+    if flips is None:
+        flips = sum(is_flip(item) for item in scored_rows)
+
+    attack_successes = optional_int(row, ["attack_successes", "attack_success_count"])
+    if attack_successes is None and any("attack_success" in item for item in scored_rows):
+        attack_successes = sum(truthy(item.get("attack_success")) for item in scored_rows)
+
+    deltas = [get_signed_delta_probability(item) for item in scored_rows]
+    abs_deltas = [abs(value) for value in deltas]
+    node_deltas = [to_float(item.get("delta_nodes")) for item in scored_rows if str(item.get("delta_nodes", "")).strip()]
+    edge_deltas = [to_float(item.get("delta_edges")) for item in scored_rows if str(item.get("delta_edges", "")).strip()]
+    applied_counts = [to_float(item.get("applied_count")) for item in scored_rows if str(item.get("applied_count", "")).strip()]
+
+    mean_delta = optional_float(row, ["mean_delta_probability", "avg_delta_prob", "avg_confidence_change"])
+    mean_abs_delta = optional_float(row, ["mean_absolute_delta_probability", "avg_absolute_delta_prob"])
+    max_abs_delta = optional_float(row, ["max_absolute_delta_probability", "max_absolute_delta_prob"])
+    max_delta = optional_float(row, ["max_delta_probability", "max_delta_prob", "max_confidence_change"])
+    avg_delta_nodes = optional_float(row, ["avg_delta_nodes", "avg_node_delta", "mean_delta_nodes"])
+    avg_delta_edges = optional_float(row, ["avg_delta_edges", "avg_edge_delta", "mean_delta_edges"])
+    avg_applied = optional_float(row, ["mean_applied_count", "avg_applied_count"])
+
+    if max_abs_delta is None:
+        if abs_deltas:
+            max_abs_delta = max(abs_deltas)
+        elif max_delta is not None:
+            max_abs_delta = abs(max_delta)
+
+    scored = successful if successful is not None else len(scored_rows)
+    return {
+        "action": action,
+        "budget": budget or "All",
+        "attempted": attempted,
+        "scored": scored,
+        "failed": failed,
+        "coverage_rate": scored / attempted if attempted else None,
+        "flips": flips,
+        "flip_rate": flips / scored if scored else None,
+        "attack_successes": attack_successes,
+        "attack_success_rate": attack_successes / scored if attack_successes is not None and scored else None,
+        "mean_delta": mean_delta if mean_delta is not None else mean_or_none(deltas),
+        "mean_abs_delta": mean_abs_delta if mean_abs_delta is not None else mean_or_none(abs_deltas),
+        "max_abs_delta": max_abs_delta,
+        "avg_delta_nodes": avg_delta_nodes if avg_delta_nodes is not None else mean_or_none(node_deltas),
+        "avg_delta_edges": avg_delta_edges if avg_delta_edges is not None else mean_or_none(edge_deltas),
+        "avg_applied": avg_applied if avg_applied is not None else mean_or_none(applied_counts),
+    }
+
+
+def normalized_action_metrics(
+    action_rows: List[Dict[str, str]],
+    prediction_rows: List[Dict[str, str]],
+) -> List[Dict[str, Any]]:
+    source_rows = action_rows or synthesize_action_rows(prediction_rows)
+    return [normalize_action_metric(row, prediction_rows) for row in source_rows]
+
+
+def format_count(value: Optional[int]) -> str:
+    return "N/A" if value is None else str(value)
+
+
+def format_rate(value: Optional[float]) -> str:
+    return "N/A" if value is None else f"{value * 100:.2f}%"
+
+
+def format_metric(value: Optional[float]) -> str:
+    if value is None:
+        return "N/A"
+    return f"{value:+.6f}" if abs(value) >= 0.0001 or value == 0 else f"{value:+.3e}"
+
+
+def format_magnitude(value: Optional[float]) -> str:
+    if value is None:
+        return "N/A"
+    return f"{value:.6f}" if abs(value) >= 0.0001 or value == 0 else f"{value:.3e}"
+
+
+def table_cell(value: Any, width: int, right: bool = False) -> str:
+    text = str(value)
+    if len(text) > width:
+        text = text[: max(width - 3, 1)] + ("..." if width >= 4 else "")
+    return text.rjust(width) if right else text.ljust(width)
+
+
+def print_metric_table(headers: List[str], rows: List[List[str]], widths: List[int], right_from: int = 2) -> None:
+    print(" ".join(table_cell(value, width, right=index >= right_from) for index, (value, width) in enumerate(zip(headers, widths))))
+    print("-" * (sum(widths) + len(widths) - 1))
+    for row in rows:
+        print(" ".join(table_cell(value, width, right=index >= right_from) for index, (value, width) in enumerate(zip(row, widths))))
+
+
+def print_normalized_impact_tables(metrics: List[Dict[str, Any]]) -> None:
+    metrics = sorted(metrics, key=lambda item: (str(item["action"]), str(item["budget"])))
+
+    execution_rows = [
+        [
+            metric["action"],
+            metric["budget"],
+            format_count(metric["attempted"]),
+            format_count(metric["scored"]),
+            format_count(metric["failed"]),
+            format_count(metric["flips"]),
+            format_rate(metric["flip_rate"]),
+            format_count(metric["attack_successes"]),
+            format_rate(metric["attack_success_rate"]),
+        ]
+        for metric in metrics
+    ]
+
+    print("\nExecution and outcome metrics")
+    print_metric_table(
+        ["Action", "Budget", "Attempted", "Scored", "Failed", "Flips", "FlipRate", "AtkSucc", "ASR"],
+        execution_rows,
+        [30, 6, 9, 7, 6, 5, 8, 7, 8],
+    )
+
+    probability_rows = [
+        [
+            metric["action"],
+            metric["budget"],
+            format_metric(metric["mean_delta"]),
+            format_magnitude(metric["mean_abs_delta"]),
+            format_magnitude(metric["max_abs_delta"]),
+        ]
+        for metric in metrics
+    ]
+
+    print("\nProbability-impact metrics")
+    print_metric_table(
+        ["Action", "Budget", "MeanDeltaP", "MeanAbsDeltaP", "MaxAbsDeltaP"],
+        probability_rows,
+        [30, 6, 12, 13, 12],
+    )
+
+    graph_rows = [
+        [
+            metric["action"],
+            metric["budget"],
+            format_magnitude(metric["avg_delta_nodes"]),
+            format_magnitude(metric["avg_delta_edges"]),
+            format_magnitude(metric["avg_applied"]),
+        ]
+        for metric in metrics
+    ]
+
+    print("\nGraph-impact metrics")
+    print_metric_table(
+        ["Action", "Budget", "AvgDeltaNodes", "AvgDeltaEdges", "AvgApplied"],
+        graph_rows,
+        [30, 6, 13, 13, 10],
+    )
+
+
 def build_overall_metrics(data: Dict[str, Any]) -> Dict[str, Any]:
     prediction_rows = data["prediction_rows"]
     manifest_rows = data["manifest_rows"]
@@ -359,22 +641,23 @@ def build_overall_metrics(data: Dict[str, Any]) -> Dict[str, Any]:
 
 def show_main_menu() -> None:
     print_header("DeepWuKong Robustness Testing Demo Console")
-    print("1. Run Quick Demo")
-    print("2. Results Summary")
-    print("3. Perturbation Impact Analysis")
-    print("4. Sample Detail Viewer")
-    print("5. Open Web Dashboard")
+    print("1. Run Full Test")
+    print("2. Run Smoke Test")
+    print("3. Results Summary")
+    print("4. Perturbation Impact Analysis")
+    print("5. Sample Detail Viewer")
+    print("6. Open Web Dashboard")
     print("0. Exit")
     print("=" * 72)
 
 
-def run_quick_demo() -> None:
-    print_header("Run Quick Demo")
+def run_test() -> None:
+    print_header("Run Full Test")
 
     slow_print([
-        "Quick Demo Mode",
+        "Full Test Mode",
         "",
-        "This demo runs a small live DeepWuKong experiment.",
+        "This test runs a live DeepWuKong perturbation experiment.",
         "The workflow is:",
         "1. Load one CWE-119 C++ source sample",
         "2. Apply two source-level perturbations",
@@ -385,19 +668,19 @@ def run_quick_demo() -> None:
         "",
     ])
 
-    if QUICK_DEMO_COMMAND:
-        print("Running configured quick demo command:")
-        print(" ".join(QUICK_DEMO_COMMAND))
+    if START_TEST_COMMAND:
+        print("Running configured full test command:")
+        print(" ".join(START_TEST_COMMAND))
         print("-" * 72)
         try:
-            subprocess.run(QUICK_DEMO_COMMAND, cwd=PROJECT_ROOT, check=True)
-            print("\nQuick demo command completed successfully.")
+            subprocess.run(START_TEST_COMMAND, cwd=PROJECT_ROOT, check=True)
+            print("\nFull test command completed successfully.")
         except subprocess.CalledProcessError as e:
-            print("\nQuick demo command failed.")
+            print("\nFull test command failed.")
             print(f"Return code: {e.returncode}")
             print("You can still inspect prepared outputs if they exist.")
     else:
-        print("No live command is configured; using prepared result files.")
+        print("No full test command is configured; using prepared result files.")
         time.sleep(0.8)
 
     run_dir = get_default_run_dir()
@@ -405,7 +688,7 @@ def run_quick_demo() -> None:
     print_data_location(data)
 
     metrics = build_overall_metrics(data)
-    print("\nQuick Demo Completed")
+    print("\nTest Completed")
     print("-" * 72)
     print(f"Run folder:              {run_dir.name if run_dir else 'Not found'}")
     print(f"Samples detected:        {metrics['samples']}")
@@ -417,6 +700,34 @@ def run_quick_demo() -> None:
 
     pause("Press Enter to open the detailed results menu...")
     results_menu(default_run_dir=run_dir)
+
+
+def run_quick_test() -> None:
+    print_header("Run Smoke Test")
+    slow_print([
+        "Quick Test Mode",
+        "",
+        "This smoke test verifies that the live inference pipeline can run.",
+        "It performs one baseline prediction only; it does not generate perturbations",
+        "or write a persistent result folder.",
+        "",
+    ])
+
+    if not QUICK_TEST_COMMAND:
+        print("No quick test command is configured.")
+        pause()
+        return
+
+    print("Running quick test command:")
+    print(" ".join(QUICK_TEST_COMMAND))
+    print("-" * 72)
+    try:
+        subprocess.run(QUICK_TEST_COMMAND, cwd=PROJECT_ROOT, check=True)
+        print("\nQuick test passed. The live inference pipeline is available.")
+    except subprocess.CalledProcessError as error:
+        print("\nQuick test failed. Check the messages above for the failing dependency or stage.")
+        print(f"Return code: {error.returncode}")
+    pause()
 
 
 def show_results_summary(run_dir: Optional[Path] = None) -> None:
@@ -464,80 +775,32 @@ def show_perturbation_impact_analysis(run_dir: Optional[Path] = None) -> None:
     action_rows = data["action_rows"]
     prediction_rows = data["prediction_rows"]
 
-    if action_rows:
-        print("Action summary file detected.")
-        print("-" * 72)
-
-        columns = list(action_rows[0].keys())
-        preferred = [
-            "action", "perturbation", "method",
-            "variants", "count", "num_variants",
-            "flips", "flip_count",
-            "avg_delta_prob", "avg_confidence_change",
-            "max_delta_prob", "max_confidence_change",
-            "avg_node_delta", "avg_edge_delta",
-        ]
-        selected = []
-        lower_map = {c.lower(): c for c in columns}
-        for p in preferred:
-            if p.lower() in lower_map and lower_map[p.lower()] not in selected:
-                selected.append(lower_map[p.lower()])
-        if len(selected) < 4:
-            selected = columns[:6]
-
-        if len(selected) >= 5:
-            selected = selected[:5]
-            widths = [22, 5, 5, 14, 14]
-            header = " | ".join(
-                column[:width].ljust(width) if index == 0 else column[:width].rjust(width)
-                for index, (column, width) in enumerate(zip(selected, widths))
-            )
-            print(header)
-            print("-" * len(header))
-            for row in action_rows[:20]:
-                action = str(row.get(selected[0], ""))[: widths[0]].ljust(widths[0])
-                count = str(row.get(selected[1], ""))[: widths[1]].rjust(widths[1])
-                flips = str(row.get(selected[2], ""))[: widths[2]].rjust(widths[2])
-                average = format_table_number(row.get(selected[3], ""), widths[3])
-                maximum = format_table_number(row.get(selected[4], ""), widths[4])
-                print(f"{action} | {count} | {flips} | {average} | {maximum}")
-        else:
-            widths = [max(10, min(24, len(column))) for column in selected]
-            header = " | ".join(f"{column[:width]:<{width}}" for column, width in zip(selected, widths))
-            print(header)
-            print("-" * len(header))
-            for row in action_rows[:20]:
-                print(" | ".join(str(row.get(column, ""))[:width].ljust(width) for column, width in zip(selected, widths)))
-
-        print("\nInterpretation:")
-        print("This table compares perturbation methods across this selected run.")
-        pause()
-        return
-
-    if not prediction_rows:
+    if not action_rows and not prediction_rows:
         print("No action summary or prediction comparison file was found for this run.")
         pause()
         return
 
-    grouped: Dict[str, Dict[str, Any]] = {}
-    for row in prediction_rows:
-        action = get_action(row)
-        delta = get_delta_probability(row)
-        if action not in grouped:
-            grouped[action] = {"count": 0, "flips": 0, "delta_sum": 0.0, "max_delta": 0.0}
-        grouped[action]["count"] += 1
-        grouped[action]["flips"] += 1 if is_flip(row) else 0
-        grouped[action]["delta_sum"] += delta
-        grouped[action]["max_delta"] = max(grouped[action]["max_delta"], delta)
+    if action_rows:
+        print("Action summary file detected.")
+    else:
+        print("No action summary file detected. Metrics are derived from prediction comparison rows.")
 
-    print("Action                         Variants   Flips   Avg Delta   Max Delta")
     print("-" * 72)
-    for action, v in sorted(grouped.items(), key=lambda kv: kv[1]["max_delta"], reverse=True):
-        avg_delta = v["delta_sum"] / v["count"] if v["count"] else 0.0
-        print(f"{action[:30]:30} {v['count']:8d} {v['flips']:7d} {avg_delta:10.6f} {v['max_delta']:10.6f}")
+    print("Using normalized output format for all run folders.")
+    print("This keeps the table headers consistent across code-level, graph-level, and attack runs.")
 
-    print("\nInterpretation:")
-    print("This page compares which perturbation action caused larger prediction changes.")
+    metrics = normalized_action_metrics(action_rows, prediction_rows)
+    print_normalized_impact_tables(metrics)
+
+    print("\nMetric definitions:")
+    print("- Attempted = total perturbation variants attempted.")
+    print("- Scored = variants with successful prediction results.")
+    print("- Failed = attempted variants without successful prediction results.")
+    print("- FlipRate = flips / scored.")
+    print("- ASR = attack success rate, shown as N/A if the run does not record attack success.")
+    print("- MeanDeltaP = average signed probability change.")
+    print("- MeanAbsDeltaP and MaxAbsDeltaP show the magnitude of confidence change.")
+    print("- Graph metrics are N/A if the selected run does not record node/edge changes.")
     pause()
 
 
@@ -671,11 +934,11 @@ def open_web_dashboard() -> None:
 
 
 # ============================================================
-# Results submenu after Quick Demo
+# Results submenu after Run Full Test
 # ============================================================
 
 def show_results_menu(run_dir: Optional[Path]) -> None:
-    title = "Quick Demo Completed - Results Menu"
+    title = "Test Completed - Results Menu"
     if run_dir:
         title += f" ({run_dir.name})"
     print_header(title)
@@ -787,14 +1050,16 @@ def main() -> None:
         choice = input("Select an option: ").strip()
 
         if choice == "1":
-            run_quick_demo()
+            run_test()
         elif choice == "2":
-            show_results_summary()
+            run_quick_test()
         elif choice == "3":
-            show_perturbation_impact_analysis()
+            show_results_summary()
         elif choice == "4":
-            show_sample_detail_viewer()
+            show_perturbation_impact_analysis()
         elif choice == "5":
+            show_sample_detail_viewer()
+        elif choice == "6":
             open_web_dashboard()
         elif choice == "0":
             print("Goodbye.")

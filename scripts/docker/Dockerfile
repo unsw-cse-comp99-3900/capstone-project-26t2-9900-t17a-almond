@@ -21,5 +21,5 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-ENTRYPOINT ["python", "docker_entrypoint.py"]
+ENTRYPOINT ["python", "scripts/docker/docker_entrypoint.py"]
 CMD ["console"]

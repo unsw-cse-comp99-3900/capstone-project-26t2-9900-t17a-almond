@@ -30,28 +30,42 @@ Start Docker Desktop, then run this single command from the project root:
 .\Start.ps1
 ```
 
+For a double-click launch, open `Start.exe` in the project root. It opens a
+terminal window and runs the same `Start.ps1` workflow. The window stays open
+after the console exits so that any error messages remain visible.
+
+While Docker builds the image, the terminal animates a rabbit above a horizontal
+line and streams Docker's build log below it. The normal interactive
+console appears in the same window when the image is ready.
+
 This creates the `t17a-almond:latest` image and starts the normal interactive
 `deepwukong_demo_console_v4.py` menu in the terminal. All original options
-remain available. Selecting option `1` runs a fresh baseline plus two source
+remain available. Option `1` (**Run Full Test**) runs a fresh baseline plus two source
 perturbations through Joern and DeepWuKong on the NVIDIA GPU, then writes the
-new result folder under `outputs/` on the host. Selecting option `5` prints the host-browser URL for the
+new result folder under `outputs/` on the host. Option `2` (**Run Smoke Test**)
+runs only one baseline inference to confirm that the live pipeline is available;
+it creates no perturbations or persistent results. Option `4` presents normalized
+perturbation-impact metrics across all supported result-folder formats. Selecting option `6` prints the host-browser URL for the
 chosen dashboard; the dashboard is also available at
 `http://localhost:8000/outputs/index.html` and the PDG atlas at
 `http://localhost:8000/demo_b/showcase/deepwukong_pdg_showcase.html`. When
-started through `start-almond.ps1`, selecting a dashboard opens it automatically
+started through `Start.ps1` or `Start.exe`, selecting a dashboard opens it automatically
 in the default Windows browser. Press
-`Ctrl+C` to stop it. Do not use `docker compose up` for this console: Compose
+`Ctrl+C` to stop it. Do not use `docker compose -f scripts/docker/compose.yaml up` for this console: Compose
 then prefixes output with `almond-1` and does not pass menu input through.
+
+Docker configuration is kept in `scripts/docker/`. When calling Compose
+directly, include its file path, for example:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm almond tests
+```
 
 The image extends the existing local DeepWuKong runtime image
 `deepwukong-rtx5060-cu128:experimental`, which supplies the pinned Joern and
 model runtime. If that image uses a different local tag, set
 `DEEPWUKONG_IMAGE` before running the same command. The image also exposes the
-project console and test runner, for example:
-
-```powershell
-docker compose run --rm almond tests
-```
+project console and test runner; the command above runs the full unit suite.
 
 ## Two Perturbation Branches
 
