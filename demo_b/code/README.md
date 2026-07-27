@@ -170,21 +170,25 @@ This is useful when:
 
 ## Minimal Flip Search
 
-`run_budget_search.py` implements a minimal flip search. For each sample and
-each action, it tests increasing perturbation counts and stops as soon as a
-label flip is observed.
+`run_budget_search.py` implements a minimal **evasion** search. It first runs
+the baseline and only perturbs samples that DeepWuKong predicts as vulnerable
+(`baseline_label = 1`). A successful attack is specifically `1 -> 0`; an
+ordinary reverse flip (`0 -> 1`) is preserved as audit data but is not a
+success and does not stop the search.
 
 The search logic is:
 
 ```text
 for each sample:
   run baseline DeepWuKong once
+  if baseline prediction is not 1:
+    record it in baseline_eligibility.csv and skip perturbations
   for each action:
     for count in [1, 2, 3, 5]:
       generate variant from the original source
       run DeepWuKong on the variant
       compare baseline prediction with variant prediction
-      if label flips:
+      if prediction changes from 1 to 0:
         record this count as the minimal flip budget
         stop testing larger counts for this sample/action
 ```
@@ -227,7 +231,7 @@ created by taking the `count=1` source variant and adding two more operations.
 | Default budgets | `1, 2, 3, 5` | `1, 3, 5` |
 | Starting point for each budget | Original source | Original PDG |
 | Mixed actions | No | No |
-| Stop after first flip | Yes, for the same sample + action | No |
+| Stop after first success | Yes, for the same sample + action | No |
 
 To use the same budget set as graph perturbation, pass `--counts 1 3 5`.
 The code runner still keeps its minimal-flip stop rule, which records the
@@ -244,12 +248,26 @@ that an observed probability change can be attributed to an action.
 | Mode | Command value | Behaviour |
 |---|---|---|
 | Global | `--target-mode global` | Uses each action's normal source-wide candidate selection. This is the default. |
-| Winner XFG | `--target-mode winner-xfg` | Runs the baseline first, selects the XFG with the largest vulnerability probability, and ranks each action's source candidates by distance to that XFG's `key_line`. |
+| Winner XFG | `--target-mode winner-xfg` | Runs the baseline first, selects the top-K highest-probability XFGs at distinct source lines, and generates an independent source candidate for each target window. |
 
 Winner-XFG mode is still a source-level experiment: the script edits source,
 then reruns Joern, PDG/XFG construction, and DeepWuKong. It does not edit the
 baseline XFG directly. It requires real model inference and therefore cannot
 be used with `--no-run`.
+
+The default winner-XFG search uses three source targets:
+
+```text
+--winner-xfg-top-k 3
+--target-window-radius 3
+```
+
+For each generated source variant, the runner reads the rebuilt
+`predictions.json`, maps the original target/source-edit lines into the new
+source, and checks for an XFG of the same category within the configured
+window. A target that is not covered after reconstruction is not escalated to
+larger counts. The report also records whether the rebuilt winner XFG changed
+and whether the target XFG probability decreased.
 
 The following fields are included in `perturbation_results.csv` and
 `details.json` for winner-XFG experiments:
@@ -259,7 +277,25 @@ target_mode
 winner_xfg_category
 winner_xfg_key_line
 winner_xfg_probability
+target_rank
+target_xfg_category
+target_xfg_key_line
+target_xfg_probability
+target_window_lines
 targeted_source_lines
+mapped_target_source_lines
+target_coverage_verified
+target_coverage_status
+variant_winner_xfg_category
+variant_winner_xfg_key_line
+variant_winner_xfg_probability
+target_xfg_probability_after
+target_xfg_probability_delta
+winner_xfg_changed
+target_probability_decreased
+baseline_eligible
+attack_success
+flip_direction
 ```
 
 `postcondition_validation` has no winner-XFG-specific source location, so it
@@ -325,7 +361,7 @@ python demo_b\code\run_budget_search.py --input input_sources\devign --target-mo
 ### 3. Run a Small DeepWuKong Smoke Test
 
 ```powershell
-python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 3 --run-round 1 --output outputs\code_smoke_winner_xfg
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --winner-xfg-top-k 3 --target-window-radius 3 --actions data_flow_alias dead_statement xfg_targeted_dead_code --counts 1 3 --run-round 1 --output outputs\code_smoke_winner_xfg
 ```
 
 ### 4. Run a Full Winner-XFG Budget Search
@@ -335,7 +371,7 @@ graph-aligned budget set `1, 3, 5`; use `--counts 1 2 3 5` when the extra
 `count=2` measurement is required.
 
 ```powershell
-python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --counts 1 3 5 --run-round 1 --output outputs\run_20260724_code_devign_winner_xfg_round1
+python demo_b\code\run_budget_search.py --input input_sources\devign --target-mode winner-xfg --winner-xfg-top-k 3 --target-window-radius 3 --counts 1 3 5 --run-round 1 --output outputs\run_20260724_code_devign_winner_xfg_round1
 ```
 
 Run the vulnerable CWE119 and CVEFixes samples explicitly:
@@ -382,8 +418,14 @@ Common output files:
 | `budget_search.csv` | Full result table for every sample/action/count attempt. |
 | `budget_search.json` | Summary of the budget-search run. |
 | `runs/baseline/<sample>/predictions.json` | DeepWuKong prediction for the original sample. |
-| `runs/perturbed/<sample>__<action>__c<count>/predictions.json` | DeepWuKong prediction for the perturbed sample. |
+| `runs/perturbed/<sample>__<action>__t<rank>__c<count>/predictions.json` | DeepWuKong prediction for a winner-XFG-targeted source candidate. Global mode omits `__t<rank>`. |
 | `sources/*.c/.cpp` | Generated perturbed source files. |
+
+On Windows, a second-stage re-target can make the combined source name too
+long for the Joern/Docker working paths. In that case the runner uses a short,
+deterministic filesystem artifact name. The result rows retain the full
+`source_file`, `action`, `target_rank`, and `count`; `variant_artifact_id`
+maps those fields to the shortened file and run-directory name.
 
 For a winner-XFG run, the directory name defaults to:
 
@@ -398,6 +440,7 @@ the following files are also produced:
 |---|---|
 | `baseline_predictions.csv` | One baseline prediction row per sample. |
 | `baseline_summary.csv` | Compact baseline prediction table. |
+| `baseline_eligibility.csv` | Shows baseline-positive samples selected for attack and baseline non-vulnerable predictions that were skipped. |
 | `perturbation_results.csv` | Full perturbation result table. |
 | `prediction_comparison.csv` | Baseline-versus-variant comparison table. |
 | `action_summary.csv` | Flip counts and probability deltas by action. |
@@ -418,7 +461,7 @@ Start with the summary files rather than raw Joern working directories:
 ```powershell
 Get-Content outputs\run_20260724_code_devign_winner_xfg_round1\budget_search.json
 Import-Csv outputs\run_20260724_code_devign_winner_xfg_round1\action_summary.csv | Format-Table -AutoSize
-Import-Csv outputs\run_20260724_code_devign_winner_xfg_round1\perturbation_results.csv | Where-Object { $_.flipped -eq 'True' } | Format-Table sample_id,action,count,base_probability,variant_probability -AutoSize
+Import-Csv outputs\run_20260724_code_devign_winner_xfg_round1\perturbation_results.csv | Where-Object { $_.attack_success -eq 'True' } | Format-Table sample_id,action,target_rank,count,target_xfg_key_line,base_probability,variant_probability -AutoSize
 ```
 
 Interpret a flip direction carefully:
@@ -434,11 +477,16 @@ label `0` is a baseline false negative, not a perturbation success.
 
 ## Measurement
 
-The primary metric is label flip:
+The primary evasion metric is attack success:
 
 ```text
-flipped = original_predicted_label != perturbed_predicted_label
+attack_success = (baseline_label == 1 and perturbed_label == 0)
 ```
+
+`flipped` remains in every result row for backward compatibility and audit, but
+it includes both `1 -> 0` and `0 -> 1` directions. Use `attack_success` for
+the reported evasion rate and use `baseline_eligibility.csv` to report baseline
+false negatives separately when the input set is known to be vulnerable.
 
 The scripts also record:
 
