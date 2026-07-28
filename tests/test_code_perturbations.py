@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from demo_b.code.code_perturbations import apply_control_wrapper, dataset_slug, is_probably_declaration
+from robustness_experiments.code.code_perturbations import apply_control_wrapper, dataset_slug, is_probably_declaration
 
 
 class ControlWrapperTests(unittest.TestCase):

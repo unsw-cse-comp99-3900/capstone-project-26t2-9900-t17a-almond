@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from demo_b.showcase.generate_showcase import (
+from robustness_experiments.showcase.generate_showcase import (
     PDG_DISPLAY_NODE_LIMIT,
     PDG_DISPLAY_EDGE_LIMIT,
     Pdg,

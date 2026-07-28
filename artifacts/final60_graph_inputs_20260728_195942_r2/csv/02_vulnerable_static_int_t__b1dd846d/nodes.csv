@@ -1,0 +1,315 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/02_vulnerable_static_int_tight_compress_data.c								
+ANR	2	Function	tight_compress_data	1:0:0:1345							
+ANR	3	FunctionDef	"tight_compress_data (VncState * vs , int stream_id , size_t bytes , int level , int strategy)"		2	0					
+ANR	4	CompoundStatement		5:0:132:1345	2	0					
+ANR	5	IdentifierDeclStatement	z_streamp zstream = & vs -> tight . stream [ stream_id ] ;	7:4:139:187	2	0	True				
+ANR	6	IdentifierDecl	zstream = & vs -> tight . stream [ stream_id ]		2	0					
+ANR	7	IdentifierDeclType	z_streamp		2	0					
+ANR	8	Identifier	zstream		2	1					
+ANR	9	AssignmentExpression	zstream = & vs -> tight . stream [ stream_id ]		2	2		=			
+ANR	10	Identifier	zstream		2	0					
+ANR	11	UnaryOperationExpression	& vs -> tight . stream [ stream_id ]		2	1					
+ANR	12	UnaryOperator	&		2	0					
+ANR	13	ArrayIndexing	vs -> tight . stream [ stream_id ]		2	1					
+ANR	14	MemberAccess	vs -> tight . stream		2	0					
+ANR	15	PtrMemberAccess	vs -> tight		2	0					
+ANR	16	Identifier	vs		2	0					
+ANR	17	Identifier	tight		2	1					
+ANR	18	Identifier	stream		2	1					
+ANR	19	Identifier	stream_id		2	1					
+ANR	20	IdentifierDeclStatement	int previous_out ;	9:4:194:210	2	1	True				
+ANR	21	IdentifierDecl	previous_out		2	0					
+ANR	22	IdentifierDeclType	int		2	0					
+ANR	23	Identifier	previous_out		2	1					
+ANR	24	IfStatement	if ( bytes < VNC_TIGHT_MIN_TO_COMPRESS )		2	2					
+ANR	25	Condition	bytes < VNC_TIGHT_MIN_TO_COMPRESS	13:8:223:255	2	0	True				
+ANR	26	RelationalExpression	bytes < VNC_TIGHT_MIN_TO_COMPRESS		2	0		<			
+ANR	27	Identifier	bytes		2	0					
+ANR	28	Identifier	VNC_TIGHT_MIN_TO_COMPRESS		2	1					
+ANR	29	CompoundStatement		9:43:125:125	2	1					
+ANR	30	ExpressionStatement	"vnc_write ( vs , vs -> tight . tight . buffer , vs -> tight . tight . offset )"	15:8:269:330	2	0	True				
+ANR	31	CallExpression	"vnc_write ( vs , vs -> tight . tight . buffer , vs -> tight . tight . offset )"		2	0					
+ANR	32	Callee	vnc_write		2	0					
+ANR	33	Identifier	vnc_write		2	0					
+ANR	34	ArgumentList	vs		2	1					
+ANR	35	Argument	vs		2	0					
+ANR	36	Identifier	vs		2	0					
+ANR	37	Argument	vs -> tight . tight . buffer		2	1					
+ANR	38	MemberAccess	vs -> tight . tight . buffer		2	0					
+ANR	39	MemberAccess	vs -> tight . tight		2	0					
+ANR	40	PtrMemberAccess	vs -> tight		2	0					
+ANR	41	Identifier	vs		2	0					
+ANR	42	Identifier	tight		2	1					
+ANR	43	Identifier	tight		2	1					
+ANR	44	Identifier	buffer		2	1					
+ANR	45	Argument	vs -> tight . tight . offset		2	2					
+ANR	46	MemberAccess	vs -> tight . tight . offset		2	0					
+ANR	47	MemberAccess	vs -> tight . tight		2	0					
+ANR	48	PtrMemberAccess	vs -> tight		2	0					
+ANR	49	Identifier	vs		2	0					
+ANR	50	Identifier	tight		2	1					
+ANR	51	Identifier	tight		2	1					
+ANR	52	Identifier	offset		2	1					
+ANR	53	ReturnStatement	return bytes ;	17:8:341:353	2	1	True				
+ANR	54	Identifier	bytes		2	0					
+ANR	55	IfStatement	"if ( tight_init_stream ( vs , stream_id , level , strategy ) )"		2	3					
+ANR	56	Condition	"tight_init_stream ( vs , stream_id , level , strategy )"	23:8:373:421	2	0	True				
+ANR	57	CallExpression	"tight_init_stream ( vs , stream_id , level , strategy )"		2	0					
+ANR	58	Callee	tight_init_stream		2	0					
+ANR	59	Identifier	tight_init_stream		2	0					
+ANR	60	ArgumentList	vs		2	1					
+ANR	61	Argument	vs		2	0					
+ANR	62	Identifier	vs		2	0					
+ANR	63	Argument	stream_id		2	1					
+ANR	64	Identifier	stream_id		2	0					
+ANR	65	Argument	level		2	2					
+ANR	66	Identifier	level		2	0					
+ANR	67	Argument	strategy		2	3					
+ANR	68	Identifier	strategy		2	0					
+ANR	69	CompoundStatement		19:59:291:291	2	1					
+ANR	70	ReturnStatement	return - 1 ;	25:8:435:444	2	0	True				
+ANR	71	UnaryOperationExpression	- 1		2	0					
+ANR	72	UnaryOperator	-		2	0					
+ANR	73	PrimaryExpression	1		2	1					
+ANR	74	ExpressionStatement	"buffer_reserve ( & vs -> tight . zlib , bytes + 64 )"	33:4:503:546	2	4	True				
+ANR	75	CallExpression	"buffer_reserve ( & vs -> tight . zlib , bytes + 64 )"		2	0					
+ANR	76	Callee	buffer_reserve		2	0					
+ANR	77	Identifier	buffer_reserve		2	0					
+ANR	78	ArgumentList	& vs -> tight . zlib		2	1					
+ANR	79	Argument	& vs -> tight . zlib		2	0					
+ANR	80	UnaryOperationExpression	& vs -> tight . zlib		2	0					
+ANR	81	UnaryOperator	&		2	0					
+ANR	82	MemberAccess	vs -> tight . zlib		2	1					
+ANR	83	PtrMemberAccess	vs -> tight		2	0					
+ANR	84	Identifier	vs		2	0					
+ANR	85	Identifier	tight		2	1					
+ANR	86	Identifier	zlib		2	1					
+ANR	87	Argument	bytes + 64		2	1					
+ANR	88	AdditiveExpression	bytes + 64		2	0		+			
+ANR	89	Identifier	bytes		2	0					
+ANR	90	PrimaryExpression	64		2	1					
+ANR	91	ExpressionStatement	zstream -> next_in = vs -> tight . tight . buffer	39:4:579:620	2	5	True				
+ANR	92	AssignmentExpression	zstream -> next_in = vs -> tight . tight . buffer		2	0		=			
+ANR	93	PtrMemberAccess	zstream -> next_in		2	0					
+ANR	94	Identifier	zstream		2	0					
+ANR	95	Identifier	next_in		2	1					
+ANR	96	MemberAccess	vs -> tight . tight . buffer		2	1					
+ANR	97	MemberAccess	vs -> tight . tight		2	0					
+ANR	98	PtrMemberAccess	vs -> tight		2	0					
+ANR	99	Identifier	vs		2	0					
+ANR	100	Identifier	tight		2	1					
+ANR	101	Identifier	tight		2	1					
+ANR	102	Identifier	buffer		2	1					
+ANR	103	ExpressionStatement	zstream -> avail_in = vs -> tight . tight . offset	41:4:627:669	2	6	True				
+ANR	104	AssignmentExpression	zstream -> avail_in = vs -> tight . tight . offset		2	0		=			
+ANR	105	PtrMemberAccess	zstream -> avail_in		2	0					
+ANR	106	Identifier	zstream		2	0					
+ANR	107	Identifier	avail_in		2	1					
+ANR	108	MemberAccess	vs -> tight . tight . offset		2	1					
+ANR	109	MemberAccess	vs -> tight . tight		2	0					
+ANR	110	PtrMemberAccess	vs -> tight		2	0					
+ANR	111	Identifier	vs		2	0					
+ANR	112	Identifier	tight		2	1					
+ANR	113	Identifier	tight		2	1					
+ANR	114	Identifier	offset		2	1					
+ANR	115	ExpressionStatement	zstream -> next_out = vs -> tight . zlib . buffer + vs -> tight . zlib . offset	43:4:676:741	2	7	True				
+ANR	116	AssignmentExpression	zstream -> next_out = vs -> tight . zlib . buffer + vs -> tight . zlib . offset		2	0		=			
+ANR	117	PtrMemberAccess	zstream -> next_out		2	0					
+ANR	118	Identifier	zstream		2	0					
+ANR	119	Identifier	next_out		2	1					
+ANR	120	AdditiveExpression	vs -> tight . zlib . buffer + vs -> tight . zlib . offset		2	1		+			
+ANR	121	MemberAccess	vs -> tight . zlib . buffer		2	0					
+ANR	122	MemberAccess	vs -> tight . zlib		2	0					
+ANR	123	PtrMemberAccess	vs -> tight		2	0					
+ANR	124	Identifier	vs		2	0					
+ANR	125	Identifier	tight		2	1					
+ANR	126	Identifier	zlib		2	1					
+ANR	127	Identifier	buffer		2	1					
+ANR	128	MemberAccess	vs -> tight . zlib . offset		2	1					
+ANR	129	MemberAccess	vs -> tight . zlib		2	0					
+ANR	130	PtrMemberAccess	vs -> tight		2	0					
+ANR	131	Identifier	vs		2	0					
+ANR	132	Identifier	tight		2	1					
+ANR	133	Identifier	zlib		2	1					
+ANR	134	Identifier	offset		2	1					
+ANR	135	ExpressionStatement	zstream -> avail_out = vs -> tight . zlib . capacity - vs -> tight . zlib . offset	45:4:748:816	2	8	True				
+ANR	136	AssignmentExpression	zstream -> avail_out = vs -> tight . zlib . capacity - vs -> tight . zlib . offset		2	0		=			
+ANR	137	PtrMemberAccess	zstream -> avail_out		2	0					
+ANR	138	Identifier	zstream		2	0					
+ANR	139	Identifier	avail_out		2	1					
+ANR	140	AdditiveExpression	vs -> tight . zlib . capacity - vs -> tight . zlib . offset		2	1		-			
+ANR	141	MemberAccess	vs -> tight . zlib . capacity		2	0					
+ANR	142	MemberAccess	vs -> tight . zlib		2	0					
+ANR	143	PtrMemberAccess	vs -> tight		2	0					
+ANR	144	Identifier	vs		2	0					
+ANR	145	Identifier	tight		2	1					
+ANR	146	Identifier	zlib		2	1					
+ANR	147	Identifier	capacity		2	1					
+ANR	148	MemberAccess	vs -> tight . zlib . offset		2	1					
+ANR	149	MemberAccess	vs -> tight . zlib		2	0					
+ANR	150	PtrMemberAccess	vs -> tight		2	0					
+ANR	151	Identifier	vs		2	0					
+ANR	152	Identifier	tight		2	1					
+ANR	153	Identifier	zlib		2	1					
+ANR	154	Identifier	offset		2	1					
+ANR	155	ExpressionStatement	zstream -> data_type = Z_BINARY	47:4:823:852	2	9	True				
+ANR	156	AssignmentExpression	zstream -> data_type = Z_BINARY		2	0		=			
+ANR	157	PtrMemberAccess	zstream -> data_type		2	0					
+ANR	158	Identifier	zstream		2	0					
+ANR	159	Identifier	data_type		2	1					
+ANR	160	Identifier	Z_BINARY		2	1					
+ANR	161	ExpressionStatement	previous_out = zstream -> total_out	49:4:859:892	2	10	True				
+ANR	162	AssignmentExpression	previous_out = zstream -> total_out		2	0		=			
+ANR	163	Identifier	previous_out		2	0					
+ANR	164	PtrMemberAccess	zstream -> total_out		2	1					
+ANR	165	Identifier	zstream		2	0					
+ANR	166	Identifier	total_out		2	1					
+ANR	167	IfStatement	"if ( deflate ( zstream , Z_SYNC_FLUSH ) != Z_OK )"		2	11					
+ANR	168	Condition	"deflate ( zstream , Z_SYNC_FLUSH ) != Z_OK"	55:8:931:968	2	0	True				
+ANR	169	EqualityExpression	"deflate ( zstream , Z_SYNC_FLUSH ) != Z_OK"		2	0		!=			
+ANR	170	CallExpression	"deflate ( zstream , Z_SYNC_FLUSH )"		2	0					
+ANR	171	Callee	deflate		2	0					
+ANR	172	Identifier	deflate		2	0					
+ANR	173	ArgumentList	zstream		2	1					
+ANR	174	Argument	zstream		2	0					
+ANR	175	Identifier	zstream		2	0					
+ANR	176	Argument	Z_SYNC_FLUSH		2	1					
+ANR	177	Identifier	Z_SYNC_FLUSH		2	0					
+ANR	178	Identifier	Z_OK		2	1					
+ANR	179	CompoundStatement		51:48:838:838	2	1					
+ANR	180	ExpressionStatement	"fprintf ( stderr , ""VNC: error during tight compression\\n"" )"	57:8:982:1038	2	0	True				
+ANR	181	CallExpression	"fprintf ( stderr , ""VNC: error during tight compression\\n"" )"		2	0					
+ANR	182	Callee	fprintf		2	0					
+ANR	183	Identifier	fprintf		2	0					
+ANR	184	ArgumentList	stderr		2	1					
+ANR	185	Argument	stderr		2	0					
+ANR	186	Identifier	stderr		2	0					
+ANR	187	Argument	"""VNC: error during tight compression\\n"""		2	1					
+ANR	188	PrimaryExpression	"""VNC: error during tight compression\\n"""		2	0					
+ANR	189	ReturnStatement	return - 1 ;	59:8:1049:1058	2	1	True				
+ANR	190	UnaryOperationExpression	- 1		2	0					
+ANR	191	UnaryOperator	-		2	0					
+ANR	192	PrimaryExpression	1		2	1					
+ANR	193	ExpressionStatement	vs -> tight . zlib . offset = vs -> tight . zlib . capacity - zstream -> avail_out	65:4:1074:1142	2	12	True				
+ANR	194	AssignmentExpression	vs -> tight . zlib . offset = vs -> tight . zlib . capacity - zstream -> avail_out		2	0		=			
+ANR	195	MemberAccess	vs -> tight . zlib . offset		2	0					
+ANR	196	MemberAccess	vs -> tight . zlib		2	0					
+ANR	197	PtrMemberAccess	vs -> tight		2	0					
+ANR	198	Identifier	vs		2	0					
+ANR	199	Identifier	tight		2	1					
+ANR	200	Identifier	zlib		2	1					
+ANR	201	Identifier	offset		2	1					
+ANR	202	AdditiveExpression	vs -> tight . zlib . capacity - zstream -> avail_out		2	1		-			
+ANR	203	MemberAccess	vs -> tight . zlib . capacity		2	0					
+ANR	204	MemberAccess	vs -> tight . zlib		2	0					
+ANR	205	PtrMemberAccess	vs -> tight		2	0					
+ANR	206	Identifier	vs		2	0					
+ANR	207	Identifier	tight		2	1					
+ANR	208	Identifier	zlib		2	1					
+ANR	209	Identifier	capacity		2	1					
+ANR	210	PtrMemberAccess	zstream -> avail_out		2	1					
+ANR	211	Identifier	zstream		2	0					
+ANR	212	Identifier	avail_out		2	1					
+ANR	213	ExpressionStatement	bytes = zstream -> total_out - previous_out	67:4:1149:1190	2	13	True				
+ANR	214	AssignmentExpression	bytes = zstream -> total_out - previous_out		2	0		=			
+ANR	215	Identifier	bytes		2	0					
+ANR	216	AdditiveExpression	zstream -> total_out - previous_out		2	1		-			
+ANR	217	PtrMemberAccess	zstream -> total_out		2	0					
+ANR	218	Identifier	zstream		2	0					
+ANR	219	Identifier	total_out		2	1					
+ANR	220	Identifier	previous_out		2	1					
+ANR	221	ExpressionStatement	"tight_send_compact_size ( vs , bytes )"	71:4:1199:1233	2	14	True				
+ANR	222	CallExpression	"tight_send_compact_size ( vs , bytes )"		2	0					
+ANR	223	Callee	tight_send_compact_size		2	0					
+ANR	224	Identifier	tight_send_compact_size		2	0					
+ANR	225	ArgumentList	vs		2	1					
+ANR	226	Argument	vs		2	0					
+ANR	227	Identifier	vs		2	0					
+ANR	228	Argument	bytes		2	1					
+ANR	229	Identifier	bytes		2	0					
+ANR	230	ExpressionStatement	"vnc_write ( vs , vs -> tight . zlib . buffer , bytes )"	73:4:1240:1283	2	15	True				
+ANR	231	CallExpression	"vnc_write ( vs , vs -> tight . zlib . buffer , bytes )"		2	0					
+ANR	232	Callee	vnc_write		2	0					
+ANR	233	Identifier	vnc_write		2	0					
+ANR	234	ArgumentList	vs		2	1					
+ANR	235	Argument	vs		2	0					
+ANR	236	Identifier	vs		2	0					
+ANR	237	Argument	vs -> tight . zlib . buffer		2	1					
+ANR	238	MemberAccess	vs -> tight . zlib . buffer		2	0					
+ANR	239	MemberAccess	vs -> tight . zlib		2	0					
+ANR	240	PtrMemberAccess	vs -> tight		2	0					
+ANR	241	Identifier	vs		2	0					
+ANR	242	Identifier	tight		2	1					
+ANR	243	Identifier	zlib		2	1					
+ANR	244	Identifier	buffer		2	1					
+ANR	245	Argument	bytes		2	2					
+ANR	246	Identifier	bytes		2	0					
+ANR	247	ExpressionStatement	buffer_reset ( & vs -> tight . zlib )	77:4:1292:1321	2	16	True				
+ANR	248	CallExpression	buffer_reset ( & vs -> tight . zlib )		2	0					
+ANR	249	Callee	buffer_reset		2	0					
+ANR	250	Identifier	buffer_reset		2	0					
+ANR	251	ArgumentList	& vs -> tight . zlib		2	1					
+ANR	252	Argument	& vs -> tight . zlib		2	0					
+ANR	253	UnaryOperationExpression	& vs -> tight . zlib		2	0					
+ANR	254	UnaryOperator	&		2	0					
+ANR	255	MemberAccess	vs -> tight . zlib		2	1					
+ANR	256	PtrMemberAccess	vs -> tight		2	0					
+ANR	257	Identifier	vs		2	0					
+ANR	258	Identifier	tight		2	1					
+ANR	259	Identifier	zlib		2	1					
+ANR	260	ReturnStatement	return bytes ;	81:4:1330:1342	2	17	True				
+ANR	261	Identifier	bytes		2	0					
+ANR	262	ReturnType	static int		2	1					
+ANR	263	Identifier	tight_compress_data		2	2					
+ANR	264	ParameterList	"VncState * vs , int stream_id , size_t bytes , int level , int strategy"		2	3					
+ANR	265	Parameter	VncState * vs	1:31:31:42	2	0	True				
+ANR	266	ParameterType	VncState *		2	0					
+ANR	267	Identifier	vs		2	1					
+ANR	268	Parameter	int stream_id	1:45:45:57	2	1	True				
+ANR	269	ParameterType	int		2	0					
+ANR	270	Identifier	stream_id		2	1					
+ANR	271	Parameter	size_t bytes	1:60:60:71	2	2	True				
+ANR	272	ParameterType	size_t		2	0					
+ANR	273	Identifier	bytes		2	1					
+ANR	274	Parameter	int level	3:31:106:114	2	3	True				
+ANR	275	ParameterType	int		2	0					
+ANR	276	Identifier	level		2	1					
+ANR	277	Parameter	int strategy	3:42:117:128	2	4	True				
+ANR	278	ParameterType	int		2	0					
+ANR	279	Identifier	strategy		2	1					
+ANR	280	CFGEntryNode	ENTRY		2		True				
+ANR	281	CFGExitNode	EXIT		2		True				
+ANR	282	Symbol	zstream -> avail_out		2						
+ANR	283	Symbol	vs -> tight . zlib		2						
+ANR	284	Symbol	Z_OK		2						
+ANR	285	Symbol	VNC_TIGHT_MIN_TO_COMPRESS		2						
+ANR	286	Symbol	vs -> tight		2						
+ANR	287	Symbol	& vs -> tight . zlib		2						
+ANR	288	Symbol	zstream -> next_in		2						
+ANR	289	Symbol	stream_id		2						
+ANR	290	Symbol	tight_init_stream		2						
+ANR	291	Symbol	zstream -> total_out		2						
+ANR	292	Symbol	& vs -> tight		2						
+ANR	293	Symbol	zstream -> next_out		2						
+ANR	294	Symbol	vs -> tight . zlib . buffer		2						
+ANR	295	Symbol	* vs		2						
+ANR	296	Symbol	Z_SYNC_FLUSH		2						
+ANR	297	Symbol	vs -> tight . stream		2						
+ANR	298	Symbol	zstream -> avail_in		2						
+ANR	299	Symbol	vs -> tight . tight . buffer		2						
+ANR	300	Symbol	Z_BINARY		2						
+ANR	301	Symbol	level		2						
+ANR	302	Symbol	vs -> tight . tight		2						
+ANR	303	Symbol	* zstream		2						
+ANR	304	Symbol	previous_out		2						
+ANR	305	Symbol	vs -> tight . tight . offset		2						
+ANR	306	Symbol	stderr		2						
+ANR	307	Symbol	zstream -> data_type		2						
+ANR	308	Symbol	vs -> tight . zlib . offset		2						
+ANR	309	Symbol	vs -> tight . zlib . capacity		2						
+ANR	310	Symbol	deflate		2						
+ANR	311	Symbol	bytes		2						
+ANR	312	Symbol	zstream		2						
+ANR	313	Symbol	strategy		2						
+ANR	314	Symbol	vs		2						

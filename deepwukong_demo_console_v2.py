@@ -42,7 +42,7 @@ RUN_ID: Optional[str] = None
 # Optional real quick demo command.
 # Keep as None for a stable presentation demo that loads prepared results.
 # Example:
-# QUICK_DEMO_COMMAND = [sys.executable, "demo_b/run_quick_demo.py"]
+# QUICK_DEMO_COMMAND = [sys.executable, "robustness_experiments/run_quick_demo.py"]
 QUICK_DEMO_COMMAND: Optional[List[str]] = None
 
 # Dashboard URL or local file.

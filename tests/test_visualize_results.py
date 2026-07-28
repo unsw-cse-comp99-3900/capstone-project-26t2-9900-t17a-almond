@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from demo_b.visualize_results import (
+from robustness_experiments.visualize_results import (
     method_intensity_heatmap,
     perturbation_configuration,
     read_rows,

@@ -1,6 +1,6 @@
 import unittest
 
-from demo_b.compare_deepwukong import aggregate_xfgs, compare
+from robustness_experiments.compare_deepwukong import aggregate_xfgs, compare
 
 
 class CompareDeepWuKongTests(unittest.TestCase):

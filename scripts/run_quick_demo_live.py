@@ -16,7 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from demo_b.code.code_perturbations import OPERATORS
+from robustness_experiments.code.code_perturbations import OPERATORS
 
 
 SOURCE_PATH = PROJECT_ROOT / "input_sources" / "cwe119" / "vulnerable" / "05_vulnerable_32.cpp"

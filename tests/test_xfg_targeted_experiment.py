@@ -6,7 +6,7 @@ from pathlib import Path
 
 import networkx as nx
 
-from demo_b.graph.run_xfg_targeted_experiment import effective_winner_nodes, read_metadata
+from robustness_experiments.graph.run_xfg_targeted_experiment import effective_winner_nodes, read_metadata
 
 
 class XFGTargetedExperimentTests(unittest.TestCase):

@@ -1,0 +1,61 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/scan/output/_work/source/11_vulnerable_CWE121_Stack_Based_Buffer_Overflow__.c								
+ANR	2	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action	24:0:779:1163							
+ANR	3	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action (char * data)		2	0					
+ANR	4	CompoundStatement		25:0:875:1163	2	0					
+ANR	5	CompoundStatement		3:8:15:33	2	0					
+ANR	6	IdentifierDeclStatement	"char dest [ 50 ] = """" ;"	27:8:891:909	2	0	True				
+ANR	7	IdentifierDecl	"dest [ 50 ] = """""		2	0					
+ANR	8	IdentifierDeclType	char [ 50 ]		2	0					
+ANR	9	Identifier	dest		2	1					
+ANR	10	PrimaryExpression	50		2	2					
+ANR	11	AssignmentExpression	"dest [ 50 ] = """""		2	3		=			
+ANR	12	Identifier	dest		2	0					
+ANR	13	PrimaryExpression	""""""		2	1					
+ANR	14	ExpressionStatement	"memmove ( dest , data , strlen ( data ) * sizeof ( char ) )"	29:8:1002:1048	2	1	True				
+ANR	15	CallExpression	"memmove ( dest , data , strlen ( data ) * sizeof ( char ) )"		2	0					
+ANR	16	Callee	memmove		2	0					
+ANR	17	Identifier	memmove		2	0					
+ANR	18	ArgumentList	dest		2	1					
+ANR	19	Argument	dest		2	0					
+ANR	20	Identifier	dest		2	0					
+ANR	21	Argument	data		2	1					
+ANR	22	Identifier	data		2	0					
+ANR	23	Argument	strlen ( data ) * sizeof ( char )		2	2					
+ANR	24	MultiplicativeExpression	strlen ( data ) * sizeof ( char )		2	0		*			
+ANR	25	CallExpression	strlen ( data )		2	0					
+ANR	26	Callee	strlen		2	0					
+ANR	27	Identifier	strlen		2	0					
+ANR	28	ArgumentList	data		2	1					
+ANR	29	Argument	data		2	0					
+ANR	30	Identifier	data		2	0					
+ANR	31	SizeofExpression	sizeof ( char )		2	1					
+ANR	32	Sizeof	sizeof		2	0					
+ANR	33	SizeofOperand	char		2	1					
+ANR	34	ExpressionStatement	dest [ 50 - 1 ] = '\\0'	30:8:1058:1075	2	2	True				
+ANR	35	AssignmentExpression	dest [ 50 - 1 ] = '\\0'		2	0		=			
+ANR	36	ArrayIndexing	dest [ 50 - 1 ]		2	0					
+ANR	37	Identifier	dest		2	0					
+ANR	38	AdditiveExpression	50 - 1		2	1		-			
+ANR	39	PrimaryExpression	50		2	0					
+ANR	40	PrimaryExpression	1		2	1					
+ANR	41	PrimaryExpression	'\\0'		2	1					
+ANR	42	ExpressionStatement	printLine ( data )	31:8:1140:1155	2	3	True				
+ANR	43	CallExpression	printLine ( data )		2	0					
+ANR	44	Callee	printLine		2	0					
+ANR	45	Identifier	printLine		2	0					
+ANR	46	ArgumentList	data		2	1					
+ANR	47	Argument	data		2	0					
+ANR	48	Identifier	data		2	0					
+ANR	49	ReturnType	void		2	1					
+ANR	50	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action		2	2					
+ANR	51	ParameterList	char * data		2	3					
+ANR	52	Parameter	char * data	24:83:862:872	2	0	True				
+ANR	53	ParameterType	char *		2	0					
+ANR	54	Identifier	data		2	1					
+ANR	55	CFGEntryNode	ENTRY		2		True				
+ANR	56	CFGExitNode	EXIT		2		True				
+ANR	57	Symbol	strlen		2						
+ANR	58	Symbol	data		2						
+ANR	59	Symbol	* dest		2						
+ANR	60	Symbol	dest		2						

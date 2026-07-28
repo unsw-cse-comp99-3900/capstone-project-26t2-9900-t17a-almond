@@ -41,7 +41,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 
 # Static browser entry points.
 EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
-PDG_ATLAS_HTML = PROJECT_ROOT / "demo_b" / "showcase" / "deepwukong_pdg_showcase.html"
+PDG_ATLAS_HTML = PROJECT_ROOT / "robustness_experiments" / "showcase" / "deepwukong_pdg_showcase.html"
 
 # Run the full perturbation experiment inside the packaged DeepWuKong image.
 START_TEST_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_quick_demo_live.py"]
@@ -872,65 +872,60 @@ def show_sample_detail_viewer(run_dir: Optional[Path] = None) -> None:
 
 
 def open_web_dashboard() -> None:
-    print_header("Open Web Dashboard")
-
     options = [
         ("Experiment dashboard index", EXPERIMENT_DASHBOARD_HTML),
         ("Function-scoped PDG atlas", PDG_ATLAS_HTML),
     ]
-    for index, (label, _) in enumerate(options, start=1):
-        print(f"{index}. {label}")
-    print("0. Back")
+    while True:
+        print_header("Open Web Dashboard")
+        for index, (label, _) in enumerate(options, start=1):
+            print(f"{index}. {label}")
+        print("0. Back")
 
-    choice = input("\nSelect a dashboard: ").strip()
-    if choice == "0":
-        return
-    try:
-        selected_index = int(choice)
-    except ValueError:
-        selected_index = -1
-    if not 1 <= selected_index <= len(options):
-        print("Invalid dashboard selection.")
-        pause()
-        return
-    label, dashboard_path = options[selected_index - 1]
+        choice = input("\nSelect a dashboard: ").strip()
+        if choice == "0":
+            return
+        try:
+            selected_index = int(choice)
+        except ValueError:
+            selected_index = -1
+        if not 1 <= selected_index <= len(options):
+            print("Invalid dashboard selection.")
+            continue
+        label, dashboard_path = options[selected_index - 1]
 
-    if not dashboard_path.exists():
-        print(f"\nERROR: {label} HTML file was not found:")
-        print(dashboard_path)
-        pause()
-        return
+        if not dashboard_path.exists():
+            print(f"\nERROR: {label} HTML file was not found:")
+            print(dashboard_path)
+            continue
 
-    dashboard_base_url = os.environ.get("ALMOND_DASHBOARD_BASE_URL")
-    if dashboard_base_url:
-        relative_path = dashboard_path.relative_to(PROJECT_ROOT).as_posix()
-        dashboard_url = f"{dashboard_base_url}/{relative_path}"
-        browser_bridge_url = os.environ.get("ALMOND_BROWSER_BRIDGE_URL")
-        if browser_bridge_url:
-            try:
-                with urlopen(f"{browser_bridge_url}?{urlencode({'url': dashboard_url})}", timeout=3) as response:
-                    if response.status != 200:
-                        raise RuntimeError(f"bridge responded with HTTP {response.status}")
-                print(f"\nOpened {label} in the default host browser.")
-            except Exception as e:
-                print(f"\nCould not open the default browser automatically: {e}")
-                print(f"Open this URL manually: {dashboard_url}")
-        else:
-            print(f"\n{label} is available on the host at:")
-            print(dashboard_url)
-            print("Use .\\start-almond.ps1 to open dashboards automatically.")
-        pause()
-        return
+        dashboard_base_url = os.environ.get("ALMOND_DASHBOARD_BASE_URL")
+        if dashboard_base_url:
+            relative_path = dashboard_path.relative_to(PROJECT_ROOT).as_posix()
+            dashboard_url = f"{dashboard_base_url}/{relative_path}"
+            browser_bridge_url = os.environ.get("ALMOND_BROWSER_BRIDGE_URL")
+            if browser_bridge_url:
+                try:
+                    with urlopen(f"{browser_bridge_url}?{urlencode({'url': dashboard_url})}", timeout=3) as response:
+                        if response.status != 200:
+                            raise RuntimeError(f"bridge responded with HTTP {response.status}")
+                    print(f"\nOpened {label} in the default host browser.")
+                except Exception as e:
+                    print(f"\nCould not open the default browser automatically: {e}")
+                    print(f"Open this URL manually: {dashboard_url}")
+            else:
+                print(f"\n{label} is available on the host at:")
+                print(dashboard_url)
+                print("Use .\\start-almond.ps1 to open dashboards automatically.")
+            continue
 
-    try:
-        webbrowser.open(dashboard_path.resolve().as_uri())
-        print(f"\nOpened {label}.")
-    except Exception as e:
-        print("\nFailed to open browser automatically.")
-        print(f"Error: {e}")
-        print("Please open the file manually.")
-
-    pause()
+        try:
+            webbrowser.open(dashboard_path.resolve().as_uri())
+            print(f"\nOpened {label}.")
+        except Exception as e:
+            print("\nFailed to open browser automatically.")
+            print(f"Error: {e}")
+            print("Please open the file manually.")
 
 
 # ============================================================

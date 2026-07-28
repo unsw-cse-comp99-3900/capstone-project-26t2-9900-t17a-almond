@@ -17,7 +17,7 @@ def is_allowed_dashboard_url(value: str) -> bool:
         parsed.scheme == "http"
         and parsed.hostname in {"localhost", "127.0.0.1"}
         and parsed.port == 8000
-        and parsed.path.startswith(("/outputs/", "/demo_b/showcase/"))
+        and parsed.path.startswith(("/outputs/", "/robustness_experiments/showcase/"))
     )
 
 

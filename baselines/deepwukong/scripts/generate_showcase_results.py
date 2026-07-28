@@ -360,7 +360,7 @@ def run(args: argparse.Namespace) -> dict[str, int]:
     baseline_scripts = args.baseline_scripts.resolve()
     configure_import_paths(workspace_root, repo_root, baseline_scripts)
 
-    from demo_b.graph.graph_perturbations import ACTION_NAMES, apply_graph_action
+    from robustness_experiments.graph.graph_perturbations import ACTION_NAMES, apply_graph_action
     from infer_single_source import add_symbols, function_name, run_joern
 
     source_root = args.source_root.resolve()

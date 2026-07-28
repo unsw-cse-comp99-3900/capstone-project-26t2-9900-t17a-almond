@@ -6,7 +6,7 @@ from pathlib import Path
 
 import networkx as nx
 
-from demo_b.graph.graph_perturbations import (
+from robustness_experiments.graph.graph_perturbations import (
     ACTION_NAMES,
     XFG_TARGETED_ACTION_NAMES,
     apply_graph_action,

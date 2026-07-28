@@ -26,7 +26,7 @@ def serve(host: str, port: int) -> int:
     server = create_dashboard_server(host, port)
     print("Almond project dashboard is available at:", flush=True)
     print(f"  http://localhost:{port}/outputs/index.html", flush=True)
-    print(f"  http://localhost:{port}/demo_b/showcase/deepwukong_pdg_showcase.html", flush=True)
+    print(f"  http://localhost:{port}/robustness_experiments/showcase/deepwukong_pdg_showcase.html", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
@@ -40,8 +40,8 @@ def run_project_command(command: str, extra_args: list[str], host: str, port: in
     commands = {
         "console": ["deepwukong_demo_console_v4.py"],
         "tests": ["-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
-        "code-perturbations": ["demo_b/code/code_perturbations.py"],
-        "graph-perturbations": ["demo_b/graph/graph_perturbations.py"],
+        "code-perturbations": ["robustness_experiments/code/code_perturbations.py"],
+        "graph-perturbations": ["robustness_experiments/graph/graph_perturbations.py"],
     }
     dashboard_server: http.server.ThreadingHTTPServer | None = None
     dashboard_thread: threading.Thread | None = None
