@@ -7,6 +7,7 @@ from pathlib import Path
 from robustness_experiments.showcase.generate_showcase import (
     PDG_DISPLAY_NODE_LIMIT,
     PDG_DISPLAY_EDGE_LIMIT,
+    PDG_CONTROL_EDGE_BUDGET,
     Pdg,
     PdgFocus,
     PdgEdge,
@@ -18,6 +19,8 @@ from robustness_experiments.showcase.generate_showcase import (
     pdg_display_slice,
     render_inline_diff,
     render_pdg_svg,
+    serialize_pdg,
+    statement_kind,
 )
 
 
@@ -42,6 +45,12 @@ class ShowcaseRenderingTests(unittest.TestCase):
         self.assertIn('<span class="inline-number" aria-hidden="true">2</span>', rendered)
         self.assertIn('<span class="inline-marker" aria-hidden="true">+</span>', rendered)
         self.assertIn('>inserted();</span>', rendered)
+
+    def test_inline_diff_marks_source_rows_for_graph_navigation(self) -> None:
+        rendered = render_inline_diff("old();\n", "new();\n")
+
+        self.assertIn('data-old-line="1" data-new-line=""', rendered)
+        self.assertIn('data-old-line="" data-new-line="1"', rendered)
 
     def test_large_pdg_slice_keeps_focus_and_caps_browser_payload(self) -> None:
         node_count = PDG_DISPLAY_NODE_LIMIT + 40
@@ -80,6 +89,39 @@ class ShowcaseRenderingTests(unittest.TestCase):
         self.assertEqual(len(edges), PDG_DISPLAY_EDGE_LIMIT)
         self.assertEqual((edges[0].source, edges[0].target), (11, 0))
 
+    def test_dense_pdg_slice_reserves_edge_budget_for_both_types(self) -> None:
+        pdg = Pdg(
+            nodes=tuple(PdgNode(node_id=index, source_line=index + 1) for index in range(20)),
+            edges=tuple(
+                PdgEdge(
+                    source=source,
+                    target=target,
+                    kind="control" if (source + target) % 2 == 0 else "data",
+                )
+                for source in range(20)
+                for target in range(20)
+                if source != target
+            ),
+        )
+
+        focused_controls = {
+            (edge.source, edge.target)
+            for edge in pdg.edges
+            if edge.kind == "control"
+        }
+        _nodes, edges, truncated = pdg_display_slice(pdg, {10}, focused_controls)
+
+        self.assertTrue(truncated)
+        self.assertEqual(len(edges), PDG_DISPLAY_EDGE_LIMIT)
+        self.assertGreaterEqual(
+            sum(edge.kind == "control" for edge in edges),
+            PDG_CONTROL_EDGE_BUDGET,
+        )
+        self.assertGreaterEqual(
+            sum(edge.kind == "data" for edge in edges),
+            PDG_DISPLAY_EDGE_LIMIT - PDG_CONTROL_EDGE_BUDGET,
+        )
+
     def test_graph_action_focus_keeps_exact_removed_and_added_edges(self) -> None:
         original = Pdg(
             nodes=(PdgNode(1, 1), PdgNode(2, 2), PdgNode(3, 3)),
@@ -113,6 +155,43 @@ class ShowcaseRenderingTests(unittest.TestCase):
         self.assertEqual(original_focus.nodes, frozenset({1, 2, 3}))
         self.assertEqual(selected_focus.nodes, frozenset({1, 2, 3}))
 
+    def test_node_deletion_focus_keeps_surviving_context_in_large_selected_graph(self) -> None:
+        original = Pdg(
+            nodes=tuple(PdgNode(index, index + 1) for index in range(60)),
+            edges=tuple(PdgEdge(index, index + 1, "data") for index in range(59)),
+        )
+        selected = Pdg(
+            nodes=original.nodes[:-1],
+            edges=original.edges[:-1],
+        )
+        result = {
+            "operations": [
+                {
+                    "target_nodes": [59],
+                    "removed_edges": [[58, 59, "d"]],
+                    "added_edges": [],
+                }
+            ]
+        }
+
+        _original_focus, selected_focus = action_focus(
+            original,
+            selected,
+            "graph",
+            result,
+            "\n".join(f"line_{index}" for index in range(60)),
+            "\n".join(f"line_{index}" for index in range(59)),
+        )
+        nodes, _edges, truncated = pdg_display_slice(
+            selected,
+            set(selected_focus.nodes),
+            set(selected_focus.edges),
+        )
+
+        self.assertEqual(selected_focus.nodes, frozenset({58}))
+        self.assertTrue(truncated)
+        self.assertIn(58, {node.node_id for node in nodes})
+
     def test_rendered_focus_edges_keep_their_type_for_cleared_highlights(self) -> None:
         pdg = Pdg(
             nodes=(PdgNode(1, 1), PdgNode(2, 2)),
@@ -134,6 +213,80 @@ class ShowcaseRenderingTests(unittest.TestCase):
 
         self.assertIn("change-node", rendered)
         self.assertIn("change-edge data-edge", rendered)
+
+    def test_statement_kind_does_not_treat_comparison_calls_as_assignment(self) -> None:
+        node = PdgNode(1, 1)
+
+        self.assertEqual(statement_kind("check(actual == expected);\n", node), "CALL")
+        self.assertEqual(statement_kind("value += delta;\n", node), "ASSIGN")
+
+
+    def test_wide_pdg_uses_compact_source_order_lanes(self) -> None:
+        pdg = Pdg(
+            nodes=tuple(PdgNode(index, index + 1) for index in range(40)),
+            edges=tuple(
+                PdgEdge(0, index, "control" if index % 2 == 0 else "data")
+                for index in range(1, 40)
+            ),
+        )
+        source = "\n".join(f"call_{index}();" for index in range(40))
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            rendered = render_pdg_svg(
+                pdg,
+                source,
+                "wide-layout-test",
+                "Wide layout test",
+                root,
+                root / "cache",
+                PdgFocus(frozenset({0}), frozenset({(0, 1)})),
+            )
+
+        self.assertIn('data-layout="source-order-lanes"', rendered)
+        self.assertIn("L1 · CALL", rendered)
+        self.assertIn("control-edge", rendered)
+        self.assertIn("data-edge", rendered)
+
+    def test_render_cache_refreshes_source_metadata_when_topology_is_unchanged(self) -> None:
+        pdg = Pdg(nodes=(PdgNode(1, 1),), edges=())
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cache = root / "cache"
+            first = render_pdg_svg(
+                pdg,
+                "check(actual == expected);\n",
+                "metadata-cache-test",
+                "Metadata cache test",
+                root,
+                cache,
+            )
+            second = render_pdg_svg(
+                pdg,
+                "check(actual != expected);\n",
+                "metadata-cache-test",
+                "Metadata cache test",
+                root,
+                cache,
+            )
+
+        self.assertIn("actual == expected", first)
+        self.assertIn("actual != expected", second)
+        self.assertNotIn("actual == expected", second)
+
+    def test_serialized_pdg_keeps_complete_dependency_evidence(self) -> None:
+        pdg = Pdg(
+            nodes=(PdgNode(1, 1), PdgNode(2, 2)),
+            edges=(PdgEdge(1, 2, "data"),),
+        )
+
+        payload = serialize_pdg(pdg, "value = source();\nsink(value);\n")
+
+        self.assertEqual([node["id"] for node in payload["nodes"]], [1, 2])
+        self.assertEqual(
+            payload["edges"],
+            [{"source": 1, "target": 2, "kind": "data"}],
+        )
 
     def test_catalog_stages_only_the_selected_function(self) -> None:
         source_text = """static int helper(void)

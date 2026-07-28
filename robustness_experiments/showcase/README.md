@@ -64,10 +64,13 @@ Open the index HTML directly. No web server or internet connection is required.
 - Open a source and search its available perturbation actions by name or effect.
 - Use `+`, `-`, and `Reset` to control each PDG. Zoom steps continue from the current located or manually adjusted view and are capped at 12×.
 - Drag a graph whenever either viewBox dimension is focused inside the complete graph.
-- Hover over or focus a line node to trace its dependencies.
-- Use `Locate changes` to highlight and return both graphs to the changed or directly affected elements.
-- Use `Clear highlight` to restore normal node and edge styling without changing the current zoom or pan position.
+- Use `Changes` for the control context plus changed or affected data edges in each rendered slice.
+- Use `Full PDG` to inspect every rendered slice edge, with independent `Control` and `Data` filters.
+- Use `Matrix` to inspect every node and effective edge from the complete PDG as a source-by-target adjacency matrix.
+- Select an SVG node, SVG edge, or matrix cell to inspect complete incoming and outgoing dependencies and jump to the corresponding source line.
+- Use `Locate changes` to highlight and return both graphs or matrices to the changed or directly affected elements.
+- Use `Clear highlight` to restore normal styling without changing the current zoom, pan, filters, or matrix position.
 - Read the complete target function with removals and additions shown inline.
 - Return to the full catalog from every detail page.
 
-Metrics always describe the complete function-level line PDG. Dense graphs display a change-centered neighborhood capped at 40 nodes and 72 prioritized edges, while the inline source view remains complete.
+Metrics and matrices describe the complete function-level line PDG. Dense SVG graphs display a change-centered neighborhood capped at 40 nodes and 72 type-balanced edges. Wide layered layouts automatically switch to deterministic source-order lanes, while the inline source view and dependency inspector retain complete evidence.
