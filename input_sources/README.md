@@ -1,34 +1,25 @@
-# Input Sources
+# Full-Test Input Sources
 
-Input samples are separated by source dataset so that experiment results do not
-mix Devign, DeepWuKong CWE-119, and CVEfixes provenance.
+`input_sources` is the single input set for the Almond full test. It contains
+exactly 60 C/C++ function samples, with the provenance and labels recorded in
+`sample_manifest.csv`.
 
-| Directory | Contents |
-|---|---|
-| `devign/` | The 10 CodeXGLUE/Devign C samples used by the archived 2026-07-10 experiment. |
-| `cwe119/` | A reproducible 10-sample subset of the official DeepWuKong CWE-119 data. |
-| `cvefixes/` | Five complete C vulnerability/fix file pairs selected using CVEfixes metadata. |
+| Directory | Samples | Dataset |
+|---|---:|---|
+| `cwe119/` | 20 | DeepWuKong CWE-119 |
+| `devign/` | 20 | Devign |
+| `cvefixes/` | 20 | CVEfixes |
 
-The source perturbation and budget-search CLIs default to `devign/`. Run the
-official vulnerable sample set explicitly with:
+The console's **Run Full Test** command recursively discovers every supported
+source file (`.c`, `.cc`, `.cpp`, `.cxx`) under this directory. For each
+source it runs one baseline DeepWuKong prediction and the two configured
+source-level perturbations: `dead_statement` and `xfg_targeted_dead_code`.
+It then stages the baseline PDG/XFG data and runs random graph perturbations
+plus Winner-XFG-targeted graph perturbations. The targeted graph phase needs a
+`0`/`1` ground-truth label in `sample_manifest.csv`; newly added unlabelled
+sources still receive the code and random-graph phases, but are omitted from
+that targeted success-rate calculation.
 
-```powershell
-python robustness_experiments\code\code_perturbations.py --input input_sources\cwe119\vulnerable
-python robustness_experiments\code\run_budget_search.py --input input_sources\cwe119\vulnerable
-```
-
-Use `--input input_sources\cwe119 --recursive` when both labels should be
-processed in one run.
-
-For CVEfixes experiments, perturb only the vulnerable side unless a paired
-comparison is explicitly intended:
-
-```powershell
-python robustness_experiments\code\code_perturbations.py --input input_sources\cvefixes\vulnerable
-```
-
-Each dataset directory should retain its own metadata. Filenames and model
-predictions must not be treated as verified vulnerability labels unless the
-metadata contains the original dataset annotation.
-
-Generated variants are stored under `../artifacts/perturbed_sources/`.
+The exact input list used by each full-test run is saved as `input_manifest.csv`
+inside that run's output directory. Do not add unrelated C/C++ files here if
+you want the full test to remain the fixed 60-sample experiment.

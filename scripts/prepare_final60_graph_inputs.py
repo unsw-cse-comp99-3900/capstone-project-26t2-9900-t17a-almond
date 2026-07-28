@@ -48,7 +48,7 @@ def main() -> int:
         "devign": args.devign_result.resolve(),
         "cvefixes": args.cvefixes_result.resolve(),
     }
-    final60_root = project_root / "input_sources" / "final60"
+    final60_root = project_root / "input_sources"
     manifest, _ = read_csv(final60_root / "sample_manifest.csv")
     labels_by_leaf = {Path(row["staged_file"]).name: row for row in manifest}
     sources_by_leaf = {path.name: path for path in final60_root.rglob("*") if path.is_file() and path.name != "sample_manifest.csv"}

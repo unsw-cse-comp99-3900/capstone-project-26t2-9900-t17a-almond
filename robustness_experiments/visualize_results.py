@@ -296,6 +296,15 @@ def available_runs() -> list[Path]:
     )
 
 
+def input_sample_count(run: Path, scored: list[dict[str, str]]) -> tuple[str, int]:
+    """Prefer the immutable full-test input manifest over scored-variant coverage."""
+    manifest = run / "input_manifest.csv"
+    if manifest.is_file():
+        with manifest.open(encoding="utf-8-sig", newline="") as handle:
+            return "Input samples", sum(1 for _ in csv.DictReader(handle))
+    return "Samples", len({row["sample"] for row in scored})
+
+
 def render_index(runs: list[Path], output: Path) -> None:
     """Create a compact landing page for navigating all archived experiments."""
     cards: list[str] = []
@@ -303,13 +312,16 @@ def render_index(runs: list[Path], output: Path) -> None:
         rows = read_rows(run / "prediction_comparison.csv")
         scored = [row for row in rows if is_scored(row)]
         selections = {selection_key(row) for row in scored}
+        sample_label, sample_count = input_sample_count(run, scored)
         kind = "Code-level" if "_code_" in run.name else "Graph-level"
+        if (run / "graph_random" / "prediction_comparison.csv").is_file() or (run / "graph_targeted" / "prediction_comparison.csv").is_file():
+            kind = "Full test (code + graph)"
         cards.append(
             '<a class="run-card" href="{href}"><span class="kind">{kind}</span><h2>{name}</h2>'
-            '<dl><div><dt>Samples</dt><dd>{samples}</dd></div><div><dt>Scored variants</dt><dd>{variants}</dd></div>'
+            '<dl><div><dt>{sample_label}</dt><dd>{samples}</dd></div><div><dt>Scored variants</dt><dd>{variants}</dd></div>'
             '<div><dt>Configurations</dt><dd>{selections}</dd></div><div><dt>Prediction flips</dt><dd>{flips}</dd></div></dl></a>'.format(
                 href=html.escape(f"{run.name}/dashboard.html"), kind=kind, name=html.escape(run.name),
-                samples=len({row["sample"] for row in scored}), variants=len(scored), selections=len(selections),
+                sample_label=html.escape(sample_label), samples=sample_count, variants=len(scored), selections=len(selections),
                 flips=sum(row["flipped"].lower() == "true" for row in scored),
             )
         )
@@ -339,7 +351,11 @@ def render_report(
     metric_name = "Configuration" if has_budgets else "Action"
     max_change = max(scored, key=lambda row: abs(number(row, "delta_prob")))
     flips = sum(row["flipped"].lower() == "true" for row in scored)
-    baseline_count, unscored = len({row["sample"] for row in scored}), len(rows) - len(scored)
+    scored_sample_count, unscored = len({row["sample"] for row in scored}), len(rows) - len(scored)
+    input_label, input_count = input_sample_count(output.parent, scored)
+    input_card = ""
+    if input_label == "Input samples":
+        input_card = f'<div class="card"><div class="value">{input_count}</div>input samples</div>'
     summary = robustness_summary(scored)
     success_cards = success_card(f"overall {success_term(scored)}", summary["overall"])
     success_cards += success_card("samples compromised at least once", summary["samples"])
@@ -380,7 +396,7 @@ def render_report(
 body{{font-family:Inter,Segoe UI,Arial,sans-serif;font-size:clamp(16px,1vw,22px);margin:0;background:#f5f7fb;color:#172033}}main{{width:100%;box-sizing:border-box;padding:clamp(16px,2.2vw,32px)}}h1{{font-size:1.7em;margin-bottom:4px}}h2{{font-size:1.35em}}h3{{font-size:1.1em;margin-bottom:.2em}}.sub{{color:#5d687c}}.run-switcher{{margin:16px 0}}.cards{{display:flex;gap:16px;flex-wrap:wrap;margin:24px 0}}.card{{background:white;border-radius:12px;padding:18px;min-width:170px;box-shadow:0 2px 10px #17203312}}.card small{{display:block;color:#5d687c;margin-top:4px}}.value{{font-size:2em;font-weight:700;color:#2457c5}}section{{background:white;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 2px 10px #17203312}}table{{width:100%;border-collapse:collapse;font-size:clamp(13px,.85vw,18px)}}th,td{{padding:.55em .5em;border-bottom:1px solid #e5e7eb;text-align:left}}th{{background:#f1f5ff}}.delta{{font-variant-numeric:tabular-nums}}label{{display:inline-block;margin:4px 14px 8px 0}}select,input{{font:inherit}}.note{{padding:.7em;background:#fff8e5;border-left:4px solid #e6aa13}}.method-picker{{margin-top:14px;border:1px solid #cbd5e1;border-radius:8px;background:#f8faff}}.method-picker summary{{cursor:pointer;padding:.75em 1em;font-weight:600;font-size:1.05em}}.picker-actions{{padding:.5em 1em;border-top:1px solid #dbe4f2}}.picker-actions label{{font-weight:600;margin:0}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:4px 14px;max-height:420px;overflow-y:auto;padding:2px 16px 16px}}#action-checks label{{margin:0;padding:6px 2px;overflow-wrap:anywhere}}.evaluation svg{{display:block;max-width:none;height:auto;margin:0}}.chart-scroll,.data-scroll,.table-scroll{{overflow:auto;scrollbar-width:auto;scrollbar-color:#496b9e #e3eaf6}}.chart-scroll{{max-height:min(620px,65vh);margin:16px 0}}.chart-scroll svg{{width:100%;min-width:860px}}.data-scroll{{max-height:min(520px,55vh)}}.chart-scroll::-webkit-scrollbar,.data-scroll::-webkit-scrollbar,.table-scroll::-webkit-scrollbar{{width:16px;height:16px}}.chart-scroll::-webkit-scrollbar-track,.data-scroll::-webkit-scrollbar-track,.table-scroll::-webkit-scrollbar-track{{background:#e3eaf6}}.chart-scroll::-webkit-scrollbar-thumb,.data-scroll::-webkit-scrollbar-thumb,.table-scroll::-webkit-scrollbar-thumb{{background:#496b9e;border:3px solid #e3eaf6;border-radius:10px}}.heatmap{{min-width:600px}}.heatmap th{{overflow-wrap:anywhere}}.heatmap-cell{{text-align:center;background:rgba(22,163,74,var(--rate));min-width:88px}}.heatmap-cell strong,.heatmap-cell span{{display:block}}.heatmap-cell span{{font-size:.82em}}.heatmap-empty{{text-align:center;color:#6b7280;background:#f3f4f6}}.matrix{{font-size:12px;min-width:900px}}.matrix th{{max-width:130px;overflow-wrap:anywhere}}.matrix td{{text-align:center;font-weight:700}}.matrix .success{{background:#dcfce7;color:#166534}}.matrix .failure{{background:#f3f4f6;color:#6b7280}}.data-scroll thead th,.table-scroll thead th{{position:sticky;top:0;z-index:1}}.table-scroll{{max-height:min(680px,70vh);min-height:360px;overflow-y:scroll}}.summary-table-scroll{{max-height:min(620px,65vh)}}.variant-table{{table-layout:fixed;font-size:clamp(12px,.78vw,17px)}}.variant-table th,.variant-table td{{padding:.55em .45em;overflow-wrap:anywhere;vertical-align:top}}.variant-table th:nth-child(n+4),.variant-table td:nth-child(n+4){{text-align:center;white-space:nowrap}}
 </style></head><body><main>
 <h1>{html.escape(title)}</h1><p class="sub">Archived DeepWuKong robustness run - code- or graph-level perturbations compared with the same baseline prediction.</p>{run_selector}
-<div class="cards"><div class="card"><div class="value">{baseline_count}</div>baseline samples</div><div class="card"><div class="value">{len(scored)}</div>scored variants</div><div class="card"><div class="value">{flips}</div>prediction flips</div><div class="card"><div class="value">{unscored}</div>unscored / incomplete</div></div>
+<div class="cards">{input_card}<div class="card"><div class="value">{scored_sample_count}</div>samples with scored variants</div><div class="card"><div class="value">{len(scored)}</div>scored variants</div><div class="card"><div class="value">{flips}</div>prediction flips</div><div class="card"><div class="value">{unscored}</div>unscored / incomplete</div></div>
 <section class="evaluation"><h2>Robustness evaluation</h2><p class="sub">{success_term(scored)} is the primary result. Targeted graph CSVs use their recorded attack success; code-level CSVs use a prediction-label flip. These measures are related but not identical.</p><div class="cards">{success_cards}</div>{svg_success_rate_chart(scored)}{method_intensity_heatmap(scored)}</section>
 <section class="evaluation">{success_matrix(scored)}</section>
 <section><h2>Sensitivity diagnostic</h2><p class="note"><strong>{html.escape(max_change['sample'])}</strong> with <strong>{html.escape(max_change['action'])}</strong> changed from {number(max_change, 'base_prob'):.6f} to {number(max_change, 'variant_prob'):.6f} ({number(max_change, 'delta_prob'):+.6f}) {max_change_note} This chart explains confidence movement; it is not the robustness success measure.</p>{svg_action_chart(metrics)}</section>

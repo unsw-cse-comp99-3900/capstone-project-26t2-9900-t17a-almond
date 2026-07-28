@@ -8,9 +8,9 @@ $logDir = Join-Path $ProjectRoot "outputs\run_final60_code_queue_$runStamp"
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 
 $jobs = @(
-    @{ Dataset = "cwe119"; Input = "input_sources\final60\cwe119" },
-    @{ Dataset = "devign"; Input = "input_sources\final60\devign" },
-    @{ Dataset = "cvefixes"; Input = "input_sources\final60\cvefixes" }
+    @{ Dataset = "cwe119"; Input = "input_sources\cwe119" },
+    @{ Dataset = "devign"; Input = "input_sources\devign" },
+    @{ Dataset = "cvefixes"; Input = "input_sources\cvefixes" }
 )
 $resultRoots = @{}
 
