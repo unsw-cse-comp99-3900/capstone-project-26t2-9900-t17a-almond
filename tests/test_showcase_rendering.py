@@ -6,14 +6,18 @@ from pathlib import Path
 
 from demo_b.showcase.generate_showcase import (
     PDG_DISPLAY_NODE_LIMIT,
+    PDG_DISPLAY_EDGE_LIMIT,
     Pdg,
+    PdgFocus,
     PdgEdge,
     PdgNode,
     Sample,
+    action_focus,
     build_source_catalog,
     load_cve_target_functions,
     pdg_display_slice,
     render_inline_diff,
+    render_pdg_svg,
 )
 
 
@@ -58,6 +62,78 @@ class ShowcaseRenderingTests(unittest.TestCase):
         self.assertTrue(
             all(edge.source in visible_ids and edge.target in visible_ids for edge in edges)
         )
+
+    def test_dense_pdg_slice_prioritizes_focus_edges_and_caps_edge_payload(self) -> None:
+        pdg = Pdg(
+            nodes=tuple(PdgNode(node_id=index, source_line=index) for index in range(12)),
+            edges=tuple(
+                PdgEdge(source=source, target=target, kind="data")
+                for source in range(12)
+                for target in range(12)
+                if source != target
+            ),
+        )
+
+        _nodes, edges, truncated = pdg_display_slice(pdg, {11}, {(11, 0)})
+
+        self.assertTrue(truncated)
+        self.assertEqual(len(edges), PDG_DISPLAY_EDGE_LIMIT)
+        self.assertEqual((edges[0].source, edges[0].target), (11, 0))
+
+    def test_graph_action_focus_keeps_exact_removed_and_added_edges(self) -> None:
+        original = Pdg(
+            nodes=(PdgNode(1, 1), PdgNode(2, 2), PdgNode(3, 3)),
+            edges=(PdgEdge(1, 2, "data"),),
+        )
+        selected = Pdg(
+            nodes=(PdgNode(1, 1), PdgNode(2, 2), PdgNode(3, 3)),
+            edges=(PdgEdge(1, 3, "data"),),
+        )
+        result = {
+            "operations": [
+                {
+                    "target_nodes": [1, 2, 3],
+                    "removed_edges": [[1, 2, "d"]],
+                    "added_edges": [[1, 3, "d"]],
+                }
+            ]
+        }
+
+        original_focus, selected_focus = action_focus(
+            original,
+            selected,
+            "graph",
+            result,
+            "a\nb\nc\n",
+            "a\nb\nc\n",
+        )
+
+        self.assertEqual(original_focus.edges, frozenset({(1, 2)}))
+        self.assertEqual(selected_focus.edges, frozenset({(1, 3)}))
+        self.assertEqual(original_focus.nodes, frozenset({1, 2, 3}))
+        self.assertEqual(selected_focus.nodes, frozenset({1, 2, 3}))
+
+    def test_rendered_focus_edges_keep_their_type_for_cleared_highlights(self) -> None:
+        pdg = Pdg(
+            nodes=(PdgNode(1, 1), PdgNode(2, 2)),
+            edges=(PdgEdge(1, 2, "data"),),
+        )
+        focus = PdgFocus(frozenset({2}), frozenset({(1, 2)}))
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            rendered = render_pdg_svg(
+                pdg,
+                "first();\nsecond();\n",
+                "focus-edge-test",
+                "Focus edge test",
+                root,
+                root / "cache",
+                focus,
+            )
+
+        self.assertIn("change-node", rendered)
+        self.assertIn("change-edge data-edge", rendered)
 
     def test_catalog_stages_only_the_selected_function(self) -> None:
         source_text = """static int helper(void)

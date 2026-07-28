@@ -62,10 +62,12 @@ Open the index HTML directly. No web server or internet connection is required.
 
 - Search the source catalog by sample ID, path, dataset, or state.
 - Open a source and search its available perturbation actions by name or effect.
-- Use `+`, `-`, and `Reset` to control each PDG; zoom is capped at 12×.
-- Drag a graph after zooming in.
+- Use `+`, `-`, and `Reset` to control each PDG. Zoom steps continue from the current located or manually adjusted view and are capped at 12×.
+- Drag a graph whenever either viewBox dimension is focused inside the complete graph.
 - Hover over or focus a line node to trace its dependencies.
+- Use `Locate changes` to highlight and return both graphs to the changed or directly affected elements.
+- Use `Clear highlight` to restore normal node and edge styling without changing the current zoom or pan position.
 - Read the complete target function with removals and additions shown inline.
 - Return to the full catalog from every detail page.
 
-Metrics always describe the complete function-level line PDG. For browser readability, a graph above 80 nodes displays a focused 80-node neighborhood around the perturbation.
+Metrics always describe the complete function-level line PDG. Dense graphs display a change-centered neighborhood capped at 40 nodes and 72 prioritized edges, while the inline source view remains complete.

@@ -31,7 +31,8 @@ CHECKPOINT = BASELINE_ROOT / "models" / "deepwukong" / "deepwukong_cwe119_best.c
 THRESHOLD = 0.5
 CODE_COUNT = 1
 GRAPH_COUNT = 1
-PDG_DISPLAY_NODE_LIMIT = 80
+PDG_DISPLAY_NODE_LIMIT = 40
+PDG_DISPLAY_EDGE_LIMIT = 72
 GRAPH_STRATEGY = "random"
 RANDOM_SEED = 42
 SVG_NS = "http://www.w3.org/2000/svg"
@@ -86,6 +87,12 @@ class Pdg:
     @property
     def data_count(self) -> int:
         return sum(edge.kind == "data" for edge in self.edges)
+
+@dataclass(frozen=True)
+class PdgFocus:
+    nodes: frozenset[int]
+    edges: frozenset[tuple[int, int]]
+
 
 
 CODE_ACTION_COPY: dict[str, dict[str, str]] = {
@@ -843,37 +850,101 @@ def dot_node_name(node_id: int) -> str:
     return f"node_{'m' + str(abs(node_id)) if node_id < 0 else node_id}"
 
 
-def action_focus_nodes(
-    pdg: Pdg,
+def changed_line_numbers(original_text: str, selected_text: str) -> tuple[set[int], set[int]]:
+    original_lines = original_text.splitlines()
+    selected_lines = selected_text.splitlines()
+    original_changed: set[int] = set()
+    selected_changed: set[int] = set()
+    matcher = difflib.SequenceMatcher(a=original_lines, b=selected_lines, autojunk=False)
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == "equal":
+            continue
+        original_changed.update(range(i1 + 1, i2 + 1))
+        selected_changed.update(range(j1 + 1, j2 + 1))
+        if i1 == i2 and original_lines:
+            original_changed.add(min(max(i1, 1), len(original_lines)))
+        if j1 == j2 and selected_lines:
+            selected_changed.add(min(max(j1, 1), len(selected_lines)))
+    return original_changed, selected_changed
+
+
+def focus_nodes_for_lines(pdg: Pdg, lines: set[int]) -> set[int]:
+    matches = {node.node_id for node in pdg.nodes if node.source_line in lines}
+    if matches or not lines or not pdg.nodes:
+        return matches
+    nearest = min(
+        pdg.nodes,
+        key=lambda node: (min(abs(node.source_line - line) for line in lines), node.source_line, node.node_id),
+    )
+    return {nearest.node_id}
+
+
+def action_focus(
+    original_pdg: Pdg,
+    selected_pdg: Pdg,
     kind: str,
     result: dict[str, Any],
     original_text: str,
     selected_text: str,
-) -> set[int]:
+) -> tuple[PdgFocus, PdgFocus]:
     if kind == "graph":
-        return {
+        target_nodes = {
             int(node_id)
             for operation in result.get("operations", [])
             for node_id in operation.get("target_nodes", [])
         }
-    changed_lines: set[int] = set()
-    matcher = difflib.SequenceMatcher(
-        a=original_text.splitlines(),
-        b=selected_text.splitlines(),
-        autojunk=False,
+        removed_edges = {
+            (int(edge[0]), int(edge[1]))
+            for operation in result.get("operations", [])
+            for edge in operation.get("removed_edges", [])
+            if len(edge) >= 2
+        }
+        added_edges = {
+            (int(edge[0]), int(edge[1]))
+            for operation in result.get("operations", [])
+            for edge in operation.get("added_edges", [])
+            if len(edge) >= 2
+        }
+        original_ids = {node.node_id for node in original_pdg.nodes}
+        selected_ids = {node.node_id for node in selected_pdg.nodes}
+        original_nodes = (target_nodes | {node for edge in removed_edges for node in edge}) & original_ids
+        selected_nodes = (target_nodes | {node for edge in added_edges for node in edge}) & selected_ids
+        return (
+            PdgFocus(frozenset(original_nodes), frozenset(removed_edges)),
+            PdgFocus(frozenset(selected_nodes), frozenset(added_edges)),
+        )
+
+    original_lines, selected_lines = changed_line_numbers(original_text, selected_text)
+    original_nodes = focus_nodes_for_lines(original_pdg, original_lines)
+    selected_nodes = focus_nodes_for_lines(selected_pdg, selected_lines)
+    original_edges = {
+        (edge.source, edge.target)
+        for edge in original_pdg.edges
+        if edge.source in original_nodes or edge.target in original_nodes
+    }
+    selected_edges = {
+        (edge.source, edge.target)
+        for edge in selected_pdg.edges
+        if edge.source in selected_nodes or edge.target in selected_nodes
+    }
+    return (
+        PdgFocus(frozenset(original_nodes), frozenset(original_edges)),
+        PdgFocus(frozenset(selected_nodes), frozenset(selected_edges)),
     )
-    for tag, _i1, _i2, j1, j2 in matcher.get_opcodes():
-        if tag != "equal":
-            changed_lines.update(range(j1 + 1, max(j1 + 2, j2 + 1)))
-    return {node.node_id for node in pdg.nodes if node.source_line in changed_lines}
 
 
-def pdg_display_slice(pdg: Pdg, focus_nodes: set[int]) -> tuple[tuple[PdgNode, ...], tuple[PdgEdge, ...], bool]:
-    if len(pdg.nodes) <= PDG_DISPLAY_NODE_LIMIT:
+def pdg_display_slice(
+    pdg: Pdg,
+    focus_nodes: set[int],
+    focus_edges: set[tuple[int, int]] | None = None,
+) -> tuple[tuple[PdgNode, ...], tuple[PdgEdge, ...], bool]:
+    focus_edges = focus_edges or set()
+    if len(pdg.nodes) <= PDG_DISPLAY_NODE_LIMIT and len(pdg.edges) <= PDG_DISPLAY_EDGE_LIMIT:
         return pdg.nodes, pdg.edges, False
 
     node_ids = {node.node_id for node in pdg.nodes}
-    seeds = sorted(focus_nodes & node_ids)
+    required = focus_nodes | {node for edge in focus_edges for node in edge}
+    seeds = sorted(required & node_ids)
     if not seeds:
         seeds = [
             node.node_id
@@ -902,10 +973,21 @@ def pdg_display_slice(pdg: Pdg, focus_nodes: set[int]) -> tuple[tuple[PdgNode, .
             if len(selected) == PDG_DISPLAY_NODE_LIMIT:
                 break
     nodes = tuple(node for node in pdg.nodes if node.node_id in selected)
-    edges = tuple(
+    visible_edges = [
         edge for edge in pdg.edges if edge.source in selected and edge.target in selected
+    ]
+    visible_edges.sort(
+        key=lambda edge: (
+            (edge.source, edge.target) not in focus_edges,
+            edge.source not in focus_nodes and edge.target not in focus_nodes,
+            edge.source,
+            edge.target,
+            edge.kind,
+        )
     )
-    return nodes, edges, True
+    edges = tuple(visible_edges[:PDG_DISPLAY_EDGE_LIMIT])
+    truncated = len(nodes) < len(pdg.nodes) or len(edges) < len(pdg.edges)
+    return nodes, edges, truncated
 
 
 def render_pdg_svg(
@@ -915,32 +997,55 @@ def render_pdg_svg(
     label: str,
     workspace: Path,
     cache_dir: Path,
-    focus_nodes: set[int] | None = None,
+    focus: PdgFocus | None = None,
 ) -> str:
-    visible_nodes, visible_edges, truncated = pdg_display_slice(pdg, focus_nodes or set())
+    focus = focus or PdgFocus(frozenset(), frozenset())
+    visible_nodes, visible_edges, truncated = pdg_display_slice(
+        pdg,
+        set(focus.nodes),
+        set(focus.edges),
+    )
     dot_lines = [
         "digraph pdg {",
-        '  graph [bgcolor="transparent", rankdir="TB", pad="0.16", nodesep="0.24", ranksep="0.38", splines="spline", outputorder="edgesfirst"];',
+        '  graph [bgcolor="transparent", rankdir="TB", pad="0.16", nodesep="0.22", ranksep="0.34", splines="spline", outputorder="edgesfirst"];',
         '  node [shape="box", style="rounded,filled", color="#CBD5E1", fillcolor="#F8FAFC", fontcolor="#172033", fontname="Arial", fontsize="10", penwidth="1", margin="0.09,0.06"];',
-        '  edge [arrowsize="0.56", penwidth="1.45", fontname="Arial", fontsize="8"];',
+        '  edge [arrowsize="0.56", penwidth="1.35", fontname="Arial", fontsize="8"];',
     ]
-    if truncated:
-        dot_lines.append(
-            f'  label="Focused view: {len(visible_nodes)} of {len(pdg.nodes)} PDG nodes"; labelloc="t"; labeljust="l"; fontname="Arial"; fontsize="10"; fontcolor="#475569";'
-        )
     node_by_id = {node.node_id: node for node in visible_nodes}
     for node in visible_nodes:
         synthetic = " · synthetic" if node.node_id < 0 else ""
-        node_label = f"L{node.source_line}{synthetic}  {source_snippet(source_text, node.source_line)}"
-        dot_lines.append(
-            f'  {dot_node_name(node.node_id)} [label={dot_quote(node_label)}, id="{graph_id}-node-{node.node_id}"];'
+        full_snippet = source_snippet(source_text, node.source_line).replace("\n", " ")
+        compact_snippet = "\n".join(
+            textwrap.wrap(
+                full_snippet,
+                width=34,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )[:2]
         )
+        node_label = f"L{node.source_line}{synthetic}  {compact_snippet}"
+        attributes = [f"label={dot_quote(node_label)}", f'id="{graph_id}-node-{node.node_id}"']
+        if node.node_id in focus.nodes:
+            attributes.extend(
+                ['class="change-node"', 'color="#BE123C"', 'fillcolor="#FFF1F2"', 'penwidth="2.4"']
+            )
+        dot_lines.append(f"  {dot_node_name(node.node_id)} [{', '.join(attributes)}];")
     for index, edge in enumerate(visible_edges):
-        color = "#2563EB" if edge.kind == "control" else "#D97706"
+        changed = (edge.source, edge.target) in focus.edges
+        color = "#BE123C" if changed else "#2563EB" if edge.kind == "control" else "#D97706"
         style = "solid" if edge.kind == "control" else "dashed"
+        attributes = [
+            f'color="{color}"',
+            f'fontcolor="{color}"',
+            f'style="{style}"',
+            f'id="{graph_id}-edge-{index}"',
+        ]
+        if changed:
+            edge_class = "control-edge" if edge.kind == "control" else "data-edge"
+            attributes.extend([f'class="change-edge {edge_class}"', 'penwidth="3"'])
         dot_lines.append(
-            f'  {dot_node_name(edge.source)} -> {dot_node_name(edge.target)} '
-            f'[color="{color}", fontcolor="{color}", style="{style}", id="{graph_id}-edge-{index}"];'
+            f"  {dot_node_name(edge.source)} -> {dot_node_name(edge.target)} "
+            f"[{', '.join(attributes)}];"
         )
     dot_lines.append("}")
     dot_content = "\n".join(dot_lines) + "\n"
@@ -965,11 +1070,16 @@ def render_pdg_svg(
     ET.register_namespace("", SVG_NS)
     root.attrib.pop("width", None)
     root.attrib.pop("height", None)
-    root.set("class", "pdg-svg")
+    root.set("class", "pdg-svg has-changes" if focus.nodes or focus.edges else "pdg-svg")
     root.set("role", "group")
     root.set("aria-label", f"{label} program dependence graph")
     root.set("preserveAspectRatio", "xMidYMid meet")
     root.set("data-zoom", "1")
+    root.set("data-visible-nodes", str(len(visible_nodes)))
+    root.set("data-total-nodes", str(len(pdg.nodes)))
+    root.set("data-visible-edges", str(len(visible_edges)))
+    root.set("data-total-edges", str(len(pdg.edges)))
+    root.set("data-focused-view", str(truncated).lower())
     graph_title_set = False
     for group in root.findall(f".//{{{SVG_NS}}}g"):
         classes = set(group.get("class", "").split())
@@ -987,14 +1097,18 @@ def render_pdg_svg(
             node = node_by_id.get(node_id)
             if node is None:
                 continue
+            snippet = source_snippet(source_text, node.source_line).replace("\n", " ")
             group.set("data-node", str(node_id))
             group.set("data-line", str(node.source_line))
+            group.set("data-snippet", snippet)
             group.set("tabindex", "0")
             group.set("role", "button")
             group.set(
                 "aria-label",
-                f"Trace dependencies for source line {node.source_line}: {source_snippet(source_text, node.source_line)}",
+                f"Trace dependencies for source line {node.source_line}: {snippet}",
             )
+            if title_element is not None:
+                title_element.text = f"Line {node.source_line}: {snippet}"
         elif "edge" in classes:
             match = re.fullmatch(r"node_(m?\d+)->node_(m?\d+)", title_text)
             if not match:
@@ -1068,6 +1182,7 @@ def result_to_payload(
     result: dict[str, Any],
     original_text: str,
     selected_text: str,
+    original_pdg: Pdg,
     original_prediction: dict[str, Any],
     workspace: Path,
     sample_key: str,
@@ -1076,7 +1191,14 @@ def result_to_payload(
     copy = CODE_ACTION_COPY[action] if kind == "code" else GRAPH_ACTION_COPY[action]
     prediction = result["prediction"]
     pdg = pdg_from_payload(result["graph"])
-    focus_nodes = action_focus_nodes(pdg, kind, result, original_text, selected_text)
+    original_focus, selected_focus = action_focus(
+        original_pdg,
+        pdg,
+        kind,
+        result,
+        original_text,
+        selected_text,
+    )
     probability = float(prediction["probability"])
     original_probability = float(original_prediction["probability"])
     delta = probability - original_probability
@@ -1103,14 +1225,25 @@ def result_to_payload(
         "edges": len(pdg.edges),
         "control_edges": pdg.control_count,
         "data_edges": pdg.data_count,
+        "change_nodes": len(original_focus.nodes | selected_focus.nodes),
+        "change_edges": len(original_focus.edges | selected_focus.edges),
+        "original_svg": render_pdg_svg(
+            original_pdg,
+            original_text,
+            graph_id=safe_key(f"{sample_key}-{action}-original"),
+            label=f"Original for {copy['short']}",
+            workspace=workspace,
+            cache_dir=svg_cache_dir,
+            focus=original_focus,
+        ),
         "svg": render_pdg_svg(
             pdg,
             selected_text,
-            graph_id=safe_key(f"{sample_key}-{action}"),
+            graph_id=safe_key(f"{sample_key}-{action}-selected"),
             label=copy["short"],
             workspace=workspace,
             cache_dir=svg_cache_dir,
-            focus_nodes=focus_nodes,
+            focus=selected_focus,
         ),
         "inline_diff": render_inline_diff(original_text, selected_text),
         "source_heading": "Complete source with inline changes" if kind == "code" else "Unchanged source, graph-only mutation",
@@ -1142,14 +1275,6 @@ def build_detail_page(
         "edges": len(original_pdg.edges),
         "control_edges": original_pdg.control_count,
         "data_edges": original_pdg.data_count,
-        "svg": render_pdg_svg(
-            original_pdg,
-            original_text,
-            graph_id=safe_key(f"{sample.key}-original"),
-            label="Original",
-            workspace=workspace,
-            cache_dir=svg_cache_dir,
-        ),
     }
     actions: dict[str, dict[str, Any]] = {}
     for action in OPERATORS:
@@ -1164,6 +1289,7 @@ def build_detail_page(
             action_result,
             original_text,
             selected_text,
+            original_pdg,
             original_prediction,
             workspace,
             sample.key,
@@ -1179,6 +1305,7 @@ def build_detail_page(
             action_result,
             original_text,
             original_text,
+            original_pdg,
             original_prediction,
             workspace,
             sample.key,
@@ -1804,7 +1931,7 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   cursor: pointer;
   transition: color 160ms var(--ease), background-color 160ms var(--ease), box-shadow 160ms var(--ease), transform 120ms var(--ease);
 }
-.action-option:active, .tool-button:active { transform: scale(0.96); }
+.action-option:active, .tool-button:active, .focus-button:active { transform: scale(0.96); }
 .action-option[aria-pressed="true"] { color: var(--ink); background: var(--surface); box-shadow: 0 1px 3px oklch(25% 0.02 258 / 0.14); }
 .action-option code { display: block; overflow-wrap: anywhere; font: 650 12px/1.25 var(--font-code); }
 .action-option small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 11px; }
@@ -1814,6 +1941,38 @@ DETAIL_TEMPLATE = r'''<!doctype html>
 .action-brief h2, .code-section h2 { margin: 0 0 var(--s2); font: 650 25px/1.1 var(--font-display); letter-spacing: -0.012em; }
 .action-brief p { margin: 0; color: var(--ink-soft); text-wrap: pretty; }
 .action-effect { padding-top: var(--s1); font-family: var(--font-code); font-size: 13px; }
+.focus-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin-bottom: var(--s3);
+  padding: var(--s3) var(--s4);
+  color: var(--ink-soft);
+  background: var(--surface);
+  border-radius: var(--r2);
+  box-shadow: 0 1px 3px oklch(25% 0.02 258 / 0.1);
+}
+.focus-copy { display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+.focus-mark { width: 10px; height: 10px; flex: 0 0 auto; border-radius: 50%; background: #be123c; box-shadow: 0 0 0 5px oklch(50% 0.2 18 / 0.12); }
+.focus-copy strong { display: block; color: var(--ink); font-size: 13px; }
+.focus-copy span { display: block; font-size: 12px; text-wrap: pretty; }
+.focus-actions { display: flex; gap: var(--s1); flex: 0 0 auto; }
+.focus-toolbar[data-highlighted="false"] .focus-mark { background: var(--line-strong); box-shadow: none; }
+.focus-button {
+  min-height: 40px;
+  flex: 0 0 auto;
+  padding: 0 var(--s4);
+  color: var(--surface);
+  background: #9f1239;
+  border: 1px solid #9f1239;
+  border-radius: var(--r1);
+  cursor: pointer;
+  font: 700 13px/1 var(--font-ui);
+  transition: transform 120ms var(--ease), color 160ms var(--ease), background-color 160ms var(--ease), border-color 160ms var(--ease), opacity 160ms var(--ease);
+}
+.focus-button.secondary { color: var(--ink); background: var(--paper); border-color: var(--line); }
+.focus-button:disabled { cursor: not-allowed; opacity: 0.45; }
 .graph-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
 .graph-panel { min-width: 0; overflow: hidden; background: var(--surface); border-radius: var(--r3); box-shadow: var(--shadow); }
 .graph-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4); padding: var(--s4); border-bottom: 1px solid var(--line); }
@@ -1832,17 +1991,28 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   border: 1px solid var(--line);
   border-radius: var(--r1);
   cursor: pointer;
-  font: 700 15px/1 var(--font-code);
+  font: 700 13px/1 var(--font-code);
   transition: transform 120ms var(--ease), background-color 160ms var(--ease), border-color 160ms var(--ease);
 }
-.tool-button.reset { width: auto; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.tool-button.reset { width: auto; text-transform: uppercase; letter-spacing: 0.04em; }
 .graph-canvas {
   position: relative;
   height: clamp(430px, 47vw, 650px);
   overflow: hidden;
-  background-color: var(--paper);
-  background-image: linear-gradient(to right, color-mix(in oklch, var(--line) 38%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--line) 38%, transparent) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background: var(--paper);
+}
+.graph-view-chip {
+  position: absolute;
+  inset: var(--s3) auto auto var(--s3);
+  z-index: 1;
+  padding: 5px 8px;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border-radius: var(--r1);
+  box-shadow: 0 1px 3px oklch(25% 0.02 258 / 0.12);
+  font: 650 11px/1.2 var(--font-code);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
 }
 .graph-target, .pdg-svg { width: 100%; height: 100%; display: block; }
 .pdg-svg.is-pannable { cursor: grab; touch-action: none; user-select: none; }
@@ -1850,16 +2020,29 @@ DETAIL_TEMPLATE = r'''<!doctype html>
 .pdg-svg .node, .pdg-svg .edge { transition: opacity 130ms var(--ease), filter 130ms var(--ease); }
 .pdg-svg .node { cursor: crosshair; }
 .pdg-svg .node polygon, .pdg-svg .node path { transition: stroke-width 130ms var(--ease), fill 130ms var(--ease); }
-.pdg-svg .trace-dim { opacity: 0.14; }
-.pdg-svg .node.trace-hit { opacity: 1; filter: drop-shadow(0 2px 3px oklch(25% 0.02 258 / 0.18)); }
+.pdg-svg.has-changes .node:not(.change-node), .pdg-svg.has-changes .edge:not(.change-edge) { opacity: 0.3; }
+.pdg-svg.has-changes .change-node, .pdg-svg.has-changes .change-edge { opacity: 1; filter: drop-shadow(0 2px 2px oklch(44% 0.18 18 / 0.2)); }
+.pdg-svg.has-changes .change-node polygon, .pdg-svg.has-changes .change-node path { stroke: #be123c; stroke-width: 2.4; fill: #fff1f2; }
+.pdg-svg.has-changes .change-edge path { stroke: #be123c; stroke-width: 3; }
+.pdg-svg.has-changes .change-edge polygon { stroke: #be123c; fill: #be123c; }
+.pdg-svg:not(.has-changes) .change-node polygon, .pdg-svg:not(.has-changes) .change-node path { stroke: #cbd5e1; stroke-width: 1; fill: #f8fafc; }
+.pdg-svg:not(.has-changes) .change-edge path { stroke-width: 1.35; filter: none; }
+.pdg-svg:not(.has-changes) .change-edge.control-edge path { stroke: #2563eb; }
+.pdg-svg:not(.has-changes) .change-edge.control-edge polygon { stroke: #2563eb; fill: #2563eb; }
+.pdg-svg:not(.has-changes) .change-edge.data-edge path { stroke: #d97706; }
+.pdg-svg:not(.has-changes) .change-edge.data-edge polygon { stroke: #d97706; fill: #d97706; }
+.pdg-svg .trace-dim { opacity: 0.1 !important; }
+.pdg-svg .node.trace-hit { opacity: 1 !important; filter: drop-shadow(0 2px 3px oklch(25% 0.02 258 / 0.18)); }
 .pdg-svg .node.trace-hit polygon, .pdg-svg .node.trace-hit path { stroke: var(--ink); stroke-width: 2; fill: var(--surface); }
-.pdg-svg .edge.trace-hit { opacity: 1; filter: drop-shadow(0 1px 1px oklch(25% 0.02 258 / 0.16)); }
+.pdg-svg .edge.trace-hit { opacity: 1 !important; filter: drop-shadow(0 1px 1px oklch(25% 0.02 258 / 0.16)); }
 .trace-status { min-height: 38px; padding: var(--s2) var(--s4); color: var(--ink-soft); background: var(--surface); border-top: 1px solid var(--line); font-size: 12px; }
 .legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); padding: var(--s3) var(--s4); background: var(--surface); border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 12px; }
 .legend strong { color: var(--ink); }
 .legend-item { display: inline-flex; align-items: center; gap: var(--s2); }
 .edge-swatch { width: 34px; height: 0; border-top: 2px solid var(--control); }
 .edge-swatch.data { border-top-color: var(--data); border-top-style: dashed; }
+.edge-swatch.change { border-top-color: #be123c; border-top-width: 3px; }
+.node-swatch { width: 16px; height: 12px; border: 2px solid #be123c; border-radius: 3px; background: #fff1f2; }
 .metric-rail { display: grid; grid-template-columns: minmax(180px, 1.2fr) repeat(4, minmax(120px, 0.8fr)); margin: var(--s4) 0 var(--s6); overflow: hidden; background: var(--ink); color: var(--surface); border-radius: var(--r2); }
 .metric { min-width: 0; padding: var(--s3) var(--s4); border-right: 1px solid oklch(98% 0.005 258 / 0.16); }
 .metric:last-child { border-right: 0; }
@@ -1879,6 +2062,8 @@ DETAIL_TEMPLATE = r'''<!doctype html>
 .method-note strong { color: var(--ink); }
 @media (hover: hover) {
   .tool-button:hover { background: var(--surface); border-color: var(--line-strong); }
+  .focus-button:not(:disabled):hover { background: #881337; border-color: #881337; }
+  .focus-button.secondary:not(:disabled):hover { color: var(--ink); background: var(--surface); border-color: var(--line-strong); }
   .action-option:hover:not([aria-pressed="true"]) { color: var(--ink); background: color-mix(in oklch, var(--surface) 70%, transparent); }
   .back-link:hover { color: var(--control); }
 }
@@ -1896,6 +2081,9 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   .action-browser-head { grid-template-columns: 1fr; }
   .action-result-count { justify-self: start; }
   .action-options { grid-template-columns: 1fr; }
+  .focus-toolbar { align-items: flex-start; flex-direction: column; }
+  .focus-actions { width: 100%; }
+  .focus-actions .focus-button { flex: 1 1 0; }
   .graph-panel-head { flex-direction: column; }
   .graph-tools { width: 100%; }
   .tool-button.reset { margin-left: auto; }
@@ -1933,19 +2121,23 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       </div>
     </section>
     <section id="comparison-panel" aria-label="Selected perturbation comparison">
+      <div class="focus-toolbar" data-highlighted="true">
+        <div class="focus-copy"><span class="focus-mark" aria-hidden="true"></span><div><strong id="change-summary"></strong><span id="focus-explanation">Crimson marks changed or directly affected graph elements. Large PDGs show a compact change neighborhood.</span></div></div>
+        <div class="focus-actions"><button class="focus-button secondary" id="clear-highlight" type="button" aria-describedby="change-summary">Clear highlight</button><button class="focus-button" id="locate-changes" type="button" aria-describedby="change-summary">Locate changes</button></div>
+      </div>
       <div class="graph-grid">
         <article class="graph-panel" data-graph-panel="original">
           <header class="graph-panel-head"><div><p class="panel-kicker">Reference</p><h2>Original PDG</h2><p class="graph-counts" id="original-counts"></p></div><div class="graph-tools" aria-label="Original graph zoom controls"><button class="tool-button" type="button" data-zoom="out" aria-label="Zoom out original graph">−</button><button class="tool-button" type="button" data-zoom="in" aria-label="Zoom in original graph">+</button><button class="tool-button reset" type="button" data-zoom="reset" aria-label="Reset original graph zoom">Reset</button></div></header>
-          <div class="graph-canvas"><div class="graph-target" id="original-graph"></div></div>
-          <div class="trace-status" aria-live="polite">Focus or hover a line node to trace dependencies. Zoom in, then drag to pan.</div>
+          <div class="graph-canvas"><span class="graph-view-chip" aria-hidden="true"></span><div class="graph-target" id="original-graph"></div></div>
+          <div class="trace-status" aria-live="polite"></div>
         </article>
         <article class="graph-panel" data-graph-panel="selected">
           <header class="graph-panel-head"><div><p class="panel-kicker">Selected action</p><h2 id="selected-graph-title"></h2><p class="graph-counts" id="selected-counts"></p></div><div class="graph-tools" aria-label="Selected graph zoom controls"><button class="tool-button" type="button" data-zoom="out" aria-label="Zoom out selected graph">−</button><button class="tool-button" type="button" data-zoom="in" aria-label="Zoom in selected graph">+</button><button class="tool-button reset" type="button" data-zoom="reset" aria-label="Reset selected graph zoom">Reset</button></div></header>
-          <div class="graph-canvas"><div class="graph-target" id="selected-graph"></div></div>
-          <div class="trace-status" aria-live="polite">Focus or hover a line node to trace dependencies. Zoom in, then drag to pan.</div>
+          <div class="graph-canvas"><span class="graph-view-chip" aria-hidden="true"></span><div class="graph-target" id="selected-graph"></div></div>
+          <div class="trace-status" aria-live="polite"></div>
         </article>
       </div>
-      <div class="legend" aria-label="PDG edge legend"><strong>Exact edge legend</strong><span class="legend-item"><span class="edge-swatch" aria-hidden="true"></span>Control, solid blue</span><span class="legend-item"><span class="edge-swatch data" aria-hidden="true"></span>Data, dashed orange</span><span>Nodes represent source lines, not Joern AST nodes.</span></div>
+      <div class="legend" aria-label="PDG graph legend"><strong>Graph legend</strong><span class="legend-item"><span class="node-swatch" aria-hidden="true"></span>Changed or affected node</span><span class="legend-item"><span class="edge-swatch change" aria-hidden="true"></span>Changed or affected edge</span><span class="legend-item"><span class="edge-swatch" aria-hidden="true"></span>Control, solid blue</span><span class="legend-item"><span class="edge-swatch data" aria-hidden="true"></span>Data, dashed orange</span><span>Nodes represent source lines.</span></div>
       <div class="metric-rail" aria-label="Inference and graph comparison">
         <div class="metric"><span class="metric-label">Prediction</span><span class="metric-value" id="metric-transition"></span></div>
         <div class="metric"><span class="metric-label">Original score</span><span class="metric-value" id="metric-original-score"></span></div>
@@ -1957,7 +2149,7 @@ DETAIL_TEMPLATE = r'''<!doctype html>
         <div class="code-heading"><div><p class="eyebrow" id="source-kicker"></p><h2 id="diff-heading">Source view</h2></div><p>Original and selected line numbers, blank lines omitted.</p></div>
         <pre class="code-frame" id="diff-output" tabindex="0" aria-label="Complete source code with selected perturbation changes inline"></pre>
       </section>
-      <p class="method-note"><strong>PDG construction.</strong> Located Joern node keys map to integer source lines. Only <code>CONTROLS</code> and <code>REACHES</code> edges with two located endpoints are retained. Control edges are added first, then data edges, so data replaces control for the same ordered line pair. Graph actions use <code>strategy=random</code>, <code>seed=42</code>, and <code>count=1</code>. Winner-XFG targeted actions are excluded. Metrics report the complete PDG; graphs above 80 nodes show a focused 80-node neighborhood for browser readability.</p>
+      <p class="method-note"><strong>PDG construction.</strong> Located Joern node keys map to integer source lines. Only <code>CONTROLS</code> and <code>REACHES</code> edges with two located endpoints are retained. Control edges are added first, then data edges, so data replaces control for the same ordered line pair. Graph actions use <code>strategy=random</code>, <code>seed=42</code>, and <code>count=1</code>. Winner-XFG targeted actions are excluded. Metrics report the complete PDG. Dense graphs use a change-centered neighborhood capped at 40 nodes and 72 prioritized edges; the inline source view remains complete.</p>
     </section>
   </main>
 </div>
@@ -1982,7 +2174,22 @@ DETAIL_TEMPLATE = r'''<!doctype html>
     if (!svg.dataset.baseViewBox) svg.dataset.baseViewBox = svg.getAttribute('viewBox');
     return svg.dataset.baseViewBox.split(/\s+/).map(Number);
   }
-  function syncPanState(svg) { svg.classList.toggle('is-pannable', Number(svg.dataset.zoom || 1) > 1); }
+  function currentViewBox(svg) {
+    return svg.getAttribute('viewBox').split(/\s+/).map(Number);
+  }
+  function viewZoom(svg, viewBox = currentViewBox(svg)) {
+    const base = getBaseViewBox(svg);
+    return Math.sqrt((base[2] * base[3]) / (viewBox[2] * viewBox[3]));
+  }
+  function isPannable(svg) {
+    const base = getBaseViewBox(svg);
+    const current = currentViewBox(svg);
+    return current[2] < base[2] - 0.01 || current[3] < base[3] - 0.01;
+  }
+  function syncPanState(svg) {
+    svg.dataset.zoom = String(viewZoom(svg));
+    svg.classList.toggle('is-pannable', isPannable(svg));
+  }
   function clampViewBox(svg, x, y, width, height) {
     const [baseX, baseY, baseWidth, baseHeight] = getBaseViewBox(svg);
     const clampedX = width >= baseWidth ? baseX + (baseWidth - width) / 2 : Math.min(baseX + baseWidth - width, Math.max(baseX, x));
@@ -1992,22 +2199,26 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   function resetViewBox(svg) {
     if (!svg) return;
     svg.setAttribute('viewBox', getBaseViewBox(svg).join(' '));
-    svg.dataset.zoom = '1';
     syncPanState(svg);
   }
   function zoomGraph(panel, direction) {
     const svg = panel.querySelector('svg');
     if (!svg) return;
-    const base = getBaseViewBox(svg);
-    const current = svg.getAttribute('viewBox').split(/\s+/).map(Number);
-    let zoom = Number(svg.dataset.zoom || 1);
-    zoom = direction === 'in' ? Math.min(zoom * ZOOM_STEP, ZOOM_MAX) : direction === 'out' ? Math.max(zoom / ZOOM_STEP, ZOOM_MIN) : 1;
-    const width = base[2] / zoom;
-    const height = base[3] / zoom;
-    const centerX = direction === 'reset' ? base[0] + base[2] / 2 : current[0] + current[2] / 2;
-    const centerY = direction === 'reset' ? base[1] + base[3] / 2 : current[1] + current[3] / 2;
+    if (direction === 'reset') {
+      resetViewBox(svg);
+      return;
+    }
+    const current = currentViewBox(svg);
+    const currentZoom = viewZoom(svg, current);
+    const targetZoom = direction === 'in'
+      ? Math.min(currentZoom * ZOOM_STEP, ZOOM_MAX)
+      : Math.max(currentZoom / ZOOM_STEP, ZOOM_MIN);
+    const scale = currentZoom / targetZoom;
+    const width = current[2] * scale;
+    const height = current[3] * scale;
+    const centerX = current[0] + current[2] / 2;
+    const centerY = current[1] + current[3] / 2;
     svg.setAttribute('viewBox', clampViewBox(svg, centerX - width / 2, centerY - height / 2, width, height).join(' '));
-    svg.dataset.zoom = String(zoom);
     syncPanState(svg);
   }
   function wirePan(svg) {
@@ -2019,8 +2230,8 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       svg.classList.remove('is-dragging');
     };
     svg.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0 || Number(svg.dataset.zoom || 1) <= 1) return;
-      drag = { pointerId: event.pointerId, clientX: event.clientX, clientY: event.clientY, viewBox: svg.getAttribute('viewBox').split(/\s+/).map(Number) };
+      if (event.button !== 0 || !isPannable(svg)) return;
+      drag = { pointerId: event.pointerId, clientX: event.clientX, clientY: event.clientY, viewBox: currentViewBox(svg) };
       svg.setPointerCapture(event.pointerId);
       svg.classList.add('is-dragging');
       event.preventDefault();
@@ -2038,7 +2249,7 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   }
   function clearTrace(svg, status) {
     svg.querySelectorAll('.trace-dim, .trace-hit').forEach((element) => element.classList.remove('trace-dim', 'trace-hit'));
-    status.textContent = 'Focus or hover a line node to trace dependencies. Zoom in, then drag to pan.';
+    status.textContent = status.dataset.default;
   }
   function traceNode(svg, node, status) {
     const nodeId = node.dataset.node;
@@ -2050,12 +2261,21 @@ DETAIL_TEMPLATE = r'''<!doctype html>
     svg.querySelectorAll('.node, .edge').forEach((element) => element.classList.add('trace-dim'));
     svg.querySelectorAll('.node').forEach((candidate) => { if (neighbors.has(candidate.dataset.node)) candidate.classList.add('trace-hit'); });
     incident.forEach((edge) => edge.classList.add('trace-hit'));
-    status.textContent = `Line ${line}: ${incident.length} incident ${incident.length === 1 ? 'edge' : 'edges'}, ${Math.max(0, neighbors.size - 1)} neighboring ${neighbors.size === 2 ? 'node' : 'nodes'}.`;
+    status.textContent = `Line ${line}: ${node.dataset.snippet} · ${incident.length} ${incident.length === 1 ? 'edge' : 'edges'} · ${Math.max(0, neighbors.size - 1)} neighboring ${neighbors.size === 2 ? 'node' : 'nodes'}.`;
   }
   function wireGraph(panel) {
     const svg = panel.querySelector('svg');
     const status = panel.querySelector('.trace-status');
     if (!svg) return;
+    const focused = svg.dataset.focusedView === 'true';
+    const viewSummary = focused
+      ? `${svg.dataset.visibleNodes}/${svg.dataset.totalNodes} nodes · ${svg.dataset.visibleEdges}/${svg.dataset.totalEdges} edges`
+      : `Full graph · ${svg.dataset.totalNodes} nodes · ${svg.dataset.totalEdges} edges`;
+    panel.querySelector('.graph-view-chip').textContent = viewSummary;
+    status.dataset.default = focused
+      ? 'Compact change neighborhood. Focus or hover a node to trace its direct dependencies.'
+      : 'Complete graph. Focus or hover a node to trace its direct dependencies.';
+    status.textContent = status.dataset.default;
     resetViewBox(svg);
     wirePan(svg);
     svg.querySelectorAll('.node').forEach((node) => {
@@ -2065,14 +2285,75 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       node.addEventListener('blur', () => clearTrace(svg, status));
     });
   }
+  function setChangeHighlight(enabled) {
+    const toolbar = document.querySelector('.focus-toolbar');
+    toolbar.dataset.highlighted = String(enabled);
+    byId('clear-highlight').disabled = !enabled;
+    byId('focus-explanation').textContent = enabled
+      ? 'Crimson marks changed or directly affected graph elements. Large PDGs show a compact change neighborhood.'
+      : 'Change highlight cleared. Locate changes restores the emphasis and returns to the affected region.';
+    document.querySelectorAll('.graph-panel').forEach((panel) => {
+      const svg = panel.querySelector('svg');
+      const status = panel.querySelector('.trace-status');
+      if (!svg) return;
+      svg.classList.toggle('has-changes', enabled);
+      svg.querySelectorAll('.trace-dim, .trace-hit').forEach((element) => element.classList.remove('trace-dim', 'trace-hit'));
+      const focused = svg.dataset.focusedView === 'true';
+      status.dataset.default = enabled
+        ? focused
+          ? 'Compact change neighborhood. Focus or hover a node to trace its direct dependencies.'
+          : 'Complete graph. Focus or hover a node to trace its direct dependencies.'
+        : 'Change highlight cleared. Focus or hover a node to trace its direct dependencies.';
+      status.textContent = status.dataset.default;
+    });
+  }
+  function locateChanges(panel) {
+    const svg = panel.querySelector('svg');
+    const status = panel.querySelector('.trace-status');
+    if (!svg) return;
+    const changedNodeElements = Array.from(svg.querySelectorAll('.change-node'));
+    const changedEdgeElements = Array.from(svg.querySelectorAll('.change-edge'));
+    const focusNodeIds = new Set(changedNodeElements.map((node) => node.dataset.node));
+    changedEdgeElements.forEach((edge) => {
+      focusNodeIds.add(edge.dataset.from);
+      focusNodeIds.add(edge.dataset.to);
+    });
+    const focusNodeElements = Array.from(svg.querySelectorAll('.node')).filter((node) => focusNodeIds.has(node.dataset.node));
+    const changes = focusNodeElements.length ? focusNodeElements : changedEdgeElements;
+    if (!changes.length) return;
+    const boxes = changes.map((element) => element.getBBox());
+    const minX = Math.min(...boxes.map((box) => box.x));
+    const minY = Math.min(...boxes.map((box) => box.y));
+    const maxX = Math.max(...boxes.map((box) => box.x + box.width));
+    const maxY = Math.max(...boxes.map((box) => box.y + box.height));
+    const padding = Math.max(24, Math.max(maxX - minX, maxY - minY) * 0.28);
+    let width = Math.max(24, maxX - minX) + padding * 2;
+    let height = Math.max(24, maxY - minY) + padding * 2;
+    const rect = svg.getBoundingClientRect();
+    const base = getBaseViewBox(svg);
+    const aspect = rect.width / rect.height;
+    if (width / height < aspect) width = height * aspect;
+    else height = width / aspect;
+    const candidateZoom = Math.min(base[2] / width, base[3] / height);
+    const minimumScale = Math.max(candidateZoom / 1.35, 1);
+    width *= minimumScale;
+    height *= minimumScale;
+    const viewBox = clampViewBox(svg, minX - (width - (maxX - minX)) / 2, minY - (height - (maxY - minY)) / 2, width, height);
+    svg.setAttribute('viewBox', viewBox.join(' '));
+    syncPanState(svg);
+    const changedNodes = changedNodeElements.length;
+    const changedEdges = changedEdgeElements.length;
+    status.textContent = `Located ${changedNodes} ${changedNodes === 1 ? 'node' : 'nodes'} and ${changedEdges} ${changedEdges === 1 ? 'edge' : 'edges'}.`;
+  }
   function render(actionName, focusButton = false) {
     activeAction = actionName;
     const action = data.actions[actionName];
-    byId('original-graph').innerHTML = data.original.svg;
+    byId('original-graph').innerHTML = action.original_svg;
     byId('selected-graph').innerHTML = action.svg;
     byId('original-counts').textContent = graphSummary(data.original);
     byId('selected-counts').textContent = graphSummary(action);
     byId('selected-graph-title').textContent = action.short + ' PDG';
+    byId('change-summary').textContent = `${action.change_nodes} ${action.change_nodes === 1 ? 'focus node' : 'focus nodes'} · ${action.change_edges} ${action.change_edges === 1 ? 'affected edge' : 'affected edges'}`;
     byId('metric-transition').textContent = `${data.original.label_display} → ${action.label_display}`;
     byId('metric-original-score').textContent = data.original.probability_display;
     byId('metric-selected-score').textContent = action.probability_display;
@@ -2090,6 +2371,10 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       if (selected && focusButton) button.focus();
     });
     document.querySelectorAll('.graph-panel').forEach(wireGraph);
+    setChangeHighlight(true);
+    document.querySelectorAll('.graph-panel').forEach((panel) => {
+      if (panel.querySelector('svg')?.dataset.focusedView === 'true') locateChanges(panel);
+    });
   }
   function filterActions() {
     const query = search.value.trim().toLowerCase();
@@ -2105,6 +2390,11 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   }
   actionButtons.forEach((button) => button.addEventListener('click', () => render(button.dataset.action)));
   search.addEventListener('input', filterActions);
+  byId('locate-changes').addEventListener('click', () => {
+    setChangeHighlight(true);
+    document.querySelectorAll('.graph-panel').forEach(locateChanges);
+  });
+  byId('clear-highlight').addEventListener('click', () => setChangeHighlight(false));
   document.querySelectorAll('.graph-panel').forEach((panel) => {
     panel.querySelectorAll('[data-zoom]').forEach((button) => button.addEventListener('click', () => zoomGraph(panel, button.dataset.zoom)));
   });
