@@ -15,6 +15,7 @@ from typing import Any, Mapping, Sequence
 DEFAULT_WORKSPACE_ROOT = Path("/workspace")
 DEFAULT_REPO_ROOT = Path("/repo")
 DEFAULT_BASELINE_SCRIPTS = Path("/baseline/scripts")
+XFG_TARGETED_BUDGETS = (1, 3, 5)
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -160,10 +161,19 @@ def load_catalog(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
             if action_name not in inferred_actions:
                 inferred_actions.append(action_name)
 
+        raw_label = raw_sample.get("label")
+        if raw_label is None:
+            label = None
+        elif isinstance(raw_label, bool) or not isinstance(raw_label, int) or raw_label not in {0, 1}:
+            raise ValueError(f"samples[{index}].label must be 0, 1, or null")
+        else:
+            label = raw_label
+
         samples.append(
             {
                 "key": key,
                 "sample_id": str(raw_sample["sample_id"]),
+                "label": label,
                 "function_hint": str(raw_sample.get("function_hint", "")),
                 "source_relpath": str(raw_sample["source_relpath"]),
                 "variants": variants,
@@ -267,6 +277,26 @@ def serialize_pdg(graph: Any) -> dict[str, list[dict[str, Any]]]:
     return {"nodes": nodes, "edges": edges}
 
 
+def effective_winner_nodes(pdg: Any, winner: dict[str, Any], limit: int = 5) -> tuple[list[int], str]:
+    """Resolve winner XFG nodes against the PDG, falling back around its key line."""
+    if limit < 1:
+        raise ValueError("limit must be at least 1")
+
+    graph_nodes = {int(node) for node in pdg.nodes}
+    active_nodes = sorted(graph_nodes.intersection(int(node) for node in winner.get("nodes", [])))
+    if active_nodes:
+        return active_nodes, "winner_xfg"
+    if not graph_nodes:
+        raise ValueError("cannot select a winner neighborhood from an empty PDG")
+
+    key_line = int(winner["key_line"])
+    nearest_nodes = sorted(
+        graph_nodes,
+        key=lambda node: (abs(node - key_line), -pdg.degree(node), node),
+    )
+    return nearest_nodes[: min(limit, len(nearest_nodes))], "nearest_pdg_nodes"
+
+
 class Predictor:
     """One persistent DeepWuKong model plus graph-building dependencies."""
 
@@ -303,23 +333,60 @@ class Predictor:
     def predict_graph(self, pdg: Any, key_line_map: dict[str, set[int]], add_symbols: Any) -> dict[str, Any]:
         xfg_dict = self.build_XFG(pdg, key_line_map) or {}
         data_list = []
-        for graphs in xfg_dict.values():
+        metadata: list[dict[str, Any]] = []
+        for category, graphs in xfg_dict.items():
             for graph in graphs:
                 symbolized = add_symbols(graph, self.config.split_token)
                 data_list.append(self.XFG(xfg=symbolized).to_torch(self.vocab, self.config.dataset.token.max_parts))
+                metadata.append(
+                    {
+                        "category": category,
+                        "key_line": int(symbolized.graph.get("key_line")),
+                        "nodes": [int(node) for node in symbolized.nodes],
+                    }
+                )
 
         if not data_list:
-            return {"probability": 0.0, "label": 0, "xfg_count": 0}
+            return {
+                "status": "no_xfg",
+                "probability": 0.0,
+                "label": 0,
+                "predicted_label": 0,
+                "xfg_count": 0,
+                "xfg_predictions": [],
+                "winner": None,
+            }
 
         batch = self.Batch.from_data_list(data_list).to(self.device)
         with self.torch.no_grad():
             probabilities = self.torch.softmax(self.model(batch), dim=1).detach().cpu().tolist()
-        vulnerable_probabilities = [float(values[1]) if len(values) > 1 else 0.0 for values in probabilities]
-        probability = max(vulnerable_probabilities, default=0.0)
+
+        predictions = []
+        for meta, values in zip(metadata, probabilities):
+            probability = float(values[1]) if len(values) > 1 else 0.0
+            predictions.append(
+                {
+                    **meta,
+                    "vulnerability_probability": probability,
+                    "predicted_label": int(probability >= self.threshold),
+                }
+            )
+        winner = max(predictions, key=lambda row: row["vulnerability_probability"])
+        probability = float(winner["vulnerability_probability"])
+        label = int(probability >= self.threshold)
         return {
+            "status": "ok",
             "probability": probability,
-            "label": int(probability >= self.threshold),
-            "xfg_count": len(vulnerable_probabilities),
+            "label": label,
+            "predicted_label": label,
+            "xfg_count": len(predictions),
+            "xfg_predictions": predictions,
+            "winner": {
+                "category": winner["category"],
+                "key_line": winner["key_line"],
+                "nodes": winner["nodes"],
+                "probability": winner["vulnerability_probability"],
+            },
         }
 
 
@@ -351,6 +418,10 @@ def build_and_predict_variant(
     )
     pdg, key_line_map = predictor.build_graph(csv_root, source_path)
     prediction = predictor.predict_graph(pdg, key_line_map, add_symbols)
+    if prediction.get("status") != "ok":
+        raise RuntimeError(
+            f"DeepWuKong did not produce an XFG prediction: {prediction.get('status', 'unknown')}"
+        )
     return {"prediction": prediction, "graph": serialize_pdg(pdg)}, pdg, key_line_map
 
 
@@ -360,7 +431,12 @@ def run(args: argparse.Namespace) -> dict[str, int]:
     baseline_scripts = args.baseline_scripts.resolve()
     configure_import_paths(workspace_root, repo_root, baseline_scripts)
 
-    from robustness_experiments.graph.graph_perturbations import ACTION_NAMES, apply_graph_action
+    from robustness_experiments.graph.graph_perturbations import (
+        ACTION_NAMES,
+        XFG_TARGETED_ACTION_NAMES,
+        apply_graph_action,
+        apply_xfg_targeted_action,
+    )
     from infer_single_source import add_symbols, function_name, run_joern
 
     source_root = args.source_root.resolve()
@@ -379,6 +455,9 @@ def run(args: argparse.Namespace) -> dict[str, int]:
         "graph_attempted": 0,
         "graph_succeeded": 0,
         "skipped": 0,
+        "graph_targeted_attempted": 0,
+        "graph_targeted_succeeded": 0,
+        "graph_targeted_skipped": 0,
     }
 
     for sample in samples:
@@ -386,6 +465,7 @@ def run(args: argparse.Namespace) -> dict[str, int]:
         result: dict[str, Any] = {
             "key": key,
             "sample_id": sample["sample_id"],
+            "label": sample["label"],
             "function_hint": sample["function_hint"],
             "source_relpath": sample["source_relpath"],
             "function_name": None,
@@ -418,6 +498,17 @@ def run(args: argparse.Namespace) -> dict[str, int]:
         application_skipped_actions = {item["action"] for item in sample["application_skipped"]}
         for action in code_actions:
             summary["code_attempted"] += 1
+            if result["original"] is None:
+                if action in sample["variants"]:
+                    result["skipped"].append(
+                        {
+                            "kind": "code_action",
+                            "action": action,
+                            "stage": "baseline",
+                            "reason": "original XFG prediction is unavailable",
+                        }
+                    )
+                continue
             if action not in sample["variants"]:
                 if action not in application_skipped_actions:
                     result["skipped"].append(
@@ -461,17 +552,113 @@ def run(args: argparse.Namespace) -> dict[str, int]:
                     detail = perturbation.notes or "; ".join(perturbation.validation_errors)
                     raise RuntimeError(detail or "graph action was not applied")
                 prediction = predictor.predict_graph(perturbation.graph, original_key_line_map, add_symbols)
+                if prediction.get("status") != "ok":
+                    raise RuntimeError(
+                        f"DeepWuKong did not produce an XFG prediction: {prediction.get('status', 'unknown')}"
+                    )
                 result["graph_actions"][action] = {
-                    "strategy": args.strategy,
+                    "action": perturbation.action,
+                    "strategy": perturbation.strategy,
+                    "count": perturbation.requested_count,
+                    "applied_count": perturbation.applied_count,
                     "seed": args.seed,
                     "notes": perturbation.notes,
-                    "operations": list(perturbation.operations),
+                    "operations": [asdict(operation) for operation in perturbation.operations],
                     "prediction": prediction,
                     "graph": serialize_pdg(perturbation.graph),
                 }
                 summary["graph_succeeded"] += 1
             except Exception as exc:
                 result["skipped"].append(skipped_entry("graph_action", str(action), "perturb_or_predict", exc))
+
+        baseline_prediction = result["original"]["prediction"] if result["original"] is not None else None
+        winner = baseline_prediction.get("winner") if baseline_prediction is not None else None
+        winner_nodes: list[int] = []
+        winner_fallback: str | None = None
+        target_label: int | None = None
+        targeting_skip_reason: str | None = None
+        if original_pdg is None or original_key_line_map is None or baseline_prediction is None:
+            targeting_skip_reason = "original PDG and baseline prediction are unavailable"
+        elif sample["label"] is None:
+            targeting_skip_reason = "catalog sample has no label"
+        elif winner is None:
+            targeting_skip_reason = "baseline prediction has no winner XFG"
+        else:
+            target_label = 1 - sample["label"]
+            try:
+                winner_nodes, winner_fallback = effective_winner_nodes(original_pdg, winner)
+            except Exception as exc:
+                targeting_skip_reason = f"winner target selection failed: {type(exc).__name__}: {exc}"
+
+        for action in XFG_TARGETED_ACTION_NAMES:
+            for budget in XFG_TARGETED_BUDGETS:
+                result_key = f"{action}__b{budget}"
+                summary["graph_attempted"] += 1
+                summary["graph_targeted_attempted"] += 1
+                if targeting_skip_reason is not None:
+                    result["skipped"].append(
+                        {
+                            "kind": "graph_action",
+                            "action": action,
+                            "result_key": result_key,
+                            "strategy": "winner_xfg",
+                            "budget": budget,
+                            "seed": args.seed,
+                            "stage": "target_selection",
+                            "reason": targeting_skip_reason,
+                        }
+                    )
+                    summary["graph_targeted_skipped"] += 1
+                    continue
+
+                try:
+                    perturbation = apply_xfg_targeted_action(
+                        original_pdg,
+                        action=action,
+                        winner_nodes=winner_nodes,
+                        winner_key_line=int(winner["key_line"]),
+                        target_label=target_label,
+                        budget=budget,
+                        key_lines=original_key_line_map,
+                        seed=args.seed,
+                    )
+                    if not perturbation.valid or perturbation.applied_count == 0:
+                        detail = perturbation.notes or "; ".join(perturbation.validation_errors)
+                        raise RuntimeError(detail or "targeted graph action was not applied")
+                    prediction = predictor.predict_graph(perturbation.graph, original_key_line_map, add_symbols)
+                    if prediction.get("status") != "ok":
+                        raise RuntimeError(
+                            f"DeepWuKong did not produce an XFG prediction: {prediction.get('status', 'unknown')}"
+                        )
+                    result["graph_actions"][result_key] = {
+                        "action": perturbation.action,
+                        "strategy": perturbation.strategy,
+                        "budget": perturbation.requested_count,
+                        "applied_count": perturbation.applied_count,
+                        "seed": args.seed,
+                        "target_label": target_label,
+                        "winner_fallback": winner_fallback,
+                        "notes": perturbation.notes,
+                        "operations": [asdict(operation) for operation in perturbation.operations],
+                        "prediction": prediction,
+                        "graph": serialize_pdg(perturbation.graph),
+                    }
+                    summary["graph_succeeded"] += 1
+                    summary["graph_targeted_succeeded"] += 1
+                except Exception as exc:
+                    result["skipped"].append(
+                        {
+                            "kind": "graph_action",
+                            "action": action,
+                            "result_key": result_key,
+                            "strategy": "winner_xfg",
+                            "budget": budget,
+                            "seed": args.seed,
+                            "stage": "perturb_or_predict",
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    )
+                    summary["graph_targeted_skipped"] += 1
 
         summary["skipped"] += len(result["skipped"])
         write_json(output_dir / "results" / f"{key}.json", result)

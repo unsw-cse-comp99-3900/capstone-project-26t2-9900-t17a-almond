@@ -59,10 +59,12 @@ class Sample:
     sample_id: str
     dataset: str
     subgroup: str
+    label: int
+    label_name: str
+    source_kind: str
     source_path: Path
     relative_path: str
-    target_function: str | None
-    target_line: int | None
+    function_name: str
 
 
 @dataclass(frozen=True)
@@ -125,7 +127,7 @@ CODE_ACTION_COPY: dict[str, dict[str, str]] = {
     },
     "postcondition_validation": {
         "short": "Postcondition validation",
-        "summary": "Checks a parsed or counted value before a successful return.",
+        "summary": "Adds a consistency check before a successful return.",
     },
     "integer_overflow_guard": {
         "short": "Integer overflow guard",
@@ -133,25 +135,32 @@ CODE_ACTION_COPY: dict[str, dict[str, str]] = {
     },
     "array_index_bound_guard": {
         "short": "Array index bound guard",
-        "summary": "Wraps an array write with lower and upper index checks.",
+        "summary": "Wraps an array write with lower and upper index bounds.",
     },
     "wide_char_sink_guard": {
         "short": "Wide-character sink guard",
-        "summary": "Rewrites an unbounded wide-character copy or append operation.",
+        "summary": "Rewrites an unbounded wide-character sink as a bounded operation.",
     },
     "pattern_dead_code": {
         "short": "Pattern dead code",
-        "summary": "Adds an unreachable pointer, array, and length pattern block.",
+        "summary": "Adds unreachable pointer, array, or length-pattern statements.",
     },
     "control_wrapper": {
         "short": "Control wrapper",
-        "summary": "Wraps an executable statement in an always-true branch.",
+        "summary": "Wraps an existing statement in an always-true control branch.",
     },
     "temp_variable_split": {
-        "short": "Temporary split",
-        "summary": "Routes a simple assignment through a temporary value.",
+        "short": "Temporary variable split",
+        "summary": "Rewrites a simple assignment through a temporary variable.",
     },
 }
+CODE_ACTIONS = tuple(OPERATORS)
+if set(CODE_ACTION_COPY) != set(CODE_ACTIONS):
+    missing_copy = sorted(set(CODE_ACTIONS) - set(CODE_ACTION_COPY))
+    extra_copy = sorted(set(CODE_ACTION_COPY) - set(CODE_ACTIONS))
+    raise RuntimeError(
+        f"Code action copy does not match OPERATORS; missing={missing_copy}, extra={extra_copy}"
+    )
 
 GRAPH_ACTION_COPY: dict[str, dict[str, str]] = {
     "node_add": {
@@ -178,8 +187,39 @@ GRAPH_ACTION_COPY: dict[str, dict[str, str]] = {
         "short": "Edge reconnect",
         "summary": "Moves one existing edge to a different valid target node.",
     },
+    "winner_xfg_edge_attack": {
+        "short": "Winner-XFG edge attack",
+        "summary": "Mutates dependencies around the highest-priority winner XFG.",
+    },
+    "winner_xfg_feature_mask": {
+        "short": "Winner-XFG feature mask",
+        "summary": "Remaps source-line features on high-priority winner-XFG nodes.",
+    },
+    "targeted_subgraph_injection": {
+        "short": "Targeted subgraph injection",
+        "summary": "Injects a control/data motif around the winner-XFG key line.",
+    },
 }
-GRAPH_ACTIONS = tuple(GRAPH_ACTION_COPY)
+RANDOM_GRAPH_ACTIONS = (
+    "node_add",
+    "node_delete",
+    "node_attribute_modify",
+    "edge_add",
+    "edge_delete",
+    "edge_reconnect",
+)
+TARGETED_GRAPH_ACTIONS = (
+    "winner_xfg_edge_attack",
+    "winner_xfg_feature_mask",
+    "targeted_subgraph_injection",
+)
+TARGETED_GRAPH_BUDGETS = (1, 3, 5)
+TARGETED_GRAPH_RESULT_KEYS = tuple(
+    f"{action}__b{budget}"
+    for action in TARGETED_GRAPH_ACTIONS
+    for budget in TARGETED_GRAPH_BUDGETS
+)
+GRAPH_ACTIONS = RANDOM_GRAPH_ACTIONS + TARGETED_GRAPH_RESULT_KEYS
 
 DATASET_LABELS = {
     "devign": "Devign",
@@ -197,7 +237,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
     parser.add_argument("--refresh", action="store_true", help="Re-run Joern and model inference instead of reusing a matching cache.")
     parser.add_argument("--render-only", action="store_true", help="Render from an existing complete cache without Docker.")
-    parser.add_argument("--allow-partial", action="store_true", help="Allow an inventory other than the fixed 30 sources, 13 code actions, and 6 PDG actions.")
+    parser.add_argument("--allow-partial", action="store_true", help="Allow an inventory other than the fixed 60 sources, 13 code actions, 6 random PDG actions, and 9 Winner-XFG configurations.")
     return parser.parse_args()
 
 
@@ -368,133 +408,101 @@ def select_function_sample(
     return matches[0]
 
 
-def load_cwe_target_lines(input_root: Path) -> dict[str, int]:
-    metadata_path = input_root / "cwe119" / "metadata.csv"
-    if not metadata_path.is_file():
-        return {}
-    with metadata_path.open("r", encoding="utf-8-sig", newline="") as handle:
-        return {
-            str(row["sample_id"]): int(row["key_line"])
-            for row in csv.DictReader(handle)
-        }
-
-
-def load_cve_target_functions(input_root: Path) -> dict[str, str]:
-    metadata_path = input_root / "cvefixes" / "metadata.csv"
-    if not metadata_path.is_file():
-        return {}
-    with metadata_path.open("r", encoding="utf-8-sig", newline="") as handle:
-        rows = list(csv.DictReader(handle))
-    targets: dict[str, str] = {}
-    for row in rows:
-        sample_id = str(row["sample_id"])
-        candidates = tuple(
-            name.strip()
-            for name in str(row["changed_functions"]).split(";")
-            if name.strip()
-        )
-        if not candidates:
-            raise RuntimeError(f"CVEfixes sample {sample_id} has no changed function")
-        fixed_paths = sorted((input_root / "cvefixes" / "fixed").glob(f"{sample_id}_*"))
-        vulnerable_paths = sorted(
-            (input_root / "cvefixes" / "vulnerable").glob(f"{sample_id}_*")
-        )
-        if len(fixed_paths) != 1 or len(vulnerable_paths) != 1:
-            raise RuntimeError(f"Cannot resolve CVEfixes source pair for sample {sample_id}")
-        fixed_functions = {
-            function.name: function.source_text
-            for function in discover_function_samples(
-                fixed_paths[0].read_text(encoding="utf-8", errors="replace")
-            )
-        }
-        vulnerable_functions = {
-            function.name: function.source_text
-            for function in discover_function_samples(
-                vulnerable_paths[0].read_text(encoding="utf-8", errors="replace")
-            )
-        }
-        changed_candidates = [
-            candidate
-            for candidate in candidates
-            if candidate in fixed_functions
-            and candidate in vulnerable_functions
-            and fixed_functions[candidate] != vulnerable_functions[candidate]
-        ]
-        if changed_candidates:
-            target = changed_candidates[0]
-        else:
-            changed_functions = [
-                name
-                for name, source_text in fixed_functions.items()
-                if name in vulnerable_functions
-                and source_text != vulnerable_functions[name]
-            ]
-            if len(changed_functions) != 1:
-                raise RuntimeError(
-                    f"CVEfixes metadata for sample {sample_id} does not identify a changed "
-                    f"function; detected {changed_functions}"
-                )
-            target = changed_functions[0]
-        targets[sample_id] = target
-    return targets
-
-
-def independent_function_sample(sample: Sample, source_text: str) -> FunctionSample:
-    if sample.dataset == "devign":
-        first_line = next(
-            (line for line in source_text.splitlines() if line.strip()),
-            "",
-        )
-        match = re.search(r"\b([A-Za-z_]\w*)\s*\(", first_line)
-        if not match:
-            raise RuntimeError(f"Cannot identify the Devign function in {sample.relative_path}")
-        line_count = max(1, len(source_text.splitlines()))
-        normalized = source_text if source_text.endswith("\n") else source_text + "\n"
-        return FunctionSample(match.group(1), normalized, 1, line_count)
-    return select_function_sample(
-        source_text,
-        target_function=sample.target_function,
-        target_line=sample.target_line,
-    )
+def manifest_relative_path(staged_file: str) -> Path:
+    relative = Path(staged_file)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise RuntimeError(f"Manifest staged_file must be a safe relative path: {staged_file!r}")
+    parts = relative.parts
+    if parts and parts[0] == "input_sources":
+        parts = parts[1:]
+    if not parts:
+        raise RuntimeError(f"Manifest staged_file does not name a source: {staged_file!r}")
+    return Path(*parts)
 
 
 def discover_samples(input_root: Path) -> list[Sample]:
-    paths = sorted(
-        path
-        for path in input_root.rglob("*")
-        if path.is_file() and path.suffix.lower() in SOURCE_SUFFIXES
-    )
-    cwe_target_lines = load_cwe_target_lines(input_root)
-    cve_target_functions = load_cve_target_functions(input_root)
+    manifest_path = input_root / "sample_manifest.csv"
+    if not manifest_path.is_file():
+        raise RuntimeError(f"Sample manifest was not found: {manifest_path}")
+    required_fields = {
+        "dataset",
+        "sample_id",
+        "label",
+        "label_name",
+        "source_kind",
+        "function_name",
+        "staged_file",
+    }
+    with manifest_path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        missing_fields = required_fields - set(reader.fieldnames or ())
+        if missing_fields:
+            raise RuntimeError(
+                "Sample manifest is missing required fields: " + ", ".join(sorted(missing_fields))
+            )
+        rows = list(reader)
+
     samples: list[Sample] = []
-    for path in paths:
-        relative = path.relative_to(input_root)
-        dataset = relative.parts[0]
+    seen_keys: set[str] = set()
+    seen_sources: set[str] = set()
+    input_root_resolved = input_root.resolve()
+    for row_number, row in enumerate(rows, start=2):
+        dataset = str(row["dataset"]).strip()
+        sample_id = str(row["sample_id"]).strip()
+        label_name = str(row["label_name"]).strip()
+        source_kind = str(row["source_kind"]).strip()
+        function_name = str(row["function_name"]).strip()
+        staged_file = str(row["staged_file"]).strip()
         if dataset not in DATASET_LABELS:
-            continue
-        subgroup = relative.parts[1] if len(relative.parts) > 2 else "samples"
-        key = safe_key("--".join(relative.with_suffix("").parts))
-        cve_sample_id = path.stem.split("_", 1)[0]
-        target_function = cve_target_functions.get(cve_sample_id) if dataset == "cvefixes" else None
-        target_line = cwe_target_lines.get(path.stem) if dataset == "cwe119" else None
-        if dataset == "cvefixes" and target_function is None:
-            raise RuntimeError(f"No changed-function metadata for {relative.as_posix()}")
-        if dataset == "cwe119" and target_line is None:
-            raise RuntimeError(f"No key-line metadata for {relative.as_posix()}")
+            raise RuntimeError(f"Unknown dataset {dataset!r} in manifest row {row_number}")
+        if not all((sample_id, label_name, source_kind, function_name, staged_file)):
+            raise RuntimeError(f"Manifest row {row_number} contains empty required metadata")
+        try:
+            label = int(str(row["label"]).strip())
+        except ValueError as exc:
+            raise RuntimeError(f"Invalid label in manifest row {row_number}") from exc
+        if label not in {0, 1}:
+            raise RuntimeError(f"Manifest label must be 0 or 1 in row {row_number}")
+
+        relative = manifest_relative_path(staged_file)
+        if relative.suffix.lower() not in SOURCE_SUFFIXES:
+            raise RuntimeError(
+                f"Unsupported staged source suffix in manifest row {row_number}: {staged_file!r}"
+            )
+        source_path = (input_root_resolved / relative).resolve()
+        try:
+            source_path.relative_to(input_root_resolved)
+        except ValueError as exc:
+            raise RuntimeError(
+                f"Manifest staged_file escapes the requested input root: {staged_file!r}"
+            ) from exc
+        if not source_path.is_file():
+            raise RuntimeError(f"Manifest staged source was not found: {source_path}")
+
+        key = f"{dataset}--{sample_id}"
+        relative_text = relative.as_posix()
+        if key in seen_keys:
+            raise RuntimeError(f"Duplicate manifest sample key: {key}")
+        if relative_text in seen_sources:
+            raise RuntimeError(f"Duplicate manifest staged_file: {staged_file}")
+        seen_keys.add(key)
+        seen_sources.add(relative_text)
         samples.append(
             Sample(
                 key=key,
-                sample_id=path.stem,
+                sample_id=sample_id,
                 dataset=dataset,
-                subgroup=subgroup,
-                source_path=path,
-                relative_path=relative.as_posix(),
-                target_function=target_function,
-                target_line=target_line,
+                subgroup=label_name,
+                label=label,
+                label_name=label_name,
+                source_kind=source_kind,
+                source_path=source_path,
+                relative_path=relative_text,
+                function_name=function_name,
             )
         )
     if not samples:
-        raise RuntimeError(f"No C/C++ source files were found under {input_root}")
+        raise RuntimeError(f"No staged source records were found in {manifest_path}")
     return samples
 
 
@@ -520,16 +528,24 @@ def build_source_catalog(
     source_root.mkdir(parents=True)
     catalog_samples: list[dict[str, Any]] = []
     for sample in samples:
-        source_file_text = sample.source_path.read_text(encoding="utf-8", errors="replace")
-        function_sample = independent_function_sample(sample, source_file_text)
-        source_text = function_sample.source_text
+        source_text = sample.source_path.read_text(encoding="utf-8", errors="replace")
+        discovered_functions = discover_function_samples(source_text)
+        function_hint = next(
+            (
+                function.name
+                for function in discovered_functions
+                if function.name == sample.function_name
+            ),
+            discovered_functions[0].name if discovered_functions else "unknown",
+        )
         sample_dir = source_root / sample.key
         sample_dir.mkdir()
         original_relpath = f"{sample.key}/original{sample.source_path.suffix.lower()}"
         (source_root / original_relpath).write_text(source_text, encoding="utf-8")
         variants: dict[str, str] = {}
         application_skipped: list[dict[str, str]] = []
-        for action, operator in OPERATORS.items():
+        for action in CODE_ACTIONS:
+            operator = OPERATORS[action]
             try:
                 result = operator.apply(source_text, CODE_COUNT)
             except Exception as exc:
@@ -551,11 +567,16 @@ def build_source_catalog(
                 "sample_id": sample.sample_id,
                 "dataset": sample.dataset,
                 "subgroup": sample.subgroup,
+                "label": sample.label,
+                "label_name": sample.label_name,
+                "source_kind": sample.source_kind,
+                "source": sample.relative_path,
                 "relative_path": sample.relative_path,
-                "function_hint": function_sample.name,
-                "source_file_start_line": function_sample.start_line,
-                "source_file_end_line": function_sample.end_line,
-                "source_file_sha256": source_sha256(source_file_text),
+                "function_name": sample.function_name,
+                "function_hint": function_hint,
+                "source_file_start_line": 1,
+                "source_file_end_line": max(1, len(source_text.splitlines())),
+                "source_file_sha256": source_sha256(source_text),
                 "source_relpath": original_relpath,
                 "source_sha256": source_sha256(source_text),
                 "variants": variants,
@@ -563,13 +584,19 @@ def build_source_catalog(
             }
         )
     catalog = {
-        "schema_version": 3,
+        "schema_version": 4,
         "code_count": CODE_COUNT,
         "graph_count": GRAPH_COUNT,
         "graph_strategy": GRAPH_STRATEGY,
         "random_seed": RANDOM_SEED,
-        "code_actions": list(OPERATORS),
+        "code_actions": list(CODE_ACTIONS),
         "graph_actions": list(GRAPH_ACTIONS),
+        "random_graph_actions": list(RANDOM_GRAPH_ACTIONS),
+        "targeted_graph_actions": [
+            {"key": f"{action}__b{budget}", "action": action, "budget": budget}
+            for action in TARGETED_GRAPH_ACTIONS
+            for budget in TARGETED_GRAPH_BUDGETS
+        ],
         "samples": catalog_samples,
     }
     signature_payload = {
@@ -610,13 +637,16 @@ def available_docker() -> tuple[str, bool]:
     if windows_docker.is_file():
         candidates.append((str(windows_docker), True))
     for executable, is_windows in candidates:
-        probe = subprocess.run(
-            [executable, "info", "--format", "{{.ServerVersion}}"],
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            capture_output=True,
-        )
+        try:
+            probe = subprocess.run(
+                [executable, "info", "--format", "{{.ServerVersion}}"],
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                capture_output=True,
+            )
+        except OSError:
+            continue
         if probe.returncode == 0:
             return executable, is_windows
     raise RuntimeError("No reachable Docker engine was found. Start Docker Desktop or enable WSL integration.")
@@ -786,7 +816,7 @@ def run_static_analysis(
     ]
     print(
         f"Running static conclusions for {len(catalog['samples'])} samples, "
-        f"{len(OPERATORS)} code actions, and {len(GRAPH_ACTIONS)} graph actions.",
+        f"{len(CODE_ACTIONS)} code actions, and {len(GRAPH_ACTIONS)} graph configurations.",
         flush=True,
     )
     try:
@@ -795,6 +825,22 @@ def run_static_analysis(
             raise RuntimeError(f"Showcase batch inference failed with exit code {process.returncode}")
     finally:
         if windows_fallback:
+            expected_results = {
+                f"{item['key']}.json" for item in catalog["samples"]
+            }
+            staged_results = output_mount / "results"
+            if staged_results.is_dir():
+                for result_path in staged_results.glob("*.json"):
+                    if result_path.name not in expected_results:
+                        result_path.unlink()
+            local_results = cache_root / "results"
+            if local_results.exists():
+                shutil.rmtree(local_results)
+            (cache_root / "summary.json").unlink(missing_ok=True)
+            if refresh:
+                local_joern = cache_root / "joern"
+                if local_joern.exists():
+                    shutil.rmtree(local_joern)
             shutil.copytree(output_mount, cache_root, dirs_exist_ok=True)
         else:
             subprocess.run(
@@ -903,12 +949,12 @@ def focus_nodes_for_lines(pdg: Pdg, lines: set[int]) -> set[int]:
 def action_focus(
     original_pdg: Pdg,
     selected_pdg: Pdg,
-    kind: str,
+    action: str,
     result: dict[str, Any],
     original_text: str,
     selected_text: str,
 ) -> tuple[PdgFocus, PdgFocus]:
-    if kind == "graph":
+    if action in GRAPH_ACTION_COPY:
         target_nodes = {
             int(node_id)
             for operation in result.get("operations", [])
@@ -1394,7 +1440,7 @@ def pdg_view_payload(
 
 
 def result_to_payload(
-    action: str,
+    page_action_id: str,
     kind: str,
     result: dict[str, Any],
     original_text: str,
@@ -1405,13 +1451,29 @@ def result_to_payload(
     sample_key: str,
     svg_cache_dir: Path,
 ) -> dict[str, Any]:
+    action = page_action_id if kind == "code" else str(result["action"])
     copy = CODE_ACTION_COPY[action] if kind == "code" else GRAPH_ACTION_COPY[action]
+    strategy = result.get("strategy")
+    budget = result.get("budget")
+    count = result.get("count")
+    applied_count = result.get("applied_count")
+    short = copy["short"]
+    if kind == "graph":
+        qualifiers = [str(strategy)] if strategy is not None else []
+        if budget is not None:
+            qualifiers.append(f"budget {budget}")
+            if applied_count is not None and applied_count != budget:
+                qualifiers.append(f"applied {applied_count}")
+        elif count is not None:
+            qualifiers.append(f"count {count}")
+        if qualifiers:
+            short = f"{short} · {' · '.join(qualifiers)}"
     prediction = result["prediction"]
     pdg = pdg_from_payload(result["graph"])
     original_focus, selected_focus = action_focus(
         original_pdg,
         pdg,
-        kind,
+        action,
         result,
         original_text,
         selected_text,
@@ -1427,8 +1489,8 @@ def result_to_payload(
     original_view = pdg_view_payload(
         original_pdg,
         original_text,
-        graph_id=safe_key(f"{sample_key}-{action}-original"),
-        label=f"Original for {copy['short']}",
+        graph_id=safe_key(f"{sample_key}-{page_action_id}-original"),
+        label=f"Original for {short}",
         workspace=workspace,
         cache_dir=svg_cache_dir,
         focus=original_focus,
@@ -1436,17 +1498,18 @@ def result_to_payload(
     selected_view = pdg_view_payload(
         pdg,
         selected_text,
-        graph_id=safe_key(f"{sample_key}-{action}-selected"),
-        label=copy["short"],
+        graph_id=safe_key(f"{sample_key}-{page_action_id}-selected"),
+        label=short,
         workspace=workspace,
         cache_dir=svg_cache_dir,
         focus=selected_focus,
     )
     return {
-        "name": action,
+        "name": page_action_id,
+        "action": action,
         "kind": kind,
         "kind_display": "Code action" if kind == "code" else "PDG action",
-        "short": copy["short"],
+        "short": short,
         "summary": copy["summary"],
         "effect": effect,
         "probability": probability,
@@ -1469,7 +1532,10 @@ def result_to_payload(
         "selected_view": selected_view,
         "inline_diff": render_inline_diff(original_text, selected_text),
         "source_heading": "Complete source with inline changes" if kind == "code" else "Unchanged source, graph-only mutation",
-        "strategy": result.get("strategy"),
+        "strategy": strategy,
+        "budget": budget,
+        "count": count,
+        "applied_count": applied_count,
         "seed": result.get("seed"),
     }
 
@@ -1500,7 +1566,7 @@ def build_detail_page(
         "graph": serialize_pdg(original_pdg, original_text),
     }
     actions: dict[str, dict[str, Any]] = {}
-    for action in OPERATORS:
+    for action in CODE_ACTIONS:
         action_result = result.get("code_actions", {}).get(action)
         relpath = catalog_item.get("variants", {}).get(action)
         if not action_result or not relpath:
@@ -1518,12 +1584,11 @@ def build_detail_page(
             sample.key,
             svg_cache_dir,
         )
-    for action in GRAPH_ACTIONS:
-        action_result = result.get("graph_actions", {}).get(action)
-        if not action_result:
-            continue
-        actions[action] = result_to_payload(
-            action,
+    for action_key, action_result in result.get("graph_actions", {}).items():
+        if action_key in actions:
+            raise RuntimeError(f"Duplicate page action id {action_key!r} for {sample.key}")
+        actions[action_key] = result_to_payload(
+            action_key,
             "graph",
             action_result,
             original_text,
@@ -1549,6 +1614,10 @@ def build_detail_page(
         "actions": actions,
     }
     data_json = json.dumps(page_data, ensure_ascii=True, separators=(",", ":")).replace("</", "<\\/")
+    action_counts = {
+        kind: sum(item["kind"] == kind for item in actions.values())
+        for kind in ("code", "graph")
+    }
     action_buttons = []
     for kind, heading in (("code", "Code-level actions"), ("graph", "PDG-level actions")):
         buttons = []
@@ -1574,6 +1643,9 @@ def build_detail_page(
         "__RELATIVE_PATH__": html.escape(sample.relative_path),
         "__FUNCTION_NAME__": html.escape(str(page_data["sample"]["function_name"])),
         "__ACTION_BUTTONS__": "".join(action_buttons),
+        "__ACTION_GROUP_CLASS__": " single-group" if 0 in action_counts.values() else "",
+        "__CODE_ACTION_SHARE__": str(max(1, action_counts["code"])),
+        "__GRAPH_ACTION_SHARE__": str(max(1, action_counts["graph"])),
         "__ACTION_TOTAL__": str(len(actions)),
         "__INDEX_FILE__": html.escape(index_filename),
         "__SHOWCASE_DATA__": data_json,
@@ -1582,8 +1654,8 @@ def build_detail_page(
         page = page.replace(placeholder, value)
     return page, {
         "actions": len(actions),
-        "code_actions": sum(item["kind"] == "code" for item in actions.values()),
-        "graph_actions": sum(item["kind"] == "graph" for item in actions.values()),
+        "code_actions": action_counts["code"],
+        "graph_actions": action_counts["graph"],
     }
 def build_unavailable_page(sample: Sample, result: dict[str, Any], index_filename: str) -> str:
     reasons = []
@@ -1647,7 +1719,7 @@ def build_index_page(rows: list[dict[str, Any]], summary: dict[str, Any], index_
     replacements = {
         "__DATASET_SECTIONS__": "".join(sections),
         "__SAMPLE_TOTAL__": str(len(rows)),
-        "__CODE_ACTION_TOTAL__": str(len(OPERATORS)),
+        "__CODE_ACTION_TOTAL__": str(len(CODE_ACTIONS)),
         "__GRAPH_ACTION_TOTAL__": str(len(GRAPH_ACTIONS)),
         "__SUCCEEDED_TOTAL__": str(summary.get("code_succeeded", 0) + summary.get("graph_succeeded", 0)),
         "__SKIPPED_TOTAL__": str(summary.get("skipped", 0)),
@@ -1666,12 +1738,16 @@ def main() -> int:
     source_root = cache_root / "sources"
     samples = discover_samples(input_root)
     inventory_errors = []
-    if len(samples) != 30:
-        inventory_errors.append(f"discovered {len(samples)} source files, expected 30")
-    if len(OPERATORS) != 13:
-        inventory_errors.append(f"discovered {len(OPERATORS)} code actions, expected 13")
-    if len(GRAPH_ACTIONS) != 6:
-        inventory_errors.append(f"discovered {len(GRAPH_ACTIONS)} ordinary PDG actions, expected 6")
+    if len(samples) != 60:
+        inventory_errors.append(f"discovered {len(samples)} staged sources, expected 60")
+    if len(CODE_ACTIONS) != 13:
+        inventory_errors.append(f"configured {len(CODE_ACTIONS)} code actions, expected 13")
+    if len(RANDOM_GRAPH_ACTIONS) != 6:
+        inventory_errors.append(f"configured {len(RANDOM_GRAPH_ACTIONS)} random PDG actions, expected 6")
+    if len(TARGETED_GRAPH_RESULT_KEYS) != 9:
+        inventory_errors.append(
+            f"configured {len(TARGETED_GRAPH_RESULT_KEYS)} Winner-XFG variants, expected 9"
+        )
     if inventory_errors and not args.allow_partial:
         raise RuntimeError("Incomplete showcase inventory: " + "; ".join(inventory_errors))
     for message in inventory_errors:
@@ -1696,9 +1772,17 @@ def main() -> int:
                 "checkpoint": str(CHECKPOINT.relative_to(PROJECT_ROOT)),
                 "checkpoint_sha256": file_sha256(CHECKPOINT),
                 "threshold": THRESHOLD,
+                "samples": len(samples),
+                "code_actions": list(CODE_ACTIONS),
                 "graph_strategy": GRAPH_STRATEGY,
                 "random_seed": RANDOM_SEED,
                 "count": GRAPH_COUNT,
+                "random_graph_actions": list(RANDOM_GRAPH_ACTIONS),
+                "graph_actions": list(GRAPH_ACTIONS),
+                "targeted_graph_strategy": "winner_xfg",
+                "targeted_graph_actions": list(TARGETED_GRAPH_ACTIONS),
+                "targeted_graph_budgets": list(TARGETED_GRAPH_BUDGETS),
+                "targeted_graph_result_keys": list(TARGETED_GRAPH_RESULT_KEYS),
             },
             indent=2,
             ensure_ascii=False,
@@ -2063,7 +2147,7 @@ INDEX_TEMPLATE = r'''<!doctype html>
     <div class="fact-rail" aria-label="Atlas inventory">
       <div class="fact"><strong>__SAMPLE_TOTAL__</strong><span>Source files</span></div>
       <div class="fact"><strong>__CODE_ACTION_TOTAL__</strong><span>Code actions</span></div>
-      <div class="fact"><strong>__GRAPH_ACTION_TOTAL__</strong><span>PDG actions</span></div>
+      <div class="fact"><strong>__GRAPH_ACTION_TOTAL__</strong><span>PDG configurations</span></div>
       <div class="fact"><strong>42</strong><span>Random seed</span></div>
     </div>
     <section aria-label="Source file catalog">
@@ -2073,7 +2157,7 @@ INDEX_TEMPLATE = r'''<!doctype html>
       </div>
       <div class="catalog-scroll" id="sample-catalog">__DATASET_SECTIONS__<p class="empty-state" id="sample-empty">No source files match this filter.</p></div>
     </section>
-    <p class="method-note">__SUCCEEDED_TOTAL__ successful static action results are shown. __SKIPPED_TOTAL__ action attempts were skipped because an action could not be applied, Joern could not produce a usable graph, or downstream inference failed. Winner-XFG targeted actions are intentionally excluded.</p>
+    <p class="method-note">__SUCCEEDED_TOTAL__ successful static action results are shown. __SKIPPED_TOTAL__ action attempts were skipped because an action could not be applied, Joern could not produce a usable graph, or downstream inference failed. The PDG inventory includes six random actions and nine Winner-XFG targeted configurations.</p>
   </main>
 </div>
 <script>
@@ -2143,12 +2227,12 @@ DETAIL_TEMPLATE = r'''<!doctype html>
 }
 .action-browser-head { display: grid; grid-template-columns: minmax(260px, 460px) 1fr; gap: var(--s4); align-items: center; padding: var(--s3); }
 .action-result-count { justify-self: end; color: var(--ink-soft); font: 650 12px/1 var(--font-code); font-variant-numeric: tabular-nums; }
-.action-groups { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(270px, 0.55fr); gap: 1px; max-height: 330px; overflow: auto; overscroll-behavior: contain; background: var(--line); border-top: 1px solid var(--line); scrollbar-gutter: stable; }
+.action-groups { display: grid; grid-template-columns: minmax(260px, var(--code-action-share)) minmax(260px, var(--graph-action-share)); gap: 1px; max-height: 330px; overflow: auto; overscroll-behavior: contain; background: var(--line); border-top: 1px solid var(--line); scrollbar-gutter: stable; }
+.action-groups.single-group { grid-template-columns: 1fr; }
 .action-group { min-width: 0; padding: var(--s3); background: var(--paper); }
 .action-group h3 { display: flex; justify-content: space-between; gap: var(--s3); margin: 0 0 var(--s2); color: var(--ink-soft); font: 700 11px/1.2 var(--font-code); letter-spacing: 0.06em; text-transform: uppercase; }
 .action-group h3 span { font-variant-numeric: tabular-nums; }
 .action-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s1); }
-.action-group[data-action-group="graph"] .action-options { grid-template-columns: 1fr; }
 .action-option {
   display: grid;
   grid-template-columns: 9px minmax(0, 1fr);
@@ -2487,14 +2571,14 @@ DETAIL_TEMPLATE = r'''<!doctype html>
   <main id="main-content">
     <section class="intro" aria-labelledby="page-title">
       <div><p class="eyebrow">__DATASET__ · __SUBGROUP__</p><h1 id="page-title">Perturbation atlas: <code>__FUNCTION_NAME__()</code></h1><code class="path-line">__RELATIVE_PATH__</code></div>
-      <p class="intro-note">Choose any successful code-level or ordinary PDG-level action. Every probability and graph below was computed before this static page was written. Graph actions use random selection with seed 42.</p>
+      <p class="intro-note">Choose any successful code-level or PDG-level action. Every probability and graph below was computed before this static page was written. Random graph actions use seed 42; Winner-XFG targeted actions show their configured budget.</p>
     </section>
     <section aria-label="Perturbation action browser" class="action-browser">
       <div class="action-browser-head">
         <label class="search-field"><span aria-hidden="true">⌕</span><input id="action-search" type="search" autocomplete="off" placeholder="Filter actions by name or effect" aria-label="Filter perturbation actions"></label>
         <span class="action-result-count" id="action-count" aria-live="polite">__ACTION_TOTAL__ available actions</span>
       </div>
-      <div class="action-groups" id="action-groups">__ACTION_BUTTONS__<p class="empty-state" id="action-empty">No actions match this filter.</p></div>
+      <div class="action-groups__ACTION_GROUP_CLASS__" id="action-groups" style="--code-action-share: __CODE_ACTION_SHARE__fr; --graph-action-share: __GRAPH_ACTION_SHARE__fr">__ACTION_BUTTONS__<p class="empty-state" id="action-empty">No actions match this filter.</p></div>
       <div class="action-brief">
         <div><p class="eyebrow" id="action-kicker"></p><h2 id="action-summary"></h2></div>
         <p class="action-effect" id="action-effect"></p>
@@ -3156,6 +3240,25 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       if (viewMode === 'matrix') drawMatrix(panel);
     });
   }
+  function boxInRootSvg(svg, element) {
+    const box = element.getBBox();
+    const svgScreen = svg.getScreenCTM();
+    const elementScreen = element.getScreenCTM();
+    if (!svgScreen || !elementScreen) return box;
+    const transform = svgScreen.inverse().multiply(elementScreen);
+    const corners = [
+      new DOMPoint(box.x, box.y),
+      new DOMPoint(box.x + box.width, box.y),
+      new DOMPoint(box.x, box.y + box.height),
+      new DOMPoint(box.x + box.width, box.y + box.height),
+    ].map((point) => point.matrixTransform(transform));
+    const minX = Math.min(...corners.map((point) => point.x));
+    const minY = Math.min(...corners.map((point) => point.y));
+    const maxX = Math.max(...corners.map((point) => point.x));
+    const maxY = Math.max(...corners.map((point) => point.y));
+    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  }
+
   function locateChanges(panel) {
     if (viewMode === 'matrix') {
       locateMatrixFocus(panel);
@@ -3177,7 +3280,7 @@ DETAIL_TEMPLATE = r'''<!doctype html>
       status.textContent = 'No changed or affected element is present in this rendered SVG slice.';
       return;
     }
-    const boxes = changes.map((element) => element.getBBox());
+    const boxes = changes.map((element) => boxInRootSvg(svg, element));
     const minX = Math.min(...boxes.map((box) => box.x));
     const minY = Math.min(...boxes.map((box) => box.y));
     const maxX = Math.max(...boxes.map((box) => box.x + box.width));

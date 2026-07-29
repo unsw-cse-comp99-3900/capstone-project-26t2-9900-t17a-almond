@@ -1,20 +1,17 @@
 # DeepWuKong PDG Perturbation Atlas
 
-This folder contains a static browser atlas for the 30 source files under `input_sources/`. Each file contributes one independent target function; code and line-PDG perturbations never run across the rest of the translation unit.
+This folder contains a static browser atlas for the 60 staged source files enumerated in `input_sources/sample_manifest.csv`: 20 CWE-119, 20 Devign, and 20 CVEfixes samples. Each entry is analyzed as the complete staged translation unit, matching the current full-test input semantics.
 
 The generated inventory covers:
 
-- 13 code actions exposed by `robustness_experiments/code/code_perturbations.py`
-- 6 ordinary PDG actions: node add/delete/attribute modification and edge add/delete/reconnect
-- One deterministic application per action with `seed=42`
+- All 13 source-level actions registered in `OPERATORS`: data-flow alias, dead statement, XFG-targeted dead code, range clamp, safe source substitution, sink bound guard, postcondition validation, integer overflow guard, array index bound guard, wide-character sink guard, pattern dead code, control wrapper, and temporary-variable split
+- 6 ordinary random PDG actions: node add/delete/attribute modification and edge add/delete/reconnect
+- 9 Winner-XFG PDG configurations: edge attack, feature mask, and targeted subgraph injection at budgets 1, 3, and 5
+- One deterministic application for each ordinary action with `seed=42`
 
-Target functions are selected deterministically:
+Sample labels, source kinds, function metadata, and staged paths come directly from the manifest. The generated catalog preserves that provenance alongside every prediction.
 
-- Devign files already contain one function sample and are used as-is.
-- CWE-119 uses the function containing `metadata.csv:key_line`.
-- CVEfixes validates `metadata.csv:changed_functions` against the vulnerable/fixed function bodies. It selects the first listed function that actually differs; if the metadata is stale, it accepts only a unique changed function detected from the source pair.
-
-Winner-XFG targeted graph actions are intentionally excluded. An action that cannot be applied or inferred is recorded as skipped instead of stopping the batch.
+An action that cannot be applied, cannot produce a usable PDG/XFG, or cannot complete inference is recorded as skipped instead of stopping the batch; only successful sample/action pairs become selectable comparisons. Samples without an original XFG prediction remain in the catalog as analysis unavailable rather than displaying a synthetic score. Winner-XFG configurations retain their requested budget and report the actual applied operation count when the graph admits fewer valid mutations.
 
 ## Requirements
 
@@ -70,7 +67,7 @@ Open the index HTML directly. No web server or internet connection is required.
 - Select an SVG node, SVG edge, or matrix cell to inspect complete incoming and outgoing dependencies and jump to the corresponding source line.
 - Use `Locate changes` to highlight and return both graphs or matrices to the changed or directly affected elements.
 - Use `Clear highlight` to restore normal styling without changing the current zoom, pan, filters, or matrix position.
-- Read the complete target function with removals and additions shown inline.
+- Read the complete staged source file with removals and additions shown inline.
 - Return to the full catalog from every detail page.
 
-Metrics and matrices describe the complete function-level line PDG. Dense SVG graphs display a change-centered neighborhood capped at 40 nodes and 72 type-balanced edges. Wide layered layouts automatically switch to deterministic source-order lanes, while the inline source view and dependency inspector retain complete evidence.
+Metrics and matrices describe the complete source-level line PDG. Dense SVG graphs display a change-centered neighborhood capped at 40 nodes and 72 type-balanced edges. Wide layered layouts automatically switch to deterministic source-order lanes, while the inline source view and dependency inspector retain complete evidence.

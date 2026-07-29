@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+import csv
 import tempfile
 import unittest
 from pathlib import Path
 
+from baselines.deepwukong.scripts.generate_showcase_results import (
+    build_and_predict_variant,
+    effective_winner_nodes,
+)
 from robustness_experiments.showcase.generate_showcase import (
+    CODE_ACTIONS,
     PDG_DISPLAY_NODE_LIMIT,
     PDG_DISPLAY_EDGE_LIMIT,
     PDG_CONTROL_EDGE_BUDGET,
@@ -15,10 +21,11 @@ from robustness_experiments.showcase.generate_showcase import (
     Sample,
     action_focus,
     build_source_catalog,
-    load_cve_target_functions,
+    discover_samples,
     pdg_display_slice,
     render_inline_diff,
     render_pdg_svg,
+    result_to_payload,
     serialize_pdg,
     statement_kind,
 )
@@ -144,7 +151,7 @@ class ShowcaseRenderingTests(unittest.TestCase):
         original_focus, selected_focus = action_focus(
             original,
             selected,
-            "graph",
+            "edge_reconnect",
             result,
             "a\nb\nc\n",
             "a\nb\nc\n",
@@ -177,7 +184,7 @@ class ShowcaseRenderingTests(unittest.TestCase):
         _original_focus, selected_focus = action_focus(
             original,
             selected,
-            "graph",
+            "node_delete",
             result,
             "\n".join(f"line_{index}" for index in range(60)),
             "\n".join(f"line_{index}" for index in range(59)),
@@ -288,7 +295,27 @@ class ShowcaseRenderingTests(unittest.TestCase):
             [{"source": 1, "target": 2, "kind": "data"}],
         )
 
-    def test_catalog_stages_only_the_selected_function(self) -> None:
+    def test_showcase_configures_all_thirteen_code_actions(self) -> None:
+        self.assertEqual(
+            CODE_ACTIONS,
+            (
+                "data_flow_alias",
+                "dead_statement",
+                "xfg_targeted_dead_code",
+                "range_clamp",
+                "safe_source_substitution",
+                "sink_bound_guard",
+                "postcondition_validation",
+                "integer_overflow_guard",
+                "array_index_bound_guard",
+                "wide_char_sink_guard",
+                "pattern_dead_code",
+                "control_wrapper",
+                "temp_variable_split",
+            ),
+        )
+
+    def test_catalog_stages_complete_manifest_source_for_inference(self) -> None:
         source_text = """static int helper(void)
 {
     return 1;
@@ -309,10 +336,12 @@ static int target(int value)
                 sample_id="fixture",
                 dataset="cwe119",
                 subgroup="vulnerable",
+                label=1,
+                label_name="vulnerable",
+                source_kind="project_curated",
                 source_path=source_path,
                 relative_path="cwe119/vulnerable/multi.c",
-                target_function=None,
-                target_line=8,
+                function_name="target",
             )
 
             catalog = build_source_catalog([sample], temp_root / "staged", "test-image")
@@ -320,48 +349,156 @@ static int target(int value)
             original = (temp_root / "staged" / catalog_item["source_relpath"]).read_text()
 
             self.assertEqual(catalog_item["function_hint"], "target")
+            self.assertEqual(catalog_item["label"], 1)
+            self.assertEqual(catalog_item["source_kind"], "project_curated")
+            self.assertIn("static int helper", original)
             self.assertIn("static int target", original)
-            self.assertNotIn("helper", original)
             self.assertTrue(catalog_item["variants"])
             for relative_path in catalog_item["variants"].values():
                 variant = (temp_root / "staged" / relative_path).read_text()
-                self.assertNotIn("helper", variant)
+                self.assertIn("static int helper", variant)
+                self.assertIn("static int target", variant)
 
-    def test_cve_target_falls_back_to_the_actual_changed_function(self) -> None:
-        unchanged = """static int helper(void)
-{
-    return 1;
-}
-"""
-        vulnerable_target = """static int target(void)
-{
-    return 1;
-}
-"""
-        fixed_target = vulnerable_target.replace("return 1;", "return 2;")
+    def test_discover_samples_uses_staged_manifest_provenance(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             input_root = Path(temp_dir)
-            cve_root = input_root / "cvefixes"
-            fixed_root = cve_root / "fixed"
-            vulnerable_root = cve_root / "vulnerable"
-            fixed_root.mkdir(parents=True)
-            vulnerable_root.mkdir()
-            (cve_root / "metadata.csv").write_text(
-                "sample_id,changed_functions\n04,helper\n",
-                encoding="utf-8",
-            )
-            (fixed_root / "04_fixture.c").write_text(
-                unchanged + fixed_target,
-                encoding="utf-8",
-            )
-            (vulnerable_root / "04_fixture.c").write_text(
-                unchanged + vulnerable_target,
-                encoding="utf-8",
+            source = input_root / "cwe119" / "vulnerable" / "fixture.c"
+            source.parent.mkdir(parents=True)
+            source.write_text("int target(void) { return 1; }\n", encoding="utf-8")
+            with (input_root / "sample_manifest.csv").open(
+                "w", encoding="utf-8", newline=""
+            ) as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "dataset",
+                        "sample_id",
+                        "label",
+                        "label_name",
+                        "source_kind",
+                        "function_name",
+                        "staged_file",
+                    ],
+                )
+                writer.writeheader()
+                writer.writerow(
+                    {
+                        "dataset": "cwe119",
+                        "sample_id": "fixture",
+                        "label": "1",
+                        "label_name": "vulnerable",
+                        "source_kind": "project_curated",
+                        "function_name": "target",
+                        "staged_file": "input_sources/cwe119/vulnerable/fixture.c",
+                    }
+                )
+
+            samples = discover_samples(input_root)
+
+            self.assertEqual(len(samples), 1)
+            self.assertEqual(samples[0].key, "cwe119--fixture")
+            self.assertEqual(samples[0].label, 1)
+            self.assertEqual(samples[0].source_kind, "project_curated")
+            self.assertEqual(samples[0].source_path, source)
+
+    def test_effective_winner_nodes_prefers_recorded_xfg_members(self) -> None:
+        class Graph:
+            nodes = (10, 20, 30)
+
+            @staticmethod
+            def degree(node: int) -> int:
+                return {10: 1, 20: 3, 30: 2}[node]
+
+        nodes, source = effective_winner_nodes(
+            Graph(),
+            {"key_line": 19, "nodes": [20, 999]},
+        )
+
+        self.assertEqual(nodes, [20])
+        self.assertEqual(source, "winner_xfg")
+
+    def test_effective_winner_nodes_falls_back_near_key_line(self) -> None:
+        class Graph:
+            nodes = (10, 20, 30)
+
+            @staticmethod
+            def degree(node: int) -> int:
+                return {10: 1, 20: 3, 30: 2}[node]
+
+        nodes, source = effective_winner_nodes(
+            Graph(),
+            {"key_line": 24, "nodes": [999]},
+            limit=2,
+        )
+
+        self.assertEqual(nodes, [20, 30])
+        self.assertEqual(source, "nearest_pdg_nodes")
+
+    def test_variant_without_xfg_is_not_presented_as_a_prediction(self) -> None:
+        class Predictor:
+            @staticmethod
+            def build_graph(_csv_root: Path, _source_path: Path) -> tuple[object, dict[str, set[int]]]:
+                return object(), {}
+
+            @staticmethod
+            def predict_graph(
+                _pdg: object,
+                _key_line_map: dict[str, set[int]],
+                _add_symbols: object,
+            ) -> dict[str, object]:
+                return {"status": "no_xfg", "probability": 0.0, "label": 0}
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "sample.c"
+            source.write_text("int sample(void) { return 0; }\n", encoding="utf-8")
+
+            def run_joern(**_kwargs: object) -> dict[str, str]:
+                csv_dir = root / "joern-output"
+                csv_dir.mkdir()
+                (csv_dir / "nodes.csv").write_text("key\n", encoding="utf-8")
+                (csv_dir / "edges.csv").write_text("start,end\n", encoding="utf-8")
+                return {"parse_status": "success", "selected_csv_dir": str(csv_dir)}
+
+            with self.assertRaisesRegex(RuntimeError, "no_xfg"):
+                build_and_predict_variant(
+                    predictor=Predictor(),
+                    add_symbols=object(),
+                    run_joern=run_joern,
+                    source_path=source,
+                    cache_dir=root / "cache",
+                    joern_bin=root / "joern",
+                    joern_timeout=1,
+                )
+
+    def test_partial_targeted_budget_displays_actual_applied_count(self) -> None:
+        pdg = Pdg(nodes=(PdgNode(1, 1),), edges=())
+        result = {
+            "action": "winner_xfg_feature_mask",
+            "strategy": "winner_xfg",
+            "budget": 5,
+            "applied_count": 2,
+            "operations": [{"target_nodes": [1], "details": "masked two nodes"}],
+            "prediction": {"probability": 0.2, "label": 0, "xfg_count": 1},
+            "graph": {"nodes": [{"id": 1}], "edges": []},
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            payload = result_to_payload(
+                "winner_xfg_feature_mask__b5",
+                "graph",
+                result,
+                "return value;\n",
+                "return value;\n",
+                pdg,
+                {"probability": 0.1, "label": 0, "xfg_count": 1},
+                root,
+                "sample",
+                root / "cache",
             )
 
-            targets = load_cve_target_functions(input_root)
-
-            self.assertEqual(targets["04"], "target")
+        self.assertIn("budget 5 · applied 2", payload["short"])
+        self.assertEqual(payload["applied_count"], 2)
 
 
 if __name__ == "__main__":
