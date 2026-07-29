@@ -659,12 +659,12 @@ def run_test() -> None:
         "",
         "This test runs a live DeepWuKong perturbation experiment.",
         "The workflow is:",
-        "1. Load one CWE-119 C++ source sample",
-        "2. Apply two source-level perturbations",
+        "1. Load every C/C++ source file under input_sources",
+        "2. Apply all implemented source-level perturbation actions",
         "3. Run baseline and perturbed DeepWuKong predictions",
-        "4. Compare original and perturbed predictions",
-        "5. Generate robustness analysis outputs",
-        "This requires the NVIDIA GPU and usually takes a few minutes.",
+        "4. Run every random graph action and all Winner-XFG targeted graph actions/budgets",
+        "5. Generate integrated code- and graph-level robustness reports",
+        "This requires the NVIDIA GPU and takes about 65–80 minutes for the current 60-sample set.",
         "",
     ])
 

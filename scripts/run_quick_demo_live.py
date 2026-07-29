@@ -27,7 +27,9 @@ SOURCE_SUFFIXES = {".c", ".cc", ".cpp", ".cxx"}
 SOURCE_PATH = INPUT_SOURCES_ROOT / "cwe119" / "01_vulnerable_03_vulnerable_30.c"
 CHECKPOINT_PATH = PROJECT_ROOT / "baselines" / "deepwukong" / "models" / "deepwukong" / "deepwukong_cwe119_best.ckpt"
 INFERENCE_SCRIPT = PROJECT_ROOT / "baselines" / "deepwukong" / "scripts" / "infer_single_source.py"
-ACTION_NAMES = ("dead_statement", "xfg_targeted_dead_code")
+# A Full Test is deliberately exhaustive: one variant for every implemented
+# source-level operator, plus the random and Winner-XFG graph suites below.
+ACTION_NAMES = tuple(OPERATORS)
 RANDOM_GRAPH_RUNNER = PROJECT_ROOT / "robustness_experiments" / "graph" / "run_random_graph_experiment.py"
 TARGETED_GRAPH_RUNNER = PROJECT_ROOT / "robustness_experiments" / "graph" / "run_xfg_targeted_experiment.py"
 INPUT_LABEL_MANIFEST = INPUT_SOURCES_ROOT / "sample_manifest.csv"
