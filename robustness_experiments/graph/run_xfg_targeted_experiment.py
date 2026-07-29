@@ -14,6 +14,9 @@ from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
+local_inference_scripts = PROJECT_ROOT / "baselines" / "deepwukong" / "scripts"
+if local_inference_scripts.is_dir():
+    sys.path.insert(0, str(local_inference_scripts))
 if Path("/workspace").is_dir():
     sys.path.insert(0, "/workspace")
 if Path("/baseline/scripts").is_dir():

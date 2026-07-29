@@ -328,11 +328,14 @@ def prepare_graph_inputs(
 def run_graph_command(name: str, command: list[str], log_path: Path) -> int:
     """Run a graph experiment while streaming and retaining its runtime log."""
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    # DeepWuKong's graph builder resolves data/sensiAPI.txt relative to the
+    # packaged runtime workspace.  Keep host execution on the project root.
+    graph_workdir = Path("/workspace") if Path("/workspace/data/sensiAPI.txt").is_file() else PROJECT_ROOT
     print(f"Starting {name}...", flush=True)
     with log_path.open("w", encoding="utf-8") as log_file:
         process = subprocess.Popen(
             command,
-            cwd=PROJECT_ROOT,
+            cwd=graph_workdir,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

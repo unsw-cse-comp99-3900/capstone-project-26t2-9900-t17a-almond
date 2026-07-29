@@ -12,9 +12,15 @@ from pathlib import Path
 from typing import Any
 
 
-sys.path.insert(0, "/workspace")
-sys.path.insert(0, "/repo")
-sys.path.insert(0, "/baseline/scripts")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+for import_root in (
+    PROJECT_ROOT / "baselines" / "deepwukong" / "scripts",
+    Path("/baseline/scripts"),
+    Path("/workspace"),
+    PROJECT_ROOT,
+):
+    if import_root.is_dir():
+        sys.path.insert(0, str(import_root))
 
 import torch
 from torch_geometric.data import Batch
