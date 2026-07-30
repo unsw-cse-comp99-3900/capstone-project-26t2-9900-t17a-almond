@@ -19,6 +19,10 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from robustness_experiments.code.code_perturbations import OPERATORS
+from robustness_experiments.graph.experiment_design import (
+    DEFAULT_GRAPH_BUDGETS,
+    DEFAULT_GRAPH_SEEDS,
+)
 
 
 INPUT_SOURCES_ROOT = PROJECT_ROOT / "input_sources"
@@ -34,6 +38,10 @@ RANDOM_GRAPH_RUNNER = PROJECT_ROOT / "robustness_experiments" / "graph" / "run_r
 TARGETED_GRAPH_RUNNER = PROJECT_ROOT / "robustness_experiments" / "graph" / "run_xfg_targeted_experiment.py"
 INPUT_LABEL_MANIFEST = INPUT_SOURCES_ROOT / "sample_manifest.csv"
 DASHBOARD_RENDERER = PROJECT_ROOT / "robustness_experiments" / "visualize_results.py"
+
+
+def integer_arguments(values: tuple[int, ...]) -> list[str]:
+    return [str(value) for value in values]
 
 
 def discover_source_files(source_root: Path = INPUT_SOURCES_ROOT) -> list[Path]:
@@ -367,11 +375,12 @@ def run_graph_experiments(run_dir: Path, sources: list[Path], baselines: list[di
             "--csv-root", str(graph_root / "csv"),
             "--checkpoint", str(CHECKPOINT_PATH),
             "--output-dir", str(random_output),
+            "--metadata", str(graph_root / "metadata.csv"),
             "--experiment", "full_test_random_graph",
             "--dataset", "all_input_sources",
             "--strategy", "random",
-            "--count", "1",
-            "--seed", "42",
+            "--budgets", *integer_arguments(DEFAULT_GRAPH_BUDGETS),
+            "--seeds", *integer_arguments(DEFAULT_GRAPH_SEEDS),
         ]
         random_code = run_graph_command("random graph perturbation", random_command, logs_root / "random_graph.log")
         result["random_graph"] = {
@@ -392,8 +401,8 @@ def run_graph_experiments(run_dir: Path, sources: list[Path], baselines: list[di
             "--checkpoint", str(CHECKPOINT_PATH),
             "--output-dir", str(targeted_output),
             "--actions", "winner_xfg_edge_attack", "winner_xfg_feature_mask", "targeted_subgraph_injection",
-            "--budgets", "1", "3", "5",
-            "--seed", "42",
+            "--budgets", *integer_arguments(DEFAULT_GRAPH_BUDGETS),
+            "--seeds", *integer_arguments(DEFAULT_GRAPH_SEEDS),
         ]
         targeted_code = run_graph_command(
             "Winner-XFG targeted graph perturbation",
@@ -441,12 +450,19 @@ def generate_html_reports(run_dir: Path, graph_results: dict[str, Any]) -> dict[
             "return_code": process.returncode,
             "dashboard": str((target / "dashboard.html").relative_to(run_dir)),
         }
+    graph_comparison = run_dir / "graph_comparison" / "dashboard.html"
+    if graph_comparison.is_file():
+        reports["graph_comparison"] = {
+            "status": "completed",
+            "dashboard": str(graph_comparison.relative_to(run_dir)),
+        }
 
     dashboard = run_dir / "dashboard.html"
     if dashboard.is_file():
         links = [
             ("Random graph perturbation report", "graph_random/dashboard.html"),
             ("Winner-XFG targeted graph perturbation report", "graph_targeted/dashboard.html"),
+            ("Random graph vs Winner-XFG budget comparison", "graph_comparison/dashboard.html"),
         ]
         available = [f'<li><a href="{href}">{label}</a></li>' for label, href in links if (run_dir / href).is_file()]
         if available:
@@ -553,7 +569,8 @@ def main() -> int:
         "# Live DeepWuKong Full Test\n\n"
         "This run scores every C/C++ source file under `input_sources` using a baseline prediction and "
         "the configured source-level perturbations, then runs random and Winner-XFG-targeted graph perturbations "
-        "from the resulting baseline PDG/XFG inputs. `input_manifest.csv` records the exact input set.\n",
+        "from the resulting baseline PDG/XFG inputs. Both graph families use nested budgets 1/3/5 and "
+        "10 fixed random seeds. `input_manifest.csv` records the exact input set.\n",
         encoding="utf-8",
     )
     print(json.dumps(summary, indent=2, ensure_ascii=False), flush=True)

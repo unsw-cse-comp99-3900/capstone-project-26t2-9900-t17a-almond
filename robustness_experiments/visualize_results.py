@@ -35,6 +35,9 @@ def normalise_row(row: dict[str, str]) -> dict[str, str]:
     result["status"] = row.get("status") or "unknown"
     result["flipped"] = row.get("flipped") or "False"
     result["budget"] = row.get("budget") or ""
+    result["seed"] = row.get("seed") or ""
+    result["baseline_eligible"] = row.get("baseline_eligible") or ""
+    result["method_family"] = row.get("method_family") or ""
     for field in NUMERIC_FIELDS:
         result.setdefault(field, "")
     return result
@@ -74,7 +77,7 @@ def perturbation_configuration(row: dict[str, str]) -> tuple[str, str]:
 
 def explicit_attack_success(rows: list[dict[str, str]]) -> bool:
     """Whether this CSV defines a targeted-attack success outcome."""
-    return any("attack_success" in row for row in rows)
+    return any(str(row.get("attack_success", "")).strip() for row in rows)
 
 
 def success_term(rows: list[dict[str, str]]) -> str:
@@ -150,6 +153,14 @@ def attack_succeeded(row: dict[str, str]) -> bool:
     """Use the explicit targeted-attack outcome when available, otherwise a label flip."""
     value = row.get("attack_success", "")
     return value.lower() == "true" if value else row["flipped"].lower() == "true"
+
+
+def attack_eligible(row: dict[str, str]) -> bool:
+    """Limit ASR to samples whose baseline prediction was originally correct."""
+    value = str(row.get("baseline_eligible", "")).strip().lower()
+    if value:
+        return value in {"1", "true", "yes"}
+    return bool(str(row.get("attack_success", "")).strip())
 
 
 def success_metrics(rows: list[dict[str, str]]) -> list[dict[str, object]]:
@@ -326,9 +337,14 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
         all_groups.items(), key=lambda item: (item[0][0], strength_sort_key(item[0][1]))
     ):
         scored = [row for row in attempted_rows if is_scored(row)]
-        successes = sum(attack_succeeded(row) for row in scored)
-        rate = successes / len(scored) if scored else 0.0
-        rate_low, rate_high = wilson_interval(successes, len(scored))
+        outcome_rows = (
+            [row for row in scored if attack_eligible(row)]
+            if explicit_attack_success(attempted_rows)
+            else scored
+        )
+        successes = sum(attack_succeeded(row) for row in outcome_rows)
+        rate = successes / len(outcome_rows) if outcome_rows else 0.0
+        rate_low, rate_high = wilson_interval(successes, len(outcome_rows))
         coverage_rate = len(scored) / len(attempted_rows) if attempted_rows else 0.0
         coverage_low, coverage_high = wilson_interval(len(scored), len(attempted_rows))
         deltas = [number(row, "delta_prob") for row in scored]
@@ -339,6 +355,30 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
         mean_abs, abs_low, abs_high = mean_confidence_interval(absolute_deltas)
         mean_nodes, nodes_low, nodes_high = mean_confidence_interval(absolute_nodes)
         mean_edges, edges_low, edges_high = mean_confidence_interval(absolute_edges)
+        seeds = sorted({row["seed"] for row in attempted_rows if row.get("seed", "")})
+        if len(seeds) > 1:
+            seed_success_rates = []
+            seed_coverage_rates = []
+            for seed in seeds:
+                seed_attempted = [row for row in attempted_rows if row["seed"] == seed]
+                seed_scored = [row for row in seed_attempted if is_scored(row)]
+                seed_outcomes = (
+                    [row for row in seed_scored if attack_eligible(row)]
+                    if explicit_attack_success(seed_attempted)
+                    else seed_scored
+                )
+                if seed_outcomes:
+                    seed_success_rates.append(
+                        sum(attack_succeeded(row) for row in seed_outcomes) / len(seed_outcomes)
+                    )
+                seed_coverage_rates.append(
+                    len(seed_scored) / len(seed_attempted) if seed_attempted else 0.0
+                )
+            if seed_success_rates:
+                rate, rate_low, rate_high = mean_confidence_interval(seed_success_rates)
+                rate_low, rate_high = max(0.0, rate_low), min(1.0, rate_high)
+            coverage_rate, coverage_low, coverage_high = mean_confidence_interval(seed_coverage_rates)
+            coverage_low, coverage_high = max(0.0, coverage_low), min(1.0, coverage_high)
         budget_match = re.search(r"(\d+)$", strength)
         groups.append({
             "method": method,
@@ -346,7 +386,9 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
             "budget": int(budget_match.group(1)) if budget_match else 1,
             "attempted": len(attempted_rows),
             "scored": len(scored),
+            "outcome_scored": len(outcome_rows),
             "successes": successes,
+            "seed_count": len(seeds) or 1,
             "success_rate": rate,
             "success_low": rate_low,
             "success_high": rate_high,
@@ -373,7 +415,15 @@ SERIES_COLOURS = ("#2563eb", "#dc2626", "#059669", "#7c3aed", "#d97706", "#0891b
 
 
 def friendly_method(method: str) -> str:
-    return method.replace("winner_xfg_", "XFG ").replace("_", " ")
+    family, separator, action = method.partition("::")
+    friendly_action = (action if separator else family).replace("winner_xfg_", "XFG ").replace("_", " ")
+    if not separator:
+        return friendly_action
+    family_name = {
+        "random_graph": "Random graph",
+        "winner_xfg": "Winner-XFG",
+    }.get(family, family.replace("_", " "))
+    return f"{family_name} - {friendly_action}"
 
 
 def group_setting_label(group: dict[str, object]) -> str:
@@ -527,13 +577,18 @@ def svg_fixed_comparison(groups: list[dict[str, object]], metric: str, label: st
         low, high = metric_interval(group, metric)
         colour = SERIES_COLOURS[index % len(SERIES_COLOURS)]
         value_text = f"{value:.1%}" if percent else f"{value:.4f}"
+        evidence_count = (
+            int(group["outcome_scored"])
+            if metric == "success_rate"
+            else int(group["scored"])
+        )
         marks.append(
             f'<text class="method-label" x="{left - 16}" y="{y + 5}" text-anchor="end">{html.escape(friendly_method(str(group["method"])))}</text>'
             f'<line x1="{x_for(low):.1f}" y1="{y}" x2="{x_for(high):.1f}" y2="{y}" stroke="{colour}" stroke-width="3"/>'
             f'<line x1="{x_for(low):.1f}" y1="{y - 6}" x2="{x_for(low):.1f}" y2="{y + 6}" stroke="{colour}"/>'
             f'<line x1="{x_for(high):.1f}" y1="{y - 6}" x2="{x_for(high):.1f}" y2="{y + 6}" stroke="{colour}"/>'
             f'<circle cx="{x_for(value):.1f}" cy="{y}" r="6" fill="{colour}" stroke="white" stroke-width="2"/>'
-            f'<text class="point-label" x="{x_for(high) + 10:.1f}" y="{y + 5}">{value_text} (n={int(group["scored"])})</text>'
+            f'<text class="point-label" x="{x_for(high) + 10:.1f}" y="{y + 5}">{value_text} (n={evidence_count})</text>'
         )
     return (
         f'<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 {width} {height}" role="img" '
@@ -796,6 +851,24 @@ def svg_budget_delta_small_multiples(rows: list[dict[str, str]]) -> str:
     )
 
 
+def horizontal_budget_comparisons(
+    groups: list[dict[str, object]],
+    metric: str,
+    label: str,
+    *,
+    percent: bool = False,
+) -> str:
+    """Compare all methods side by side while holding one budget fixed."""
+    panels = []
+    for budget in sorted({int(group["budget"]) for group in groups}):
+        peers = [group for group in groups if int(group["budget"]) == budget]
+        panels.append(
+            f'<div class="chart-block"><h3>Budget {budget}</h3>'
+            f'{svg_fixed_comparison(peers, metric, f"{label} at budget {budget}", percent=percent)}</div>'
+        )
+    return "".join(panels)
+
+
 def evidence_insights(groups: list[dict[str, object]], rows: list[dict[str, str]]) -> list[str]:
     """Produce conservative, reproducible observations from the displayed aggregates."""
     if not groups:
@@ -813,7 +886,7 @@ def evidence_insights(groups: list[dict[str, object]], rows: list[dict[str, str]
             top = leaders[0]
             insights.append(
                 f'At budget {budget}, {leader_names} {leader_verb} the highest observed {outcome_label} '
-                f'({float(top["success_rate"]):.1%}, {int(top["successes"])}/{int(top["scored"])} scored cases).'
+                f'({float(top["success_rate"]):.1%}, {int(top["successes"])}/{int(top["outcome_scored"])} eligible scored cases).'
             )
         for method in sorted({str(group["method"]) for group in groups}):
             series = sorted((group for group in groups if group["method"] == method), key=lambda group: int(group["budget"]))
@@ -839,7 +912,7 @@ def evidence_insights(groups: list[dict[str, object]], rows: list[dict[str, str]
         else:
             insights.append(
                 f'{friendly_method(str(top_success["method"]))} has the highest observed {outcome_label} '
-                f'({float(top_success["success_rate"]):.1%}, {int(top_success["successes"])}/{int(top_success["scored"])} scored cases).'
+                f'({float(top_success["success_rate"]):.1%}, {int(top_success["successes"])}/{int(top_success["outcome_scored"])} eligible scored cases).'
             )
         insights.append(
             f'{friendly_method(str(top_effect["method"]))} produces the largest mean absolute probability change '
@@ -912,7 +985,7 @@ def bilingual_findings(
             leaders = [group for group in peers if float(group["success_rate"]) == top_rate]
             details = "; ".join(
                 f'{friendly_method(str(group["method"]))}: {float(group["success_rate"]):.1%} '
-                f'({int(group["successes"])}/{int(group["scored"])}, 95% CI '
+                f'({int(group["successes"])}/{int(group["outcome_scored"])}, 95% CI '
                 f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}])'
                 for group in leaders
             )
@@ -949,7 +1022,7 @@ def bilingual_findings(
         leaders = [group for group in groups if float(group["success_rate"]) == top_rate]
         leader_details = "; ".join(
             f'{friendly_method(str(group["method"]))}: {float(group["success_rate"]):.1%} '
-            f'({int(group["successes"])}/{int(group["scored"])}, 95% CI '
+            f'({int(group["successes"])}/{int(group["outcome_scored"])}, 95% CI '
             f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}])'
             for group in leaders
         )
@@ -1014,7 +1087,12 @@ def render_analysis_document(rows: list[dict[str, str]], output: Path, title: st
         raise ValueError("the comparison CSV has no successful rows with complete numeric prediction data")
     groups = comparison_groups(rows)
     chart_groups = [group for group in groups if int(group["scored"]) > 0]
-    successes = sum(attack_succeeded(row) for row in scored)
+    outcome_rows = (
+        [row for row in scored if attack_eligible(row)]
+        if explicit_attack_success(scored)
+        else scored
+    )
+    successes = sum(attack_succeeded(row) for row in outcome_rows)
     sample_label, sample_count = input_sample_count(output.parent, scored)
     targeted = explicit_attack_success(scored)
     outcome_en = "successful attacks" if targeted else "prediction flips"
@@ -1106,7 +1184,7 @@ def statistical_table(groups: list[dict[str, object]], rows: list[dict[str, str]
     body = []
     for group in sorted(groups, key=lambda item: (int(item["budget"]), str(item["method"]))):
         if int(group["scored"]) > 0:
-            outcome = f'{int(group["successes"])}/{int(group["scored"])} ({float(group["success_rate"]):.1%})'
+            outcome = f'{int(group["successes"])}/{int(group["outcome_scored"])} ({float(group["success_rate"]):.1%})'
             interval = f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}]'
             coverage = f'{float(group["coverage_rate"]):.1%}'
             delta = f'{float(group["mean_delta"]):+.4f}'
@@ -1116,20 +1194,72 @@ def statistical_table(groups: list[dict[str, object]], rows: list[dict[str, str]
         else:
             outcome = interval = coverage = delta = absolute = nodes = edges = "not estimable"
         body.append(
-            '<tr><td>{method}</td><td class="num">{budget}</td><td class="num">{scored}/{attempted}</td>'
+            '<tr><td>{method}</td><td class="num">{budget}</td><td class="num">{seeds}</td><td class="num">{scored}/{attempted}</td>'
             '<td class="num">{coverage}</td><td class="num">{outcome}</td><td class="num">{interval}</td>'
             '<td class="num">{delta}</td><td class="num">{absolute}</td><td class="num">{nodes}</td><td class="num">{edges}</td></tr>'.format(
                 method=html.escape(friendly_method(str(group["method"]))), budget=html.escape(group_setting_label(group)),
-                scored=group["scored"], attempted=group["attempted"], coverage=coverage,
+                seeds=group["seed_count"], scored=group["scored"], attempted=group["attempted"], coverage=coverage,
                 outcome=outcome, interval=interval, delta=delta, absolute=absolute, nodes=nodes, edges=edges,
             )
         )
     return (
         '<div class="table-scroll summary-table-scroll"><table class="summary-table"><thead><tr>'
-        f'<th>Method</th><th>Budget / setting</th><th>Scored / attempted</th><th>Coverage</th><th>{html.escape(success_term(rows))}</th>'
-        '<th>95% Wilson CI</th><th>Mean delta probability</th><th>Mean absolute delta</th>'
+        f'<th>Method</th><th>Budget / setting</th><th>Seeds</th><th>Scored / attempted</th><th>Coverage</th><th>{html.escape(success_term(rows))}</th>'
+        '<th>95% CI</th><th>Mean delta probability</th><th>Mean absolute delta</th>'
         '<th>Mean |Δ nodes|</th><th>Mean |Δ edges|</th>'
         f'</tr></thead><tbody>{"".join(body)}</tbody></table></div>'
+    )
+
+
+def seed_stability_table(rows: list[dict[str, str]]) -> str:
+    """Show per-seed outcomes without treating repeated seeds as new samples."""
+    grouped: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        method, strength = perturbation_configuration(row)
+        if row.get("seed", ""):
+            grouped[(method, strength or "fixed setting", row["seed"])].append(row)
+    if len({seed for _, _, seed in grouped}) < 2:
+        return ""
+
+    body = []
+    for (method, strength, seed), attempted in sorted(
+        grouped.items(),
+        key=lambda item: (
+            item[0][0],
+            strength_sort_key(item[0][1]),
+            int(item[0][2]),
+        ),
+    ):
+        scored = [row for row in attempted if is_scored(row)]
+        outcome_rows = (
+            [row for row in scored if attack_eligible(row)]
+            if explicit_attack_success(attempted)
+            else scored
+        )
+        successes = sum(attack_succeeded(row) for row in outcome_rows)
+        rate = successes / len(outcome_rows) if outcome_rows else 0.0
+        deltas = [abs(number(row, "delta_prob")) for row in scored]
+        body.append(
+            '<tr><td>{method}</td><td class="num">{setting}</td><td class="num">{seed}</td>'
+            '<td class="num">{scored}/{attempted}</td><td class="num">{successes}/{eligible} ({rate:.1%})</td>'
+            '<td class="num">{delta}</td></tr>'.format(
+                method=html.escape(friendly_method(method)),
+                setting=html.escape(strength.replace("budget ", "")),
+                seed=html.escape(seed),
+                scored=len(scored),
+                attempted=len(attempted),
+                successes=successes,
+                eligible=len(outcome_rows),
+                rate=rate,
+                delta=f"{statistics.fmean(deltas):.4f}" if deltas else "not estimable",
+            )
+        )
+    return (
+        '<section><h2>Seed stability evidence</h2>'
+        '<p class="explain">Each row holds method and budget fixed. Differences across rows therefore show sensitivity to target-selection randomness.</p>'
+        '<div class="table-scroll"><table class="summary-table"><thead><tr><th>Method</th>'
+        '<th>Budget / setting</th><th>Seed</th><th>Scored / attempted</th><th>Outcome rate</th>'
+        f'<th>Mean absolute delta</th></tr></thead><tbody>{"".join(body)}</tbody></table></div></section>'
     )
 
 
@@ -1139,6 +1269,53 @@ def available_runs() -> list[Path]:
         candidate for candidate in Path("outputs").glob("run_*")
         if (candidate / "prediction_comparison.csv").is_file()
     )
+
+
+def build_graph_comparison_rows(run_root: Path) -> list[dict[str, str]]:
+    """Combine comparable random and Winner-XFG results without mixing code variants."""
+    sources = (
+        ("random_graph", run_root / "graph_random" / "prediction_comparison.csv"),
+        ("winner_xfg", run_root / "graph_targeted" / "prediction_comparison.csv"),
+    )
+    if any(not path.is_file() for _, path in sources):
+        return []
+
+    combined: list[dict[str, str]] = []
+    budget_sets: list[set[str]] = []
+    seed_sets: list[set[str]] = []
+    for family, path in sources:
+        rows = read_rows(path)
+        if not explicit_attack_success(rows):
+            return []
+        budgets = {row["budget"] for row in rows if row["budget"]}
+        seeds = {row["seed"] for row in rows if row["seed"]}
+        budget_sets.append(budgets)
+        seed_sets.append(seeds)
+        for row in rows:
+            combined.append(
+                {
+                    **row,
+                    "method_family": family,
+                    "action": f"{family}::{row['action']}",
+                }
+            )
+    if len(budget_sets[0]) < 2 or budget_sets[0] != budget_sets[1]:
+        return []
+    if not seed_sets[0] or seed_sets[0] != seed_sets[1]:
+        return []
+    return combined
+
+
+def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
+    """Write a normalized comparison table with a stable union of columns."""
+    if not rows:
+        return
+    fields = list(dict.fromkeys(key for row in rows for key in row))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def input_sample_count(run: Path, scored: list[dict[str, str]]) -> tuple[str, int]:
@@ -1192,23 +1369,39 @@ def render_report(
     groups = comparison_groups(rows)
     chart_groups = [group for group in groups if int(group["scored"]) > 0]
     selections = sorted({selection_key(row) for row in scored})
+    seeds = sorted({row["seed"] for row in scored if row["seed"]}, key=lambda value: int(value))
     budgets = sorted({int(group["budget"]) for group in chart_groups})
     has_budget_response = len(budgets) > 1
     selection_name = "configurations" if has_budget_response else "methods"
-    successes = sum(attack_succeeded(row) for row in scored)
+    outcome_rows = (
+        [row for row in scored if attack_eligible(row)]
+        if explicit_attack_success(scored)
+        else scored
+    )
+    successes = sum(attack_succeeded(row) for row in outcome_rows)
     outcome_event_label = "successful attacks" if explicit_attack_success(scored) else "prediction flips"
     scored_sample_count, unscored = len({row["sample"] for row in scored}), len(rows) - len(scored)
-    input_label, input_count = input_sample_count(output.parent, scored)
+    run_root = (
+        output.parent.parent
+        if output.parent.name in {"graph_random", "graph_targeted", "graph_comparison"}
+        else output.parent
+    )
+    input_label, input_count = input_sample_count(run_root, scored)
     insight_items = "".join(f'<li>{html.escape(item)}</li>' for item in evidence_insights(chart_groups, scored))
     table_rows = "".join(
-        "<tr data-selection=\"{selection}\"><td>{sample}</td><td>{action}</td><td class=\"num\">{budget}</td>"
+        "<tr data-selection=\"{selection}\" data-seed=\"{seed}\"><td>{sample}</td><td>{action}</td><td class=\"num\">{budget}</td><td class=\"num\">{seed}</td>"
         "<td class=\"num\">{base:.6f}</td><td class=\"num\">{variant:.6f}</td><td class=\"num\">{delta:+.6f}</td>"
         "<td class=\"num\">{nodes:+.0f}</td><td class=\"num\">{edges:+.0f}</td><td>{outcome}</td></tr>".format(
             selection=html.escape(selection_key(row)), action=html.escape(row["action"]), sample=html.escape(row["sample"]),
             budget=html.escape(row["budget"] or "fixed"),
+            seed=html.escape(row["seed"] or "fixed"),
             base=number(row, "base_prob"), variant=number(row, "variant_prob"),
             delta=number(row, "delta_prob"), nodes=number(row, "delta_nodes"), edges=number(row, "delta_edges"),
-            outcome="success" if attack_succeeded(row) else "no change",
+            outcome=(
+                "baseline ineligible"
+                if explicit_attack_success(scored) and not attack_eligible(row)
+                else ("success" if attack_succeeded(row) else "no change")
+            ),
         ) for row in scored
     )
     controls = "".join(
@@ -1225,12 +1418,21 @@ def render_report(
             '<label class="selector-field" for="run-selector"><span>Experiment run</span>'
             f'<select id="run-selector">{run_selector_options}</select></label>'
         )
-    run_root = output.parent.parent if output.parent.name in {"graph_random", "graph_targeted"} else output.parent
+    if len(seeds) > 1:
+        seed_options = '<option value="all">All seeds</option>' + "".join(
+            f'<option value="{html.escape(seed)}">Seed {html.escape(seed)}</option>'
+            for seed in seeds
+        )
+        control_fields.append(
+            '<label class="selector-field" for="seed-selector"><span>Evidence seed</span>'
+            f'<select id="seed-selector">{seed_options}</select></label>'
+        )
     report_options: list[str] = []
     for label, relative in (
         ("Code perturbations", "dashboard.html"),
         ("Random graph baseline", "graph_random/dashboard.html"),
         ("Winner-XFG targeted", "graph_targeted/dashboard.html"),
+        ("Random vs Winner-XFG", "graph_comparison/dashboard.html"),
     ):
         candidate = run_root / relative
         if (candidate.parent / "prediction_comparison.csv").is_file():
@@ -1262,7 +1464,10 @@ def render_report(
     if has_budget_response:
         comparison_section = (
             '<section><h2>Effectiveness under controlled budget changes</h2>'
-            '<p class="explain">Each panel changes only perturbation budget. Every line fixes one method, and every distribution facet uses the same vertical scale.</p>'
+            '<p class="explain">Horizontal panels hold budget fixed and compare methods. Vertical response panels hold the method fixed and change only perturbation budget.</p>'
+            '<h3>Horizontal method comparison at each fixed budget</h3>'
+            f'{horizontal_budget_comparisons(chart_groups, "success_rate", success_term(scored), percent=True)}'
+            '<h3>Vertical budget response for each fixed method</h3>'
             f'<div class="chart-block"><h3>{html.escape(success_term(scored))}</h3>{svg_budget_lines(chart_groups, "success_rate", success_term(scored), percent=True)}</div>'
             f'<div class="chart-block"><h3>Effect magnitude</h3>{svg_budget_lines(chart_groups, "mean_abs_delta", "Mean absolute probability change")}</div>'
             f'<div class="chart-block"><h3>Effect direction</h3><p class="explain">Positive values raise predicted vulnerability probability; negative values lower it.</p>{svg_budget_signed_lines(chart_groups, "mean_delta", "Mean signed probability change")}</div>'
@@ -1304,17 +1509,19 @@ def render_report(
 <div class="summary-strip">
   <div class="summary-item"><strong>{input_count}</strong>{html.escape(input_label.lower())}</div>
   <div class="summary-item"><strong>{len(scored)}</strong>scored comparisons</div>
+  <div class="summary-item"><strong>{len(seeds) or 1}</strong>random seeds</div>
   <div class="summary-item"><strong>{successes}</strong>{html.escape(outcome_event_label)}</div>
   <div class="summary-item"><strong>{unscored}</strong>not applicable / incomplete</div>
 </div>
 {comparison_section}
+{seed_stability_table(rows)}
 <section><h2>Evidence-backed observations</h2><p class="explain">These statements are generated from the same aggregates shown above. They are descriptive associations, not causal claims.</p><ul class="insights">{insight_items}</ul></section>
-<section><h2>Statistical evidence</h2><p class="explain">Rates use 95% Wilson intervals. Probability means use normal-approximation 95% intervals over scored sample-level outcomes. Small n produces wider uncertainty.</p>{statistical_table(groups, scored)}</section>
+<section><h2>Statistical evidence</h2><p class="explain">Single-seed rates use 95% Wilson intervals. Multi-seed rate intervals are calculated across seed-level rates, so repeated variants are not presented as independent samples. Probability means use scored variant-level intervals.</p>{statistical_table(groups, scored)}</section>
 <section><h2>Variant evidence</h2><p class="explain">Use this table to trace every aggregate back to individual samples. Filtering changes only the evidence table, not the fixed comparison charts above.</p>
 <p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name}</summary><div class="picker-actions"><label><input id="select-all" type="checkbox" checked> All</label></div><div id="action-checks">{controls}</div></details>
-<div class="table-scroll"><table class="variant-table"><thead><tr><th>Sample</th><th>Method</th><th>Budget / setting</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Outcome</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>
-<p class="method-note">Confidence intervals quantify sampling uncertainty across this run's scored cases; they do not account for dataset shift, repeated random seeds, or model retraining uncertainty.</p>
-</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');const reportSelector=document.getElementById('report-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filterRows(){{const chosen=selected();allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>row.hidden=!chosen.has(row.dataset.selection));summary.textContent=`Showing ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filterRows();}});boxes.forEach(box=>box.addEventListener('change',filterRows));if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});if(reportSelector)reportSelector.addEventListener('change',()=>{{window.location.href=reportSelector.value;}});filterRows();</script></body></html>"""
+<div class="table-scroll"><table class="variant-table"><thead><tr><th>Sample</th><th>Method</th><th>Budget / setting</th><th>Seed</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Outcome</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>
+<p class="method-note">Confidence intervals quantify uncertainty within this run; they do not account for dataset shift or model retraining uncertainty.</p>
+</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');const reportSelector=document.getElementById('report-selector');const seedSelector=document.getElementById('seed-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filterRows(){{const chosen=selected();const chosenSeed=seedSelector?seedSelector.value:'all';allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;let visible=0;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>{{const show=chosen.has(row.dataset.selection)&&(chosenSeed==='all'||row.dataset.seed===chosenSeed);row.hidden=!show;if(show)visible+=1;}});summary.textContent=`Showing ${{visible}} evidence rows across ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filterRows();}});boxes.forEach(box=>box.addEventListener('change',filterRows));if(seedSelector)seedSelector.addEventListener('change',filterRows);if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});if(reportSelector)reportSelector.addEventListener('change',()=>{{window.location.href=reportSelector.value;}});filterRows();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
     render_analysis_document(rows, output.parent / ANALYSIS_FILENAME, title)
@@ -1330,14 +1537,52 @@ def main() -> None:
         parser.error(f"missing comparison table: {comparison}")
     output = args.output or args.run_dir / "dashboard.html"
     runs = available_runs()
-    run_options = [
-        (candidate.name, Path(os.path.relpath(candidate / "dashboard.html", output.parent)).as_posix())
-        for candidate in runs
-    ]
+
+    def options_for(report_output: Path) -> list[tuple[str, str]]:
+        return [
+            (
+                candidate.name,
+                Path(os.path.relpath(candidate / "dashboard.html", report_output.parent)).as_posix(),
+            )
+            for candidate in runs
+        ]
+
+    run_options = options_for(output)
+    combined_rows = build_graph_comparison_rows(args.run_dir)
+    if combined_rows:
+        write_rows(
+            args.run_dir / "graph_comparison" / "prediction_comparison.csv",
+            combined_rows,
+        )
     render_report(
         read_rows(comparison), output, f"DeepWuKong perturbation report: {args.run_dir.name}",
         run_options, args.run_dir.name,
     )
+    if combined_rows:
+        combined_dir = args.run_dir / "graph_comparison"
+        combined_output = combined_dir / "dashboard.html"
+        render_report(
+            combined_rows,
+            combined_output,
+            f"Random graph vs Winner-XFG: {args.run_dir.name}",
+            options_for(combined_output),
+            args.run_dir.name,
+        )
+        print(f"Wrote {combined_output}")
+        for label, child in (
+            ("Random graph", args.run_dir / "graph_random"),
+            ("Winner-XFG", args.run_dir / "graph_targeted"),
+        ):
+            child_comparison = child / "prediction_comparison.csv"
+            if child_comparison.is_file():
+                child_output = child / "dashboard.html"
+                render_report(
+                    read_rows(child_comparison),
+                    child_output,
+                    f"{label} perturbation report: {args.run_dir.name}",
+                    options_for(child_output),
+                    args.run_dir.name,
+                )
     render_index(runs, Path("outputs") / "index.html")
     print(f"Wrote {output}")
 

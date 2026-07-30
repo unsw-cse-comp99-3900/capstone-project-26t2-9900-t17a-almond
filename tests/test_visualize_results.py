@@ -4,6 +4,7 @@ from pathlib import Path
 
 from robustness_experiments.visualize_results import (
     ANALYSIS_FILENAME,
+    build_graph_comparison_rows,
     comparison_groups,
     perturbation_configuration,
     read_rows,
@@ -23,11 +24,15 @@ def row(
     variant: float = 0.2,
     flipped: bool = True,
     attack_success: str | None = None,
+    seed: str = "",
+    baseline_eligible: str = "",
 ) -> dict[str, str]:
     result = {
         "sample": sample,
         "action": action,
         "budget": budget,
+        "seed": seed,
+        "baseline_eligible": baseline_eligible,
         "function": "f",
         "status": "success",
         "base_label": "1",
@@ -95,9 +100,10 @@ class VisualizationTests(unittest.TestCase):
             analysis = (report.parent / ANALYSIS_FILENAME).read_text(encoding="utf-8")
         self.assertEqual(success_term(rows), "Attack Success Rate (ASR)")
         self.assertIn("Effectiveness under controlled budget changes", content)
-        self.assertIn("Each panel changes only perturbation budget", content)
+        self.assertIn("Horizontal panels hold budget fixed", content)
+        self.assertIn("Vertical response panels hold the method fixed", content)
         self.assertIn("non-decreasing budget-response pattern", content)
-        self.assertEqual(content.count('class="comparison-chart"'), 7)
+        self.assertEqual(content.count('class="comparison-chart"'), 10)
         self.assertIn("Scored coverage rate", content)
         self.assertIn("Mean absolute node change", content)
         self.assertIn("Sample probability change distributions by budget", content)
@@ -122,6 +128,92 @@ class VisualizationTests(unittest.TestCase):
         self.assertEqual(group["coverage_rate"], 0.5)
         self.assertEqual(group["mean_abs_nodes"], 1.0)
         self.assertEqual(group["mean_abs_edges"], 2.0)
+
+    def test_multi_seed_asr_uses_only_baseline_eligible_rows(self):
+        rows = []
+        for seed in ("7", "17", "29"):
+            rows.append(
+                row(
+                    "winner_xfg_edge_attack",
+                    sample="eligible",
+                    budget="1",
+                    seed=seed,
+                    baseline_eligible="True",
+                    attack_success="True",
+                )
+            )
+            rows.append(
+                row(
+                    "winner_xfg_edge_attack",
+                    sample="baseline_error",
+                    budget="1",
+                    seed=seed,
+                    baseline_eligible="False",
+                    attack_success="",
+                )
+            )
+
+        group = comparison_groups(rows)[0]
+
+        self.assertEqual(group["seed_count"], 3)
+        self.assertEqual(group["scored"], 6)
+        self.assertEqual(group["outcome_scored"], 3)
+        self.assertEqual(group["successes"], 3)
+        self.assertEqual(group["success_rate"], 1.0)
+
+    def test_multi_budget_seed_report_has_horizontal_vertical_and_seed_filters(self):
+        rows = [
+            row(
+                action,
+                sample=f"s{index}",
+                budget=budget,
+                seed=seed,
+                baseline_eligible="True",
+                attack_success=str(index == 0),
+            )
+            for action in ("node_add", "winner_xfg_edge_attack")
+            for budget in ("1", "3", "5")
+            for seed in ("7", "17")
+            for index in range(2)
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            report = Path(directory) / "report.html"
+            render_report(rows, report, "Graph comparison")
+            content = report.read_text(encoding="utf-8")
+
+        self.assertIn("Horizontal method comparison at each fixed budget", content)
+        self.assertIn("Vertical budget response for each fixed method", content)
+        self.assertIn('id="seed-selector"', content)
+        self.assertIn("<th>Seed</th>", content)
+
+    def test_combined_graph_rows_require_matching_budgets_and_seeds(self):
+        header = (
+            "sample,action,budget,seed,status,base_prob,variant_prob,delta_probability,"
+            "delta_nodes,delta_edges,flipped,attack_success,baseline_eligible\n"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            run = Path(directory)
+            for folder, action in (
+                ("graph_random", "node_add"),
+                ("graph_targeted", "winner_xfg_edge_attack"),
+            ):
+                target = run / folder
+                target.mkdir()
+                body = "".join(
+                    f"s,{action},{budget},{seed},success,0.8,0.2,-0.6,1,2,True,True,True\n"
+                    for budget in ("1", "3", "5")
+                    for seed in ("7", "17")
+                )
+                (target / "prediction_comparison.csv").write_text(header + body, encoding="utf-8")
+
+            combined = build_graph_comparison_rows(run)
+
+        self.assertEqual(len(combined), 12)
+        self.assertIn("random_graph::node_add", {item["action"] for item in combined})
+        self.assertIn(
+            "winner_xfg::winner_xfg_edge_attack",
+            {item["action"] for item in combined},
+        )
 
     def test_wilson_interval_is_bounded_and_contains_rate(self):
         low, high = wilson_interval(3, 10)
@@ -148,12 +240,15 @@ class VisualizationTests(unittest.TestCase):
             run = Path(directory) / "run_test"
             random_dir = run / "graph_random"
             targeted_dir = run / "graph_targeted"
+            comparison_dir = run / "graph_comparison"
             random_dir.mkdir(parents=True)
             targeted_dir.mkdir(parents=True)
+            comparison_dir.mkdir(parents=True)
             for comparison in (
                 run / "prediction_comparison.csv",
                 random_dir / "prediction_comparison.csv",
                 targeted_dir / "prediction_comparison.csv",
+                comparison_dir / "prediction_comparison.csv",
             ):
                 comparison.write_text("available", encoding="utf-8")
 
@@ -166,8 +261,13 @@ class VisualizationTests(unittest.TestCase):
         self.assertIn('id="report-selector"', main_content)
         self.assertEqual(main_content.count("Random graph baseline"), 1)
         self.assertEqual(main_content.count("Winner-XFG targeted"), 1)
+        self.assertEqual(main_content.count("Random vs Winner-XFG"), 1)
         self.assertIn('<option value="dashboard.html" selected>Code perturbations</option>', main_content)
         self.assertIn('<option value="dashboard.html" selected>Random graph baseline</option>', random_content)
+        self.assertIn(
+            '<option value="../graph_comparison/dashboard.html">Random vs Winner-XFG</option>',
+            random_content,
+        )
         self.assertNotIn('class="related"', main_content)
 
     def test_current_full_run_and_subreports_render_when_present(self):

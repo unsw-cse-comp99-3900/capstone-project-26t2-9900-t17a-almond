@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+from dataclasses import asdict
 from pathlib import Path
 
 import networkx as nx
@@ -13,6 +14,7 @@ from robustness_experiments.graph.graph_perturbations import (
     apply_xfg_targeted_action,
     load_joern_pdg,
 )
+from robustness_experiments.graph.experiment_design import operations_form_nested_prefix
 
 
 def sample_pdg() -> nx.DiGraph:
@@ -178,6 +180,52 @@ class GraphPerturbationTests(unittest.TestCase):
                 key_lines={20},
                 neutral_source_line=40,
             )
+
+    def test_random_graph_budgets_form_nested_operation_prefixes(self) -> None:
+        for action in ACTION_NAMES:
+            with self.subTest(action=action):
+                results = [
+                    apply_graph_action(
+                        sample_pdg(),
+                        action=action,
+                        count=budget,
+                        seed=42,
+                        key_lines={20},
+                    )
+                    for budget in (1, 3, 5)
+                ]
+                operations = [
+                    [asdict(operation) for operation in result.operations]
+                    for result in results
+                ]
+
+                self.assertTrue(operations_form_nested_prefix(operations[0], operations[1]))
+                self.assertTrue(operations_form_nested_prefix(operations[1], operations[2]))
+
+    def test_winner_xfg_budgets_form_nested_operation_prefixes(self) -> None:
+        for action in XFG_TARGETED_ACTION_NAMES:
+            with self.subTest(action=action):
+                results = [
+                    apply_xfg_targeted_action(
+                        sample_pdg(),
+                        action=action,
+                        winner_nodes=set(sample_pdg().nodes),
+                        winner_key_line=20,
+                        target_label=1,
+                        budget=budget,
+                        key_lines={20},
+                        neutral_source_line=40,
+                        seed=42,
+                    )
+                    for budget in (1, 3, 5)
+                ]
+                operations = [
+                    [asdict(operation) for operation in result.operations]
+                    for result in results
+                ]
+
+                self.assertTrue(operations_form_nested_prefix(operations[0], operations[1]))
+                self.assertTrue(operations_form_nested_prefix(operations[1], operations[2]))
 
     def test_load_joern_pdg_keeps_only_control_and_data_edges(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

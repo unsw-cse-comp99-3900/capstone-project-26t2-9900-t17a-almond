@@ -27,7 +27,8 @@ modified.
 
 The targeted experiment first scores the baseline XFGs, selects the XFG with
 the maximum vulnerability probability, and applies a macro action within that
-slice. Each action and budget starts from a fresh copy of the baseline PDG.
+slice. Each action, seed, and budget starts from a fresh copy of the baseline
+PDG.
 
 | Action | Targeted operation |
 |---|---|
@@ -35,7 +36,18 @@ slice. Each action and budget starts from a fresh copy of the baseline PDG.
 | `winner_xfg_feature_mask` | Remap high-priority winner-XFG node features to a neutral source line or duplicate the winner key-line feature. |
 | `targeted_subgraph_injection` | Inject a three-node control/data motif around the winner key line for each budget step. |
 
-Run all three actions at maximum budgets 1, 3, and 5 inside the DeepWuKong container:
+Both primitive-random and Winner-XFG runners default to budgets `1, 3, 5` and
+the same ten fixed seeds:
+
+```text
+7 17 29 42 61 73 89 101 137 2026
+```
+
+For one sample/action/seed, B1 is a prefix of B3 and B3 is a prefix of B5.
+Every result records `requested_count`, `applied_count`,
+`budget_fully_applied`, and `nested_prefix_verified`.
+
+Run all three targeted actions inside the DeepWuKong container:
 
 ```powershell
 python /repo/robustness_experiments/graph/run_xfg_targeted_experiment.py `
@@ -46,7 +58,7 @@ python /repo/robustness_experiments/graph/run_xfg_targeted_experiment.py `
   --output-dir /output `
   --actions winner_xfg_edge_attack winner_xfg_feature_mask targeted_subgraph_injection `
   --budgets 1 3 5 `
-  --seed 42
+  --seeds 7 17 29 42 61 73 89 101 137 2026
 ```
 
 By default, the runner attacks only baseline-correct samples. It records both
@@ -58,14 +70,15 @@ If the winning XFG contains no materialized PDG nodes, the runner targets up to
 five PDG nodes nearest to its key line and records
 `winner_fallback=nearest_pdg_nodes` in the result.
 
-Actions are independently selectable. For example, this runs only the edge
-attack at budgets 1 and 3:
+Actions and seeds are independently selectable. For example, this runs only
+the edge attack at budgets 1 and 3 using one seed:
 
 ```powershell
 python /repo/robustness_experiments/graph/run_xfg_targeted_experiment.py `
   <required path arguments> `
   --actions winner_xfg_edge_attack `
-  --budgets 1 3
+  --budgets 1 3 `
+  --seed 42
 ```
 
 ## Target Selection
@@ -134,6 +147,23 @@ The module checks that:
 - synthetic or remapped nodes reference positive source lines;
 - every edge has `c/d = c` or `c/d = d`;
 - supplied key-line nodes remain present.
+
+## Experiment Reports
+
+The Full Test writes separate reports under `graph_random/` and
+`graph_targeted/`. When both result sets have matching budgets and seeds, the
+dashboard generator also creates:
+
+```text
+graph_comparison/
+  prediction_comparison.csv
+  dashboard.html
+```
+
+The combined dashboard compares methods horizontally at a fixed budget and
+vertically across budgets for a fixed method. It also provides seed filtering
+and per-seed stability evidence. Ground-truth-aware ASR includes only variants
+whose baseline prediction was correct.
 
 ## Current Integration Limit
 

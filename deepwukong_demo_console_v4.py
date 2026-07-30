@@ -13,7 +13,8 @@ Main menu:
 0. Exit
 
 v4 changes:
-- Option 6 opens the experiment dashboard index or the function-level PDG atlas.
+- Option 6 opens the experiment index, function-level PDG atlas, or latest
+  random-versus-Winner-XFG comparison when one has been generated.
 - Options 3 and 4 still allow selecting different run folders.
 - Option 4 normalizes perturbation metrics across all supported run formats.
 """
@@ -662,9 +663,9 @@ def run_test() -> None:
         "1. Load every C/C++ source file under input_sources",
         "2. Apply all implemented source-level perturbation actions",
         "3. Run baseline and perturbed DeepWuKong predictions",
-        "4. Run every random graph action and all Winner-XFG targeted graph actions/budgets",
-        "5. Generate integrated code- and graph-level robustness reports",
-        "This requires the NVIDIA GPU and takes about 65–80 minutes for the current 60-sample set.",
+        "4. Run random graph and Winner-XFG actions at nested budgets 1/3/5",
+        "5. Repeat graph actions with 10 fixed seeds and generate integrated reports",
+        "The current 60-sample Full Test takes about 5-6 hours; source-level inference dominates runtime.",
         "",
     ])
 
@@ -876,6 +877,13 @@ def open_web_dashboard() -> None:
         ("Experiment dashboard index", EXPERIMENT_DASHBOARD_HTML),
         ("Function-scoped PDG atlas", PDG_ATLAS_HTML),
     ]
+    graph_dashboards = sorted(
+        (PROJECT_ROOT / "outputs").glob("run_*/graph_comparison/dashboard.html"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    if graph_dashboards:
+        options.append(("Latest random vs Winner-XFG comparison", graph_dashboards[0]))
     while True:
         print_header("Open Web Dashboard")
         for index, (label, _) in enumerate(options, start=1):

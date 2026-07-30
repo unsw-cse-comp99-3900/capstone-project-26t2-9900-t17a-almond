@@ -17,6 +17,15 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
+def latest_graph_comparison() -> Path | None:
+    candidates = sorted(
+        (PROJECT_ROOT / "outputs").glob("run_*/graph_comparison/dashboard.html"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    return candidates[0] if candidates else None
+
+
 def create_dashboard_server(host: str, port: int) -> http.server.ThreadingHTTPServer:
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(PROJECT_ROOT))
     return http.server.ThreadingHTTPServer((host, port), handler)
@@ -27,6 +36,10 @@ def serve(host: str, port: int) -> int:
     print("Almond project dashboard is available at:", flush=True)
     print(f"  http://localhost:{port}/outputs/index.html", flush=True)
     print(f"  http://localhost:{port}/robustness_experiments/showcase/deepwukong_pdg_showcase.html", flush=True)
+    graph_comparison = latest_graph_comparison()
+    if graph_comparison is not None:
+        relative = graph_comparison.relative_to(PROJECT_ROOT).as_posix()
+        print(f"  http://localhost:{port}/{relative}", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

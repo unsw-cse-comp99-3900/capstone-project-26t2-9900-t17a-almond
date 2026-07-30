@@ -26,6 +26,12 @@ import torch
 from torch_geometric.data import Batch
 
 from robustness_experiments.graph.graph_perturbations import ACTION_NAMES, apply_graph_action
+from robustness_experiments.graph.experiment_design import (
+    DEFAULT_GRAPH_BUDGETS,
+    DEFAULT_GRAPH_SEEDS,
+    operations_form_nested_prefix,
+    resolve_experiment_values,
+)
 from infer_single_source import add_symbols, function_name
 from src.data_generator import build_PDG, build_XFG
 from src.datas.graphs import XFG
@@ -40,9 +46,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--experiment", default="graph_perturbation_round_1")
     parser.add_argument("--dataset", default="archived_devign_baseline_csv")
+    parser.add_argument("--metadata", type=Path)
     parser.add_argument("--threshold", type=float, default=0.5)
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--count", type=int, default=1)
+    parser.add_argument("--seeds", nargs="+", type=int)
+    parser.add_argument("--budgets", nargs="+", type=int)
+    parser.add_argument("--seed", type=int, help="Legacy single-seed alias for --seeds.")
+    parser.add_argument("--count", type=int, help="Legacy single-budget alias for --budgets.")
     parser.add_argument("--strategy", choices=("random", "guided"), default="random")
     return parser.parse_args()
 
@@ -70,6 +79,18 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 def find_source(source_root: Path, sample_id: str) -> Path | None:
     matches = sorted(path for path in source_root.rglob(f"{sample_id}.*") if path.is_file())
     return matches[0] if matches else None
+
+
+def read_labels(path: Path | None) -> dict[str, int]:
+    if path is None:
+        return {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        rows = csv.DictReader(handle)
+        return {
+            str(row["sample_id"]): int(row["label"])
+            for row in rows
+            if row.get("sample_id") and str(row.get("label", "")).strip() in {"0", "1"}
+        }
 
 
 class Predictor:
@@ -136,74 +157,116 @@ class Predictor:
         }
 
 
-def action_summaries(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+def action_summaries(
+    rows: list[dict[str, Any]],
+    budgets: list[int],
+) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, int], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        grouped[str(row["action"])].append(row)
+        grouped[(str(row["action"]), int(row["budget"]))].append(row)
 
     summaries = []
     for action in ACTION_NAMES:
-        group = grouped[action]
-        successful = [row for row in group if not row["error"] and row["valid"]]
-        absolute_deltas = [abs(float(row["delta_probability"])) for row in successful]
-        summaries.append(
-            {
-                "action": action,
-                "attempted": len(group),
-                "successful": len(successful),
-                "failed": len(group) - len(successful),
-                "flips": sum(int(row["flipped"]) for row in successful),
-                "mean_delta_probability": (
-                    sum(float(row["delta_probability"]) for row in successful) / len(successful)
-                    if successful
-                    else None
-                ),
-                "mean_absolute_delta_probability": (
-                    sum(absolute_deltas) / len(absolute_deltas) if absolute_deltas else None
-                ),
-                "max_absolute_delta_probability": max(absolute_deltas) if absolute_deltas else None,
-                "mean_runtime_ms": (
-                    sum(float(row["runtime_ms"]) for row in successful) / len(successful)
-                    if successful
-                    else None
-                ),
-            }
-        )
+        for budget in budgets:
+            group = grouped[(action, budget)]
+            successful = [row for row in group if not row["error"] and row["valid"]]
+            absolute_deltas = [abs(float(row["delta_probability"])) for row in successful]
+            eligible = [row for row in successful if row.get("baseline_eligible") is True]
+            summaries.append(
+                {
+                    "action": action,
+                    "budget": budget,
+                    "seed_count": len({int(row["seed"]) for row in group}),
+                    "attempted": len(group),
+                    "successful": len(successful),
+                    "failed": len(group) - len(successful),
+                    "fully_applied": sum(bool(row["budget_fully_applied"]) for row in successful),
+                    "flips": sum(int(row["flipped"]) for row in successful),
+                    "attack_eligible": len(eligible),
+                    "attack_successes": sum(int(row["attack_success"]) for row in eligible),
+                    "attack_success_rate": (
+                        sum(int(row["attack_success"]) for row in eligible) / len(eligible)
+                        if eligible
+                        else None
+                    ),
+                    "mean_delta_probability": (
+                        sum(float(row["delta_probability"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                    "mean_absolute_delta_probability": (
+                        sum(absolute_deltas) / len(absolute_deltas) if absolute_deltas else None
+                    ),
+                    "max_absolute_delta_probability": max(absolute_deltas) if absolute_deltas else None,
+                    "mean_applied_count": (
+                        sum(int(row["applied_count"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                    "mean_runtime_ms": (
+                        sum(float(row["runtime_ms"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                }
+            )
     return summaries
 
 
-def archive_action_summaries(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def archive_action_summaries(
+    rows: list[dict[str, Any]],
+    budgets: list[int],
+) -> list[dict[str, Any]]:
     summaries = []
     for action in ACTION_NAMES:
-        attempted = [row for row in rows if row["action"] == action]
-        successful = [
-            row
-            for row in attempted
-            if not row["error"] and row["valid"] and row["delta_probability"] is not None
-        ]
-        deltas = [float(row["delta_probability"]) for row in successful]
-        summaries.append(
-            {
-                "action": action,
-                "count": len(successful),
-                "flips": sum(int(row["flipped"]) for row in successful),
-                "avg_delta_prob": sum(deltas) / len(deltas) if deltas else None,
-                "min_delta_prob": min(deltas) if deltas else None,
-                "max_delta_prob": max(deltas) if deltas else None,
-                "avg_delta_nodes": (
-                    sum(int(row["delta_nodes"]) for row in successful) / len(successful)
-                    if successful
-                    else None
-                ),
-                "avg_delta_edges": (
-                    sum(int(row["delta_edges"]) for row in successful) / len(successful)
-                    if successful
-                    else None
-                ),
-                "attempted": len(attempted),
-                "failed": len(attempted) - len(successful),
-            }
-        )
+        for budget in budgets:
+            attempted = [
+                row for row in rows
+                if row["action"] == action and int(row["budget"]) == budget
+            ]
+            successful = [
+                row
+                for row in attempted
+                if not row["error"] and row["valid"] and row["delta_probability"] is not None
+            ]
+            eligible = [row for row in successful if row.get("baseline_eligible") is True]
+            deltas = [float(row["delta_probability"]) for row in successful]
+            summaries.append(
+                {
+                    "action": action,
+                    "budget": budget,
+                    "seed_count": len({int(row["seed"]) for row in attempted}),
+                    "count": len(successful),
+                    "flips": sum(int(row["flipped"]) for row in successful),
+                    "attack_eligible": len(eligible),
+                    "attack_successes": sum(int(row["attack_success"]) for row in eligible),
+                    "attack_success_rate": (
+                        sum(int(row["attack_success"]) for row in eligible) / len(eligible)
+                        if eligible
+                        else None
+                    ),
+                    "avg_delta_prob": sum(deltas) / len(deltas) if deltas else None,
+                    "min_delta_prob": min(deltas) if deltas else None,
+                    "max_delta_prob": max(deltas) if deltas else None,
+                    "avg_delta_nodes": (
+                        sum(int(row["delta_nodes"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                    "avg_delta_edges": (
+                        sum(int(row["delta_edges"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                    "mean_applied_count": (
+                        sum(int(row["applied_count"]) for row in successful) / len(successful)
+                        if successful
+                        else None
+                    ),
+                    "attempted": len(attempted),
+                    "failed": len(attempted) - len(successful),
+                }
+            )
     return summaries
 
 
@@ -224,6 +287,8 @@ def write_archive_layout(
             {
                 "sample": row["sample_id"],
                 "function": row["function"],
+                "true_label": row.get("true_label"),
+                "baseline_correct": row.get("baseline_correct"),
                 "status": "success" if not row["error"] else "failed",
                 "label": row["predicted_label"],
                 "prob": row["probability"],
@@ -273,11 +338,18 @@ def write_archive_layout(
             {
                 "sample": row["sample_id"],
                 "action": row["action"],
+                "method_family": "random_graph",
+                "budget": row["budget"],
+                "seed": row["seed"],
                 "function": baseline["function"],
+                "true_label": row.get("true_label"),
+                "baseline_correct": row.get("baseline_correct"),
+                "baseline_eligible": row.get("baseline_eligible"),
                 "status": "success" if success else "failed",
                 "base_label": row["baseline_label"],
                 "variant_label": row["perturbed_label"],
                 "flipped": row["flipped"],
+                "attack_success": row.get("attack_success", ""),
                 "base_prob": row["baseline_probability"],
                 "variant_prob": row["perturbed_probability"],
                 "delta_prob": row["delta_probability"],
@@ -289,16 +361,21 @@ def write_archive_layout(
                 "delta_edges": row["delta_edges"],
                 "base_xfg_count": row["baseline_xfg_count"],
                 "variant_xfg_count": row["perturbed_xfg_count"],
+                "requested_count": row["requested_count"],
+                "applied_count": row["applied_count"],
+                "budget_fully_applied": row["budget_fully_applied"],
+                "nested_prefix_verified": row["nested_prefix_verified"],
                 "error": row["error"],
             }
         )
-        action_detail = details.get(row["sample_id"], {}).get("actions", {}).get(row["action"], {})
+        configuration_id = f"{row['action']}__b{row['budget']}__s{row['seed']}"
+        action_detail = details.get(row["sample_id"], {}).get("actions", {}).get(configuration_id, {})
         probability = row["perturbed_probability"]
         label = row["perturbed_label"]
         payload = {
             "generated_at_utc": generated_at,
             "prediction": {
-                "sample_id": f"{row['sample_id']}__{row['action']}",
+                "sample_id": f"{row['sample_id']}__{configuration_id}",
                 "input_file": baseline["source_file"],
                 "function_name": baseline["function"],
                 "joern_status": "reused_archived_csv",
@@ -323,8 +400,11 @@ def write_archive_layout(
                     "action": row["action"],
                     "strategy": row["strategy"],
                     "seed": row["seed"],
+                    "budget": row["budget"],
                     "requested_count": row["requested_count"],
                     "applied_count": row["applied_count"],
+                    "budget_fully_applied": row["budget_fully_applied"],
+                    "nested_prefix_verified": row["nested_prefix_verified"],
                     "valid": row["valid"],
                     "operations": row["operations"],
                     "validation_errors": row["validation_errors"],
@@ -340,11 +420,11 @@ def write_archive_layout(
             },
         }
         write_json(
-            output_dir / "runs" / "perturbed" / f"{row['sample_id']}__{row['action']}.json",
+            output_dir / "runs" / "perturbed" / f"{row['sample_id']}__{configuration_id}.json",
             payload,
         )
 
-    archive_summaries = archive_action_summaries(perturbation_rows)
+    archive_summaries = archive_action_summaries(perturbation_rows, list(metadata["budgets"]))
     write_csv(output_dir / "baseline_summary.csv", baseline_summary)
     write_csv(output_dir / "prediction_comparison.csv", comparison_rows)
     write_csv(output_dir / "action_summary.csv", archive_summaries)
@@ -353,6 +433,21 @@ def write_archive_layout(
 
 def main() -> int:
     args = parse_args()
+    budgets = resolve_experiment_values(
+        args.budgets,
+        args.count,
+        default=DEFAULT_GRAPH_BUDGETS,
+        name="budgets",
+        minimum=1,
+    )
+    seeds = resolve_experiment_values(
+        args.seeds,
+        args.seed,
+        default=DEFAULT_GRAPH_SEEDS,
+        name="seeds",
+        sort_values=False,
+    )
+    labels = read_labels(args.metadata)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     predictor = Predictor(args.checkpoint, args.threshold)
@@ -365,6 +460,7 @@ def main() -> int:
 
     for sample_index, csv_dir in enumerate(csv_dirs, start=1):
         sample_id = csv_dir.name
+        true_label = labels.get(sample_id)
         source = find_source(args.source_root, sample_id)
         if source is None:
             print(f"[{sample_index}/{len(csv_dirs)}] {sample_id}: source missing", flush=True)
@@ -382,6 +478,8 @@ def main() -> int:
                     "sample_id": sample_id,
                     "source_file": str(source),
                     "function": detected_function,
+                    "true_label": true_label,
+                    "baseline_correct": None,
                     "status": "failed",
                     "probability": None,
                     "predicted_label": None,
@@ -397,10 +495,17 @@ def main() -> int:
             continue
 
         key_line_counts = {name: len(lines) for name, lines in key_line_map.items()}
+        baseline_correct = (
+            baseline["predicted_label"] == true_label
+            if true_label is not None
+            else None
+        )
         baseline_row = {
             "sample_id": sample_id,
             "source_file": str(source),
             "function": detected_function,
+            "true_label": true_label,
+            "baseline_correct": baseline_correct,
             "status": baseline["status"],
             "probability": baseline["probability"],
             "predicted_label": baseline["predicted_label"],
@@ -422,98 +527,153 @@ def main() -> int:
         )
 
         for action in ACTION_NAMES:
-            action_started = time.perf_counter()
-            row = {
-                "sample_id": sample_id,
-                "action": action,
-                "strategy": args.strategy,
-                "seed": args.seed,
-                "requested_count": args.count,
-                "applied_count": 0,
-                "valid": False,
-                "baseline_nodes": pdg.number_of_nodes(),
-                "baseline_edges": pdg.number_of_edges(),
-                "perturbed_nodes": None,
-                "perturbed_edges": None,
-                "delta_nodes": None,
-                "delta_edges": None,
-                "baseline_xfg_count": baseline["xfg_count"],
-                "perturbed_xfg_count": None,
-                "baseline_probability": baseline["probability"],
-                "perturbed_probability": None,
-                "delta_probability": None,
-                "baseline_label": baseline["predicted_label"],
-                "perturbed_label": None,
-                "flipped": False,
-                "runtime_ms": None,
-                "operations": [],
-                "validation_errors": [],
-                "error": "",
-            }
-            try:
-                result = apply_graph_action(
-                    pdg,
-                    action=action,
-                    strategy=args.strategy,
-                    key_lines=key_line_map,
-                    count=args.count,
-                    seed=args.seed,
-                )
-                row.update(
-                    {
-                        "applied_count": result.applied_count,
-                        "valid": result.valid,
-                        "perturbed_nodes": result.graph.number_of_nodes(),
-                        "perturbed_edges": result.graph.number_of_edges(),
-                        "delta_nodes": result.graph.number_of_nodes() - pdg.number_of_nodes(),
-                        "delta_edges": result.graph.number_of_edges() - pdg.number_of_edges(),
-                        "operations": [asdict(operation) for operation in result.operations],
-                        "validation_errors": list(result.validation_errors),
+            for seed in seeds:
+                previous_operations: list[dict[str, Any]] = []
+                for budget in budgets:
+                    action_started = time.perf_counter()
+                    configuration_id = f"{action}__b{budget}__s{seed}"
+                    row = {
+                        "sample_id": sample_id,
+                        "action": action,
+                        "method_family": "random_graph",
+                        "strategy": args.strategy,
+                        "budget": budget,
+                        "seed": seed,
+                        "requested_count": budget,
+                        "applied_count": 0,
+                        "budget_fully_applied": False,
+                        "nested_prefix_verified": False,
+                        "valid": False,
+                        "true_label": true_label,
+                        "baseline_correct": baseline_correct,
+                        "baseline_eligible": baseline_correct is True,
+                        "baseline_nodes": pdg.number_of_nodes(),
+                        "baseline_edges": pdg.number_of_edges(),
+                        "perturbed_nodes": None,
+                        "perturbed_edges": None,
+                        "delta_nodes": None,
+                        "delta_edges": None,
+                        "baseline_xfg_count": baseline["xfg_count"],
+                        "perturbed_xfg_count": None,
+                        "baseline_probability": baseline["probability"],
+                        "perturbed_probability": None,
+                        "delta_probability": None,
+                        "baseline_label": baseline["predicted_label"],
+                        "perturbed_label": None,
+                        "flipped": False,
+                        "attack_success": "",
+                        "runtime_ms": None,
+                        "operations": [],
+                        "validation_errors": [],
+                        "error": "",
                     }
-                )
-                if not result.valid or result.applied_count != args.count:
-                    raise RuntimeError(result.notes or "graph action was not fully applied")
-                prediction = predictor.predict_graph(result.graph, key_line_map)
-                row.update(
-                    {
-                        "perturbed_xfg_count": prediction["xfg_count"],
-                        "perturbed_probability": prediction["probability"],
-                        "delta_probability": prediction["probability"] - baseline["probability"],
-                        "perturbed_label": prediction["predicted_label"],
-                        "flipped": prediction["predicted_label"] != baseline["predicted_label"],
-                    }
-                )
-                details[sample_id]["actions"][action] = {"result": row, "prediction": prediction}
-            except Exception as exc:
-                row["error"] = f"{type(exc).__name__}: {exc}"
-                details[sample_id]["actions"][action] = {"result": row}
-            row["runtime_ms"] = (time.perf_counter() - action_started) * 1000.0
-            perturbation_rows.append(row)
-            probability_text = (
-                f"{float(row['perturbed_probability']):.6f}" if row["perturbed_probability"] is not None else "NA"
-            )
-            print(
-                f"  {action}: applied={row['applied_count']}, valid={row['valid']}, "
-                f"p={probability_text}, flip={row['flipped']}, error={row['error'] or 'none'}",
-                flush=True,
-            )
+                    prediction = None
+                    try:
+                        result = apply_graph_action(
+                            pdg,
+                            action=action,
+                            strategy=args.strategy,
+                            key_lines=key_line_map,
+                            count=budget,
+                            seed=seed,
+                        )
+                        operations = [asdict(operation) for operation in result.operations]
+                        nested_prefix_verified = operations_form_nested_prefix(
+                            previous_operations,
+                            operations,
+                        )
+                        row.update(
+                            {
+                                "applied_count": result.applied_count,
+                                "budget_fully_applied": result.applied_count == budget,
+                                "nested_prefix_verified": nested_prefix_verified,
+                                "valid": result.valid,
+                                "perturbed_nodes": result.graph.number_of_nodes(),
+                                "perturbed_edges": result.graph.number_of_edges(),
+                                "delta_nodes": result.graph.number_of_nodes() - pdg.number_of_nodes(),
+                                "delta_edges": result.graph.number_of_edges() - pdg.number_of_edges(),
+                                "operations": operations,
+                                "validation_errors": list(result.validation_errors),
+                            }
+                        )
+                        if not nested_prefix_verified:
+                            raise RuntimeError("budget operations did not preserve the nested prefix")
+                        if not result.valid or result.applied_count == 0:
+                            raise RuntimeError(result.notes or "graph action could not be applied")
+                        prediction = predictor.predict_graph(result.graph, key_line_map)
+                        perturbed_label = prediction["predicted_label"]
+                        row.update(
+                            {
+                                "perturbed_xfg_count": prediction["xfg_count"],
+                                "perturbed_probability": prediction["probability"],
+                                "delta_probability": prediction["probability"] - baseline["probability"],
+                                "perturbed_label": perturbed_label,
+                                "flipped": perturbed_label != baseline["predicted_label"],
+                                "attack_success": (
+                                    perturbed_label != true_label
+                                    if baseline_correct is True
+                                    else ""
+                                ),
+                            }
+                        )
+                        details[sample_id]["actions"][configuration_id] = {
+                            "result": row,
+                            "prediction": prediction,
+                        }
+                    except Exception as exc:
+                        row["error"] = f"{type(exc).__name__}: {exc}"
+                        details[sample_id]["actions"][configuration_id] = {"result": row}
+                    previous_operations = list(row["operations"])
+                    row["runtime_ms"] = (time.perf_counter() - action_started) * 1000.0
+                    perturbation_rows.append(row)
+                    probability_text = (
+                        f"{float(row['perturbed_probability']):.6f}"
+                        if row["perturbed_probability"] is not None
+                        else "NA"
+                    )
+                    print(
+                        f"  {action} b={budget} s={seed}: applied={row['applied_count']}, "
+                        f"nested={row['nested_prefix_verified']}, p={probability_text}, "
+                        f"flip={row['flipped']}, error={row['error'] or 'none'}",
+                        flush=True,
+                    )
 
-    metrics = action_summaries(perturbation_rows)
+    metrics = action_summaries(perturbation_rows, budgets)
     elapsed = time.perf_counter() - started
     metadata = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "experiment": args.experiment,
         "dataset": args.dataset,
         "strategy": args.strategy,
-        "seed": args.seed,
-        "count": args.count,
+        "seeds": seeds,
+        "seed_count": len(seeds),
+        "budgets": budgets,
         "threshold": args.threshold,
         "device": str(predictor.device),
         "samples_discovered": len(csv_dirs),
         "baselines_completed": sum(not row["error"] for row in baseline_rows),
         "perturbations_attempted": len(perturbation_rows),
         "perturbations_successful": sum(not row["error"] and row["valid"] for row in perturbation_rows),
-        "label_flips": sum(int(row["flipped"]) for row in perturbation_rows),
+        "label_flips": sum(
+            int(row["flipped"])
+            for row in perturbation_rows
+            if not row["error"] and row["valid"]
+        ),
+        "attack_eligible_variants": sum(
+            int(row.get("baseline_eligible") is True)
+            for row in perturbation_rows
+            if not row["error"] and row["valid"]
+        ),
+        "attack_successes": sum(
+            int(row.get("attack_success") is True)
+            for row in perturbation_rows
+            if not row["error"] and row["valid"]
+        ),
+        "nested_prefix_failures": sum(
+            int(not row["nested_prefix_verified"])
+            for row in perturbation_rows
+            if int(row["budget"]) != budgets[0]
+        ),
         "elapsed_seconds": elapsed,
         "actions": list(ACTION_NAMES),
     }
@@ -521,7 +681,13 @@ def main() -> int:
     write_csv(args.output_dir / "baseline_predictions.csv", baseline_rows)
     write_csv(args.output_dir / "perturbation_results.csv", perturbation_rows)
     write_json(args.output_dir / "details.json", details)
-    archive_summaries = write_archive_layout(args.output_dir, baseline_rows, perturbation_rows, details, metadata)
+    archive_summaries = write_archive_layout(
+        args.output_dir,
+        baseline_rows,
+        perturbation_rows,
+        details,
+        metadata,
+    )
     write_csv(args.output_dir / "action_metrics.csv", metrics)
     write_json(
         args.output_dir / "summary.json",

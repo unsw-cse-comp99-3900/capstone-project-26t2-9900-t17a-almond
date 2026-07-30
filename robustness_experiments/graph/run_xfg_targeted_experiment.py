@@ -27,6 +27,12 @@ from robustness_experiments.graph.graph_perturbations import (  # noqa: E402
     XFG_TARGETED_ACTION_NAMES,
     apply_xfg_targeted_action,
 )
+from robustness_experiments.graph.experiment_design import (  # noqa: E402
+    DEFAULT_GRAPH_BUDGETS,
+    DEFAULT_GRAPH_SEEDS,
+    operations_form_nested_prefix,
+    resolve_experiment_values,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,9 +43,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--actions", nargs="+", choices=XFG_TARGETED_ACTION_NAMES, default=list(XFG_TARGETED_ACTION_NAMES))
-    parser.add_argument("--budgets", nargs="+", type=int, default=[1, 3, 5])
+    parser.add_argument("--budgets", nargs="+", type=int)
     parser.add_argument("--threshold", type=float, default=0.5)
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seeds", nargs="+", type=int)
+    parser.add_argument("--seed", type=int, help="Legacy single-seed alias for --seeds.")
     parser.add_argument("--include-baseline-errors", action="store_true")
     return parser.parse_args()
 
@@ -189,19 +196,23 @@ def summarize(rows: list[dict[str, Any]], actions: list[str], budgets: list[int]
         for budget in budgets:
             group = grouped[(action, budget)]
             successful = [row for row in group if row["status"] == "success"]
+            eligible = [row for row in successful if row["baseline_eligible"]]
             deltas = [float(row["delta_probability"]) for row in successful]
             output.append(
                 {
                     "action": action,
                     "budget": budget,
+                    "seed_count": len({int(row["seed"]) for row in group}),
                     "attempted": len(group),
                     "successful": len(successful),
                     "failed": len(group) - len(successful),
+                    "fully_applied": sum(bool(row["budget_fully_applied"]) for row in successful),
                     "flips": sum(int(row["flipped"]) for row in successful),
-                    "attack_successes": sum(int(row["attack_success"]) for row in successful),
+                    "attack_eligible": len(eligible),
+                    "attack_successes": sum(int(row["attack_success"]) for row in eligible),
                     "attack_success_rate": (
-                        sum(int(row["attack_success"]) for row in successful) / len(successful)
-                        if successful
+                        sum(int(row["attack_success"]) for row in eligible) / len(eligible)
+                        if eligible
                         else None
                     ),
                     "mean_delta_probability": sum(deltas) / len(deltas) if deltas else None,
@@ -221,10 +232,21 @@ def summarize(rows: list[dict[str, Any]], actions: list[str], budgets: list[int]
 
 def main() -> int:
     args = parse_args()
-    if any(budget < 1 for budget in args.budgets):
-        raise ValueError("all budgets must be at least 1")
     actions = list(dict.fromkeys(args.actions))
-    budgets = sorted(set(args.budgets))
+    budgets = resolve_experiment_values(
+        args.budgets,
+        None,
+        default=DEFAULT_GRAPH_BUDGETS,
+        name="budgets",
+        minimum=1,
+    )
+    seeds = resolve_experiment_values(
+        args.seeds,
+        args.seed,
+        default=DEFAULT_GRAPH_SEEDS,
+        name="seeds",
+        sort_values=False,
+    )
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     from infer_single_source import function_name
@@ -291,100 +313,126 @@ def main() -> int:
             continue
         target_label = 1 - true_label
         for action in actions:
-            for budget in budgets:
-                attack_started = time.perf_counter()
-                row = {
-                    "sample": sample_id,
-                    "action": action,
-                    "budget": budget,
-                    "function": source_function,
-                    "true_label": true_label,
-                    "target_label": target_label,
-                    "status": "failed",
-                    "base_label": baseline["predicted_label"],
-                    "variant_label": None,
-                    "flipped": False,
-                    "attack_success": False,
-                    "base_prob": baseline["probability"],
-                    "variant_prob": None,
-                    "delta_probability": None,
-                    "base_nodes": pdg.number_of_nodes(),
-                    "variant_nodes": None,
-                    "delta_nodes": None,
-                    "base_edges": pdg.number_of_edges(),
-                    "variant_edges": None,
-                    "delta_edges": None,
-                    "base_xfg_count": baseline["xfg_count"],
-                    "variant_xfg_count": None,
-                    "winner_category": winner["category"],
-                    "winner_key_line": winner["key_line"],
-                    "winner_raw_nodes": len(winner["nodes"]),
-                    "winner_nodes": len(winner_nodes),
-                    "winner_fallback": winner_fallback,
-                    "applied_count": 0,
-                    "runtime_ms": None,
-                    "operations": [],
-                    "error": "",
-                }
-                prediction = None
-                try:
-                    result = apply_xfg_targeted_action(
-                        pdg,
-                        action=action,
-                        winner_nodes=winner_nodes,
-                        winner_key_line=int(winner["key_line"]),
-                        target_label=target_label,
-                        budget=budget,
-                        key_lines=key_line_map,
-                        seed=args.seed,
+            for seed in seeds:
+                previous_operations: list[dict[str, Any]] = []
+                for budget in budgets:
+                    attack_started = time.perf_counter()
+                    configuration_id = f"{action}__b{budget}__s{seed}"
+                    row = {
+                        "sample": sample_id,
+                        "action": action,
+                        "method_family": "winner_xfg",
+                        "budget": budget,
+                        "seed": seed,
+                        "function": source_function,
+                        "true_label": true_label,
+                        "target_label": target_label,
+                        "baseline_correct": bool(baseline_correct),
+                        "baseline_eligible": bool(baseline_correct),
+                        "status": "failed",
+                        "base_label": baseline["predicted_label"],
+                        "variant_label": None,
+                        "flipped": False,
+                        "attack_success": False,
+                        "base_prob": baseline["probability"],
+                        "variant_prob": None,
+                        "delta_probability": None,
+                        "base_nodes": pdg.number_of_nodes(),
+                        "variant_nodes": None,
+                        "delta_nodes": None,
+                        "base_edges": pdg.number_of_edges(),
+                        "variant_edges": None,
+                        "delta_edges": None,
+                        "base_xfg_count": baseline["xfg_count"],
+                        "variant_xfg_count": None,
+                        "winner_category": winner["category"],
+                        "winner_key_line": winner["key_line"],
+                        "winner_raw_nodes": len(winner["nodes"]),
+                        "winner_nodes": len(winner_nodes),
+                        "winner_fallback": winner_fallback,
+                        "requested_count": budget,
+                        "applied_count": 0,
+                        "budget_fully_applied": False,
+                        "nested_prefix_verified": False,
+                        "runtime_ms": None,
+                        "operations": [],
+                        "error": "",
+                    }
+                    prediction = None
+                    try:
+                        result = apply_xfg_targeted_action(
+                            pdg,
+                            action=action,
+                            winner_nodes=winner_nodes,
+                            winner_key_line=int(winner["key_line"]),
+                            target_label=target_label,
+                            budget=budget,
+                            key_lines=key_line_map,
+                            seed=seed,
+                        )
+                        operations = [asdict(operation) for operation in result.operations]
+                        nested_prefix_verified = operations_form_nested_prefix(
+                            previous_operations,
+                            operations,
+                        )
+                        row.update(
+                            {
+                                "applied_count": result.applied_count,
+                                "budget_fully_applied": result.applied_count == budget,
+                                "nested_prefix_verified": nested_prefix_verified,
+                                "variant_nodes": result.graph.number_of_nodes(),
+                                "variant_edges": result.graph.number_of_edges(),
+                                "delta_nodes": result.graph.number_of_nodes() - pdg.number_of_nodes(),
+                                "delta_edges": result.graph.number_of_edges() - pdg.number_of_edges(),
+                                "operations": operations,
+                            }
+                        )
+                        if not nested_prefix_verified:
+                            raise RuntimeError("budget operations did not preserve the nested prefix")
+                        if not result.valid or result.applied_count == 0:
+                            raise RuntimeError(result.notes or "targeted action could not be applied")
+                        prediction = predictor.predict_graph(result.graph, key_line_map)
+                        variant_label = int(prediction["predicted_label"])
+                        row.update(
+                            {
+                                "status": "success",
+                                "variant_label": variant_label,
+                                "flipped": variant_label != baseline["predicted_label"],
+                                "attack_success": variant_label != true_label,
+                                "variant_prob": prediction["probability"],
+                                "delta_probability": prediction["probability"] - baseline["probability"],
+                                "variant_xfg_count": prediction["xfg_count"],
+                            }
+                        )
+                    except Exception as exc:
+                        row["error"] = f"{type(exc).__name__}: {exc}"
+                    previous_operations = list(row["operations"])
+                    row["runtime_ms"] = (time.perf_counter() - attack_started) * 1000.0
+                    attack_rows.append(row)
+                    write_json(
+                        args.output_dir / "runs" / "perturbed" / f"{sample_id}__{configuration_id}.json",
+                        {"comparison": row, "prediction": prediction},
                     )
-                    row.update(
-                        {
-                            "applied_count": result.applied_count,
-                            "variant_nodes": result.graph.number_of_nodes(),
-                            "variant_edges": result.graph.number_of_edges(),
-                            "delta_nodes": result.graph.number_of_nodes() - pdg.number_of_nodes(),
-                            "delta_edges": result.graph.number_of_edges() - pdg.number_of_edges(),
-                            "operations": [asdict(operation) for operation in result.operations],
-                        }
+                    probability_text = (
+                        f"{row['variant_prob']:.6f}" if row["variant_prob"] is not None else "NA"
                     )
-                    if not result.valid or result.applied_count == 0:
-                        raise RuntimeError(result.notes or "targeted action was not fully applied")
-                    prediction = predictor.predict_graph(result.graph, key_line_map)
-                    variant_label = int(prediction["predicted_label"])
-                    row.update(
-                        {
-                            "status": "success",
-                            "variant_label": variant_label,
-                            "flipped": variant_label != baseline["predicted_label"],
-                            "attack_success": variant_label != true_label,
-                            "variant_prob": prediction["probability"],
-                            "delta_probability": prediction["probability"] - baseline["probability"],
-                            "variant_xfg_count": prediction["xfg_count"],
-                        }
+                    print(
+                        f"  {action} b={budget} s={seed}: applied={row['applied_count']}, "
+                        f"nested={row['nested_prefix_verified']}, p={probability_text}, "
+                        f"flip={row['flipped']}, attack_success={row['attack_success']}, "
+                        f"error={row['error'] or 'none'}",
+                        flush=True,
                     )
-                except Exception as exc:
-                    row["error"] = f"{type(exc).__name__}: {exc}"
-                row["runtime_ms"] = (time.perf_counter() - attack_started) * 1000.0
-                attack_rows.append(row)
-                write_json(
-                    args.output_dir / "runs" / "perturbed" / f"{sample_id}__{action}__b{budget}.json",
-                    {"comparison": row, "prediction": prediction},
-                )
-                probability_text = f"{row['variant_prob']:.6f}" if row["variant_prob"] is not None else "NA"
-                print(
-                    f"  {action} b={budget}: p={probability_text}, flip={row['flipped']}, "
-                    f"attack_success={row['attack_success']}, error={row['error'] or 'none'}",
-                    flush=True,
-                )
 
     action_summary = summarize(attack_rows, actions, budgets)
     successful = [row for row in attack_rows if row["status"] == "success"]
+    eligible_successful = [row for row in successful if row["baseline_eligible"]]
     metadata = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "experiment": "winner_xfg_targeted_cwe119_round_2",
         "strategy": "winner_xfg_targeted",
-        "seed": args.seed,
+        "seeds": seeds,
+        "seed_count": len(seeds),
         "threshold": args.threshold,
         "device": str(predictor.device),
         "actions": actions,
@@ -395,9 +443,17 @@ def main() -> int:
         "attacks_successfully_scored": len(successful),
         "failed_attacks": len(attack_rows) - len(successful),
         "prediction_flips": sum(int(row["flipped"]) for row in successful),
-        "attack_successes": sum(int(row["attack_success"]) for row in successful),
+        "attack_eligible_variants": len(eligible_successful),
+        "attack_successes": sum(int(row["attack_success"]) for row in eligible_successful),
         "attack_success_rate": (
-            sum(int(row["attack_success"]) for row in successful) / len(successful) if successful else None
+            sum(int(row["attack_success"]) for row in eligible_successful) / len(eligible_successful)
+            if eligible_successful
+            else None
+        ),
+        "nested_prefix_failures": sum(
+            int(not row["nested_prefix_verified"])
+            for row in attack_rows
+            if int(row["budget"]) != budgets[0]
         ),
         "elapsed_seconds": time.perf_counter() - started,
     }

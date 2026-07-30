@@ -87,7 +87,9 @@ vulnerability probability across those XFGs as the file-level score, with
 - Global and winner-XFG-targeted source candidate selection.
 - Source-level budget search and minimal `1 -> 0` evasion detection.
 - Six primitive PDG node/edge actions with random or key-line-guided targeting.
-- Three winner-XFG-targeted graph macro actions with budgets `1`, `3`, and `5`.
+- Three winner-XFG-targeted graph macro actions with nested budgets `1`, `3`,
+  and `5`.
+- Ten fixed graph seeds shared by primitive-random and Winner-XFG experiments.
 - Validation and audit records for requested versus applied graph operations.
 - Devign, official DeepWuKong CWE-119, and paired CVEfixes sample layouts.
 - Archived code-level and graph-level experiment runs.
@@ -149,7 +151,7 @@ The console provides:
 3. Results summary.
 4. Normalized perturbation impact analysis.
 5. Sample-level result inspection.
-6. Experiment dashboard and PDG atlas access.
+6. Experiment dashboard, PDG atlas, and latest graph-family comparison access.
 
 Run the test suite through the same image:
 
@@ -330,7 +332,7 @@ The runner accepts:
 ```text
 --actions winner_xfg_edge_attack winner_xfg_feature_mask targeted_subgraph_injection
 --budgets 1 3 5
---seed 42
+--seeds 7 17 29 42 61 73 89 101 137 2026
 ```
 
 It requires source files, prepared Joern CSV tables, metadata, the checkpoint,
@@ -352,7 +354,7 @@ independent variable:
 | Action | One action per variant. |
 | Budget | Use a fixed schedule such as `1, 3, 5`. |
 | Target | Use the same XFG target rank when comparing targeted actions. |
-| Seed | Fix and record it for random graph actions. |
+| Seed | Use and record the shared 10-seed schedule for both graph families. |
 
 The primary paired comparisons are:
 
@@ -370,6 +372,7 @@ For reproducible evaluation:
 
 - cache one baseline per sample;
 - generate every budget from the unmodified source or PDG;
+- keep B1 as an operation prefix of B3 and B3 as a prefix of B5 for each graph action/seed;
 - record requested and applied budgets;
 - exclude failed or invalid variants from the scored denominator;
 - retain target-coverage status for winner-XFG source runs;
@@ -408,18 +411,20 @@ Interpret flip direction explicitly:
 - a flip from an already incorrect baseline is model instability, not
   automatically an attack success.
 
-Existing code and graph runners do not use exactly the same attack-success
+Code and graph runners do not use exactly the same attack-success
 definition. Code budget search defines success as `baseline_label = 1` followed
-by `perturbed_label = 0`. The targeted graph runner defines success against the
-unchanged source label and normally attacks only baseline-correct samples.
-Therefore, existing `ASR` values should not be aggregated across both branches
+by `perturbed_label = 0`. Both graph runners define success against the
+unchanged source label and restrict ASR to baseline-correct samples.
+Therefore, graph-random and Winner-XFG results can be compared under the shared
+budget/seed design, but `ASR` values should not be aggregated with code results
 until the final evaluation module applies one shared ground-truth-aware
 definition.
 
-The console and HTML dashboards currently normalize table columns and show
-attempts, scored runs, failures, flips, ASR when present, probability movement,
-and graph deltas. They are reporting interfaces, not yet a final weighted
-robustness rating.
+The console and HTML dashboards normalize table columns and show attempts,
+scored runs, failures, flips, ground-truth-aware ASR, probability movement,
+graph deltas, horizontal fixed-budget comparisons, vertical budget responses,
+and per-seed stability. They remain reporting interfaces rather than a single
+weighted robustness rating.
 
 ## Datasets
 
@@ -456,6 +461,7 @@ Common result files are:
 | `summary.json` | Compact machine-readable run summary. |
 | `details.json` | Full metadata, errors, and result details. |
 | `dashboard.html` | Offline dashboard for one run. |
+| `graph_comparison/dashboard.html` | Random graph versus Winner-XFG budget and seed comparison for a Full Test. |
 
 Generated source files and Joern artifacts are kept separately:
 

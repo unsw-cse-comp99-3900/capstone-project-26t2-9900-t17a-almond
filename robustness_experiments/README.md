@@ -73,8 +73,10 @@ xfg_dict = build_XFG(result.graph, key_line_map)
 ```
 
 The graph CLI can load archived Joern tables and export a validated JSON audit
-record. `graph/run_xfg_targeted_experiment.py` runs selectable winner-XFG macro
-actions and budgets through DeepWuKong in one container.
+record. The random and Winner-XFG experiment runners use nested budgets
+`1, 3, 5` with ten fixed seeds by default. The dashboard generator keeps their
+individual reports and creates a combined random-versus-Winner-XFG budget
+comparison when both result matrices are available.
 
 ## Verification
 

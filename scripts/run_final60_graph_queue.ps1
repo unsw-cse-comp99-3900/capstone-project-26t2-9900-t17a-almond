@@ -30,11 +30,14 @@ $primitiveCode = Invoke-GraphContainer -Name "primitive_random" -ContainerArgs @
     "/repo/robustness_experiments/graph/run_random_graph_experiment.py",
     "--source-root", "/repo/artifacts/$inputLeaf/sources",
     "--csv-root", "/repo/artifacts/$inputLeaf/csv",
+    "--metadata", "/repo/artifacts/$inputLeaf/metadata.csv",
     "--checkpoint", "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
     "--output-dir", "/repo/outputs/$(Split-Path $primitiveOutput -Leaf)",
     "--experiment", "final60_graph_primitive_random",
     "--dataset", "cwe119_devign_cvefixes_final60",
-    "--strategy", "random", "--count", "1", "--seed", "42"
+    "--strategy", "random",
+    "--budgets", "1", "3", "5",
+    "--seeds", "7", "17", "29", "42", "61", "73", "89", "101", "137", "2026"
 )
 if ($primitiveCode -ne 0) { exit $primitiveCode }
 
@@ -46,7 +49,8 @@ $targetedCode = Invoke-GraphContainer -Name "winner_xfg_targeted" -ContainerArgs
     "--checkpoint", "/baseline/models/deepwukong/deepwukong_cwe119_best.ckpt",
     "--output-dir", "/repo/outputs/$(Split-Path $targetedOutput -Leaf)",
     "--actions", "winner_xfg_edge_attack", "winner_xfg_feature_mask", "targeted_subgraph_injection",
-    "--budgets", "1", "3", "5", "--seed", "42"
+    "--budgets", "1", "3", "5",
+    "--seeds", "7", "17", "29", "42", "61", "73", "89", "101", "137", "2026"
 )
 if ($targetedCode -ne 0) { exit $targetedCode }
 "[$(Get-Date -Format o)] QUEUE_COMPLETE" | Tee-Object -FilePath (Join-Path $logDir "queue.log") -Append
