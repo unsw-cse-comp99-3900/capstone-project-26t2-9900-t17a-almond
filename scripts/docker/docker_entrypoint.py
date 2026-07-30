@@ -53,6 +53,7 @@ def run_project_command(command: str, extra_args: list[str], host: str, port: in
     commands = {
         "console": ["deepwukong_demo_console_v4.py"],
         "full-test": ["scripts/run_quick_demo_live.py"],
+        "rerun-random-graph": ["scripts/rerun_random_graph.py"],
         "tests": ["-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
         "code-perturbations": ["robustness_experiments/code/code_perturbations.py"],
         "graph-perturbations": ["robustness_experiments/graph/graph_perturbations.py"],
@@ -86,7 +87,15 @@ def main() -> int:
         "command",
         nargs="?",
         default="serve",
-        choices=["serve", "console", "full-test", "tests", "code-perturbations", "graph-perturbations"],
+        choices=[
+            "serve",
+            "console",
+            "full-test",
+            "rerun-random-graph",
+            "tests",
+            "code-perturbations",
+            "graph-perturbations",
+        ],
         help="Container mode. The default serves the static project dashboards.",
     )
     parser.add_argument("arguments", nargs=argparse.REMAINDER, help="Arguments forwarded to the selected project script.")

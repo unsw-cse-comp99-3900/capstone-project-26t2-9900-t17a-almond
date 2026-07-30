@@ -77,7 +77,11 @@ def perturbation_configuration(row: dict[str, str]) -> tuple[str, str]:
 
 def explicit_attack_success(rows: list[dict[str, str]]) -> bool:
     """Whether this CSV defines a targeted-attack success outcome."""
-    return any(str(row.get("attack_success", "")).strip() for row in rows)
+    return any(str(row.get("attack_success", "")).strip() for row in rows) or any(
+        str(row.get("baseline_eligible", "")).strip()
+        and str(row.get("true_label", "")).strip()
+        for row in rows
+    )
 
 
 def success_term(rows: list[dict[str, str]]) -> str:
@@ -356,8 +360,8 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
         mean_nodes, nodes_low, nodes_high = mean_confidence_interval(absolute_nodes)
         mean_edges, edges_low, edges_high = mean_confidence_interval(absolute_edges)
         seeds = sorted({row["seed"] for row in attempted_rows if row.get("seed", "")})
+        seed_success_rates: list[float] = []
         if len(seeds) > 1:
-            seed_success_rates = []
             seed_coverage_rates = []
             for seed in seeds:
                 seed_attempted = [row for row in attempted_rows if row["seed"] == seed]
@@ -379,6 +383,8 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
                 rate_low, rate_high = max(0.0, rate_low), min(1.0, rate_high)
             coverage_rate, coverage_low, coverage_high = mean_confidence_interval(seed_coverage_rates)
             coverage_low, coverage_high = max(0.0, coverage_low), min(1.0, coverage_high)
+        elif outcome_rows:
+            seed_success_rates = [rate]
         budget_match = re.search(r"(\d+)$", strength)
         groups.append({
             "method": method,
@@ -389,6 +395,12 @@ def comparison_groups(rows: list[dict[str, str]]) -> list[dict[str, object]]:
             "outcome_scored": len(outcome_rows),
             "successes": successes,
             "seed_count": len(seeds) or 1,
+            "seed_rate_count": len(seed_success_rates),
+            "seed_rate_std": (
+                statistics.stdev(seed_success_rates) if len(seed_success_rates) > 1 else 0.0
+            ),
+            "seed_rate_min": min(seed_success_rates, default=rate),
+            "seed_rate_max": max(seed_success_rates, default=rate),
             "success_rate": rate,
             "success_low": rate_low,
             "success_high": rate_high,
@@ -1194,20 +1206,246 @@ def statistical_table(groups: list[dict[str, object]], rows: list[dict[str, str]
         else:
             outcome = interval = coverage = delta = absolute = nodes = edges = "not estimable"
         body.append(
-            '<tr><td>{method}</td><td class="num">{budget}</td><td class="num">{seeds}</td><td class="num">{scored}/{attempted}</td>'
+            '<tr><td>{method}</td><td class="num">{budget}</td><td class="num">{seeds}</td><td class="num">{seed_spread}</td><td class="num">{scored}/{attempted}</td>'
             '<td class="num">{coverage}</td><td class="num">{outcome}</td><td class="num">{interval}</td>'
             '<td class="num">{delta}</td><td class="num">{absolute}</td><td class="num">{nodes}</td><td class="num">{edges}</td></tr>'.format(
                 method=html.escape(friendly_method(str(group["method"]))), budget=html.escape(group_setting_label(group)),
-                seeds=group["seed_count"], scored=group["scored"], attempted=group["attempted"], coverage=coverage,
+                seeds=group["seed_count"],
+                seed_spread=(
+                    f'{float(group["success_rate"]):.1%} ± {float(group["seed_rate_std"]):.1%} '
+                    f'[{float(group["seed_rate_min"]):.1%}, {float(group["seed_rate_max"]):.1%}]'
+                    if int(group["seed_rate_count"]) > 1
+                    else "single seed"
+                ),
+                scored=group["scored"], attempted=group["attempted"], coverage=coverage,
                 outcome=outcome, interval=interval, delta=delta, absolute=absolute, nodes=nodes, edges=edges,
             )
         )
     return (
         '<div class="table-scroll summary-table-scroll"><table class="summary-table"><thead><tr>'
-        f'<th>Method</th><th>Budget / setting</th><th>Seeds</th><th>Scored / attempted</th><th>Coverage</th><th>{html.escape(success_term(rows))}</th>'
+        f'<th>Method</th><th>Budget / setting</th><th>Seeds</th><th>Seed rate mean ± SD [range]</th><th>Scored / attempted</th><th>Coverage</th><th>{html.escape(success_term(rows))}</th>'
         '<th>95% CI</th><th>Mean delta probability</th><th>Mean absolute delta</th>'
         '<th>Mean |Δ nodes|</th><th>Mean |Δ edges|</th>'
         f'</tr></thead><tbody>{"".join(body)}</tbody></table></div>'
+    )
+
+
+def sample_level_summaries(rows: list[dict[str, str]]) -> list[dict[str, object]]:
+    """Aggregate repeated seeds back to independent source samples."""
+    grouped: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        method, strength = perturbation_configuration(row)
+        grouped[(method, strength or "fixed setting")].append(row)
+
+    summaries: list[dict[str, object]] = []
+    for (method, strength), attempted_rows in sorted(
+        grouped.items(), key=lambda item: (item[0][0], strength_sort_key(item[0][1]))
+    ):
+        targeted = explicit_attack_success(attempted_rows)
+        eligible_attempted = (
+            [row for row in attempted_rows if attack_eligible(row)]
+            if targeted
+            else attempted_rows
+        )
+        scored = [row for row in eligible_attempted if is_scored(row)]
+        by_sample: dict[str, list[dict[str, str]]] = defaultdict(list)
+        for row in scored:
+            by_sample[row["sample"]].append(row)
+        successful_samples = sum(
+            any(attack_succeeded(row) for row in sample_rows)
+            for sample_rows in by_sample.values()
+        )
+        all_seed_success_samples = sum(
+            all(attack_succeeded(row) for row in sample_rows)
+            for sample_rows in by_sample.values()
+        )
+        per_sample_rates = [
+            sum(attack_succeeded(row) for row in sample_rows) / len(sample_rows)
+            for sample_rows in by_sample.values()
+        ]
+        budget_match = re.search(r"(\d+)$", strength)
+        summaries.append(
+            {
+                "method": method,
+                "budget": int(budget_match.group(1)) if budget_match else 1,
+                "setting": strength,
+                "eligible_samples": len({row["sample"] for row in eligible_attempted}),
+                "scored_samples": len(by_sample),
+                "any_seed_success_samples": successful_samples,
+                "any_seed_success_rate": (
+                    successful_samples / len(by_sample) if by_sample else 0.0
+                ),
+                "all_scored_seeds_success_samples": all_seed_success_samples,
+                "mean_per_sample_seed_success_rate": (
+                    statistics.fmean(per_sample_rates) if per_sample_rates else 0.0
+                ),
+                "mean_scored_variants_per_sample": (
+                    statistics.fmean(len(sample_rows) for sample_rows in by_sample.values())
+                    if by_sample
+                    else 0.0
+                ),
+            }
+        )
+    return summaries
+
+
+def seed_level_summaries(rows: list[dict[str, str]]) -> list[dict[str, object]]:
+    """Retain one descriptive row per method, budget, and random seed."""
+    grouped: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        method, strength = perturbation_configuration(row)
+        if row.get("seed", ""):
+            grouped[(method, strength or "fixed setting", row["seed"])].append(row)
+
+    summaries: list[dict[str, object]] = []
+    for (method, strength, seed), attempted_rows in sorted(
+        grouped.items(),
+        key=lambda item: (item[0][0], strength_sort_key(item[0][1]), int(item[0][2])),
+    ):
+        scored = [row for row in attempted_rows if is_scored(row)]
+        outcome_rows = (
+            [row for row in scored if attack_eligible(row)]
+            if explicit_attack_success(attempted_rows)
+            else scored
+        )
+        successes = sum(attack_succeeded(row) for row in outcome_rows)
+        budget_match = re.search(r"(\d+)$", strength)
+        summaries.append(
+            {
+                "method": method,
+                "budget": int(budget_match.group(1)) if budget_match else 1,
+                "seed": int(seed),
+                "attempted": len(attempted_rows),
+                "scored": len(scored),
+                "eligible_scored": len(outcome_rows),
+                "successes": successes,
+                "success_rate": successes / len(outcome_rows) if outcome_rows else 0.0,
+                "coverage_rate": len(scored) / len(attempted_rows) if attempted_rows else 0.0,
+                "mean_absolute_delta": (
+                    statistics.fmean(abs(number(row, "delta_prob")) for row in scored)
+                    if scored
+                    else None
+                ),
+            }
+        )
+    return summaries
+
+
+def paired_common_summaries(rows: list[dict[str, str]]) -> list[dict[str, object]]:
+    """Compare graph families only on shared scoreable sample/budget/seed keys."""
+    families = {"random_graph", "winner_xfg"}
+    eligible_scored: dict[str, list[dict[str, str]]] = {family: [] for family in families}
+    for row in rows:
+        family = row.get("method_family", "")
+        if family in families and is_scored(row) and attack_eligible(row):
+            eligible_scored[family].append(row)
+    key_sets = {
+        family: {
+            (row["sample"], row["budget"], row["seed"])
+            for row in family_rows
+        }
+        for family, family_rows in eligible_scored.items()
+    }
+    common_keys = key_sets["random_graph"].intersection(key_sets["winner_xfg"])
+    if not common_keys:
+        return []
+
+    summaries: list[dict[str, object]] = []
+    budgets = sorted({int(key[1]) for key in common_keys})
+    for budget in budgets:
+        budget_keys = {key for key in common_keys if int(key[1]) == budget}
+        for family in ("random_graph", "winner_xfg"):
+            family_rows = [
+                row
+                for row in eligible_scored[family]
+                if (row["sample"], row["budget"], row["seed"]) in budget_keys
+            ]
+            by_key: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+            for row in family_rows:
+                by_key[(row["sample"], row["budget"], row["seed"])].append(row)
+            successes = sum(attack_succeeded(row) for row in family_rows)
+            any_action_successes = sum(
+                any(attack_succeeded(row) for row in key_rows)
+                for key_rows in by_key.values()
+            )
+            summaries.append(
+                {
+                    "family": family,
+                    "budget": budget,
+                    "common_sample_seed_keys": len(budget_keys),
+                    "common_samples": len({key[0] for key in budget_keys}),
+                    "scored_action_variants": len(family_rows),
+                    "attack_successes": successes,
+                    "variant_attack_success_rate": (
+                        successes / len(family_rows) if family_rows else 0.0
+                    ),
+                    "any_action_success_keys": any_action_successes,
+                    "any_action_success_rate": (
+                        any_action_successes / len(by_key) if by_key else 0.0
+                    ),
+                }
+            )
+    return summaries
+
+
+def sample_level_table(rows: list[dict[str, str]]) -> str:
+    summaries = sample_level_summaries(rows)
+    if not summaries or not any(row.get("seed", "") for row in rows):
+        return ""
+    body = "".join(
+        '<tr><td>{method}</td><td class="num">{budget}</td><td class="num">{scored}/{eligible}</td>'
+        '<td class="num">{successes}/{scored} ({rate:.1%})</td><td class="num">{mean_rate:.1%}</td>'
+        '<td class="num">{variants:.1f}</td></tr>'.format(
+            method=html.escape(friendly_method(str(summary["method"]))),
+            budget=summary["budget"],
+            scored=summary["scored_samples"],
+            eligible=summary["eligible_samples"],
+            successes=summary["any_seed_success_samples"],
+            rate=float(summary["any_seed_success_rate"]),
+            mean_rate=float(summary["mean_per_sample_seed_success_rate"]),
+            variants=float(summary["mean_scored_variants_per_sample"]),
+        )
+        for summary in summaries
+    )
+    return (
+        '<section><h2>Independent-sample outcomes</h2>'
+        '<p class="explain">Each source sample is counted once. “Any-seed success” asks whether at least one scored seed changed the outcome; the mean rate retains how consistently seeds succeeded within each sample.</p>'
+        '<div class="table-scroll"><table class="summary-table"><thead><tr><th>Method</th>'
+        '<th>Budget</th><th>Scored / eligible samples</th><th>Any-seed successful samples</th>'
+        '<th>Mean within-sample seed success</th><th>Mean scored variants per sample</th>'
+        f'</tr></thead><tbody>{body}</tbody></table></div></section>'
+    )
+
+
+def paired_common_table(rows: list[dict[str, str]]) -> str:
+    summaries = paired_common_summaries(rows)
+    if not summaries:
+        return ""
+    body = "".join(
+        '<tr><td>{family}</td><td class="num">{budget}</td><td class="num">{samples}</td>'
+        '<td class="num">{keys}</td><td class="num">{successes}/{variants} ({variant_rate:.1%})</td>'
+        '<td class="num">{any_success}/{keys} ({any_rate:.1%})</td></tr>'.format(
+            family=html.escape(
+                "Random graph" if summary["family"] == "random_graph" else "Winner-XFG"
+            ),
+            budget=summary["budget"],
+            samples=summary["common_samples"],
+            keys=summary["common_sample_seed_keys"],
+            successes=summary["attack_successes"],
+            variants=summary["scored_action_variants"],
+            variant_rate=float(summary["variant_attack_success_rate"]),
+            any_success=summary["any_action_success_keys"],
+            any_rate=float(summary["any_action_success_rate"]),
+        )
+        for summary in summaries
+    )
+    return (
+        '<section><h2>Paired common-cohort comparison</h2>'
+        '<p class="explain">Only sample, budget, and seed keys scoreable in both graph families are included. Variant ASR averages over each family’s actions; “any action” is also shown but is descriptive because the families contain different numbers of actions.</p>'
+        '<div class="table-scroll"><table class="summary-table"><thead><tr><th>Graph family</th>'
+        '<th>Budget</th><th>Common samples</th><th>Common sample-seed keys</th>'
+        '<th>Variant ASR</th><th>Any-action success per paired key</th>'
+        f'</tr></thead><tbody>{body}</tbody></table></div></section>'
     )
 
 
@@ -1306,7 +1544,7 @@ def build_graph_comparison_rows(run_root: Path) -> list[dict[str, str]]:
     return combined
 
 
-def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
+def write_rows(path: Path, rows: list[dict[str, object]]) -> None:
     """Write a normalized comparison table with a stable union of columns."""
     if not rows:
         return
@@ -1514,6 +1752,8 @@ def render_report(
   <div class="summary-item"><strong>{unscored}</strong>not applicable / incomplete</div>
 </div>
 {comparison_section}
+{sample_level_table(rows)}
+{paired_common_table(rows)}
 {seed_stability_table(rows)}
 <section><h2>Evidence-backed observations</h2><p class="explain">These statements are generated from the same aggregates shown above. They are descriptive associations, not causal claims.</p><ul class="insights">{insight_items}</ul></section>
 <section><h2>Statistical evidence</h2><p class="explain">Single-seed rates use 95% Wilson intervals. Multi-seed rate intervals are calculated across seed-level rates, so repeated variants are not presented as independent samples. Probability means use scored variant-level intervals.</p>{statistical_table(groups, scored)}</section>
@@ -1524,6 +1764,13 @@ def render_report(
 </main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');const reportSelector=document.getElementById('report-selector');const seedSelector=document.getElementById('seed-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filterRows(){{const chosen=selected();const chosenSeed=seedSelector?seedSelector.value:'all';allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;let visible=0;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>{{const show=chosen.has(row.dataset.selection)&&(chosenSeed==='all'||row.dataset.seed===chosenSeed);row.hidden=!show;if(show)visible+=1;}});summary.textContent=`Showing ${{visible}} evidence rows across ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filterRows();}});boxes.forEach(box=>box.addEventListener('change',filterRows));if(seedSelector)seedSelector.addEventListener('change',filterRows);if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});if(reportSelector)reportSelector.addEventListener('change',()=>{{window.location.href=reportSelector.value;}});filterRows();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
+    write_rows(output.parent / "sample_level_summary.csv", sample_level_summaries(rows))
+    seed_summaries = seed_level_summaries(rows)
+    if seed_summaries:
+        write_rows(output.parent / "seed_level_summary.csv", seed_summaries)
+    paired_summaries = paired_common_summaries(rows)
+    if paired_summaries:
+        write_rows(output.parent / "paired_common_summary.csv", paired_summaries)
     render_analysis_document(rows, output.parent / ANALYSIS_FILENAME, title)
 
 

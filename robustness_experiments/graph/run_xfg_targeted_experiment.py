@@ -32,6 +32,7 @@ from robustness_experiments.graph.experiment_design import (  # noqa: E402
     DEFAULT_GRAPH_SEEDS,
     operations_form_nested_prefix,
     resolve_experiment_values,
+    xfg_tensor_is_scoreable,
 )
 
 
@@ -130,11 +131,15 @@ class Predictor:
         xfg_dict = self.build_XFG(pdg, key_line_map) or {}
         data_list = []
         metadata = []
+        skipped_empty = 0
 
         for category, graphs in xfg_dict.items():
             for graph in graphs:
                 graph = self.add_symbols(graph, self.config.split_token)
                 data = self.XFG(xfg=graph).to_torch(self.vocab, self.config.dataset.token.max_parts)
+                if not xfg_tensor_is_scoreable(data):
+                    skipped_empty += 1
+                    continue
                 data_list.append(data)
                 metadata.append(
                     {
@@ -152,6 +157,7 @@ class Predictor:
                 "xfg_count": 0,
                 "xfg_predictions": [],
                 "winner": None,
+                "skipped_empty_xfg": skipped_empty,
                 "runtime_ms": (time.perf_counter() - started) * 1000.0,
             }
 
@@ -183,6 +189,7 @@ class Predictor:
                 "nodes": winner["nodes"],
                 "probability": winner["vulnerability_probability"],
             },
+            "skipped_empty_xfg": skipped_empty,
             "runtime_ms": (time.perf_counter() - started) * 1000.0,
         }
 
@@ -334,6 +341,8 @@ def main() -> int:
                         "variant_label": None,
                         "flipped": False,
                         "attack_success": False,
+                        "prediction_status": "not_run",
+                        "skipped_empty_xfg": 0,
                         "base_prob": baseline["probability"],
                         "variant_prob": None,
                         "delta_probability": None,
@@ -392,18 +401,27 @@ def main() -> int:
                         if not result.valid or result.applied_count == 0:
                             raise RuntimeError(result.notes or "targeted action could not be applied")
                         prediction = predictor.predict_graph(result.graph, key_line_map)
-                        variant_label = int(prediction["predicted_label"])
                         row.update(
                             {
-                                "status": "success",
-                                "variant_label": variant_label,
-                                "flipped": variant_label != baseline["predicted_label"],
-                                "attack_success": variant_label != true_label,
-                                "variant_prob": prediction["probability"],
-                                "delta_probability": prediction["probability"] - baseline["probability"],
+                                "prediction_status": prediction["status"],
+                                "skipped_empty_xfg": prediction.get("skipped_empty_xfg", 0),
                                 "variant_xfg_count": prediction["xfg_count"],
                             }
                         )
+                        if prediction["status"] == "ok":
+                            variant_label = int(prediction["predicted_label"])
+                            row.update(
+                                {
+                                    "status": "success",
+                                    "variant_label": variant_label,
+                                    "flipped": variant_label != baseline["predicted_label"],
+                                    "attack_success": variant_label != true_label,
+                                    "variant_prob": prediction["probability"],
+                                    "delta_probability": prediction["probability"] - baseline["probability"],
+                                }
+                            )
+                        else:
+                            row["status"] = prediction["status"]
                     except Exception as exc:
                         row["error"] = f"{type(exc).__name__}: {exc}"
                     previous_operations = list(row["operations"])
@@ -442,6 +460,8 @@ def main() -> int:
         "attacks_attempted": len(attack_rows),
         "attacks_successfully_scored": len(successful),
         "failed_attacks": len(attack_rows) - len(successful),
+        "unscored_no_xfg": sum(row["status"] == "no_xfg" for row in attack_rows),
+        "execution_errors": sum(bool(row["error"]) for row in attack_rows),
         "prediction_flips": sum(int(row["flipped"]) for row in successful),
         "attack_eligible_variants": len(eligible_successful),
         "attack_successes": sum(int(row["attack_success"]) for row in eligible_successful),
@@ -462,7 +482,7 @@ def main() -> int:
     write_csv(args.output_dir / "action_summary.csv", action_summary)
     write_json(args.output_dir / "summary.json", {"metadata": metadata, "action_summary": action_summary})
     print(json.dumps(metadata, indent=2), flush=True)
-    return 0 if metadata["failed_attacks"] == 0 else 1
+    return 0 if metadata["execution_errors"] == 0 and metadata["nested_prefix_failures"] == 0 else 1
 
 
 if __name__ == "__main__":

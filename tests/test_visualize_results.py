@@ -6,10 +6,13 @@ from robustness_experiments.visualize_results import (
     ANALYSIS_FILENAME,
     build_graph_comparison_rows,
     comparison_groups,
+    paired_common_summaries,
     perturbation_configuration,
     read_rows,
     render_index,
     render_report,
+    sample_level_summaries,
+    seed_level_summaries,
     success_term,
     wilson_interval,
 )
@@ -26,6 +29,8 @@ def row(
     attack_success: str | None = None,
     seed: str = "",
     baseline_eligible: str = "",
+    method_family: str = "",
+    status: str = "success",
 ) -> dict[str, str]:
     result = {
         "sample": sample,
@@ -34,7 +39,8 @@ def row(
         "seed": seed,
         "baseline_eligible": baseline_eligible,
         "function": "f",
-        "status": "success",
+        "status": status,
+        "method_family": method_family,
         "base_label": "1",
         "variant_label": "0" if flipped else "1",
         "flipped": str(flipped),
@@ -161,6 +167,81 @@ class VisualizationTests(unittest.TestCase):
         self.assertEqual(group["successes"], 3)
         self.assertEqual(group["success_rate"], 1.0)
 
+    def test_sample_and_seed_summaries_do_not_treat_seeds_as_new_samples(self):
+        rows = [
+            row(
+                "node_add",
+                sample=sample,
+                budget="1",
+                seed=seed,
+                baseline_eligible="True",
+                attack_success=str(sample == "a" and seed == "7"),
+            )
+            for sample in ("a", "b")
+            for seed in ("7", "17")
+        ]
+
+        sample_summary = sample_level_summaries(rows)[0]
+        seed_summaries = seed_level_summaries(rows)
+
+        self.assertEqual(sample_summary["scored_samples"], 2)
+        self.assertEqual(sample_summary["any_seed_success_samples"], 1)
+        self.assertEqual(sample_summary["any_seed_success_rate"], 0.5)
+        self.assertEqual(sample_summary["mean_per_sample_seed_success_rate"], 0.25)
+        self.assertEqual(
+            {summary["seed"]: summary["success_rate"] for summary in seed_summaries},
+            {7: 0.5, 17: 0.0},
+        )
+
+    def test_paired_common_summary_excludes_keys_unscored_in_either_family(self):
+        rows = [
+            row(
+                "random_graph::node_add",
+                sample="a",
+                budget="1",
+                seed="7",
+                method_family="random_graph",
+                baseline_eligible="True",
+                attack_success="False",
+            ),
+            row(
+                "winner_xfg::winner_xfg_edge_attack",
+                sample="a",
+                budget="1",
+                seed="7",
+                method_family="winner_xfg",
+                baseline_eligible="True",
+                attack_success="True",
+            ),
+            row(
+                "random_graph::node_delete",
+                sample="b",
+                budget="1",
+                seed="7",
+                method_family="random_graph",
+                baseline_eligible="True",
+                attack_success="",
+                status="no_xfg",
+            ),
+            row(
+                "winner_xfg::winner_xfg_edge_attack",
+                sample="b",
+                budget="1",
+                seed="7",
+                method_family="winner_xfg",
+                baseline_eligible="True",
+                attack_success="True",
+            ),
+        ]
+
+        summaries = paired_common_summaries(rows)
+
+        self.assertEqual({summary["common_samples"] for summary in summaries}, {1})
+        self.assertEqual(
+            {summary["family"]: summary["common_sample_seed_keys"] for summary in summaries},
+            {"random_graph": 1, "winner_xfg": 1},
+        )
+
     def test_multi_budget_seed_report_has_horizontal_vertical_and_seed_filters(self):
         rows = [
             row(
@@ -180,11 +261,44 @@ class VisualizationTests(unittest.TestCase):
             report = Path(directory) / "report.html"
             render_report(rows, report, "Graph comparison")
             content = report.read_text(encoding="utf-8")
+            sample_summary_exists = (report.parent / "sample_level_summary.csv").is_file()
+            seed_summary_exists = (report.parent / "seed_level_summary.csv").is_file()
 
         self.assertIn("Horizontal method comparison at each fixed budget", content)
         self.assertIn("Vertical budget response for each fixed method", content)
         self.assertIn('id="seed-selector"', content)
         self.assertIn("<th>Seed</th>", content)
+        self.assertIn("Independent-sample outcomes", content)
+        self.assertIn("Seed rate mean ± SD [range]", content)
+        self.assertTrue(sample_summary_exists)
+        self.assertTrue(seed_summary_exists)
+
+    def test_combined_report_writes_paired_common_cohort_evidence(self):
+        rows = [
+            row(
+                action,
+                sample=sample,
+                budget=budget,
+                seed=seed,
+                method_family=family,
+                baseline_eligible="True",
+                attack_success=str(family == "winner_xfg" and sample == "a"),
+            )
+            for family, action in (
+                ("random_graph", "random_graph::node_add"),
+                ("winner_xfg", "winner_xfg::winner_xfg_edge_attack"),
+            )
+            for sample in ("a", "b")
+            for budget in ("1", "3")
+            for seed in ("7", "17")
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            report = Path(directory) / "report.html"
+            render_report(rows, report, "Combined graph report")
+            content = report.read_text(encoding="utf-8")
+
+            self.assertIn("Paired common-cohort comparison", content)
+            self.assertTrue((report.parent / "paired_common_summary.csv").is_file())
 
     def test_combined_graph_rows_require_matching_budgets_and_seeds(self):
         header = (

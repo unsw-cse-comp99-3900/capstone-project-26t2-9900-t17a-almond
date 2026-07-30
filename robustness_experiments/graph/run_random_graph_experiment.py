@@ -31,6 +31,7 @@ from robustness_experiments.graph.experiment_design import (
     DEFAULT_GRAPH_SEEDS,
     operations_form_nested_prefix,
     resolve_experiment_values,
+    xfg_tensor_is_scoreable,
 )
 from infer_single_source import add_symbols, function_name
 from src.data_generator import build_PDG, build_XFG
@@ -116,14 +117,17 @@ class Predictor:
             for graph in graphs:
                 graph = add_symbols(graph, self.config.split_token)
                 data = XFG(xfg=graph).to_torch(self.vocab, self.config.dataset.token.max_parts)
+                if not xfg_tensor_is_scoreable(data):
+                    skipped_empty += 1
+                    continue
                 data_list.append(data)
                 metadata.append({"category": category, "key_line": graph.graph.get("key_line")})
 
         if not data_list:
             return {
                 "status": "no_xfg",
-                "probability": 0.0,
-                "predicted_label": 0,
+                "probability": None,
+                "predicted_label": None,
                 "xfg_count": 0,
                 "skipped_empty_xfg": skipped_empty,
                 "runtime_ms": (time.perf_counter() - started) * 1000.0,
@@ -169,7 +173,11 @@ def action_summaries(
     for action in ACTION_NAMES:
         for budget in budgets:
             group = grouped[(action, budget)]
-            successful = [row for row in group if not row["error"] and row["valid"]]
+            successful = [
+                row
+                for row in group
+                if not row["error"] and row["valid"] and row["prediction_status"] == "ok"
+            ]
             absolute_deltas = [abs(float(row["delta_probability"])) for row in successful]
             eligible = [row for row in successful if row.get("baseline_eligible") is True]
             summaries.append(
@@ -227,7 +235,12 @@ def archive_action_summaries(
             successful = [
                 row
                 for row in attempted
-                if not row["error"] and row["valid"] and row["delta_probability"] is not None
+                if (
+                    not row["error"]
+                    and row["valid"]
+                    and row["prediction_status"] == "ok"
+                    and row["delta_probability"] is not None
+                )
             ]
             eligible = [row for row in successful if row.get("baseline_eligible") is True]
             deltas = [float(row["delta_probability"]) for row in successful]
@@ -333,7 +346,12 @@ def write_archive_layout(
     comparison_rows = []
     for row in perturbation_rows:
         baseline = baseline_by_sample[row["sample_id"]]
-        success = not row["error"] and row["valid"] and row["perturbed_probability"] is not None
+        success = (
+            not row["error"]
+            and row["valid"]
+            and row["prediction_status"] == "ok"
+            and row["perturbed_probability"] is not None
+        )
         comparison_rows.append(
             {
                 "sample": row["sample_id"],
@@ -345,7 +363,11 @@ def write_archive_layout(
                 "true_label": row.get("true_label"),
                 "baseline_correct": row.get("baseline_correct"),
                 "baseline_eligible": row.get("baseline_eligible"),
-                "status": "success" if success else "failed",
+                "status": (
+                    "success"
+                    if success
+                    else ("failed" if row["error"] else row["prediction_status"])
+                ),
                 "base_label": row["baseline_label"],
                 "variant_label": row["perturbed_label"],
                 "flipped": row["flipped"],
@@ -361,6 +383,8 @@ def write_archive_layout(
                 "delta_edges": row["delta_edges"],
                 "base_xfg_count": row["baseline_xfg_count"],
                 "variant_xfg_count": row["perturbed_xfg_count"],
+                "prediction_status": row["prediction_status"],
+                "skipped_empty_xfg": row["skipped_empty_xfg"],
                 "requested_count": row["requested_count"],
                 "applied_count": row["applied_count"],
                 "budget_fully_applied": row["budget_fully_applied"],
@@ -390,7 +414,11 @@ def write_archive_layout(
                 ),
                 "graph_score": probability,
                 "final_score": probability,
-                "status": "success" if success else "failed",
+                "status": (
+                    "success"
+                    if success
+                    else ("failed" if row["error"] else row["prediction_status"])
+                ),
                 "error": row["error"],
             },
             "details": {
@@ -472,6 +500,8 @@ def main() -> int:
             if pdg is None or key_line_map is None:
                 raise RuntimeError("build_PDG returned no graph")
             baseline = predictor.predict_graph(pdg, key_line_map)
+            if baseline["status"] != "ok":
+                raise RuntimeError(f"baseline prediction is unavailable: {baseline['status']}")
         except Exception as exc:
             baseline_rows.append(
                 {
@@ -562,6 +592,8 @@ def main() -> int:
                         "perturbed_label": None,
                         "flipped": False,
                         "attack_success": "",
+                        "prediction_status": "not_run",
+                        "skipped_empty_xfg": 0,
                         "runtime_ms": None,
                         "operations": [],
                         "validation_errors": [],
@@ -601,25 +633,37 @@ def main() -> int:
                         if not result.valid or result.applied_count == 0:
                             raise RuntimeError(result.notes or "graph action could not be applied")
                         prediction = predictor.predict_graph(result.graph, key_line_map)
-                        perturbed_label = prediction["predicted_label"]
                         row.update(
                             {
+                                "prediction_status": prediction["status"],
                                 "perturbed_xfg_count": prediction["xfg_count"],
-                                "perturbed_probability": prediction["probability"],
-                                "delta_probability": prediction["probability"] - baseline["probability"],
-                                "perturbed_label": perturbed_label,
-                                "flipped": perturbed_label != baseline["predicted_label"],
-                                "attack_success": (
-                                    perturbed_label != true_label
-                                    if baseline_correct is True
-                                    else ""
-                                ),
+                                "skipped_empty_xfg": prediction.get("skipped_empty_xfg", 0),
                             }
                         )
-                        details[sample_id]["actions"][configuration_id] = {
-                            "result": row,
-                            "prediction": prediction,
-                        }
+                        if prediction["status"] != "ok":
+                            details[sample_id]["actions"][configuration_id] = {
+                                "result": row,
+                                "prediction": prediction,
+                            }
+                        else:
+                            perturbed_label = prediction["predicted_label"]
+                            row.update(
+                                {
+                                    "perturbed_probability": prediction["probability"],
+                                    "delta_probability": prediction["probability"] - baseline["probability"],
+                                    "perturbed_label": perturbed_label,
+                                    "flipped": perturbed_label != baseline["predicted_label"],
+                                    "attack_success": (
+                                        perturbed_label != true_label
+                                        if baseline_correct is True
+                                        else ""
+                                    ),
+                                }
+                            )
+                            details[sample_id]["actions"][configuration_id] = {
+                                "result": row,
+                                "prediction": prediction,
+                            }
                     except Exception as exc:
                         row["error"] = f"{type(exc).__name__}: {exc}"
                         details[sample_id]["actions"][configuration_id] = {"result": row}
@@ -653,21 +697,31 @@ def main() -> int:
         "samples_discovered": len(csv_dirs),
         "baselines_completed": sum(not row["error"] for row in baseline_rows),
         "perturbations_attempted": len(perturbation_rows),
-        "perturbations_successful": sum(not row["error"] and row["valid"] for row in perturbation_rows),
+        "perturbations_completed": sum(
+            not row["error"] and row["valid"] for row in perturbation_rows
+        ),
+        "perturbations_scored": sum(
+            not row["error"] and row["valid"] and row["prediction_status"] == "ok"
+            for row in perturbation_rows
+        ),
+        "perturbations_unscored_no_xfg": sum(
+            row["prediction_status"] == "no_xfg" for row in perturbation_rows
+        ),
+        "perturbation_errors": sum(bool(row["error"]) for row in perturbation_rows),
         "label_flips": sum(
             int(row["flipped"])
             for row in perturbation_rows
-            if not row["error"] and row["valid"]
+            if not row["error"] and row["valid"] and row["prediction_status"] == "ok"
         ),
         "attack_eligible_variants": sum(
             int(row.get("baseline_eligible") is True)
             for row in perturbation_rows
-            if not row["error"] and row["valid"]
+            if not row["error"] and row["valid"] and row["prediction_status"] == "ok"
         ),
         "attack_successes": sum(
             int(row.get("attack_success") is True)
             for row in perturbation_rows
-            if not row["error"] and row["valid"]
+            if not row["error"] and row["valid"] and row["prediction_status"] == "ok"
         ),
         "nested_prefix_failures": sum(
             int(not row["nested_prefix_verified"])
@@ -694,7 +748,7 @@ def main() -> int:
         {"metadata": metadata, "action_summary": archive_summaries, "action_metrics": metrics},
     )
     print(json.dumps(metadata, indent=2), flush=True)
-    return 0 if metadata["perturbations_successful"] == metadata["perturbations_attempted"] else 1
+    return 0 if metadata["perturbation_errors"] == 0 and metadata["nested_prefix_failures"] == 0 else 1
 
 
 if __name__ == "__main__":

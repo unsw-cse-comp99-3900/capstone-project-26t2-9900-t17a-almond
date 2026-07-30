@@ -163,7 +163,25 @@ graph_comparison/
 The combined dashboard compares methods horizontally at a fixed budget and
 vertically across budgets for a fixed method. It also provides seed filtering
 and per-seed stability evidence. Ground-truth-aware ASR includes only variants
-whose baseline prediction was correct.
+whose baseline prediction was correct. Independent-sample summaries collapse
+the repeated seeds, while paired summaries use only sample/budget/seed keys
+scoreable by both Random graph and Winner-XFG.
+
+An XFG whose node-feature or edge tensor is empty is skipped before batching.
+If no scoreable XFG remains, the variant receives `status=no_xfg`. This is an
+unscored preprocessing outcome, not a non-vulnerable model prediction, so it
+affects coverage but not flip rate or ASR.
+
+To repair only the Random graph stage of an existing Full Test:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm almond `
+  rerun-random-graph --run-dir outputs/<full-test-run>
+```
+
+The original Random graph directory is archived only after the replacement
+runner completes successfully. Code perturbations and Winner-XFG are not run
+again.
 
 ## Current Integration Limit
 

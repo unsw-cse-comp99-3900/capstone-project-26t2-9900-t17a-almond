@@ -68,3 +68,12 @@ def operations_form_nested_prefix(
         for operation in current_operations[: len(previous_operations)]
     )
     return previous == current_prefix
+
+
+def xfg_tensor_is_scoreable(data: Any) -> bool:
+    """Reject XFG tensors that cannot be batched or scored by DeepWuKong."""
+    node_features = getattr(data, "x", None)
+    edge_index = getattr(data, "edge_index", None)
+    if node_features is None or edge_index is None:
+        return False
+    return bool(node_features.numel() > 0 and edge_index.numel() > 0)

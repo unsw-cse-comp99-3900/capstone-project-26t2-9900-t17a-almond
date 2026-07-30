@@ -159,6 +159,18 @@ Run the test suite through the same image:
 docker compose -f scripts/docker/compose.yaml run --rm almond tests
 ```
 
+Rerun only the random graph stage of an existing Full Test, preserving the
+code-level and Winner-XFG results:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm almond `
+  rerun-random-graph --run-dir outputs/<full-test-run>
+```
+
+The command writes to a temporary directory first. On success, it archives the
+old `graph_random/` directory, installs the replacement, and regenerates all
+run dashboards including the paired graph-family comparison.
+
 Use `docker compose ... run`, not `docker compose ... up`, for the interactive
 console because it requires direct terminal input.
 
@@ -388,6 +400,10 @@ The current reports expose:
 - signed and absolute probability change;
 - prediction flip and flip direction;
 - attack success when supported by the runner;
+- independent-sample any-seed success and mean within-sample seed success;
+- per-seed success rates with mean, standard deviation, and range;
+- paired graph-family results restricted to common scoreable
+  `(sample, budget, seed)` keys;
 - requested and applied perturbation counts;
 - node and edge deltas when available;
 - generation, inference, and target-coverage status.
@@ -462,6 +478,14 @@ Common result files are:
 | `details.json` | Full metadata, errors, and result details. |
 | `dashboard.html` | Offline dashboard for one run. |
 | `graph_comparison/dashboard.html` | Random graph versus Winner-XFG budget and seed comparison for a Full Test. |
+| `sample_level_summary.csv` | Independent-sample outcomes after collapsing repeated seeds. |
+| `seed_level_summary.csv` | Per-seed coverage, ASR, and probability movement. |
+| `paired_common_summary.csv` | Random-versus-Winner comparison on common scoreable sample/budget/seed keys. |
+
+Graph transformations that leave no scoreable XFG are recorded as `no_xfg`.
+They remain visible in coverage statistics but are excluded from model flip
+and ASR denominators; `no_xfg` is not interpreted as a model prediction of
+label 0.
 
 Generated source files and Joern artifacts are kept separately:
 
