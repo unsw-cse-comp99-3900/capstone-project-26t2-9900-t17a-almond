@@ -36,16 +36,16 @@ PDG.
 | `winner_xfg_feature_mask` | Remap high-priority winner-XFG node features to a neutral source line or duplicate the winner key-line feature. |
 | `targeted_subgraph_injection` | Inject a three-node control/data motif around the winner key line for each budget step. |
 
-Both primitive-random and Winner-XFG runners default to budgets `1, 3, 5` and
-the same ten fixed seeds:
+Both primitive-random and Winner-XFG runners default to ten nested budgets
+`1, 3, 5, 7, 9, 11, 13, 15, 20, 25` and the same ten fixed seeds:
 
 ```text
 7 17 29 42 61 73 89 101 137 2026
 ```
 
-For one sample/action/seed, B1 is a prefix of B3 and B3 is a prefix of B5.
-Every result records `requested_count`, `applied_count`,
-`budget_fully_applied`, and `nested_prefix_verified`.
+For one sample/action/seed, each smaller-budget result is an operation prefix
+of the next larger-budget result. Every result records `requested_count`,
+`applied_count`, `budget_fully_applied`, and `nested_prefix_verified`.
 
 Run all three targeted actions inside the DeepWuKong container:
 
@@ -57,7 +57,7 @@ python /repo/robustness_experiments/graph/run_xfg_targeted_experiment.py `
   --checkpoint /baseline/models/deepwukong/deepwukong_cwe119_best.ckpt `
   --output-dir /output `
   --actions winner_xfg_edge_attack winner_xfg_feature_mask targeted_subgraph_injection `
-  --budgets 1 3 5 `
+  --budgets 1 3 5 7 9 11 13 15 20 25 `
   --seeds 7 17 29 42 61 73 89 101 137 2026
 ```
 

@@ -88,7 +88,7 @@ vulnerability probability across those XFGs as the file-level score, with
 - Source-level budget search and minimal `1 -> 0` evasion detection.
 - Six primitive PDG node/edge actions with random or key-line-guided targeting.
 - Three winner-XFG-targeted graph macro actions with nested budgets `1`, `3`,
-  and `5`.
+  `5`, `7`, `9`, `11`, `13`, `15`, `20`, and `25`.
 - Ten fixed graph seeds shared by primitive-random and Winner-XFG experiments.
 - Validation and audit records for requested versus applied graph operations.
 - Devign, official DeepWuKong CWE-119, and paired CVEfixes sample layouts.
@@ -343,7 +343,7 @@ The runner accepts:
 
 ```text
 --actions winner_xfg_edge_attack winner_xfg_feature_mask targeted_subgraph_injection
---budgets 1 3 5
+--budgets 1 3 5 7 9 11 13 15 20 25
 --seeds 7 17 29 42 61 73 89 101 137 2026
 ```
 

@@ -54,6 +54,10 @@ class RandomGraphRerunTests(unittest.TestCase):
         self.assertEqual(result["graph_perturbations"]["random_graph"]["scored"], 100)
         self.assertEqual(result["graph_perturbations"]["random_graph"]["unscored_no_xfg"], 5)
         self.assertEqual(result["partial_reruns"][0]["stage"], "random_graph")
+        self.assertEqual(
+            result["partial_reruns"][0]["budgets"],
+            list(rerun_random_graph.DEFAULT_GRAPH_BUDGETS),
+        )
 
 
 if __name__ == "__main__":

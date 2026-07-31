@@ -33,12 +33,15 @@ from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
+from robustness_experiments.graph.experiment_design import DEFAULT_GRAPH_BUDGETS
+
 
 # ============================================================
 # Configuration
 # ============================================================
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+GRAPH_BUDGET_LABEL = "/".join(str(value) for value in DEFAULT_GRAPH_BUDGETS)
 
 # Static browser entry points.
 EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
@@ -663,7 +666,7 @@ def run_test() -> None:
         "1. Load every C/C++ source file under input_sources",
         "2. Apply all implemented source-level perturbation actions",
         "3. Run baseline and perturbed DeepWuKong predictions",
-        "4. Run random graph and Winner-XFG actions at nested budgets 1/3/5",
+        f"4. Run random graph and Winner-XFG actions at nested budgets {GRAPH_BUDGET_LABEL}",
         "5. Repeat graph actions with 10 fixed seeds and generate integrated reports",
         "The current 60-sample Full Test takes about 5-6 hours; source-level inference dominates runtime.",
         "",

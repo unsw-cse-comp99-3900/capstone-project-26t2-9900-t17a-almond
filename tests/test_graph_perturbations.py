@@ -14,7 +14,10 @@ from robustness_experiments.graph.graph_perturbations import (
     apply_xfg_targeted_action,
     load_joern_pdg,
 )
-from robustness_experiments.graph.experiment_design import operations_form_nested_prefix
+from robustness_experiments.graph.experiment_design import (
+    DEFAULT_GRAPH_BUDGETS,
+    operations_form_nested_prefix,
+)
 
 
 def sample_pdg() -> nx.DiGraph:
@@ -192,15 +195,15 @@ class GraphPerturbationTests(unittest.TestCase):
                         seed=42,
                         key_lines={20},
                     )
-                    for budget in (1, 3, 5)
+                    for budget in DEFAULT_GRAPH_BUDGETS
                 ]
                 operations = [
                     [asdict(operation) for operation in result.operations]
                     for result in results
                 ]
 
-                self.assertTrue(operations_form_nested_prefix(operations[0], operations[1]))
-                self.assertTrue(operations_form_nested_prefix(operations[1], operations[2]))
+                for previous, current in zip(operations, operations[1:]):
+                    self.assertTrue(operations_form_nested_prefix(previous, current))
 
     def test_winner_xfg_budgets_form_nested_operation_prefixes(self) -> None:
         for action in XFG_TARGETED_ACTION_NAMES:
@@ -217,15 +220,15 @@ class GraphPerturbationTests(unittest.TestCase):
                         neutral_source_line=40,
                         seed=42,
                     )
-                    for budget in (1, 3, 5)
+                    for budget in DEFAULT_GRAPH_BUDGETS
                 ]
                 operations = [
                     [asdict(operation) for operation in result.operations]
                     for result in results
                 ]
 
-                self.assertTrue(operations_form_nested_prefix(operations[0], operations[1]))
-                self.assertTrue(operations_form_nested_prefix(operations[1], operations[2]))
+                for previous, current in zip(operations, operations[1:]):
+                    self.assertTrue(operations_form_nested_prefix(previous, current))
 
     def test_load_joern_pdg_keeps_only_control_and_data_edges(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

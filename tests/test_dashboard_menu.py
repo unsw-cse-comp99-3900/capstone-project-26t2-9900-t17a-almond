@@ -7,6 +7,12 @@ import deepwukong_demo_console_v4 as console
 
 
 class DashboardMenuTests(unittest.TestCase):
+    def test_console_displays_the_shared_graph_budget_configuration(self):
+        self.assertEqual(
+            console.GRAPH_BUDGET_LABEL,
+            "1/3/5/7/9/11/13/15/20/25",
+        )
+
     def test_selected_dashboard_opens_then_returns_to_dashboard_menu(self):
         with (
             patch("builtins.input", side_effect=["2", "0"]),

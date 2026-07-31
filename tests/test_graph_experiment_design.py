@@ -11,8 +11,8 @@ from robustness_experiments.graph.experiment_design import (
 
 
 class GraphExperimentDesignTests(unittest.TestCase):
-    def test_default_design_uses_three_budgets_and_ten_seeds(self) -> None:
-        self.assertEqual(DEFAULT_GRAPH_BUDGETS, (1, 3, 5))
+    def test_default_design_uses_ten_budgets_and_ten_seeds(self) -> None:
+        self.assertEqual(DEFAULT_GRAPH_BUDGETS, (1, 3, 5, 7, 9, 11, 13, 15, 20, 25))
         self.assertEqual(len(DEFAULT_GRAPH_SEEDS), 10)
         self.assertEqual(len(set(DEFAULT_GRAPH_SEEDS)), 10)
 

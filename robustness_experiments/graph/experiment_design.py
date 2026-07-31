@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Iterable, Sequence
 
 
-DEFAULT_GRAPH_BUDGETS: tuple[int, ...] = (1, 3, 5)
+DEFAULT_GRAPH_BUDGETS: tuple[int, ...] = (1, 3, 5, 7, 9, 11, 13, 15, 20, 25)
 DEFAULT_GRAPH_SEEDS: tuple[int, ...] = (7, 17, 29, 42, 61, 73, 89, 101, 137, 2026)
 
 
