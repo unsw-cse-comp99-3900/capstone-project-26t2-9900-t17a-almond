@@ -1,0 +1,373 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cvefixes__11_fixed_generic_perform_write__control_wrapper__c1/_work/source/cvefixes__11_fixed_generic_perform_write__control_wrapper__c1.c								
+ANR	2	Function	generic_perform_write	1:0:0:2357							
+ANR	3	FunctionDef	"generic_perform_write (struct file * file , struct iov_iter * i , loff_t pos)"		2	0					
+ANR	4	CompoundStatement		3:0:92:2357	2	0					
+ANR	5	IdentifierDeclStatement	struct address_space * mapping = file -> f_mapping ;	4:1:95:142	2	0	True				
+ANR	6	IdentifierDecl	* mapping = file -> f_mapping		2	0					
+ANR	7	IdentifierDeclType	struct address_space *		2	0					
+ANR	8	Identifier	mapping		2	1					
+ANR	9	AssignmentExpression	* mapping = file -> f_mapping		2	2		=			
+ANR	10	Identifier	mapping		2	0					
+ANR	11	PtrMemberAccess	file -> f_mapping		2	1					
+ANR	12	Identifier	file		2	0					
+ANR	13	Identifier	f_mapping		2	1					
+ANR	14	IdentifierDeclStatement	const struct address_space_operations * a_ops = mapping -> a_ops ;	5:1:145:206	2	1	True				
+ANR	15	IdentifierDecl	* a_ops = mapping -> a_ops		2	0					
+ANR	16	IdentifierDeclType	const struct address_space_operations *		2	0					
+ANR	17	Identifier	a_ops		2	1					
+ANR	18	AssignmentExpression	* a_ops = mapping -> a_ops		2	2		=			
+ANR	19	Identifier	a_ops		2	0					
+ANR	20	PtrMemberAccess	mapping -> a_ops		2	1					
+ANR	21	Identifier	mapping		2	0					
+ANR	22	Identifier	a_ops		2	1					
+ANR	23	IdentifierDeclStatement	long status = 0 ;	6:1:209:224	2	2	True				
+ANR	24	IdentifierDecl	status = 0		2	0					
+ANR	25	IdentifierDeclType	long		2	0					
+ANR	26	Identifier	status		2	1					
+ANR	27	AssignmentExpression	status = 0		2	2		=			
+ANR	28	Identifier	status		2	0					
+ANR	29	PrimaryExpression	0		2	1					
+ANR	30	IdentifierDeclStatement	ssize_t written = 0 ;	7:1:227:246	2	3	True				
+ANR	31	IdentifierDecl	written = 0		2	0					
+ANR	32	IdentifierDeclType	ssize_t		2	0					
+ANR	33	Identifier	written		2	1					
+ANR	34	AssignmentExpression	written = 0		2	2		=			
+ANR	35	Identifier	written		2	0					
+ANR	36	PrimaryExpression	0		2	1					
+ANR	37	IdentifierDeclStatement	unsigned int flags = 0 ;	8:1:249:271	2	4	True				
+ANR	38	IdentifierDecl	flags = 0		2	0					
+ANR	39	IdentifierDeclType	unsigned int		2	0					
+ANR	40	Identifier	flags		2	1					
+ANR	41	AssignmentExpression	flags = 0		2	2		=			
+ANR	42	Identifier	flags		2	0					
+ANR	43	PrimaryExpression	0		2	1					
+ANR	44	IfStatement	"if ( segment_eq ( get_fs ( ) , KERNEL_DS ) )"		2	5					
+ANR	45	Condition	"segment_eq ( get_fs ( ) , KERNEL_DS )"	13:5:359:389	2	0	True				
+ANR	46	CallExpression	"segment_eq ( get_fs ( ) , KERNEL_DS )"		2	0					
+ANR	47	Callee	segment_eq		2	0					
+ANR	48	Identifier	segment_eq		2	0					
+ANR	49	ArgumentList	get_fs ( )		2	1					
+ANR	50	Argument	get_fs ( )		2	0					
+ANR	51	CallExpression	get_fs ( )		2	0					
+ANR	52	Callee	get_fs		2	0					
+ANR	53	Identifier	get_fs		2	0					
+ANR	54	ArgumentList			2	1					
+ANR	55	Argument	KERNEL_DS		2	1					
+ANR	56	Identifier	KERNEL_DS		2	0					
+ANR	57	IfStatement	if ( 1 )		2	1					
+ANR	58	Condition	1	14:6:398:398	2	0	True				
+ANR	59	PrimaryExpression	1		2	0					
+ANR	60	CompoundStatement		12:9:308:308	2	1					
+ANR	61	ExpressionStatement	flags |= AOP_FLAG_UNINTERRUPTIBLE	15:6:409:442	2	0	True				
+ANR	62	AssignmentExpression	flags |= AOP_FLAG_UNINTERRUPTIBLE		2	0		|=			
+ANR	63	Identifier	flags		2	0					
+ANR	64	Identifier	AOP_FLAG_UNINTERRUPTIBLE		2	1					
+ANR	65	DoStatement	do		2	6					
+ANR	66	CompoundStatement		22:2:598:610	2	0					
+ANR	67	IdentifierDeclStatement	struct page * page ;	19:2:457:474	2	0	True				
+ANR	68	IdentifierDecl	* page		2	0					
+ANR	69	IdentifierDeclType	struct page *		2	0					
+ANR	70	Identifier	page		2	1					
+ANR	71	IdentifierDeclStatement	pgoff_t index ;	20:2:478:491	2	1	True				
+ANR	72	IdentifierDecl	index		2	0					
+ANR	73	IdentifierDeclType	pgoff_t		2	0					
+ANR	74	Identifier	index		2	1					
+ANR	75	IdentifierDeclStatement	unsigned long offset ;	21:2:535:555	2	2	True				
+ANR	76	IdentifierDecl	offset		2	0					
+ANR	77	IdentifierDeclType	unsigned long		2	0					
+ANR	78	Identifier	offset		2	1					
+ANR	79	IdentifierDeclStatement	unsigned long bytes ;	22:2:592:611	2	3	True				
+ANR	80	IdentifierDecl	bytes		2	0					
+ANR	81	IdentifierDeclType	unsigned long		2	0					
+ANR	82	Identifier	bytes		2	1					
+ANR	83	IdentifierDeclStatement	size_t copied ;	23:2:644:657	2	4	True				
+ANR	84	IdentifierDecl	copied		2	0					
+ANR	85	IdentifierDeclType	size_t		2	0					
+ANR	86	Identifier	copied		2	1					
+ANR	87	IdentifierDeclStatement	void * fsdata ;	24:2:691:703	2	5	True				
+ANR	88	IdentifierDecl	* fsdata		2	0					
+ANR	89	IdentifierDeclType	void *		2	0					
+ANR	90	Identifier	fsdata		2	1					
+ANR	91	ExpressionStatement	offset = ( pos & ( PAGE_CACHE_SIZE - 1 ) )	26:2:708:746	2	6	True				
+ANR	92	AssignmentExpression	offset = ( pos & ( PAGE_CACHE_SIZE - 1 ) )		2	0		=			
+ANR	93	Identifier	offset		2	0					
+ANR	94	BitAndExpression	pos & ( PAGE_CACHE_SIZE - 1 )		2	1		&			
+ANR	95	Identifier	pos		2	0					
+ANR	96	AdditiveExpression	PAGE_CACHE_SIZE - 1		2	1		-			
+ANR	97	Identifier	PAGE_CACHE_SIZE		2	0					
+ANR	98	PrimaryExpression	1		2	1					
+ANR	99	ExpressionStatement	index = pos >> PAGE_CACHE_SHIFT	27:2:750:781	2	7	True				
+ANR	100	AssignmentExpression	index = pos >> PAGE_CACHE_SHIFT		2	0		=			
+ANR	101	Identifier	index		2	0					
+ANR	102	ShiftExpression	pos >> PAGE_CACHE_SHIFT		2	1		>>			
+ANR	103	Identifier	pos		2	0					
+ANR	104	Identifier	PAGE_CACHE_SHIFT		2	1					
+ANR	105	Statement	bytes	28:2:785:789	2	8	True				
+ANR	106	Statement	=	28:8:791:791	2	9	True				
+ANR	107	Statement	min_t	28:10:793:797	2	10	True				
+ANR	108	Statement	(	28:15:798:798	2	11	True				
+ANR	109	Statement	unsigned	28:16:799:806	2	12	True				
+ANR	110	Statement	long	28:25:808:811	2	13	True				
+ANR	111	Statement	","	28:29:812:812	2	14	True				
+ANR	112	Statement	PAGE_CACHE_SIZE	28:31:814:828	2	15	True				
+ANR	113	Statement	-	28:47:830:830	2	16	True				
+ANR	114	Statement	offset	28:49:832:837	2	17	True				
+ANR	115	Statement	","	28:55:838:838	2	18	True				
+ANR	116	Statement	iov_iter_count	29:6:846:859	2	19	True				
+ANR	117	Statement	(	29:20:860:860	2	20	True				
+ANR	118	Statement	i	29:21:861:861	2	21	True				
+ANR	119	Statement	)	29:22:862:862	2	22	True				
+ANR	120	Statement	)	29:23:863:863	2	23	True				
+ANR	121	ExpressionStatement		29:24:864:864	2	24	True				
+ANR	122	Label	again :	31:0:867:872	2	25	True				
+ANR	123	Identifier	again		2	0					
+ANR	124	IfStatement	"if ( unlikely ( iov_iter_fault_in_readable ( i , bytes ) ) )"		2	26					
+ANR	125	Condition	"unlikely ( iov_iter_fault_in_readable ( i , bytes ) )"	43:6:1252:1297	2	0	True				
+ANR	126	CallExpression	"unlikely ( iov_iter_fault_in_readable ( i , bytes ) )"		2	0					
+ANR	127	Callee	unlikely		2	0					
+ANR	128	Identifier	unlikely		2	0					
+ANR	129	ArgumentList	"iov_iter_fault_in_readable ( i , bytes )"		2	1					
+ANR	130	Argument	"iov_iter_fault_in_readable ( i , bytes )"		2	0					
+ANR	131	CallExpression	"iov_iter_fault_in_readable ( i , bytes )"		2	0					
+ANR	132	Callee	iov_iter_fault_in_readable		2	0					
+ANR	133	Identifier	iov_iter_fault_in_readable		2	0					
+ANR	134	ArgumentList	i		2	1					
+ANR	135	Argument	i		2	0					
+ANR	136	Identifier	i		2	0					
+ANR	137	Argument	bytes		2	1					
+ANR	138	Identifier	bytes		2	0					
+ANR	139	CompoundStatement		41:54:1207:1207	2	1					
+ANR	140	ExpressionStatement	status = - EFAULT	44:3:1305:1321	2	0	True				
+ANR	141	AssignmentExpression	status = - EFAULT		2	0		=			
+ANR	142	Identifier	status		2	0					
+ANR	143	UnaryOperationExpression	- EFAULT		2	1					
+ANR	144	UnaryOperator	-		2	0					
+ANR	145	Identifier	EFAULT		2	1					
+ANR	146	BreakStatement	break ;	45:3:1326:1331	2	1	True				
+ANR	147	ExpressionStatement	"status = a_ops -> write_begin ( file , mapping , pos , bytes , flags , & page , & fsdata )"	48:2:1340:1423	2	27	True				
+ANR	148	AssignmentExpression	"status = a_ops -> write_begin ( file , mapping , pos , bytes , flags , & page , & fsdata )"		2	0		=			
+ANR	149	Identifier	status		2	0					
+ANR	150	CallExpression	"a_ops -> write_begin ( file , mapping , pos , bytes , flags , & page , & fsdata )"		2	1					
+ANR	151	Callee	a_ops -> write_begin		2	0					
+ANR	152	PtrMemberAccess	a_ops -> write_begin		2	0					
+ANR	153	Identifier	a_ops		2	0					
+ANR	154	Identifier	write_begin		2	1					
+ANR	155	ArgumentList	file		2	1					
+ANR	156	Argument	file		2	0					
+ANR	157	Identifier	file		2	0					
+ANR	158	Argument	mapping		2	1					
+ANR	159	Identifier	mapping		2	0					
+ANR	160	Argument	pos		2	2					
+ANR	161	Identifier	pos		2	0					
+ANR	162	Argument	bytes		2	3					
+ANR	163	Identifier	bytes		2	0					
+ANR	164	Argument	flags		2	4					
+ANR	165	Identifier	flags		2	0					
+ANR	166	Argument	& page		2	5					
+ANR	167	UnaryOperationExpression	& page		2	0					
+ANR	168	UnaryOperator	&		2	0					
+ANR	169	Identifier	page		2	1					
+ANR	170	Argument	& fsdata		2	6					
+ANR	171	UnaryOperationExpression	& fsdata		2	0					
+ANR	172	UnaryOperator	&		2	0					
+ANR	173	Identifier	fsdata		2	1					
+ANR	174	IfStatement	if ( unlikely ( status ) )		2	28					
+ANR	175	Condition	unlikely ( status )	50:6:1431:1446	2	0	True				
+ANR	176	CallExpression	unlikely ( status )		2	0					
+ANR	177	Callee	unlikely		2	0					
+ANR	178	Identifier	unlikely		2	0					
+ANR	179	ArgumentList	status		2	1					
+ANR	180	Argument	status		2	0					
+ANR	181	Identifier	status		2	0					
+ANR	182	BreakStatement	break ;	51:3:1452:1457	2	1	True				
+ANR	183	ExpressionStatement	pagefault_disable ( )	53:2:1462:1481	2	29	True				
+ANR	184	CallExpression	pagefault_disable ( )		2	0					
+ANR	185	Callee	pagefault_disable		2	0					
+ANR	186	Identifier	pagefault_disable		2	0					
+ANR	187	ArgumentList			2	1					
+ANR	188	ExpressionStatement	"copied = iov_iter_copy_from_user_atomic ( page , i , offset , bytes )"	54:2:1485:1548	2	30	True				
+ANR	189	AssignmentExpression	"copied = iov_iter_copy_from_user_atomic ( page , i , offset , bytes )"		2	0		=			
+ANR	190	Identifier	copied		2	0					
+ANR	191	CallExpression	"iov_iter_copy_from_user_atomic ( page , i , offset , bytes )"		2	1					
+ANR	192	Callee	iov_iter_copy_from_user_atomic		2	0					
+ANR	193	Identifier	iov_iter_copy_from_user_atomic		2	0					
+ANR	194	ArgumentList	page		2	1					
+ANR	195	Argument	page		2	0					
+ANR	196	Identifier	page		2	0					
+ANR	197	Argument	i		2	1					
+ANR	198	Identifier	i		2	0					
+ANR	199	Argument	offset		2	2					
+ANR	200	Identifier	offset		2	0					
+ANR	201	Argument	bytes		2	3					
+ANR	202	Identifier	bytes		2	0					
+ANR	203	ExpressionStatement	pagefault_enable ( )	55:2:1552:1570	2	31	True				
+ANR	204	CallExpression	pagefault_enable ( )		2	0					
+ANR	205	Callee	pagefault_enable		2	0					
+ANR	206	Identifier	pagefault_enable		2	0					
+ANR	207	ArgumentList			2	1					
+ANR	208	ExpressionStatement	flush_dcache_page ( page )	56:2:1574:1597	2	32	True				
+ANR	209	CallExpression	flush_dcache_page ( page )		2	0					
+ANR	210	Callee	flush_dcache_page		2	0					
+ANR	211	Identifier	flush_dcache_page		2	0					
+ANR	212	ArgumentList	page		2	1					
+ANR	213	Argument	page		2	0					
+ANR	214	Identifier	page		2	0					
+ANR	215	ExpressionStatement	"status = a_ops -> write_end ( file , mapping , pos , bytes , copied , page , fsdata )"	58:2:1602:1682	2	33	True				
+ANR	216	AssignmentExpression	"status = a_ops -> write_end ( file , mapping , pos , bytes , copied , page , fsdata )"		2	0		=			
+ANR	217	Identifier	status		2	0					
+ANR	218	CallExpression	"a_ops -> write_end ( file , mapping , pos , bytes , copied , page , fsdata )"		2	1					
+ANR	219	Callee	a_ops -> write_end		2	0					
+ANR	220	PtrMemberAccess	a_ops -> write_end		2	0					
+ANR	221	Identifier	a_ops		2	0					
+ANR	222	Identifier	write_end		2	1					
+ANR	223	ArgumentList	file		2	1					
+ANR	224	Argument	file		2	0					
+ANR	225	Identifier	file		2	0					
+ANR	226	Argument	mapping		2	1					
+ANR	227	Identifier	mapping		2	0					
+ANR	228	Argument	pos		2	2					
+ANR	229	Identifier	pos		2	0					
+ANR	230	Argument	bytes		2	3					
+ANR	231	Identifier	bytes		2	0					
+ANR	232	Argument	copied		2	4					
+ANR	233	Identifier	copied		2	0					
+ANR	234	Argument	page		2	5					
+ANR	235	Identifier	page		2	0					
+ANR	236	Argument	fsdata		2	6					
+ANR	237	Identifier	fsdata		2	0					
+ANR	238	IfStatement	if ( unlikely ( status < 0 ) )		2	34					
+ANR	239	Condition	unlikely ( status < 0 )	60:6:1690:1709	2	0	True				
+ANR	240	CallExpression	unlikely ( status < 0 )		2	0					
+ANR	241	Callee	unlikely		2	0					
+ANR	242	Identifier	unlikely		2	0					
+ANR	243	ArgumentList	status < 0		2	1					
+ANR	244	Argument	status < 0		2	0					
+ANR	245	RelationalExpression	status < 0		2	0		<			
+ANR	246	Identifier	status		2	0					
+ANR	247	PrimaryExpression	0		2	1					
+ANR	248	BreakStatement	break ;	61:3:1715:1720	2	1	True				
+ANR	249	ExpressionStatement	copied = status	62:2:1724:1739	2	35	True				
+ANR	250	AssignmentExpression	copied = status		2	0		=			
+ANR	251	Identifier	copied		2	0					
+ANR	252	Identifier	status		2	1					
+ANR	253	ExpressionStatement	cond_resched ( )	64:2:1744:1758	2	36	True				
+ANR	254	CallExpression	cond_resched ( )		2	0					
+ANR	255	Callee	cond_resched		2	0					
+ANR	256	Identifier	cond_resched		2	0					
+ANR	257	ArgumentList			2	1					
+ANR	258	ExpressionStatement	"iov_iter_advance ( i , copied )"	66:2:1763:1790	2	37	True				
+ANR	259	CallExpression	"iov_iter_advance ( i , copied )"		2	0					
+ANR	260	Callee	iov_iter_advance		2	0					
+ANR	261	Identifier	iov_iter_advance		2	0					
+ANR	262	ArgumentList	i		2	1					
+ANR	263	Argument	i		2	0					
+ANR	264	Identifier	i		2	0					
+ANR	265	Argument	copied		2	1					
+ANR	266	Identifier	copied		2	0					
+ANR	267	IfStatement	if ( unlikely ( copied == 0 ) )		2	38					
+ANR	268	Condition	unlikely ( copied == 0 )	67:6:1798:1818	2	0	True				
+ANR	269	CallExpression	unlikely ( copied == 0 )		2	0					
+ANR	270	Callee	unlikely		2	0					
+ANR	271	Identifier	unlikely		2	0					
+ANR	272	ArgumentList	copied == 0		2	1					
+ANR	273	Argument	copied == 0		2	0					
+ANR	274	EqualityExpression	copied == 0		2	0		==			
+ANR	275	Identifier	copied		2	0					
+ANR	276	PrimaryExpression	0		2	1					
+ANR	277	CompoundStatement		65:29:1728:1728	2	1					
+ANR	278	Statement	bytes	76:3:2095:2099	2	0	True				
+ANR	279	Statement	=	76:9:2101:2101	2	1	True				
+ANR	280	Statement	min_t	76:11:2103:2107	2	2	True				
+ANR	281	Statement	(	76:16:2108:2108	2	3	True				
+ANR	282	Statement	unsigned	76:17:2109:2116	2	4	True				
+ANR	283	Statement	long	76:26:2118:2121	2	5	True				
+ANR	284	Statement	","	76:30:2122:2122	2	6	True				
+ANR	285	Statement	PAGE_CACHE_SIZE	76:32:2124:2138	2	7	True				
+ANR	286	Statement	-	76:48:2140:2140	2	8	True				
+ANR	287	Statement	offset	76:50:2142:2147	2	9	True				
+ANR	288	Statement	","	76:56:2148:2148	2	10	True				
+ANR	289	Statement	iov_iter_single_seg_count	77:6:2156:2180	2	11	True				
+ANR	290	Statement	(	77:31:2181:2181	2	12	True				
+ANR	291	Statement	i	77:32:2182:2182	2	13	True				
+ANR	292	Statement	)	77:33:2183:2183	2	14	True				
+ANR	293	Statement	)	77:34:2184:2184	2	15	True				
+ANR	294	ExpressionStatement		77:35:2185:2185	2	16	True				
+ANR	295	GotoStatement	goto again ;	78:3:2190:2200	2	17	True				
+ANR	296	Identifier	again		2	0					
+ANR	297	ExpressionStatement	pos += copied	80:2:2208:2221	2	39	True				
+ANR	298	AssignmentExpression	pos += copied		2	0		+=			
+ANR	299	Identifier	pos		2	0					
+ANR	300	Identifier	copied		2	1					
+ANR	301	ExpressionStatement	written += copied	81:2:2225:2242	2	40	True				
+ANR	302	AssignmentExpression	written += copied		2	0		+=			
+ANR	303	Identifier	written		2	0					
+ANR	304	Identifier	copied		2	1					
+ANR	305	ExpressionStatement	balance_dirty_pages_ratelimited ( mapping )	83:2:2247:2287	2	41	True				
+ANR	306	CallExpression	balance_dirty_pages_ratelimited ( mapping )		2	0					
+ANR	307	Callee	balance_dirty_pages_ratelimited		2	0					
+ANR	308	Identifier	balance_dirty_pages_ratelimited		2	0					
+ANR	309	ArgumentList	mapping		2	1					
+ANR	310	Argument	mapping		2	0					
+ANR	311	Identifier	mapping		2	0					
+ANR	312	Condition	iov_iter_count ( i )	85:10:2300:2316	2	1	True				
+ANR	313	CallExpression	iov_iter_count ( i )		2	0					
+ANR	314	Callee	iov_iter_count		2	0					
+ANR	315	Identifier	iov_iter_count		2	0					
+ANR	316	ArgumentList	i		2	1					
+ANR	317	Argument	i		2	0					
+ANR	318	Identifier	i		2	0					
+ANR	319	ReturnStatement	return written ? written : status ;	87:1:2322:2355	2	7	True				
+ANR	320	ConditionalExpression	written ? written : status		2	0					
+ANR	321	Condition	written		2	0					
+ANR	322	Identifier	written		2	0					
+ANR	323	Identifier	written		2	1					
+ANR	324	Identifier	status		2	2					
+ANR	325	ReturnType	static ssize_t		2	1					
+ANR	326	Identifier	generic_perform_write		2	2					
+ANR	327	ParameterList	"struct file * file , struct iov_iter * i , loff_t pos"		2	3					
+ANR	328	Parameter	struct file * file	1:37:37:53	2	0	True				
+ANR	329	ParameterType	struct file *		2	0					
+ANR	330	Identifier	file		2	1					
+ANR	331	Parameter	struct iov_iter * i	2:4:60:77	2	1	True				
+ANR	332	ParameterType	struct iov_iter *		2	0					
+ANR	333	Identifier	i		2	1					
+ANR	334	Parameter	loff_t pos	2:24:80:89	2	2	True				
+ANR	335	ParameterType	loff_t		2	0					
+ANR	336	Identifier	pos		2	1					
+ANR	337	CFGEntryNode	ENTRY		2		True				
+ANR	338	CFGExitNode	EXIT		2		True				
+ANR	339	Symbol	segment_eq		2						
+ANR	340	Symbol	copied		2						
+ANR	341	Symbol	a_ops -> write_begin		2						
+ANR	342	Symbol	& page		2						
+ANR	343	Symbol	flags		2						
+ANR	344	Symbol	PAGE_CACHE_SIZE		2						
+ANR	345	Symbol	file		2						
+ANR	346	Symbol	* mapping		2						
+ANR	347	Symbol	pos		2						
+ANR	348	Symbol	a_ops -> write_end		2						
+ANR	349	Symbol	a_ops		2						
+ANR	350	Symbol	KERNEL_DS		2						
+ANR	351	Symbol	iov_iter_copy_from_user_atomic		2						
+ANR	352	Symbol	written		2						
+ANR	353	Symbol	get_fs		2						
+ANR	354	Symbol	unlikely		2						
+ANR	355	Symbol	mapping		2						
+ANR	356	Symbol	offset		2						
+ANR	357	Symbol	AOP_FLAG_UNINTERRUPTIBLE		2						
+ANR	358	Symbol	fsdata		2						
+ANR	359	Symbol	i		2						
+ANR	360	Symbol	index		2						
+ANR	361	Symbol	file -> f_mapping		2						
+ANR	362	Symbol	EFAULT		2						
+ANR	363	Symbol	* file		2						
+ANR	364	Symbol	PAGE_CACHE_SHIFT		2						
+ANR	365	Symbol	iov_iter_fault_in_readable		2						
+ANR	366	Symbol	& fsdata		2						
+ANR	367	Symbol	bytes		2						
+ANR	368	Symbol	* a_ops		2						
+ANR	369	Symbol	page		2						
+ANR	370	Symbol	mapping -> a_ops		2						
+ANR	371	Symbol	iov_iter_count		2						
+ANR	372	Symbol	status		2						

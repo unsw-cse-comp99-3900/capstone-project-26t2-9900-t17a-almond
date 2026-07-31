@@ -1,0 +1,177 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cvefixes__09_fixed_netlbl_cipsov4_add_common__data_flow_alias__c1/_work/source/cvefixes__09_fixed_netlbl_cipsov4_add_common__data_flow_alias__c1.c								
+ANR	2	Function	netlbl_cipsov4_add_common	1:0:0:762							
+ANR	3	FunctionDef	"netlbl_cipsov4_add_common (struct genl_info * info , struct cipso_v4_doi * doi_def)"		2	0					
+ANR	4	CompoundStatement		3:0:100:762	2	0					
+ANR	5	IdentifierDeclStatement	struct nlattr * nla ;	4:1:103:121	2	0	True				
+ANR	6	IdentifierDecl	* nla		2	0					
+ANR	7	IdentifierDeclType	struct nlattr *		2	0					
+ANR	8	Identifier	nla		2	1					
+ANR	9	IdentifierDeclStatement	int nla_rem ;	5:1:124:135	2	1	True				
+ANR	10	IdentifierDecl	nla_rem		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	nla_rem		2	1					
+ANR	13	IdentifierDeclStatement	u32 iter = 0 ;	6:1:138:150	2	2	True				
+ANR	14	IdentifierDecl	iter = 0		2	0					
+ANR	15	IdentifierDeclType	u32		2	0					
+ANR	16	Identifier	iter		2	1					
+ANR	17	AssignmentExpression	iter = 0		2	2		=			
+ANR	18	Identifier	iter		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	int dwk_flow_value_1 = ( int ) ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] ) ;	8:1:154:215	2	3	True				
+ANR	21	IdentifierDecl	dwk_flow_value_1 = ( int ) ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )		2	0					
+ANR	22	IdentifierDeclType	int		2	0					
+ANR	23	Identifier	dwk_flow_value_1		2	1					
+ANR	24	AssignmentExpression	dwk_flow_value_1 = ( int ) ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )		2	2		=			
+ANR	25	Identifier	dwk_flow_value_1		2	0					
+ANR	26	CastExpression	( int ) ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )		2	1					
+ANR	27	CastTarget	int		2	0					
+ANR	28	ArrayIndexing	info -> attrs [ NLBL_CIPSOV4_A_DOI ]		2	1					
+ANR	29	PtrMemberAccess	info -> attrs		2	0					
+ANR	30	Identifier	info		2	0					
+ANR	31	Identifier	attrs		2	1					
+ANR	32	Identifier	NLBL_CIPSOV4_A_DOI		2	1					
+ANR	33	ExpressionStatement	dwk_flow_value_1 += 0	9:1:218:239	2	4	True				
+ANR	34	AssignmentExpression	dwk_flow_value_1 += 0		2	0		+=			
+ANR	35	Identifier	dwk_flow_value_1		2	0					
+ANR	36	PrimaryExpression	0		2	1					
+ANR	37	ExpressionStatement	doi_def -> doi = nla_get_u32 ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )	10:1:242:301	2	5	True				
+ANR	38	AssignmentExpression	doi_def -> doi = nla_get_u32 ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )		2	0		=			
+ANR	39	PtrMemberAccess	doi_def -> doi		2	0					
+ANR	40	Identifier	doi_def		2	0					
+ANR	41	Identifier	doi		2	1					
+ANR	42	CallExpression	nla_get_u32 ( info -> attrs [ NLBL_CIPSOV4_A_DOI ] )		2	1					
+ANR	43	Callee	nla_get_u32		2	0					
+ANR	44	Identifier	nla_get_u32		2	0					
+ANR	45	ArgumentList	info -> attrs [ NLBL_CIPSOV4_A_DOI ]		2	1					
+ANR	46	Argument	info -> attrs [ NLBL_CIPSOV4_A_DOI ]		2	0					
+ANR	47	ArrayIndexing	info -> attrs [ NLBL_CIPSOV4_A_DOI ]		2	0					
+ANR	48	PtrMemberAccess	info -> attrs		2	0					
+ANR	49	Identifier	info		2	0					
+ANR	50	Identifier	attrs		2	1					
+ANR	51	Identifier	NLBL_CIPSOV4_A_DOI		2	1					
+ANR	52	IfStatement	"if ( nla_validate_nested ( info -> attrs [ NLBL_CIPSOV4_A_TAGLST ] , NLBL_CIPSOV4_A_MAX , netlbl_cipsov4_genl_policy ) != 0 )"		2	6					
+ANR	53	Condition	"nla_validate_nested ( info -> attrs [ NLBL_CIPSOV4_A_TAGLST ] , NLBL_CIPSOV4_A_MAX , netlbl_cipsov4_genl_policy ) != 0"	12:5:309:424	2	0	True				
+ANR	54	EqualityExpression	"nla_validate_nested ( info -> attrs [ NLBL_CIPSOV4_A_TAGLST ] , NLBL_CIPSOV4_A_MAX , netlbl_cipsov4_genl_policy ) != 0"		2	0		!=			
+ANR	55	CallExpression	"nla_validate_nested ( info -> attrs [ NLBL_CIPSOV4_A_TAGLST ] , NLBL_CIPSOV4_A_MAX , netlbl_cipsov4_genl_policy )"		2	0					
+ANR	56	Callee	nla_validate_nested		2	0					
+ANR	57	Identifier	nla_validate_nested		2	0					
+ANR	58	ArgumentList	info -> attrs [ NLBL_CIPSOV4_A_TAGLST ]		2	1					
+ANR	59	Argument	info -> attrs [ NLBL_CIPSOV4_A_TAGLST ]		2	0					
+ANR	60	ArrayIndexing	info -> attrs [ NLBL_CIPSOV4_A_TAGLST ]		2	0					
+ANR	61	PtrMemberAccess	info -> attrs		2	0					
+ANR	62	Identifier	info		2	0					
+ANR	63	Identifier	attrs		2	1					
+ANR	64	Identifier	NLBL_CIPSOV4_A_TAGLST		2	1					
+ANR	65	Argument	NLBL_CIPSOV4_A_MAX		2	1					
+ANR	66	Identifier	NLBL_CIPSOV4_A_MAX		2	0					
+ANR	67	Argument	netlbl_cipsov4_genl_policy		2	2					
+ANR	68	Identifier	netlbl_cipsov4_genl_policy		2	0					
+ANR	69	PrimaryExpression	0		2	1					
+ANR	70	ReturnStatement	return - EINVAL ;	15:2:429:443	2	1	True				
+ANR	71	UnaryOperationExpression	- EINVAL		2	0					
+ANR	72	UnaryOperator	-		2	0					
+ANR	73	Identifier	EINVAL		2	1					
+ANR	74	Statement	nla_for_each_nested	17:1:447:465	2	7	True				
+ANR	75	Statement	(	17:20:466:466	2	8	True				
+ANR	76	Statement	nla	17:21:467:469	2	9	True				
+ANR	77	Statement	","	17:24:470:470	2	10	True				
+ANR	78	Statement	info	17:26:472:475	2	11	True				
+ANR	79	Statement	->	17:30:476:477	2	12	True				
+ANR	80	Statement	attrs	17:32:478:482	2	13	True				
+ANR	81	Statement	[	17:37:483:483	2	14	True				
+ANR	82	Statement	NLBL_CIPSOV4_A_TAGLST	17:38:484:504	2	15	True				
+ANR	83	Statement	]	17:59:505:505	2	16	True				
+ANR	84	Statement	","	17:60:506:506	2	17	True				
+ANR	85	Statement	nla_rem	17:62:508:514	2	18	True				
+ANR	86	Statement	)	17:69:515:515	2	19	True				
+ANR	87	IfStatement	if ( nla -> nla_type == NLBL_CIPSOV4_A_TAG )		2	20					
+ANR	88	Condition	nla -> nla_type == NLBL_CIPSOV4_A_TAG	18:6:523:557	2	0	True				
+ANR	89	EqualityExpression	nla -> nla_type == NLBL_CIPSOV4_A_TAG		2	0		==			
+ANR	90	PtrMemberAccess	nla -> nla_type		2	0					
+ANR	91	Identifier	nla		2	0					
+ANR	92	Identifier	nla_type		2	1					
+ANR	93	Identifier	NLBL_CIPSOV4_A_TAG		2	1					
+ANR	94	CompoundStatement		16:43:459:459	2	1					
+ANR	95	IfStatement	if ( iter >= CIPSO_V4_TAG_MAXCNT )		2	0					
+ANR	96	Condition	iter >= CIPSO_V4_TAG_MAXCNT	19:7:569:595	2	0	True				
+ANR	97	RelationalExpression	iter >= CIPSO_V4_TAG_MAXCNT		2	0		>=			
+ANR	98	Identifier	iter		2	0					
+ANR	99	Identifier	CIPSO_V4_TAG_MAXCNT		2	1					
+ANR	100	ReturnStatement	return - EINVAL ;	20:4:602:616	2	1	True				
+ANR	101	UnaryOperationExpression	- EINVAL		2	0					
+ANR	102	UnaryOperator	-		2	0					
+ANR	103	Identifier	EINVAL		2	1					
+ANR	104	ExpressionStatement	doi_def -> tags [ iter ++ ] = nla_get_u8 ( nla )	21:3:621:660	2	1	True				
+ANR	105	AssignmentExpression	doi_def -> tags [ iter ++ ] = nla_get_u8 ( nla )		2	0		=			
+ANR	106	ArrayIndexing	doi_def -> tags [ iter ++ ]		2	0					
+ANR	107	PtrMemberAccess	doi_def -> tags		2	0					
+ANR	108	Identifier	doi_def		2	0					
+ANR	109	Identifier	tags		2	1					
+ANR	110	PostIncDecOperationExpression	iter ++		2	1					
+ANR	111	Identifier	iter		2	0					
+ANR	112	IncDec	++		2	1					
+ANR	113	CallExpression	nla_get_u8 ( nla )		2	1					
+ANR	114	Callee	nla_get_u8		2	0					
+ANR	115	Identifier	nla_get_u8		2	0					
+ANR	116	ArgumentList	nla		2	1					
+ANR	117	Argument	nla		2	0					
+ANR	118	Identifier	nla		2	0					
+ANR	119	WhileStatement	while ( iter < CIPSO_V4_TAG_MAXCNT )		2	21					
+ANR	120	Condition	iter < CIPSO_V4_TAG_MAXCNT	23:8:674:699	2	0	True				
+ANR	121	RelationalExpression	iter < CIPSO_V4_TAG_MAXCNT		2	0		<			
+ANR	122	Identifier	iter		2	0					
+ANR	123	Identifier	CIPSO_V4_TAG_MAXCNT		2	1					
+ANR	124	ExpressionStatement	doi_def -> tags [ iter ++ ] = CIPSO_V4_TAG_INVALID	24:2:704:748	2	1	True				
+ANR	125	AssignmentExpression	doi_def -> tags [ iter ++ ] = CIPSO_V4_TAG_INVALID		2	0		=			
+ANR	126	ArrayIndexing	doi_def -> tags [ iter ++ ]		2	0					
+ANR	127	PtrMemberAccess	doi_def -> tags		2	0					
+ANR	128	Identifier	doi_def		2	0					
+ANR	129	Identifier	tags		2	1					
+ANR	130	PostIncDecOperationExpression	iter ++		2	1					
+ANR	131	Identifier	iter		2	0					
+ANR	132	IncDec	++		2	1					
+ANR	133	Identifier	CIPSO_V4_TAG_INVALID		2	1					
+ANR	134	ReturnStatement	return 0 ;	26:1:752:760	2	22	True				
+ANR	135	PrimaryExpression	0		2	0					
+ANR	136	ReturnType	static int		2	1					
+ANR	137	Identifier	netlbl_cipsov4_add_common		2	2					
+ANR	138	ParameterList	"struct genl_info * info , struct cipso_v4_doi * doi_def"		2	3					
+ANR	139	Parameter	struct genl_info * info	1:37:37:58	2	0	True				
+ANR	140	ParameterType	struct genl_info *		2	0					
+ANR	141	Identifier	info		2	1					
+ANR	142	Parameter	struct cipso_v4_doi * doi_def	2:9:70:97	2	1	True				
+ANR	143	ParameterType	struct cipso_v4_doi *		2	0					
+ANR	144	Identifier	doi_def		2	1					
+ANR	145	CFGEntryNode	ENTRY		2		True				
+ANR	146	CFGExitNode	EXIT		2		True				
+ANR	147	Symbol	nla_rem		2						
+ANR	148	Symbol	* * info		2						
+ANR	149	Symbol	NLBL_CIPSOV4_A_DOI		2						
+ANR	150	Symbol	nla_get_u32		2						
+ANR	151	Symbol	netlbl_cipsov4_genl_policy		2						
+ANR	152	Symbol	doi_def		2						
+ANR	153	Symbol	doi_def -> doi		2						
+ANR	154	Symbol	* nla		2						
+ANR	155	Symbol	doi_def -> tags		2						
+ANR	156	Symbol	* doi_def -> tags		2						
+ANR	157	Symbol	NLBL_CIPSOV4_A_TAGLST		2						
+ANR	158	Symbol	nla_validate_nested		2						
+ANR	159	Symbol	info		2						
+ANR	160	Symbol	* NLBL_CIPSOV4_A_DOI		2						
+ANR	161	Symbol	NLBL_CIPSOV4_A_TAG		2						
+ANR	162	Symbol	nla		2						
+ANR	163	Symbol	* doi_def		2						
+ANR	164	Symbol	* NLBL_CIPSOV4_A_TAGLST		2						
+ANR	165	Symbol	CIPSO_V4_TAG_INVALID		2						
+ANR	166	Symbol	iter		2						
+ANR	167	Symbol	dwk_flow_value_1		2						
+ANR	168	Symbol	EINVAL		2						
+ANR	169	Symbol	nla_get_u8		2						
+ANR	170	Symbol	info -> attrs		2						
+ANR	171	Symbol	* * doi_def		2						
+ANR	172	Symbol	CIPSO_V4_TAG_MAXCNT		2						
+ANR	173	Symbol	* info		2						
+ANR	174	Symbol	* info -> attrs		2						
+ANR	175	Symbol	NLBL_CIPSOV4_A_MAX		2						
+ANR	176	Symbol	nla -> nla_type		2						

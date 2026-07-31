@@ -1,0 +1,150 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cwe119__13_vulnerable_CWE121_Stack_Based_Buffer_Overflow____pattern_dead_code__c1/_work/source/cwe119__13_vulnerable_CWE121_Stack_Based_Buffer_Overflow____pattern_dead_code__c1.c								
+ANR	2	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad	23:0:800:1406							
+ANR	3	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad (char * dataCopy)		2	0					
+ANR	4	CompoundStatement		24:0:958:1406	2	0					
+ANR	5	ExpressionStatement	data = dataCopy	25:4:964:979	2	0	True				
+ANR	6	AssignmentExpression	data = dataCopy		2	0		=			
+ANR	7	Identifier	data		2	0					
+ANR	8	Identifier	dataCopy		2	1					
+ANR	9	IfStatement	if ( 0 )		2	1					
+ANR	10	Condition	0	27:8:1093:1093	2	0	True				
+ANR	11	PrimaryExpression	0		2	0					
+ANR	12	CompoundStatement		7:8:213:251	2	1					
+ANR	13	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	28:8:1106:1129	2	0	True				
+ANR	14	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		2	0					
+ANR	15	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	16	Identifier	dwk_src_1		2	1					
+ANR	17	PrimaryExpression	8		2	2					
+ANR	18	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		2	3		=			
+ANR	19	Identifier	dwk_src_1		2	0					
+ANR	20	InitializerList	0		2	1					
+ANR	21	PrimaryExpression	0		2	0					
+ANR	22	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	29:8:1139:1162	2	1	True				
+ANR	23	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		2	0					
+ANR	24	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	25	Identifier	dwk_dst_1		2	1					
+ANR	26	PrimaryExpression	8		2	2					
+ANR	27	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		2	3		=			
+ANR	28	Identifier	dwk_dst_1		2	0					
+ANR	29	InitializerList	0		2	1					
+ANR	30	PrimaryExpression	0		2	0					
+ANR	31	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	30:8:1172:1210	2	2	True				
+ANR	32	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	0					
+ANR	33	IdentifierDeclType	int		2	0					
+ANR	34	Identifier	dwk_len_1		2	1					
+ANR	35	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	2		=			
+ANR	36	Identifier	dwk_len_1		2	0					
+ANR	37	CastExpression	( int ) sizeof ( dwk_dst_1 )		2	1					
+ANR	38	CastTarget	int		2	0					
+ANR	39	SizeofExpression	sizeof ( dwk_dst_1 )		2	1					
+ANR	40	Sizeof	sizeof		2	0					
+ANR	41	SizeofOperand	dwk_dst_1		2	1					
+ANR	42	IfStatement	if ( dwk_len_1 > 0 )		2	3					
+ANR	43	Condition	dwk_len_1 > 0	31:12:1224:1236	2	0	True				
+ANR	44	RelationalExpression	dwk_len_1 > 0		2	0		>			
+ANR	45	Identifier	dwk_len_1		2	0					
+ANR	46	PrimaryExpression	0		2	1					
+ANR	47	CompoundStatement		8:27:280:280	2	1					
+ANR	48	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	32:12:1253:1292	2	0	True				
+ANR	49	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		2	0		=			
+ANR	50	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		2	0					
+ANR	51	Identifier	dwk_dst_1		2	0					
+ANR	52	AdditiveExpression	dwk_len_1 - 1		2	1		-			
+ANR	53	Identifier	dwk_len_1		2	0					
+ANR	54	PrimaryExpression	1		2	1					
+ANR	55	ArrayIndexing	dwk_src_1 [ 0 ]		2	1					
+ANR	56	Identifier	dwk_src_1		2	0					
+ANR	57	PrimaryExpression	0		2	1					
+ANR	58	ExpressionStatement	"memset ( data , 'A' , 100 - 1 )"	35:4:1314:1338	2	2	True				
+ANR	59	CallExpression	"memset ( data , 'A' , 100 - 1 )"		2	0					
+ANR	60	Callee	memset		2	0					
+ANR	61	Identifier	memset		2	0					
+ANR	62	ArgumentList	data		2	1					
+ANR	63	Argument	data		2	0					
+ANR	64	Identifier	data		2	0					
+ANR	65	Argument	'A'		2	1					
+ANR	66	PrimaryExpression	'A'		2	0					
+ANR	67	Argument	100 - 1		2	2					
+ANR	68	AdditiveExpression	100 - 1		2	0		-			
+ANR	69	PrimaryExpression	100		2	0					
+ANR	70	PrimaryExpression	1		2	1					
+ANR	71	ExpressionStatement	data [ 100 - 1 ] = '\\0'	36:4:1365:1383	2	3	True				
+ANR	72	AssignmentExpression	data [ 100 - 1 ] = '\\0'		2	0		=			
+ANR	73	ArrayIndexing	data [ 100 - 1 ]		2	0					
+ANR	74	Identifier	data		2	0					
+ANR	75	AdditiveExpression	100 - 1		2	1		-			
+ANR	76	PrimaryExpression	100		2	0					
+ANR	77	PrimaryExpression	1		2	1					
+ANR	78	PrimaryExpression	'\\0'		2	1					
+ANR	79	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad		2	1					
+ANR	80	ParameterList	char * dataCopy		2	2					
+ANR	81	Parameter	char * dataCopy	23:141:941:955	2	0	True				
+ANR	82	ParameterType	char *		2	0					
+ANR	83	Identifier	dataCopy		2	1					
+ANR	84	CFGEntryNode	ENTRY		2		True				
+ANR	85	CFGExitNode	EXIT		2		True				
+ANR	86	Symbol	* dwk_src_1		2						
+ANR	87	Symbol	* dwk_dst_1		2						
+ANR	88	Symbol	dataCopy		2						
+ANR	89	Symbol	data		2						
+ANR	90	Symbol	dwk_dst_1		2						
+ANR	91	Symbol	dwk_src_1		2						
+ANR	92	Symbol	* dwk_len_1		2						
+ANR	93	Symbol	* data		2						
+ANR	94	Symbol	dwk_len_1		2						
+ANR	95	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: ~CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad	39:0:1409:1841							
+ANR	96	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: ~CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad ()		95	0					
+ANR	97	CompoundStatement		40:0:1553:1841	95	0					
+ANR	98	CompoundStatement		3:8:15:33	95	0					
+ANR	99	IdentifierDeclStatement	"char dest [ 50 ] = """" ;"	42:8:1569:1587	95	0	True				
+ANR	100	IdentifierDecl	"dest [ 50 ] = """""		95	0					
+ANR	101	IdentifierDeclType	char [ 50 ]		95	0					
+ANR	102	Identifier	dest		95	1					
+ANR	103	PrimaryExpression	50		95	2					
+ANR	104	AssignmentExpression	"dest [ 50 ] = """""		95	3		=			
+ANR	105	Identifier	dest		95	0					
+ANR	106	PrimaryExpression	""""""		95	1					
+ANR	107	ExpressionStatement	"memmove ( dest , data , strlen ( data ) * sizeof ( char ) )"	44:8:1680:1726	95	1	True				
+ANR	108	CallExpression	"memmove ( dest , data , strlen ( data ) * sizeof ( char ) )"		95	0					
+ANR	109	Callee	memmove		95	0					
+ANR	110	Identifier	memmove		95	0					
+ANR	111	ArgumentList	dest		95	1					
+ANR	112	Argument	dest		95	0					
+ANR	113	Identifier	dest		95	0					
+ANR	114	Argument	data		95	1					
+ANR	115	Identifier	data		95	0					
+ANR	116	Argument	strlen ( data ) * sizeof ( char )		95	2					
+ANR	117	MultiplicativeExpression	strlen ( data ) * sizeof ( char )		95	0		*			
+ANR	118	CallExpression	strlen ( data )		95	0					
+ANR	119	Callee	strlen		95	0					
+ANR	120	Identifier	strlen		95	0					
+ANR	121	ArgumentList	data		95	1					
+ANR	122	Argument	data		95	0					
+ANR	123	Identifier	data		95	0					
+ANR	124	SizeofExpression	sizeof ( char )		95	1					
+ANR	125	Sizeof	sizeof		95	0					
+ANR	126	SizeofOperand	char		95	1					
+ANR	127	ExpressionStatement	dest [ 50 - 1 ] = '\\0'	45:8:1736:1753	95	2	True				
+ANR	128	AssignmentExpression	dest [ 50 - 1 ] = '\\0'		95	0		=			
+ANR	129	ArrayIndexing	dest [ 50 - 1 ]		95	0					
+ANR	130	Identifier	dest		95	0					
+ANR	131	AdditiveExpression	50 - 1		95	1		-			
+ANR	132	PrimaryExpression	50		95	0					
+ANR	133	PrimaryExpression	1		95	1					
+ANR	134	PrimaryExpression	'\\0'		95	1					
+ANR	135	ExpressionStatement	printLine ( data )	46:8:1818:1833	95	3	True				
+ANR	136	CallExpression	printLine ( data )		95	0					
+ANR	137	Callee	printLine		95	0					
+ANR	138	Identifier	printLine		95	0					
+ANR	139	ArgumentList	data		95	1					
+ANR	140	Argument	data		95	0					
+ANR	141	Identifier	data		95	0					
+ANR	142	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad :: ~CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_83_bad		95	1					
+ANR	143	ParameterList			95	2					
+ANR	144	CFGEntryNode	ENTRY		95		True				
+ANR	145	CFGExitNode	EXIT		95		True				
+ANR	146	Symbol	strlen		95						
+ANR	147	Symbol	data		95						
+ANR	148	Symbol	* dest		95						
+ANR	149	Symbol	dest		95						

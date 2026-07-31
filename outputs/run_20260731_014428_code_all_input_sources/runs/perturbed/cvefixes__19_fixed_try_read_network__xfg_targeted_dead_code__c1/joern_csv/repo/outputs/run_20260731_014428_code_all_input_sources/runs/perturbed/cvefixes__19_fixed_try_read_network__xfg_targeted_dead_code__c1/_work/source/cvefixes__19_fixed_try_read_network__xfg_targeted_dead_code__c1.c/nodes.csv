@@ -1,0 +1,370 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cvefixes__19_fixed_try_read_network__xfg_targeted_dead_code__c1/_work/source/cvefixes__19_fixed_try_read_network__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	try_read_network	1:0:0:1861							
+ANR	3	FunctionDef	try_read_network (conn * c)		2	0					
+ANR	4	CompoundStatement		1:54:54:1861	2	0					
+ANR	5	IdentifierDeclStatement	enum try_read_result gotdata = READ_NO_DATA_RECEIVED ;	2:4:60:112	2	0	True				
+ANR	6	IdentifierDecl	gotdata = READ_NO_DATA_RECEIVED		2	0					
+ANR	7	IdentifierDeclType	enum try_read_result		2	0					
+ANR	8	Identifier	gotdata		2	1					
+ANR	9	AssignmentExpression	gotdata = READ_NO_DATA_RECEIVED		2	2		=			
+ANR	10	Identifier	READ_NO_DATA_RECEIVED		2	0					
+ANR	11	Identifier	READ_NO_DATA_RECEIVED		2	1					
+ANR	12	IdentifierDeclStatement	int res ;	3:4:118:125	2	1	True				
+ANR	13	IdentifierDecl	res		2	0					
+ANR	14	IdentifierDeclType	int		2	0					
+ANR	15	Identifier	res		2	1					
+ANR	16	IdentifierDeclStatement	int num_allocs = 0 ;	4:4:131:149	2	2	True				
+ANR	17	IdentifierDecl	num_allocs = 0		2	0					
+ANR	18	IdentifierDeclType	int		2	0					
+ANR	19	Identifier	num_allocs		2	1					
+ANR	20	AssignmentExpression	num_allocs = 0		2	2		=			
+ANR	21	Identifier	num_allocs		2	0					
+ANR	22	PrimaryExpression	0		2	1					
+ANR	23	ExpressionStatement	assert ( c != NULL )	5:4:155:172	2	3	True				
+ANR	24	CallExpression	assert ( c != NULL )		2	0					
+ANR	25	Callee	assert		2	0					
+ANR	26	Identifier	assert		2	0					
+ANR	27	ArgumentList	c != NULL		2	1					
+ANR	28	Argument	c != NULL		2	0					
+ANR	29	EqualityExpression	c != NULL		2	0		!=			
+ANR	30	Identifier	c		2	0					
+ANR	31	Identifier	NULL		2	1					
+ANR	32	IfStatement	if ( 0 )		2	4					
+ANR	33	Condition	0	7:8:183:183	2	0	True				
+ANR	34	PrimaryExpression	0		2	0					
+ANR	35	CompoundStatement		8:8:141:164	2	1					
+ANR	36	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	8:8:196:219	2	0	True				
+ANR	37	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	38	IdentifierDeclType	int		2	0					
+ANR	39	Identifier	dwk_xfg_guard_1		2	1					
+ANR	40	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	41	Identifier	dwk_xfg_guard_1		2	0					
+ANR	42	PrimaryExpression	1		2	1					
+ANR	43	ExpressionStatement	dwk_xfg_guard_1 += 0	9:8:229:249	2	1	True				
+ANR	44	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	45	Identifier	dwk_xfg_guard_1		2	0					
+ANR	46	PrimaryExpression	0		2	1					
+ANR	47	IfStatement	if ( c -> rcurr != c -> rbuf )		2	5					
+ANR	48	Condition	c -> rcurr != c -> rbuf	11:8:265:283	2	0	True				
+ANR	49	EqualityExpression	c -> rcurr != c -> rbuf		2	0		!=			
+ANR	50	PtrMemberAccess	c -> rcurr		2	0					
+ANR	51	Identifier	c		2	0					
+ANR	52	Identifier	rcurr		2	1					
+ANR	53	PtrMemberAccess	c -> rbuf		2	1					
+ANR	54	Identifier	c		2	0					
+ANR	55	Identifier	rbuf		2	1					
+ANR	56	CompoundStatement		11:29:231:231	2	1					
+ANR	57	IfStatement	if ( c -> rbytes != 0 )		2	0					
+ANR	58	Condition	c -> rbytes != 0	12:12:300:313	2	0	True				
+ANR	59	EqualityExpression	c -> rbytes != 0		2	0		!=			
+ANR	60	PtrMemberAccess	c -> rbytes		2	0					
+ANR	61	Identifier	c		2	0					
+ANR	62	Identifier	rbytes		2	1					
+ANR	63	PrimaryExpression	0		2	1					
+ANR	64	ExpressionStatement	"memmove ( c -> rbuf , c -> rcurr , c -> rbytes )"	13:12:368:405	2	1	True				
+ANR	65	CallExpression	"memmove ( c -> rbuf , c -> rcurr , c -> rbytes )"		2	0					
+ANR	66	Callee	memmove		2	0					
+ANR	67	Identifier	memmove		2	0					
+ANR	68	ArgumentList	c -> rbuf		2	1					
+ANR	69	Argument	c -> rbuf		2	0					
+ANR	70	PtrMemberAccess	c -> rbuf		2	0					
+ANR	71	Identifier	c		2	0					
+ANR	72	Identifier	rbuf		2	1					
+ANR	73	Argument	c -> rcurr		2	1					
+ANR	74	PtrMemberAccess	c -> rcurr		2	0					
+ANR	75	Identifier	c		2	0					
+ANR	76	Identifier	rcurr		2	1					
+ANR	77	Argument	c -> rbytes		2	2					
+ANR	78	PtrMemberAccess	c -> rbytes		2	0					
+ANR	79	Identifier	c		2	0					
+ANR	80	Identifier	rbytes		2	1					
+ANR	81	ExpressionStatement	c -> rcurr = c -> rbuf	14:8:415:433	2	1	True				
+ANR	82	AssignmentExpression	c -> rcurr = c -> rbuf		2	0		=			
+ANR	83	PtrMemberAccess	c -> rcurr		2	0					
+ANR	84	Identifier	c		2	0					
+ANR	85	Identifier	rcurr		2	1					
+ANR	86	PtrMemberAccess	c -> rbuf		2	1					
+ANR	87	Identifier	c		2	0					
+ANR	88	Identifier	rbuf		2	1					
+ANR	89	WhileStatement	while ( 1 )		2	6					
+ANR	90	Condition	1	17:11:453:453	2	0	True				
+ANR	91	PrimaryExpression	1		2	0					
+ANR	92	CompoundStatement		36:8:1078:1110	2	1					
+ANR	93	IfStatement	if ( c -> rbytes >= c -> rsize )		2	0					
+ANR	94	Condition	c -> rbytes >= c -> rsize	18:12:470:490	2	0	True				
+ANR	95	RelationalExpression	c -> rbytes >= c -> rsize		2	0		>=			
+ANR	96	PtrMemberAccess	c -> rbytes		2	0					
+ANR	97	Identifier	c		2	0					
+ANR	98	Identifier	rbytes		2	1					
+ANR	99	PtrMemberAccess	c -> rsize		2	1					
+ANR	100	Identifier	c		2	0					
+ANR	101	Identifier	rsize		2	1					
+ANR	102	CompoundStatement		23:12:559:606	2	1					
+ANR	103	IfStatement	if ( num_allocs == 4 )		2	0					
+ANR	104	Condition	num_allocs == 4	19:16:511:525	2	0	True				
+ANR	105	EqualityExpression	num_allocs == 4		2	0		==			
+ANR	106	Identifier	num_allocs		2	0					
+ANR	107	PrimaryExpression	4		2	1					
+ANR	108	CompoundStatement		19:33:473:473	2	1					
+ANR	109	ReturnStatement	return gotdata ;	20:16:546:560	2	0	True				
+ANR	110	Identifier	gotdata		2	0					
+ANR	111	ExpressionStatement	++ num_allocs	22:12:588:600	2	1	True				
+ANR	112	UnaryExpression	++ num_allocs		2	0					
+ANR	113	IncDec	++		2	0					
+ANR	114	Identifier	num_allocs		2	1					
+ANR	115	IdentifierDeclStatement	"char * new_rbuf = realloc ( c -> rbuf , c -> rsize * 2 ) ;"	23:12:614:661	2	2	True				
+ANR	116	IdentifierDecl	"* new_rbuf = realloc ( c -> rbuf , c -> rsize * 2 )"		2	0					
+ANR	117	IdentifierDeclType	char *		2	0					
+ANR	118	Identifier	new_rbuf		2	1					
+ANR	119	AssignmentExpression	"* new_rbuf = realloc ( c -> rbuf , c -> rsize * 2 )"		2	2		=			
+ANR	120	Identifier	new_rbuf		2	0					
+ANR	121	CallExpression	"realloc ( c -> rbuf , c -> rsize * 2 )"		2	1					
+ANR	122	Callee	realloc		2	0					
+ANR	123	Identifier	realloc		2	0					
+ANR	124	ArgumentList	c -> rbuf		2	1					
+ANR	125	Argument	c -> rbuf		2	0					
+ANR	126	PtrMemberAccess	c -> rbuf		2	0					
+ANR	127	Identifier	c		2	0					
+ANR	128	Identifier	rbuf		2	1					
+ANR	129	Argument	c -> rsize * 2		2	1					
+ANR	130	MultiplicativeExpression	c -> rsize * 2		2	0		*			
+ANR	131	PtrMemberAccess	c -> rsize		2	0					
+ANR	132	Identifier	c		2	0					
+ANR	133	Identifier	rsize		2	1					
+ANR	134	PrimaryExpression	2		2	1					
+ANR	135	IfStatement	if ( ! new_rbuf )		2	3					
+ANR	136	Condition	! new_rbuf	24:16:679:687	2	0	True				
+ANR	137	UnaryOperationExpression	! new_rbuf		2	0					
+ANR	138	UnaryOperator	!		2	0					
+ANR	139	Identifier	new_rbuf		2	1					
+ANR	140	CompoundStatement		24:27:635:635	2	1					
+ANR	141	IfStatement	if ( settings . verbose > 0 )		2	0					
+ANR	142	Condition	settings . verbose > 0	25:20:712:731	2	0	True				
+ANR	143	RelationalExpression	settings . verbose > 0		2	0		>			
+ANR	144	MemberAccess	settings . verbose		2	0					
+ANR	145	Identifier	settings		2	0					
+ANR	146	Identifier	verbose		2	1					
+ANR	147	PrimaryExpression	0		2	1					
+ANR	148	ExpressionStatement	"fprintf ( stderr , ""Couldn't realloc input buffer\\n"" )"	26:20:754:804	2	1	True				
+ANR	149	CallExpression	"fprintf ( stderr , ""Couldn't realloc input buffer\\n"" )"		2	0					
+ANR	150	Callee	fprintf		2	0					
+ANR	151	Identifier	fprintf		2	0					
+ANR	152	ArgumentList	stderr		2	1					
+ANR	153	Argument	stderr		2	0					
+ANR	154	Identifier	stderr		2	0					
+ANR	155	Argument	"""Couldn't realloc input buffer\\n"""		2	1					
+ANR	156	PrimaryExpression	"""Couldn't realloc input buffer\\n"""		2	0					
+ANR	157	ExpressionStatement	c -> rbytes = 0	27:16:822:835	2	1	True				
+ANR	158	AssignmentExpression	c -> rbytes = 0		2	0		=			
+ANR	159	PtrMemberAccess	c -> rbytes		2	0					
+ANR	160	Identifier	c		2	0					
+ANR	161	Identifier	rbytes		2	1					
+ANR	162	PrimaryExpression	0		2	1					
+ANR	163	ExpressionStatement	"out_string ( c , ""SERVER_ERROR out of memory reading request"" )"	28:16:879:938	2	2	True				
+ANR	164	CallExpression	"out_string ( c , ""SERVER_ERROR out of memory reading request"" )"		2	0					
+ANR	165	Callee	out_string		2	0					
+ANR	166	Identifier	out_string		2	0					
+ANR	167	ArgumentList	c		2	1					
+ANR	168	Argument	c		2	0					
+ANR	169	Identifier	c		2	0					
+ANR	170	Argument	"""SERVER_ERROR out of memory reading request"""		2	1					
+ANR	171	PrimaryExpression	"""SERVER_ERROR out of memory reading request"""		2	0					
+ANR	172	ExpressionStatement	c -> write_and_go = conn_closing	29:16:956:986	2	3	True				
+ANR	173	AssignmentExpression	c -> write_and_go = conn_closing		2	0		=			
+ANR	174	PtrMemberAccess	c -> write_and_go		2	0					
+ANR	175	Identifier	c		2	0					
+ANR	176	Identifier	write_and_go		2	1					
+ANR	177	Identifier	conn_closing		2	1					
+ANR	178	ReturnStatement	return READ_MEMORY_ERROR ;	30:16:1004:1028	2	4	True				
+ANR	179	Identifier	READ_MEMORY_ERROR		2	0					
+ANR	180	ExpressionStatement	c -> rcurr = c -> rbuf = new_rbuf	32:12:1056:1085	2	4	True				
+ANR	181	AssignmentExpression	c -> rcurr = c -> rbuf = new_rbuf		2	0		=			
+ANR	182	PtrMemberAccess	c -> rcurr		2	0					
+ANR	183	Identifier	c		2	0					
+ANR	184	Identifier	rcurr		2	1					
+ANR	185	AssignmentExpression	c -> rbuf = new_rbuf		2	1		=			
+ANR	186	PtrMemberAccess	c -> rbuf		2	0					
+ANR	187	Identifier	c		2	0					
+ANR	188	Identifier	rbuf		2	1					
+ANR	189	Identifier	new_rbuf		2	1					
+ANR	190	ExpressionStatement	c -> rsize *= 2	33:12:1099:1112	2	5	True				
+ANR	191	AssignmentExpression	c -> rsize *= 2		2	0		*=			
+ANR	192	PtrMemberAccess	c -> rsize		2	0					
+ANR	193	Identifier	c		2	0					
+ANR	194	Identifier	rsize		2	1					
+ANR	195	PrimaryExpression	2		2	1					
+ANR	196	IdentifierDeclStatement	int avail = c -> rsize - c -> rbytes ;	36:8:1133:1165	2	1	True				
+ANR	197	IdentifierDecl	avail = c -> rsize - c -> rbytes		2	0					
+ANR	198	IdentifierDeclType	int		2	0					
+ANR	199	Identifier	avail		2	1					
+ANR	200	AssignmentExpression	avail = c -> rsize - c -> rbytes		2	2		=			
+ANR	201	Identifier	avail		2	0					
+ANR	202	AdditiveExpression	c -> rsize - c -> rbytes		2	1		-			
+ANR	203	PtrMemberAccess	c -> rsize		2	0					
+ANR	204	Identifier	c		2	0					
+ANR	205	Identifier	rsize		2	1					
+ANR	206	PtrMemberAccess	c -> rbytes		2	1					
+ANR	207	Identifier	c		2	0					
+ANR	208	Identifier	rbytes		2	1					
+ANR	209	ExpressionStatement	"res = read ( c -> sfd , c -> rbuf + c -> rbytes , avail )"	37:8:1175:1221	2	2	True				
+ANR	210	AssignmentExpression	"res = read ( c -> sfd , c -> rbuf + c -> rbytes , avail )"		2	0		=			
+ANR	211	Identifier	res		2	0					
+ANR	212	CallExpression	"read ( c -> sfd , c -> rbuf + c -> rbytes , avail )"		2	1					
+ANR	213	Callee	read		2	0					
+ANR	214	Identifier	read		2	0					
+ANR	215	ArgumentList	c -> sfd		2	1					
+ANR	216	Argument	c -> sfd		2	0					
+ANR	217	PtrMemberAccess	c -> sfd		2	0					
+ANR	218	Identifier	c		2	0					
+ANR	219	Identifier	sfd		2	1					
+ANR	220	Argument	c -> rbuf + c -> rbytes		2	1					
+ANR	221	AdditiveExpression	c -> rbuf + c -> rbytes		2	0		+			
+ANR	222	PtrMemberAccess	c -> rbuf		2	0					
+ANR	223	Identifier	c		2	0					
+ANR	224	Identifier	rbuf		2	1					
+ANR	225	PtrMemberAccess	c -> rbytes		2	1					
+ANR	226	Identifier	c		2	0					
+ANR	227	Identifier	rbytes		2	1					
+ANR	228	Argument	avail		2	2					
+ANR	229	Identifier	avail		2	0					
+ANR	230	IfStatement	if ( res > 0 )		2	3					
+ANR	231	Condition	res > 0	38:12:1235:1241	2	0	True				
+ANR	232	RelationalExpression	res > 0		2	0		>			
+ANR	233	Identifier	res		2	0					
+ANR	234	PrimaryExpression	0		2	1					
+ANR	235	CompoundStatement		38:21:1189:1189	2	1					
+ANR	236	ExpressionStatement	pthread_mutex_lock ( & c -> thread -> stats . mutex )	39:12:1258:1301	2	0	True				
+ANR	237	CallExpression	pthread_mutex_lock ( & c -> thread -> stats . mutex )		2	0					
+ANR	238	Callee	pthread_mutex_lock		2	0					
+ANR	239	Identifier	pthread_mutex_lock		2	0					
+ANR	240	ArgumentList	& c -> thread -> stats . mutex		2	1					
+ANR	241	Argument	& c -> thread -> stats . mutex		2	0					
+ANR	242	UnaryOperationExpression	& c -> thread -> stats . mutex		2	0					
+ANR	243	UnaryOperator	&		2	0					
+ANR	244	MemberAccess	c -> thread -> stats . mutex		2	1					
+ANR	245	PtrMemberAccess	c -> thread -> stats		2	0					
+ANR	246	PtrMemberAccess	c -> thread		2	0					
+ANR	247	Identifier	c		2	0					
+ANR	248	Identifier	thread		2	1					
+ANR	249	Identifier	stats		2	1					
+ANR	250	Identifier	mutex		2	1					
+ANR	251	ExpressionStatement	c -> thread -> stats . bytes_read += res	40:12:1315:1349	2	1	True				
+ANR	252	AssignmentExpression	c -> thread -> stats . bytes_read += res		2	0		+=			
+ANR	253	MemberAccess	c -> thread -> stats . bytes_read		2	0					
+ANR	254	PtrMemberAccess	c -> thread -> stats		2	0					
+ANR	255	PtrMemberAccess	c -> thread		2	0					
+ANR	256	Identifier	c		2	0					
+ANR	257	Identifier	thread		2	1					
+ANR	258	Identifier	stats		2	1					
+ANR	259	Identifier	bytes_read		2	1					
+ANR	260	Identifier	res		2	1					
+ANR	261	ExpressionStatement	pthread_mutex_unlock ( & c -> thread -> stats . mutex )	41:12:1363:1408	2	2	True				
+ANR	262	CallExpression	pthread_mutex_unlock ( & c -> thread -> stats . mutex )		2	0					
+ANR	263	Callee	pthread_mutex_unlock		2	0					
+ANR	264	Identifier	pthread_mutex_unlock		2	0					
+ANR	265	ArgumentList	& c -> thread -> stats . mutex		2	1					
+ANR	266	Argument	& c -> thread -> stats . mutex		2	0					
+ANR	267	UnaryOperationExpression	& c -> thread -> stats . mutex		2	0					
+ANR	268	UnaryOperator	&		2	0					
+ANR	269	MemberAccess	c -> thread -> stats . mutex		2	1					
+ANR	270	PtrMemberAccess	c -> thread -> stats		2	0					
+ANR	271	PtrMemberAccess	c -> thread		2	0					
+ANR	272	Identifier	c		2	0					
+ANR	273	Identifier	thread		2	1					
+ANR	274	Identifier	stats		2	1					
+ANR	275	Identifier	mutex		2	1					
+ANR	276	ExpressionStatement	gotdata = READ_DATA_RECEIVED	42:12:1422:1450	2	3	True				
+ANR	277	AssignmentExpression	gotdata = READ_DATA_RECEIVED		2	0		=			
+ANR	278	Identifier	gotdata		2	0					
+ANR	279	Identifier	READ_DATA_RECEIVED		2	1					
+ANR	280	ExpressionStatement	c -> rbytes += res	43:12:1464:1480	2	4	True				
+ANR	281	AssignmentExpression	c -> rbytes += res		2	0		+=			
+ANR	282	PtrMemberAccess	c -> rbytes		2	0					
+ANR	283	Identifier	c		2	0					
+ANR	284	Identifier	rbytes		2	1					
+ANR	285	Identifier	res		2	1					
+ANR	286	IfStatement	if ( res == avail )		2	5					
+ANR	287	Condition	res == avail	44:16:1498:1509	2	0	True				
+ANR	288	EqualityExpression	res == avail		2	0		==			
+ANR	289	Identifier	res		2	0					
+ANR	290	Identifier	avail		2	1					
+ANR	291	CompoundStatement		44:30:1457:1457	2	1					
+ANR	292	ContinueStatement	continue ;	45:16:1530:1538	2	0	True				
+ANR	293	ElseStatement	else		2	0					
+ANR	294	CompoundStatement		46:19:1504:1504	2	0					
+ANR	295	BreakStatement	break ;	47:16:1577:1582	2	0	True				
+ANR	296	IfStatement	if ( res == 0 )		2	4					
+ANR	297	Condition	res == 0	50:12:1620:1627	2	0	True				
+ANR	298	EqualityExpression	res == 0		2	0		==			
+ANR	299	Identifier	res		2	0					
+ANR	300	PrimaryExpression	0		2	1					
+ANR	301	CompoundStatement		50:22:1575:1575	2	1					
+ANR	302	ReturnStatement	return READ_ERROR ;	51:12:1644:1661	2	0	True				
+ANR	303	Identifier	READ_ERROR		2	0					
+ANR	304	IfStatement	if ( res == - 1 )		2	5					
+ANR	305	Condition	res == - 1	53:12:1685:1693	2	0	True				
+ANR	306	EqualityExpression	res == - 1		2	0		==			
+ANR	307	Identifier	res		2	0					
+ANR	308	UnaryOperationExpression	- 1		2	1					
+ANR	309	UnaryOperator	-		2	0					
+ANR	310	PrimaryExpression	1		2	1					
+ANR	311	CompoundStatement		53:23:1641:1641	2	1					
+ANR	312	IfStatement	if ( errno == EAGAIN || errno == EWOULDBLOCK )		2	0					
+ANR	313	Condition	errno == EAGAIN || errno == EWOULDBLOCK	54:16:1714:1752	2	0	True				
+ANR	314	OrExpression	errno == EAGAIN || errno == EWOULDBLOCK		2	0		||			
+ANR	315	EqualityExpression	errno == EAGAIN		2	0		==			
+ANR	316	Identifier	errno		2	0					
+ANR	317	Identifier	EAGAIN		2	1					
+ANR	318	EqualityExpression	errno == EWOULDBLOCK		2	1		==			
+ANR	319	Identifier	errno		2	0					
+ANR	320	Identifier	EWOULDBLOCK		2	1					
+ANR	321	CompoundStatement		54:57:1700:1700	2	1					
+ANR	322	BreakStatement	break ;	55:16:1773:1778	2	0	True				
+ANR	323	ReturnStatement	return READ_ERROR ;	57:12:1806:1823	2	1	True				
+ANR	324	Identifier	READ_ERROR		2	0					
+ANR	325	ReturnStatement	return gotdata ;	60:4:1845:1859	2	7	True				
+ANR	326	Identifier	gotdata		2	0					
+ANR	327	ReturnType	static enum try_read_result		2	1					
+ANR	328	Identifier	try_read_network		2	2					
+ANR	329	ParameterList	conn * c		2	3					
+ANR	330	Parameter	conn * c	1:45:45:51	2	0	True				
+ANR	331	ParameterType	conn *		2	0					
+ANR	332	Identifier	c		2	1					
+ANR	333	CFGEntryNode	ENTRY		2		True				
+ANR	334	CFGExitNode	EXIT		2		True				
+ANR	335	Symbol	c -> sfd		2						
+ANR	336	Symbol	c -> rsize		2						
+ANR	337	Symbol	& c -> thread -> stats . mutex		2						
+ANR	338	Symbol	c -> thread		2						
+ANR	339	Symbol	READ_MEMORY_ERROR		2						
+ANR	340	Symbol	c -> rbuf		2						
+ANR	341	Symbol	settings . verbose		2						
+ANR	342	Symbol	c -> thread -> stats		2						
+ANR	343	Symbol	realloc		2						
+ANR	344	Symbol	c -> rcurr		2						
+ANR	345	Symbol	c -> rbytes		2						
+ANR	346	Symbol	new_rbuf		2						
+ANR	347	Symbol	& c -> thread -> stats		2						
+ANR	348	Symbol	res		2						
+ANR	349	Symbol	settings		2						
+ANR	350	Symbol	avail		2						
+ANR	351	Symbol	errno		2						
+ANR	352	Symbol	c		2						
+ANR	353	Symbol	NULL		2						
+ANR	354	Symbol	read		2						
+ANR	355	Symbol	READ_ERROR		2						
+ANR	356	Symbol	num_allocs		2						
+ANR	357	Symbol	dwk_xfg_guard_1		2						
+ANR	358	Symbol	* * c		2						
+ANR	359	Symbol	EAGAIN		2						
+ANR	360	Symbol	conn_closing		2						
+ANR	361	Symbol	gotdata		2						
+ANR	362	Symbol	stderr		2						
+ANR	363	Symbol	* c		2						
+ANR	364	Symbol	* c -> thread		2						
+ANR	365	Symbol	READ_NO_DATA_RECEIVED		2						
+ANR	366	Symbol	c -> write_and_go		2						
+ANR	367	Symbol	c -> thread -> stats . bytes_read		2						
+ANR	368	Symbol	EWOULDBLOCK		2						
+ANR	369	Symbol	READ_DATA_RECEIVED		2						

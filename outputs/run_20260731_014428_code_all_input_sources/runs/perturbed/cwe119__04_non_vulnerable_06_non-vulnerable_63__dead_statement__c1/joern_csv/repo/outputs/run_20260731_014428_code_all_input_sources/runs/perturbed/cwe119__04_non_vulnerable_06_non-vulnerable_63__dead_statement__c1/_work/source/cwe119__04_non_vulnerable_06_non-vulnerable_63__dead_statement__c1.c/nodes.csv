@@ -1,0 +1,229 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cwe119__04_non_vulnerable_06_non-vulnerable_63__dead_statement__c1/_work/source/cwe119__04_non_vulnerable_06_non-vulnerable_63__dead_statement__c1.c								
+ANR	2	DeclStmt									
+ANR	3	Decl							void	"void ( map < int , int * > dataMap )"	badSink
+ANR	4	Function	bad	30:0:783:1112							
+ANR	5	FunctionDef	bad ()		4	0					
+ANR	6	CompoundStatement		31:0:794:1112	4	0					
+ANR	7	IdentifierDeclStatement	int dwk_dummy_1 = 0 ;	32:4:800:819	4	0	True				
+ANR	8	IdentifierDecl	dwk_dummy_1 = 0		4	0					
+ANR	9	IdentifierDeclType	int		4	0					
+ANR	10	Identifier	dwk_dummy_1		4	1					
+ANR	11	AssignmentExpression	dwk_dummy_1 = 0		4	2		=			
+ANR	12	Identifier	dwk_dummy_1		4	0					
+ANR	13	PrimaryExpression	0		4	1					
+ANR	14	ExpressionStatement	dwk_dummy_1 += 0	33:4:825:841	4	1	True				
+ANR	15	AssignmentExpression	dwk_dummy_1 += 0		4	0		+=			
+ANR	16	Identifier	dwk_dummy_1		4	0					
+ANR	17	PrimaryExpression	0		4	1					
+ANR	18	IdentifierDeclStatement	int * data ;	34:4:847:857	4	2	True				
+ANR	19	IdentifierDecl	* data		4	0					
+ANR	20	IdentifierDeclType	int *		4	0					
+ANR	21	Identifier	data		4	1					
+ANR	22	IdentifierDeclStatement	"map < int , int * > dataMap ;"	35:4:863:886	4	3	True				
+ANR	23	IdentifierDecl	dataMap		4	0					
+ANR	24	IdentifierDeclType	"map < int , int * >"		4	0					
+ANR	25	Identifier	dataMap		4	1					
+ANR	26	ExpressionStatement	data = NULL	36:4:892:903	4	4	True				
+ANR	27	AssignmentExpression	data = NULL		4	0		=			
+ANR	28	Identifier	data		4	0					
+ANR	29	Identifier	NULL		4	1					
+ANR	30	ExpressionStatement	data = ( int * ) ALLOCA ( 10 )	38:4:967:991	4	5	True				
+ANR	31	AssignmentExpression	data = ( int * ) ALLOCA ( 10 )		4	0		=			
+ANR	32	Identifier	data		4	0					
+ANR	33	CastExpression	( int * ) ALLOCA ( 10 )		4	1					
+ANR	34	CastTarget	int *		4	0					
+ANR	35	CallExpression	ALLOCA ( 10 )		4	1					
+ANR	36	Callee	ALLOCA		4	0					
+ANR	37	Identifier	ALLOCA		4	0					
+ANR	38	ArgumentList	10		4	1					
+ANR	39	Argument	10		4	0					
+ANR	40	PrimaryExpression	10		4	0					
+ANR	41	ExpressionStatement	dataMap [ 0 ] = data	40:4:1025:1042	4	6	True				
+ANR	42	AssignmentExpression	dataMap [ 0 ] = data		4	0		=			
+ANR	43	ArrayIndexing	dataMap [ 0 ]		4	0					
+ANR	44	Identifier	dataMap		4	0					
+ANR	45	PrimaryExpression	0		4	1					
+ANR	46	Identifier	data		4	1					
+ANR	47	ExpressionStatement	dataMap [ 1 ] = data	41:4:1048:1065	4	7	True				
+ANR	48	AssignmentExpression	dataMap [ 1 ] = data		4	0		=			
+ANR	49	ArrayIndexing	dataMap [ 1 ]		4	0					
+ANR	50	Identifier	dataMap		4	0					
+ANR	51	PrimaryExpression	1		4	1					
+ANR	52	Identifier	data		4	1					
+ANR	53	ExpressionStatement	dataMap [ 2 ] = data	42:4:1071:1088	4	8	True				
+ANR	54	AssignmentExpression	dataMap [ 2 ] = data		4	0		=			
+ANR	55	ArrayIndexing	dataMap [ 2 ]		4	0					
+ANR	56	Identifier	dataMap		4	0					
+ANR	57	PrimaryExpression	2		4	1					
+ANR	58	Identifier	data		4	1					
+ANR	59	ExpressionStatement	badSink ( dataMap )	43:4:1094:1110	4	9	True				
+ANR	60	CallExpression	badSink ( dataMap )		4	0					
+ANR	61	Callee	badSink		4	0					
+ANR	62	Identifier	badSink		4	0					
+ANR	63	ArgumentList	dataMap		4	1					
+ANR	64	Argument	dataMap		4	0					
+ANR	65	Identifier	dataMap		4	0					
+ANR	66	ReturnType	void		4	1					
+ANR	67	Identifier	bad		4	2					
+ANR	68	ParameterList			4	3					
+ANR	69	CFGEntryNode	ENTRY		4		True				
+ANR	70	CFGExitNode	EXIT		4		True				
+ANR	71	Symbol	ALLOCA		4						
+ANR	72	Symbol	NULL		4						
+ANR	73	Symbol	data		4						
+ANR	74	Symbol	dataMap		4						
+ANR	75	Symbol	* dataMap		4						
+ANR	76	Symbol	dwk_dummy_1		4						
+ANR	77	DeclStmt									
+ANR	78	Decl							void	"void ( map < int , int * > dataMap )"	goodG2BSink
+ANR	79	Function	goodG2B	55:0:1284:1584							
+ANR	80	FunctionDef	goodG2B ()		79	0					
+ANR	81	CompoundStatement		56:0:1306:1584	79	0					
+ANR	82	IdentifierDeclStatement	int * data ;	57:4:1312:1322	79	0	True				
+ANR	83	IdentifierDecl	* data		79	0					
+ANR	84	IdentifierDeclType	int *		79	0					
+ANR	85	Identifier	data		79	1					
+ANR	86	IdentifierDeclStatement	"map < int , int * > dataMap ;"	58:4:1328:1351	79	1	True				
+ANR	87	IdentifierDecl	dataMap		79	0					
+ANR	88	IdentifierDeclType	"map < int , int * >"		79	0					
+ANR	89	Identifier	dataMap		79	1					
+ANR	90	ExpressionStatement	data = NULL	59:4:1357:1368	79	2	True				
+ANR	91	AssignmentExpression	data = NULL		79	0		=			
+ANR	92	Identifier	data		79	0					
+ANR	93	Identifier	NULL		79	1					
+ANR	94	ExpressionStatement	data = ( int * ) ALLOCA ( 10 * sizeof ( int ) )	61:4:1423:1459	79	3	True				
+ANR	95	AssignmentExpression	data = ( int * ) ALLOCA ( 10 * sizeof ( int ) )		79	0		=			
+ANR	96	Identifier	data		79	0					
+ANR	97	CastExpression	( int * ) ALLOCA ( 10 * sizeof ( int ) )		79	1					
+ANR	98	CastTarget	int *		79	0					
+ANR	99	CallExpression	ALLOCA ( 10 * sizeof ( int ) )		79	1					
+ANR	100	Callee	ALLOCA		79	0					
+ANR	101	Identifier	ALLOCA		79	0					
+ANR	102	ArgumentList	10 * sizeof ( int )		79	1					
+ANR	103	Argument	10 * sizeof ( int )		79	0					
+ANR	104	MultiplicativeExpression	10 * sizeof ( int )		79	0		*			
+ANR	105	PrimaryExpression	10		79	0					
+ANR	106	SizeofExpression	sizeof ( int )		79	1					
+ANR	107	Sizeof	sizeof		79	0					
+ANR	108	SizeofOperand	int		79	1					
+ANR	109	ExpressionStatement	dataMap [ 0 ] = data	63:4:1493:1510	79	4	True				
+ANR	110	AssignmentExpression	dataMap [ 0 ] = data		79	0		=			
+ANR	111	ArrayIndexing	dataMap [ 0 ]		79	0					
+ANR	112	Identifier	dataMap		79	0					
+ANR	113	PrimaryExpression	0		79	1					
+ANR	114	Identifier	data		79	1					
+ANR	115	ExpressionStatement	dataMap [ 1 ] = data	64:4:1516:1533	79	5	True				
+ANR	116	AssignmentExpression	dataMap [ 1 ] = data		79	0		=			
+ANR	117	ArrayIndexing	dataMap [ 1 ]		79	0					
+ANR	118	Identifier	dataMap		79	0					
+ANR	119	PrimaryExpression	1		79	1					
+ANR	120	Identifier	data		79	1					
+ANR	121	ExpressionStatement	dataMap [ 2 ] = data	65:4:1539:1556	79	6	True				
+ANR	122	AssignmentExpression	dataMap [ 2 ] = data		79	0		=			
+ANR	123	ArrayIndexing	dataMap [ 2 ]		79	0					
+ANR	124	Identifier	dataMap		79	0					
+ANR	125	PrimaryExpression	2		79	1					
+ANR	126	Identifier	data		79	1					
+ANR	127	ExpressionStatement	goodG2BSink ( dataMap )	66:4:1562:1582	79	7	True				
+ANR	128	CallExpression	goodG2BSink ( dataMap )		79	0					
+ANR	129	Callee	goodG2BSink		79	0					
+ANR	130	Identifier	goodG2BSink		79	0					
+ANR	131	ArgumentList	dataMap		79	1					
+ANR	132	Argument	dataMap		79	0					
+ANR	133	Identifier	dataMap		79	0					
+ANR	134	ReturnType	static void		79	1					
+ANR	135	Identifier	goodG2B		79	2					
+ANR	136	ParameterList			79	3					
+ANR	137	CFGEntryNode	ENTRY		79		True				
+ANR	138	CFGExitNode	EXIT		79		True				
+ANR	139	Symbol	ALLOCA		79						
+ANR	140	Symbol	NULL		79						
+ANR	141	Symbol	data		79						
+ANR	142	Symbol	dataMap		79						
+ANR	143	Symbol	* dataMap		79						
+ANR	144	Function	good	69:0:1587:1616							
+ANR	145	FunctionDef	good ()		144	0					
+ANR	146	CompoundStatement		70:0:1599:1616	144	0					
+ANR	147	ExpressionStatement	goodG2B ( )	71:4:1605:1614	144	0	True				
+ANR	148	CallExpression	goodG2B ( )		144	0					
+ANR	149	Callee	goodG2B		144	0					
+ANR	150	Identifier	goodG2B		144	0					
+ANR	151	ArgumentList			144	1					
+ANR	152	ReturnType	void		144	1					
+ANR	153	Identifier	good		144	2					
+ANR	154	ParameterList			144	3					
+ANR	155	CFGEntryNode	ENTRY		144		True				
+ANR	156	CFGExitNode	EXIT		144		True				
+ANR	157	Function	main	88:0:2092:2440							
+ANR	158	FunctionDef	"main (int argc , char * argv [ ])"		157	0					
+ANR	159	CompoundStatement		89:0:2126:2440	157	0					
+ANR	160	ExpressionStatement	srand ( ( unsigned ) time ( NULL ) )	91:4:2158:2187	157	0	True				
+ANR	161	CallExpression	srand ( ( unsigned ) time ( NULL ) )		157	0					
+ANR	162	Callee	srand		157	0					
+ANR	163	Identifier	srand		157	0					
+ANR	164	ArgumentList	( unsigned ) time ( NULL )		157	1					
+ANR	165	Argument	( unsigned ) time ( NULL )		157	0					
+ANR	166	CastExpression	( unsigned ) time ( NULL )		157	0					
+ANR	167	CastTarget	unsigned		157	0					
+ANR	168	CallExpression	time ( NULL )		157	1					
+ANR	169	Callee	time		157	0					
+ANR	170	Identifier	time		157	0					
+ANR	171	ArgumentList	NULL		157	1					
+ANR	172	Argument	NULL		157	0					
+ANR	173	Identifier	NULL		157	0					
+ANR	174	ExpressionStatement	"printLine ( ""Calling good()..."" )"	93:4:2210:2240	157	1	True				
+ANR	175	CallExpression	"printLine ( ""Calling good()..."" )"		157	0					
+ANR	176	Callee	printLine		157	0					
+ANR	177	Identifier	printLine		157	0					
+ANR	178	ArgumentList	"""Calling good()..."""		157	1					
+ANR	179	Argument	"""Calling good()..."""		157	0					
+ANR	180	PrimaryExpression	"""Calling good()..."""		157	0					
+ANR	181	ExpressionStatement	good ( )	94:4:2246:2252	157	2	True				
+ANR	182	CallExpression	good ( )		157	0					
+ANR	183	Callee	good		157	0					
+ANR	184	Identifier	good		157	0					
+ANR	185	ArgumentList			157	1					
+ANR	186	ExpressionStatement	"printLine ( ""Finished good()"" )"	95:4:2258:2286	157	3	True				
+ANR	187	CallExpression	"printLine ( ""Finished good()"" )"		157	0					
+ANR	188	Callee	printLine		157	0					
+ANR	189	Identifier	printLine		157	0					
+ANR	190	ArgumentList	"""Finished good()"""		157	1					
+ANR	191	Argument	"""Finished good()"""		157	0					
+ANR	192	PrimaryExpression	"""Finished good()"""		157	0					
+ANR	193	ExpressionStatement	"printLine ( ""Calling bad()..."" )"	98:4:2330:2359	157	4	True				
+ANR	194	CallExpression	"printLine ( ""Calling bad()..."" )"		157	0					
+ANR	195	Callee	printLine		157	0					
+ANR	196	Identifier	printLine		157	0					
+ANR	197	ArgumentList	"""Calling bad()..."""		157	1					
+ANR	198	Argument	"""Calling bad()..."""		157	0					
+ANR	199	PrimaryExpression	"""Calling bad()..."""		157	0					
+ANR	200	ExpressionStatement	bad ( )	99:4:2365:2370	157	5	True				
+ANR	201	CallExpression	bad ( )		157	0					
+ANR	202	Callee	bad		157	0					
+ANR	203	Identifier	bad		157	0					
+ANR	204	ArgumentList			157	1					
+ANR	205	ExpressionStatement	"printLine ( ""Finished bad()"" )"	100:4:2376:2403	157	6	True				
+ANR	206	CallExpression	"printLine ( ""Finished bad()"" )"		157	0					
+ANR	207	Callee	printLine		157	0					
+ANR	208	Identifier	printLine		157	0					
+ANR	209	ArgumentList	"""Finished bad()"""		157	1					
+ANR	210	Argument	"""Finished bad()"""		157	0					
+ANR	211	PrimaryExpression	"""Finished bad()"""		157	0					
+ANR	212	ReturnStatement	return 0 ;	102:4:2430:2438	157	7	True				
+ANR	213	PrimaryExpression	0		157	0					
+ANR	214	ReturnType	int		157	1					
+ANR	215	Identifier	main		157	2					
+ANR	216	ParameterList	"int argc , char * argv [ ]"		157	3					
+ANR	217	Parameter	int argc	88:9:2101:2108	157	0	True				
+ANR	218	ParameterType	int		157	0					
+ANR	219	Identifier	argc		157	1					
+ANR	220	Parameter	char * argv [ ]	88:19:2111:2123	157	1	True				
+ANR	221	ParameterType	char * [ ]		157	0					
+ANR	222	Identifier	argv		157	1					
+ANR	223	CFGEntryNode	ENTRY		157		True				
+ANR	224	CFGExitNode	EXIT		157		True				
+ANR	225	Symbol	argc		157						
+ANR	226	Symbol	NULL		157						
+ANR	227	Symbol	time		157						
+ANR	228	Symbol	argv		157						

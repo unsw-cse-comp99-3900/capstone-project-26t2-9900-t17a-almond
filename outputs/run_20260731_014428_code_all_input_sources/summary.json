@@ -1,0 +1,68 @@
+{
+  "generated_at_utc": "2026-07-31T02:14:55.229669+00:00",
+  "status": "completed",
+  "run_id": "run_20260731_014428_code_all_input_sources",
+  "input_root": "input_sources",
+  "sources_discovered": 60,
+  "baseline_completed": 60,
+  "baseline_failed": 0,
+  "actions_per_sample": [
+    "data_flow_alias",
+    "dead_statement",
+    "xfg_targeted_dead_code",
+    "range_clamp",
+    "safe_source_substitution",
+    "sink_bound_guard",
+    "postcondition_validation",
+    "integer_overflow_guard",
+    "array_index_bound_guard",
+    "wide_char_sink_guard",
+    "pattern_dead_code",
+    "control_wrapper",
+    "temp_variable_split"
+  ],
+  "attempted_variants": 780,
+  "successful_variants": 349,
+  "prediction_flips": 6,
+  "results_file": "prediction_comparison.csv",
+  "graph_perturbations": {
+    "staging": {
+      "input_dir": "graph_inputs",
+      "sources_discovered": 60,
+      "sources_staged": 60,
+      "targeted_labelled_sources": 60,
+      "sources_skipped": 0
+    },
+    "random_graph": {
+      "status": "completed",
+      "return_code": 0,
+      "output_dir": "graph_random"
+    },
+    "targeted_graph": {
+      "status": "completed",
+      "return_code": 0,
+      "output_dir": "graph_targeted"
+    }
+  },
+  "html_reports": {
+    "random_graph": {
+      "status": "completed",
+      "return_code": 0,
+      "dashboard": "graph_random/dashboard.html"
+    },
+    "targeted_graph": {
+      "status": "completed",
+      "return_code": 0,
+      "dashboard": "graph_targeted/dashboard.html"
+    },
+    "full_test": {
+      "status": "completed",
+      "return_code": 0,
+      "dashboard": "dashboard.html"
+    },
+    "graph_comparison": {
+      "status": "completed",
+      "dashboard": "graph_comparison/dashboard.html"
+    }
+  }
+}

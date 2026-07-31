@@ -1,0 +1,263 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/devign__19_non_vulnerable_const_char_get_feature_xml__temp_variable_split__c1/_work/source/devign__19_non_vulnerable_const_char_get_feature_xml__temp_variable_split__c1.c								
+ANR	2	Function	get_feature_xml	1:0:0:1318							
+ANR	3	FunctionDef	"get_feature_xml (CPUState * env , const char * p , const char * * newp)"		2	0					
+ANR	4	CompoundStatement		3:0:78:1318	2	0					
+ANR	5	Statement	extern	5:4:85:90	2	0	True				
+ANR	6	Statement	const	5:11:92:96	2	1	True				
+ANR	7	Statement	char	5:17:98:101	2	2	True				
+ANR	8	Statement	*	5:22:103:103	2	3	True				
+ANR	9	Statement	const	5:23:104:108	2	4	True				
+ANR	10	Statement	xml_builtin	5:29:110:120	2	5	True				
+ANR	11	Statement	[	5:40:121:121	2	6	True				
+ANR	12	Statement	]	5:41:122:122	2	7	True				
+ANR	13	Statement	[	5:42:123:123	2	8	True				
+ANR	14	Statement	2	5:43:124:124	2	9	True				
+ANR	15	Statement	]	5:44:125:125	2	10	True				
+ANR	16	ExpressionStatement		5:45:126:126	2	11	True				
+ANR	17	IdentifierDeclStatement	size_t len ;	7:4:133:143	2	12	True				
+ANR	18	IdentifierDecl	len		2	0					
+ANR	19	IdentifierDeclType	size_t		2	0					
+ANR	20	Identifier	len		2	1					
+ANR	21	IdentifierDeclStatement	int i ;	9:4:150:155	2	13	True				
+ANR	22	IdentifierDecl	i		2	0					
+ANR	23	IdentifierDeclType	int		2	0					
+ANR	24	Identifier	i		2	1					
+ANR	25	IdentifierDeclStatement	const char * name ;	11:4:162:178	2	14	True				
+ANR	26	IdentifierDecl	* name		2	0					
+ANR	27	IdentifierDeclType	const char *		2	0					
+ANR	28	Identifier	name		2	1					
+ANR	29	Statement	static	13:4:185:190	2	15	True				
+ANR	30	IdentifierDeclStatement	char target_xml [ 1024 ] ;	13:11:192:213	2	16	True				
+ANR	31	IdentifierDecl	target_xml [ 1024 ]		2	0					
+ANR	32	IdentifierDeclType	char [ 1024 ]		2	0					
+ANR	33	Identifier	target_xml		2	1					
+ANR	34	PrimaryExpression	1024		2	2					
+ANR	35	IdentifierDeclStatement	int dwk_tmp_1 = 0 ;	17:4:222:239	2	17	True				
+ANR	36	IdentifierDecl	dwk_tmp_1 = 0		2	0					
+ANR	37	IdentifierDeclType	int		2	0					
+ANR	38	Identifier	dwk_tmp_1		2	1					
+ANR	39	AssignmentExpression	dwk_tmp_1 = 0		2	2		=			
+ANR	40	Identifier	dwk_tmp_1		2	0					
+ANR	41	PrimaryExpression	0		2	1					
+ANR	42	ExpressionStatement	len = dwk_tmp_1	18:4:245:260	2	18	True				
+ANR	43	AssignmentExpression	len = dwk_tmp_1		2	0		=			
+ANR	44	Identifier	len		2	0					
+ANR	45	Identifier	dwk_tmp_1		2	1					
+ANR	46	WhileStatement	while ( p [ len ] && p [ len ] != ':' )		2	19					
+ANR	47	Condition	p [ len ] && p [ len ] != ':'	20:11:274:296	2	0	True				
+ANR	48	AndExpression	p [ len ] && p [ len ] != ':'		2	0		&&			
+ANR	49	ArrayIndexing	p [ len ]		2	0					
+ANR	50	Identifier	p		2	0					
+ANR	51	Identifier	len		2	1					
+ANR	52	EqualityExpression	p [ len ] != ':'		2	1		!=			
+ANR	53	ArrayIndexing	p [ len ]		2	0					
+ANR	54	Identifier	p		2	0					
+ANR	55	Identifier	len		2	1					
+ANR	56	PrimaryExpression	':'		2	1					
+ANR	57	ExpressionStatement	len ++	22:8:308:313	2	1	True				
+ANR	58	PostIncDecOperationExpression	len ++		2	0					
+ANR	59	Identifier	len		2	0					
+ANR	60	IncDec	++		2	1					
+ANR	61	ExpressionStatement	* newp = p + len	24:4:320:335	2	20	True				
+ANR	62	AssignmentExpression	* newp = p + len		2	0		=			
+ANR	63	UnaryOperationExpression	* newp		2	0					
+ANR	64	UnaryOperator	*		2	0					
+ANR	65	Identifier	newp		2	1					
+ANR	66	AdditiveExpression	p + len		2	1		+			
+ANR	67	Identifier	p		2	0					
+ANR	68	Identifier	len		2	1					
+ANR	69	ExpressionStatement	name = NULL	28:4:344:355	2	21	True				
+ANR	70	AssignmentExpression	name = NULL		2	0		=			
+ANR	71	Identifier	name		2	0					
+ANR	72	Identifier	NULL		2	1					
+ANR	73	IfStatement	"if ( strncmp ( p , ""target.xml"" , len ) == 0 )"		2	22					
+ANR	74	Condition	"strncmp ( p , ""target.xml"" , len ) == 0"	30:8:366:399	2	0	True				
+ANR	75	EqualityExpression	"strncmp ( p , ""target.xml"" , len ) == 0"		2	0		==			
+ANR	76	CallExpression	"strncmp ( p , ""target.xml"" , len )"		2	0					
+ANR	77	Callee	strncmp		2	0					
+ANR	78	Identifier	strncmp		2	0					
+ANR	79	ArgumentList	p		2	1					
+ANR	80	Argument	p		2	0					
+ANR	81	Identifier	p		2	0					
+ANR	82	Argument	"""target.xml"""		2	1					
+ANR	83	PrimaryExpression	"""target.xml"""		2	0					
+ANR	84	Argument	len		2	2					
+ANR	85	Identifier	len		2	0					
+ANR	86	PrimaryExpression	0		2	1					
+ANR	87	CompoundStatement		28:44:323:323	2	1					
+ANR	88	IfStatement	if ( ! target_xml [ 0 ] )		2	0					
+ANR	89	Condition	! target_xml [ 0 ]	34:12:476:489	2	0	True				
+ANR	90	UnaryOperationExpression	! target_xml [ 0 ]		2	0					
+ANR	91	UnaryOperator	!		2	0					
+ANR	92	ArrayIndexing	target_xml [ 0 ]		2	1					
+ANR	93	Identifier	target_xml		2	0					
+ANR	94	PrimaryExpression	0		2	1					
+ANR	95	CompoundStatement		34:12:428:447	2	1					
+ANR	96	IdentifierDeclStatement	GDBRegisterState * r ;	36:12:507:526	2	0	True				
+ANR	97	IdentifierDecl	* r		2	0					
+ANR	98	IdentifierDeclType	GDBRegisterState *		2	0					
+ANR	99	Identifier	r		2	1					
+ANR	100	Statement	sprintf	40:12:543:549	2	1	True				
+ANR	101	Statement	(	40:19:550:550	2	2	True				
+ANR	102	Statement	target_xml	40:20:551:560	2	3	True				
+ANR	103	Statement	","	40:30:561:561	2	4	True				
+ANR	104	Statement	"""<?xml version=\\""1.0\\""?>"""	42:20:584:608	2	5	True				
+ANR	105	Statement	"""<!DOCTYPE target SYSTEM \\""gdb-target.dtd\\"">"""	44:20:631:675	2	6	True				
+ANR	106	Statement	"""<target>"""	46:20:698:707	2	7	True				
+ANR	107	Statement	"""<xi:include href=\\""%s\\""/>"""	48:20:730:756	2	8	True				
+ANR	108	Statement	","	48:47:757:757	2	9	True				
+ANR	109	Statement	GDB_CORE_XML	50:20:780:791	2	10	True				
+ANR	110	Statement	)	50:32:792:792	2	11	True				
+ANR	111	ExpressionStatement		50:33:793:793	2	12	True				
+ANR	112	ForStatement	for ( r = env -> gdb_regs ; r ; r = r -> next )		2	13					
+ANR	113	ForInit	r = env -> gdb_regs ;	54:17:815:832	2	0	True				
+ANR	114	AssignmentExpression	r = env -> gdb_regs		2	0		=			
+ANR	115	Identifier	r		2	0					
+ANR	116	PtrMemberAccess	env -> gdb_regs		2	1					
+ANR	117	Identifier	env		2	0					
+ANR	118	Identifier	gdb_regs		2	1					
+ANR	119	Condition	r	54:36:834:834	2	1	True				
+ANR	120	Identifier	r		2	0					
+ANR	121	AssignmentExpression	r = r -> next	54:39:837:847	2	2	True	=			
+ANR	122	Identifier	r		2	0					
+ANR	123	PtrMemberAccess	r -> next		2	1					
+ANR	124	Identifier	r		2	0					
+ANR	125	Identifier	next		2	1					
+ANR	126	CompoundStatement		52:52:771:771	2	3					
+ANR	127	ExpressionStatement	"strcat ( target_xml , ""<xi:include href=\\"""" )"	56:16:869:910	2	0	True				
+ANR	128	CallExpression	"strcat ( target_xml , ""<xi:include href=\\"""" )"		2	0					
+ANR	129	Callee	strcat		2	0					
+ANR	130	Identifier	strcat		2	0					
+ANR	131	ArgumentList	target_xml		2	1					
+ANR	132	Argument	target_xml		2	0					
+ANR	133	Identifier	target_xml		2	0					
+ANR	134	Argument	"""<xi:include href=\\"""""		2	1					
+ANR	135	PrimaryExpression	"""<xi:include href=\\"""""		2	0					
+ANR	136	ExpressionStatement	"strcat ( target_xml , r -> xml )"	58:16:929:955	2	1	True				
+ANR	137	CallExpression	"strcat ( target_xml , r -> xml )"		2	0					
+ANR	138	Callee	strcat		2	0					
+ANR	139	Identifier	strcat		2	0					
+ANR	140	ArgumentList	target_xml		2	1					
+ANR	141	Argument	target_xml		2	0					
+ANR	142	Identifier	target_xml		2	0					
+ANR	143	Argument	r -> xml		2	1					
+ANR	144	PtrMemberAccess	r -> xml		2	0					
+ANR	145	Identifier	r		2	0					
+ANR	146	Identifier	xml		2	1					
+ANR	147	ExpressionStatement	"strcat ( target_xml , ""\\""/>"" )"	60:16:974:1000	2	2	True				
+ANR	148	CallExpression	"strcat ( target_xml , ""\\""/>"" )"		2	0					
+ANR	149	Callee	strcat		2	0					
+ANR	150	Identifier	strcat		2	0					
+ANR	151	ArgumentList	target_xml		2	1					
+ANR	152	Argument	target_xml		2	0					
+ANR	153	Identifier	target_xml		2	0					
+ANR	154	Argument	"""\\""/>"""		2	1					
+ANR	155	PrimaryExpression	"""\\""/>"""		2	0					
+ANR	156	ExpressionStatement	"strcat ( target_xml , ""</target>"" )"	64:12:1030:1061	2	14	True				
+ANR	157	CallExpression	"strcat ( target_xml , ""</target>"" )"		2	0					
+ANR	158	Callee	strcat		2	0					
+ANR	159	Identifier	strcat		2	0					
+ANR	160	ArgumentList	target_xml		2	1					
+ANR	161	Argument	target_xml		2	0					
+ANR	162	Identifier	target_xml		2	0					
+ANR	163	Argument	"""</target>"""		2	1					
+ANR	164	PrimaryExpression	"""</target>"""		2	0					
+ANR	165	ReturnStatement	return target_xml ;	68:8:1083:1100	2	1	True				
+ANR	166	Identifier	target_xml		2	0					
+ANR	167	ForStatement	for ( i = 0 ; ; i ++ )		2	23					
+ANR	168	ForInit	i = 0 ;	72:9:1119:1124	2	0	True				
+ANR	169	AssignmentExpression	i = 0		2	0		=			
+ANR	170	Identifier	i		2	0					
+ANR	171	PrimaryExpression	0		2	1					
+ANR	172	PostIncDecOperationExpression	i ++	72:18:1128:1130	2	1	True				
+ANR	173	Identifier	i		2	0					
+ANR	174	IncDec	++		2	1					
+ANR	175	CompoundStatement		70:23:1054:1054	2	2					
+ANR	176	ExpressionStatement	name = xml_builtin [ i ] [ 0 ]	74:8:1144:1168	2	0	True				
+ANR	177	AssignmentExpression	name = xml_builtin [ i ] [ 0 ]		2	0		=			
+ANR	178	Identifier	name		2	0					
+ANR	179	ArrayIndexing	xml_builtin [ i ] [ 0 ]		2	1					
+ANR	180	ArrayIndexing	xml_builtin [ i ]		2	0					
+ANR	181	Identifier	xml_builtin		2	0					
+ANR	182	Identifier	i		2	1					
+ANR	183	PrimaryExpression	0		2	1					
+ANR	184	IfStatement	"if ( ! name || ( strncmp ( name , p , len ) == 0 && strlen ( name ) == len ) )"		2	1					
+ANR	185	Condition	"! name || ( strncmp ( name , p , len ) == 0 && strlen ( name ) == len )"	76:12:1183:1242	2	0	True				
+ANR	186	OrExpression	"! name || ( strncmp ( name , p , len ) == 0 && strlen ( name ) == len )"		2	0		||			
+ANR	187	UnaryOperationExpression	! name		2	0					
+ANR	188	UnaryOperator	!		2	0					
+ANR	189	Identifier	name		2	1					
+ANR	190	AndExpression	"strncmp ( name , p , len ) == 0 && strlen ( name ) == len"		2	1		&&			
+ANR	191	EqualityExpression	"strncmp ( name , p , len ) == 0"		2	0		==			
+ANR	192	CallExpression	"strncmp ( name , p , len )"		2	0					
+ANR	193	Callee	strncmp		2	0					
+ANR	194	Identifier	strncmp		2	0					
+ANR	195	ArgumentList	name		2	1					
+ANR	196	Argument	name		2	0					
+ANR	197	Identifier	name		2	0					
+ANR	198	Argument	p		2	1					
+ANR	199	Identifier	p		2	0					
+ANR	200	Argument	len		2	2					
+ANR	201	Identifier	len		2	0					
+ANR	202	PrimaryExpression	0		2	1					
+ANR	203	EqualityExpression	strlen ( name ) == len		2	1		==			
+ANR	204	CallExpression	strlen ( name )		2	0					
+ANR	205	Callee	strlen		2	0					
+ANR	206	Identifier	strlen		2	0					
+ANR	207	ArgumentList	name		2	1					
+ANR	208	Argument	name		2	0					
+ANR	209	Identifier	name		2	0					
+ANR	210	Identifier	len		2	1					
+ANR	211	BreakStatement	break ;	78:12:1258:1263	2	1	True				
+ANR	212	ReturnStatement	return name ? xml_builtin [ i ] [ 1 ] : NULL ;	82:4:1277:1315	2	24	True				
+ANR	213	ConditionalExpression	name ? xml_builtin [ i ] [ 1 ] : NULL		2	0					
+ANR	214	Condition	name		2	0					
+ANR	215	Identifier	name		2	0					
+ANR	216	ArrayIndexing	xml_builtin [ i ] [ 1 ]		2	1					
+ANR	217	ArrayIndexing	xml_builtin [ i ]		2	0					
+ANR	218	Identifier	xml_builtin		2	0					
+ANR	219	Identifier	i		2	1					
+ANR	220	PrimaryExpression	1		2	1					
+ANR	221	Identifier	NULL		2	2					
+ANR	222	ReturnType	const char *		2	1					
+ANR	223	Identifier	get_feature_xml		2	2					
+ANR	224	ParameterList	"CPUState * env , const char * p , const char * * newp"		2	3					
+ANR	225	Parameter	CPUState * env	1:28:28:40	2	0	True				
+ANR	226	ParameterType	CPUState *		2	0					
+ANR	227	Identifier	env		2	1					
+ANR	228	Parameter	const char * p	1:43:43:55	2	1	True				
+ANR	229	ParameterType	const char *		2	0					
+ANR	230	Identifier	p		2	1					
+ANR	231	Parameter	const char * * newp	1:58:58:74	2	2	True				
+ANR	232	ParameterType	const char * *		2	0					
+ANR	233	Identifier	newp		2	1					
+ANR	234	CFGEntryNode	ENTRY		2		True				
+ANR	235	CFGExitNode	EXIT		2		True				
+ANR	236	InfiniteForNode	true		2		True				
+ANR	237	Symbol	r -> xml		2						
+ANR	238	Symbol	r -> next		2						
+ANR	239	Symbol	xml_builtin		2						
+ANR	240	Symbol	strncmp		2						
+ANR	241	Symbol	strlen		2						
+ANR	242	Symbol	len		2						
+ANR	243	Symbol	dwk_tmp_1		2						
+ANR	244	Symbol	* * xml_builtin		2						
+ANR	245	Symbol	* xml_builtin		2						
+ANR	246	Symbol	* target_xml		2						
+ANR	247	Symbol	env -> gdb_regs		2						
+ANR	248	Symbol	* * i		2						
+ANR	249	Symbol	newp		2						
+ANR	250	Symbol	NULL		2						
+ANR	251	Symbol	* newp		2						
+ANR	252	Symbol	* env		2						
+ANR	253	Symbol	i		2						
+ANR	254	Symbol	env		2						
+ANR	255	Symbol	target_xml		2						
+ANR	256	Symbol	p		2						
+ANR	257	Symbol	r		2						
+ANR	258	Symbol	* i		2						
+ANR	259	Symbol	name		2						
+ANR	260	Symbol	* p		2						
+ANR	261	Symbol	* r		2						
+ANR	262	Symbol	* len		2						

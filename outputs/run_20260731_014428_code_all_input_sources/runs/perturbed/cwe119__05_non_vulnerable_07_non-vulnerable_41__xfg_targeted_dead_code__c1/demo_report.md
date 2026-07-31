@@ -1,0 +1,13 @@
+# DeepWuKong Prediction Report
+
+Input file: `/repo/outputs/run_20260731_014428_code_all_input_sources/variants/cwe119/cwe119__05_non_vulnerable_07_non-vulnerable_41__xfg_targeted_dead_code__c1.c`
+
+Prediction: `non_vulnerable`
+
+Vulnerability probability: `0.000511`
+
+Confidence: `0.999489`
+
+XFG slices scored: `3`
+
+Joern status: `success`

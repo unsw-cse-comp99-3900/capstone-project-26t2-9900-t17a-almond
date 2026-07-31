@@ -1,0 +1,84 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cwe119__02_vulnerable_04_vulnerable_55__data_flow_alias__c1/_work/source/cwe119__02_vulnerable_04_vulnerable_55__data_flow_alias__c1.c								
+ANR	2	Function	main	51:0:1829:2094							
+ANR	3	FunctionDef	"main (int argc , char * argv [ ])"		2	0					
+ANR	4	CompoundStatement		52:0:1862:2094	2	0					
+ANR	5	IdentifierDeclStatement	char buf [ 10 ] ;	53:2:1866:1878	2	0	True				
+ANR	6	IdentifierDecl	buf [ 10 ]		2	0					
+ANR	7	IdentifierDeclType	char [ 10 ]		2	0					
+ANR	8	Identifier	buf		2	1					
+ANR	9	PrimaryExpression	10		2	2					
+ANR	10	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( argv [ 3 ] ) ;	55:2:1883:1920	2	1	True				
+ANR	11	IdentifierDecl	* dwk_alias_1 = ( void * ) ( argv [ 3 ] )		2	0					
+ANR	12	IdentifierDeclType	void *		2	0					
+ANR	13	Identifier	dwk_alias_1		2	1					
+ANR	14	AssignmentExpression	* dwk_alias_1 = ( void * ) ( argv [ 3 ] )		2	2		=			
+ANR	15	Identifier	dwk_alias_1		2	0					
+ANR	16	CastExpression	( void * ) ( argv [ 3 ] )		2	1					
+ANR	17	CastTarget	void *		2	0					
+ANR	18	ArrayIndexing	argv [ 3 ]		2	1					
+ANR	19	Identifier	argv		2	0					
+ANR	20	PrimaryExpression	3		2	1					
+ANR	21	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	56:2:1924:1971	2	2	True				
+ANR	22	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	23	Identifier	dwk_alias_1		2	0					
+ANR	24	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	25	CastTarget	void *		2	0					
+ANR	26	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	27	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	28	CastTarget	char *		2	0					
+ANR	29	Identifier	dwk_alias_1		2	1					
+ANR	30	PrimaryExpression	0		2	1					
+ANR	31	IfStatement	if ( ( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 ) )		2	3					
+ANR	32	Condition	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )	57:6:1979:2012	2	0	True				
+ANR	33	OrExpression	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )		2	0		||			
+ANR	34	RelationalExpression	argc < 5		2	0		<			
+ANR	35	Identifier	argc		2	0					
+ANR	36	PrimaryExpression	5		2	1					
+ANR	37	RelationalExpression	atoi ( argv [ 3 ] ) > 17		2	1		>			
+ANR	38	CallExpression	atoi ( argv [ 3 ] )		2	0					
+ANR	39	Callee	atoi		2	0					
+ANR	40	Identifier	atoi		2	0					
+ANR	41	ArgumentList	argv [ 3 ]		2	1					
+ANR	42	Argument	argv [ 3 ]		2	0					
+ANR	43	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	44	Identifier	argv		2	0					
+ANR	45	PrimaryExpression	3		2	1					
+ANR	46	PrimaryExpression	17		2	1					
+ANR	47	CompoundStatement		7:2:154:154	2	1					
+ANR	48	ReturnStatement	return 0 ;	59:4:2023:2031	2	0	True				
+ANR	49	PrimaryExpression	0		2	0					
+ANR	50	ExpressionStatement	buf [ atoi ( argv [ 3 ] ) ] = 'A'	63:2:2054:2078	2	4	True				
+ANR	51	AssignmentExpression	buf [ atoi ( argv [ 3 ] ) ] = 'A'		2	0		=			
+ANR	52	ArrayIndexing	buf [ atoi ( argv [ 3 ] ) ]		2	0					
+ANR	53	Identifier	buf		2	0					
+ANR	54	CallExpression	atoi ( argv [ 3 ] )		2	1					
+ANR	55	Callee	atoi		2	0					
+ANR	56	Identifier	atoi		2	0					
+ANR	57	ArgumentList	argv [ 3 ]		2	1					
+ANR	58	Argument	argv [ 3 ]		2	0					
+ANR	59	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	60	Identifier	argv		2	0					
+ANR	61	PrimaryExpression	3		2	1					
+ANR	62	PrimaryExpression	'A'		2	1					
+ANR	63	ReturnStatement	return 0 ;	66:2:2084:2092	2	5	True				
+ANR	64	PrimaryExpression	0		2	0					
+ANR	65	ReturnType	int		2	1					
+ANR	66	Identifier	main		2	2					
+ANR	67	ParameterList	"int argc , char * argv [ ]"		2	3					
+ANR	68	Parameter	int argc	51:9:1838:1845	2	0	True				
+ANR	69	ParameterType	int		2	0					
+ANR	70	Identifier	argc		2	1					
+ANR	71	Parameter	char * argv [ ]	51:19:1848:1859	2	1	True				
+ANR	72	ParameterType	char * [ ]		2	0					
+ANR	73	Identifier	argv		2	1					
+ANR	74	CFGEntryNode	ENTRY		2		True				
+ANR	75	CFGExitNode	EXIT		2		True				
+ANR	76	Symbol	argc		2						
+ANR	77	Symbol	atoi		2						
+ANR	78	Symbol	buf		2						
+ANR	79	Symbol	* buf		2						
+ANR	80	Symbol	* argv		2						
+ANR	81	Symbol	dwk_alias_1		2						
+ANR	82	Symbol	argv		2						
+ANR	83	Symbol	* atoi		2						

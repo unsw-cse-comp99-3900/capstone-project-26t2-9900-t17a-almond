@@ -1,0 +1,202 @@
+{
+  "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+  "prediction": {
+    "sample_id": "cvefixes__12_vulnerable_generic_perform_write__edge_reconnect__b3__s73",
+    "input_file": "/repo/outputs/run_20260731_014428_code_all_input_sources/graph_inputs/sources/cvefixes__12_vulnerable_generic_perform_write.c",
+    "function_name": "generic_perform_write",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 44,
+    "num_edges": 88,
+    "predicted_label": 0,
+    "vulnerability_probability": 9.08594799398088e-09,
+    "threshold": 0.5,
+    "confidence": 0.999999990914052,
+    "graph_score": 9.08594799398088e-09,
+    "final_score": 9.08594799398088e-09,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 10440,
+      "perturbations_completed": 10440,
+      "perturbations_scored": 9973,
+      "perturbations_unscored_no_xfg": 467,
+      "perturbation_errors": 0,
+      "label_flips": 346,
+      "attack_eligible_variants": 5180,
+      "attack_successes": 131,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 510.4361048970002,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "cvefixes__12_vulnerable_generic_perform_write",
+    "graph_action": {
+      "action": "edge_reconnect",
+      "strategy": "random",
+      "seed": 73,
+      "budget": 3,
+      "requested_count": 3,
+      "applied_count": 3,
+      "budget_fully_applied": true,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            48,
+            51,
+            41
+          ],
+          "removed_edges": [
+            [
+              48,
+              51,
+              "c"
+            ]
+          ],
+          "added_edges": [
+            [
+              48,
+              41,
+              "c"
+            ]
+          ],
+          "details": "reconnected c edge 48->51 to 48->41"
+        },
+        {
+          "step": 2,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            17,
+            54,
+            19
+          ],
+          "removed_edges": [
+            [
+              17,
+              54,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              17,
+              19,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 17->54 to 17->19"
+        },
+        {
+          "step": 3,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            64,
+            79,
+            18
+          ],
+          "removed_edges": [
+            [
+              64,
+              79,
+              "c"
+            ]
+          ],
+          "added_edges": [
+            [
+              64,
+              18,
+              "c"
+            ]
+          ],
+          "details": "reconnected c edge 64->79 to 64->18"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 44,
+      "baseline_pdg_edges": 88,
+      "perturbed_pdg_nodes": 44,
+      "perturbed_pdg_edges": 88
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 9.08594799398088e-09,
+      "predicted_label": 0,
+      "xfg_count": 5,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 23.160421000056886,
+      "xfg_predictions": [
+        {
+          "category": "ptr",
+          "key_line": 56,
+          "vulnerability_probability": 9.085914243200932e-09,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 4,
+          "vulnerability_probability": 3.2788197157351817e-10,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 5,
+          "vulnerability_probability": 3.2788197157351817e-10,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 46,
+          "vulnerability_probability": 9.08594799398088e-09,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 24,
+          "vulnerability_probability": 9.08594799398088e-09,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 25.309410000090793
+  }
+}

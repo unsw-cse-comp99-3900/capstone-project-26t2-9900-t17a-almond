@@ -1,0 +1,284 @@
+{
+  "comparison": {
+    "sample": "devign__10_non_vulnerable_static_void_kvm_virtio_pci_vq_vector",
+    "action": "winner_xfg_edge_attack",
+    "method_family": "winner_xfg",
+    "budget": 5,
+    "seed": 89,
+    "function": "kvm_virtio_pci_vq_vector_release",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 0,
+    "flipped": false,
+    "attack_success": false,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 6.079402936620681e-08,
+    "variant_prob": 1.2574742462578836e-11,
+    "delta_probability": -6.078145462374424e-08,
+    "base_nodes": 11,
+    "variant_nodes": 11,
+    "delta_nodes": 0,
+    "base_edges": 12,
+    "variant_edges": 17,
+    "delta_edges": 5,
+    "base_xfg_count": 7,
+    "variant_xfg_count": 7,
+    "winner_category": "ptr",
+    "winner_key_line": 25,
+    "winner_raw_nodes": 5,
+    "winner_nodes": 5,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 5,
+    "applied_count": 5,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 28.948343999672943,
+    "operations": [
+      {
+        "step": 1,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          25,
+          13
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            25,
+            13,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 25->13 to increase the vulnerable score"
+      },
+      {
+        "step": 2,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          27,
+          25
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            27,
+            25,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 27->25 to increase the vulnerable score"
+      },
+      {
+        "step": 3,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          25,
+          1
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            25,
+            1,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 25->1 to increase the vulnerable score"
+      },
+      {
+        "step": 4,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          1,
+          25
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            25,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 1->25 to increase the vulnerable score"
+      },
+      {
+        "step": 5,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          25,
+          5
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            25,
+            5,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 25->5 to increase the vulnerable score"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 1.2574742462578836e-11,
+    "predicted_label": 0,
+    "xfg_count": 7,
+    "xfg_predictions": [
+      {
+        "category": "call",
+        "key_line": 21,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          3,
+          5,
+          11
+        ],
+        "vulnerability_probability": 1.2574742462578836e-11,
+        "predicted_label": 0
+      },
+      {
+        "category": "array",
+        "key_line": 13,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          5,
+          11,
+          33
+        ],
+        "vulnerability_probability": 1.6535138059117771e-12,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 9,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          3,
+          5,
+          11,
+          33
+        ],
+        "vulnerability_probability": 1.6619179990517985e-12,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 13,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          5,
+          11,
+          33
+        ],
+        "vulnerability_probability": 1.6535169500980773e-12,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 19,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          3,
+          5,
+          11
+        ],
+        "vulnerability_probability": 1.2574742462578836e-11,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 25,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          5,
+          11,
+          33
+        ],
+        "vulnerability_probability": 1.6535169500980773e-12,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 27,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          9,
+          13,
+          5,
+          11,
+          33
+        ],
+        "vulnerability_probability": 1.6535138059117771e-12,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "call",
+      "key_line": 21,
+      "nodes": [
+        25,
+        27,
+        19,
+        21,
+        1,
+        9,
+        13,
+        3,
+        5,
+        11
+      ],
+      "probability": 1.2574742462578836e-11
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 28.357013999993796
+  }
+}

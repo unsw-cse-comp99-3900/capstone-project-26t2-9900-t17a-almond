@@ -1,0 +1,155 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/devign__10_non_vulnerable_static_void_kvm_virtio_pci_vq_vector__xfg_targeted_dead_code__c1/_work/source/devign__10_non_vulnerable_static_void_kvm_virtio_pci_vq_vector__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	kvm_virtio_pci_vq_vector_release	1:0:0:747							
+ANR	3	FunctionDef	"kvm_virtio_pci_vq_vector_release (VirtIOPCIProxy * proxy , unsigned int queue_no , unsigned int vector)"		2	0					
+ANR	4	CompoundStatement		7:0:205:747	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	9:8:216:216	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		4:8:23:46	2	1					
+ANR	9	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	10:8:229:252	2	0	True				
+ANR	10	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	dwk_xfg_guard_1		2	1					
+ANR	13	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	14	Identifier	dwk_xfg_guard_1		2	0					
+ANR	15	PrimaryExpression	1		2	1					
+ANR	16	ExpressionStatement	dwk_xfg_guard_1 += 0	11:8:262:282	2	1	True				
+ANR	17	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	18	Identifier	dwk_xfg_guard_1		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	"VirtQueue * vq = virtio_get_queue ( proxy -> vdev , queue_no ) ;"	13:4:294:349	2	1	True				
+ANR	21	IdentifierDecl	"* vq = virtio_get_queue ( proxy -> vdev , queue_no )"		2	0					
+ANR	22	IdentifierDeclType	VirtQueue *		2	0					
+ANR	23	Identifier	vq		2	1					
+ANR	24	AssignmentExpression	"* vq = virtio_get_queue ( proxy -> vdev , queue_no )"		2	2		=			
+ANR	25	Identifier	vq		2	0					
+ANR	26	CallExpression	"virtio_get_queue ( proxy -> vdev , queue_no )"		2	1					
+ANR	27	Callee	virtio_get_queue		2	0					
+ANR	28	Identifier	virtio_get_queue		2	0					
+ANR	29	ArgumentList	proxy -> vdev		2	1					
+ANR	30	Argument	proxy -> vdev		2	0					
+ANR	31	PtrMemberAccess	proxy -> vdev		2	0					
+ANR	32	Identifier	proxy		2	0					
+ANR	33	Identifier	vdev		2	1					
+ANR	34	Argument	queue_no		2	1					
+ANR	35	Identifier	queue_no		2	0					
+ANR	36	IdentifierDeclStatement	EventNotifier * n = virtio_queue_get_guest_notifier ( vq ) ;	15:4:356:410	2	2	True				
+ANR	37	IdentifierDecl	* n = virtio_queue_get_guest_notifier ( vq )		2	0					
+ANR	38	IdentifierDeclType	EventNotifier *		2	0					
+ANR	39	Identifier	n		2	1					
+ANR	40	AssignmentExpression	* n = virtio_queue_get_guest_notifier ( vq )		2	2		=			
+ANR	41	Identifier	n		2	0					
+ANR	42	CallExpression	virtio_queue_get_guest_notifier ( vq )		2	1					
+ANR	43	Callee	virtio_queue_get_guest_notifier		2	0					
+ANR	44	Identifier	virtio_queue_get_guest_notifier		2	0					
+ANR	45	ArgumentList	vq		2	1					
+ANR	46	Argument	vq		2	0					
+ANR	47	Identifier	vq		2	0					
+ANR	48	IdentifierDeclStatement	VirtIOIRQFD * irqfd = & proxy -> vector_irqfd [ vector ] ;	17:4:417:466	2	3	True				
+ANR	49	IdentifierDecl	* irqfd = & proxy -> vector_irqfd [ vector ]		2	0					
+ANR	50	IdentifierDeclType	VirtIOIRQFD *		2	0					
+ANR	51	Identifier	irqfd		2	1					
+ANR	52	AssignmentExpression	* irqfd = & proxy -> vector_irqfd [ vector ]		2	2		=			
+ANR	53	Identifier	irqfd		2	0					
+ANR	54	UnaryOperationExpression	& proxy -> vector_irqfd [ vector ]		2	1					
+ANR	55	UnaryOperator	&		2	0					
+ANR	56	ArrayIndexing	proxy -> vector_irqfd [ vector ]		2	1					
+ANR	57	PtrMemberAccess	proxy -> vector_irqfd		2	0					
+ANR	58	Identifier	proxy		2	0					
+ANR	59	Identifier	vector_irqfd		2	1					
+ANR	60	Identifier	vector		2	1					
+ANR	61	IdentifierDeclStatement	int ret ;	19:4:473:480	2	4	True				
+ANR	62	IdentifierDecl	ret		2	0					
+ANR	63	IdentifierDeclType	int		2	0					
+ANR	64	Identifier	ret		2	1					
+ANR	65	ExpressionStatement	"ret = kvm_irqchip_remove_irq_notifier ( kvm_state , n , irqfd -> virq )"	23:4:489:553	2	5	True				
+ANR	66	AssignmentExpression	"ret = kvm_irqchip_remove_irq_notifier ( kvm_state , n , irqfd -> virq )"		2	0		=			
+ANR	67	Identifier	ret		2	0					
+ANR	68	CallExpression	"kvm_irqchip_remove_irq_notifier ( kvm_state , n , irqfd -> virq )"		2	1					
+ANR	69	Callee	kvm_irqchip_remove_irq_notifier		2	0					
+ANR	70	Identifier	kvm_irqchip_remove_irq_notifier		2	0					
+ANR	71	ArgumentList	kvm_state		2	1					
+ANR	72	Argument	kvm_state		2	0					
+ANR	73	Identifier	kvm_state		2	0					
+ANR	74	Argument	n		2	1					
+ANR	75	Identifier	n		2	0					
+ANR	76	Argument	irqfd -> virq		2	2					
+ANR	77	PtrMemberAccess	irqfd -> virq		2	0					
+ANR	78	Identifier	irqfd		2	0					
+ANR	79	Identifier	virq		2	1					
+ANR	80	ExpressionStatement	assert ( ret == 0 )	25:4:560:576	2	6	True				
+ANR	81	CallExpression	assert ( ret == 0 )		2	0					
+ANR	82	Callee	assert		2	0					
+ANR	83	Identifier	assert		2	0					
+ANR	84	ArgumentList	ret == 0		2	1					
+ANR	85	Argument	ret == 0		2	0					
+ANR	86	EqualityExpression	ret == 0		2	0		==			
+ANR	87	Identifier	ret		2	0					
+ANR	88	PrimaryExpression	0		2	1					
+ANR	89	IfStatement	if ( -- irqfd -> users == 0 )		2	7					
+ANR	90	Condition	-- irqfd -> users == 0	29:8:589:607	2	0	True				
+ANR	91	EqualityExpression	-- irqfd -> users == 0		2	0		==			
+ANR	92	UnaryExpression	-- irqfd -> users		2	0					
+ANR	93	IncDec	--		2	0					
+ANR	94	PtrMemberAccess	irqfd -> users		2	1					
+ANR	95	Identifier	irqfd		2	0					
+ANR	96	Identifier	users		2	1					
+ANR	97	PrimaryExpression	0		2	1					
+ANR	98	CompoundStatement		23:29:404:404	2	1					
+ANR	99	ExpressionStatement	"kvm_irqchip_release_virq ( kvm_state , irqfd -> virq )"	31:8:621:669	2	0	True				
+ANR	100	CallExpression	"kvm_irqchip_release_virq ( kvm_state , irqfd -> virq )"		2	0					
+ANR	101	Callee	kvm_irqchip_release_virq		2	0					
+ANR	102	Identifier	kvm_irqchip_release_virq		2	0					
+ANR	103	ArgumentList	kvm_state		2	1					
+ANR	104	Argument	kvm_state		2	0					
+ANR	105	Identifier	kvm_state		2	0					
+ANR	106	Argument	irqfd -> virq		2	1					
+ANR	107	PtrMemberAccess	irqfd -> virq		2	0					
+ANR	108	Identifier	irqfd		2	0					
+ANR	109	Identifier	virq		2	1					
+ANR	110	ExpressionStatement	"virtio_queue_set_guest_notifier_fd_handler ( vq , true , false )"	37:4:685:744	2	8	True				
+ANR	111	CallExpression	"virtio_queue_set_guest_notifier_fd_handler ( vq , true , false )"		2	0					
+ANR	112	Callee	virtio_queue_set_guest_notifier_fd_handler		2	0					
+ANR	113	Identifier	virtio_queue_set_guest_notifier_fd_handler		2	0					
+ANR	114	ArgumentList	vq		2	1					
+ANR	115	Argument	vq		2	0					
+ANR	116	Identifier	vq		2	0					
+ANR	117	Argument	true		2	1					
+ANR	118	Identifier	true		2	0					
+ANR	119	Argument	false		2	2					
+ANR	120	Identifier	false		2	0					
+ANR	121	ReturnType	static void		2	1					
+ANR	122	Identifier	kvm_virtio_pci_vq_vector_release		2	2					
+ANR	123	ParameterList	"VirtIOPCIProxy * proxy , unsigned int queue_no , unsigned int vector"		2	3					
+ANR	124	Parameter	VirtIOPCIProxy * proxy	1:45:45:65	2	0	True				
+ANR	125	ParameterType	VirtIOPCIProxy *		2	0					
+ANR	126	Identifier	proxy		2	1					
+ANR	127	Parameter	unsigned int queue_no	3:45:114:134	2	1	True				
+ANR	128	ParameterType	unsigned int		2	0					
+ANR	129	Identifier	queue_no		2	1					
+ANR	130	Parameter	unsigned int vector	5:45:183:201	2	2	True				
+ANR	131	ParameterType	unsigned int		2	0					
+ANR	132	Identifier	vector		2	1					
+ANR	133	CFGEntryNode	ENTRY		2		True				
+ANR	134	CFGExitNode	EXIT		2		True				
+ANR	135	Symbol	ret		2						
+ANR	136	Symbol	irqfd -> users		2						
+ANR	137	Symbol	virtio_get_queue		2						
+ANR	138	Symbol	kvm_state		2						
+ANR	139	Symbol	dwk_xfg_guard_1		2						
+ANR	140	Symbol	irqfd -> virq		2						
+ANR	141	Symbol	false		2						
+ANR	142	Symbol	virtio_queue_get_guest_notifier		2						
+ANR	143	Symbol	* irqfd		2						
+ANR	144	Symbol	n		2						
+ANR	145	Symbol	proxy		2						
+ANR	146	Symbol	proxy -> vector_irqfd		2						
+ANR	147	Symbol	queue_no		2						
+ANR	148	Symbol	* proxy		2						
+ANR	149	Symbol	true		2						
+ANR	150	Symbol	vector		2						
+ANR	151	Symbol	vq		2						
+ANR	152	Symbol	irqfd		2						
+ANR	153	Symbol	kvm_irqchip_remove_irq_notifier		2						
+ANR	154	Symbol	proxy -> vdev		2						

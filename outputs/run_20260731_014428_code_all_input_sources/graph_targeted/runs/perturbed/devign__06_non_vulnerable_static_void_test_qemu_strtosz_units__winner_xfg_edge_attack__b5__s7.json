@@ -1,0 +1,292 @@
+{
+  "comparison": {
+    "sample": "devign__06_non_vulnerable_static_void_test_qemu_strtosz_units",
+    "action": "winner_xfg_edge_attack",
+    "method_family": "winner_xfg",
+    "budget": 5,
+    "seed": 7,
+    "function": "test_qemu_strtosz_units",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 1,
+    "flipped": true,
+    "attack_success": true,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 0.001614067587070167,
+    "variant_prob": 0.9716024994850159,
+    "delta_probability": 0.9699884318979457,
+    "base_nodes": 25,
+    "variant_nodes": 25,
+    "delta_nodes": 0,
+    "base_edges": 24,
+    "variant_edges": 29,
+    "delta_edges": 5,
+    "base_xfg_count": 8,
+    "variant_xfg_count": 8,
+    "winner_category": "arith",
+    "winner_key_line": 89,
+    "winner_raw_nodes": 3,
+    "winner_nodes": 3,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 5,
+    "applied_count": 5,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 42.03255199990963,
+    "operations": [
+      {
+        "step": 1,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          89,
+          21
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            89,
+            21,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 89->21 to increase the vulnerable score"
+      },
+      {
+        "step": 2,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          89,
+          19
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            89,
+            19,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 89->19 to increase the vulnerable score"
+      },
+      {
+        "step": 3,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          89,
+          33
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            89,
+            33,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 89->33 to increase the vulnerable score"
+      },
+      {
+        "step": 4,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          33,
+          89
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            33,
+            89,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 33->89 to increase the vulnerable score"
+      },
+      {
+        "step": 5,
+        "action": "winner_xfg_edge_attack",
+        "target_nodes": [
+          89,
+          5
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            89,
+            5,
+            "d"
+          ]
+        ],
+        "details": "bridged winner-XFG d edge 89->5 to increase the vulnerable score"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 0.9716024994850159,
+    "predicted_label": 1,
+    "xfg_count": 8,
+    "xfg_predictions": [
+      {
+        "category": "arith",
+        "key_line": 89,
+        "nodes": [
+          5,
+          29,
+          33,
+          41,
+          21,
+          49,
+          57,
+          65,
+          73,
+          81,
+          19,
+          85,
+          89
+        ],
+        "vulnerability_probability": 0.9716024994850159,
+        "predicted_label": 1
+      },
+      {
+        "category": "arith",
+        "key_line": 65,
+        "nodes": [
+          65,
+          33,
+          5,
+          13,
+          19,
+          21,
+          89
+        ],
+        "vulnerability_probability": 0.01808614283800125,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 33,
+        "nodes": [
+          5,
+          29,
+          33,
+          41,
+          21,
+          49,
+          57,
+          65,
+          73,
+          81,
+          19,
+          85,
+          89
+        ],
+        "vulnerability_probability": 0.9716024994850159,
+        "predicted_label": 1
+      },
+      {
+        "category": "arith",
+        "key_line": 41,
+        "nodes": [
+          33,
+          5,
+          7,
+          41,
+          19,
+          21,
+          89
+        ],
+        "vulnerability_probability": 0.011551972478628159,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 73,
+        "nodes": [
+          33,
+          5,
+          73,
+          15,
+          19,
+          21,
+          89
+        ],
+        "vulnerability_probability": 0.011551984585821629,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 49,
+        "nodes": [
+          33,
+          5,
+          9,
+          49,
+          19,
+          21,
+          89
+        ],
+        "vulnerability_probability": 0.011551984585821629,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 81,
+        "nodes": [
+          33,
+          5,
+          81,
+          17,
+          19,
+          21,
+          89
+        ],
+        "vulnerability_probability": 0.011551984585821629,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 57,
+        "nodes": [
+          33,
+          5,
+          11,
+          19,
+          21,
+          89,
+          57
+        ],
+        "vulnerability_probability": 0.011551984585821629,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "arith",
+      "key_line": 89,
+      "nodes": [
+        5,
+        29,
+        33,
+        41,
+        21,
+        49,
+        57,
+        65,
+        73,
+        81,
+        19,
+        85,
+        89
+      ],
+      "probability": 0.9716024994850159
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 41.20795900007579
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+  "prediction": {
+    "sample_id": "cvefixes__20_vulnerable_irssi_ssl_handshake__node_attribute_modify__b5__s29",
+    "input_file": "/repo/outputs/run_20260731_014428_code_all_input_sources/graph_inputs/sources/cvefixes__20_vulnerable_irssi_ssl_handshake.c",
+    "function_name": "irssi_ssl_handshake",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 30,
+    "num_edges": 43,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.004205012694001198,
+    "threshold": 0.5,
+    "confidence": 0.9957949873059988,
+    "graph_score": 0.004205012694001198,
+    "final_score": 0.004205012694001198,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 10440,
+      "perturbations_completed": 10440,
+      "perturbations_scored": 9973,
+      "perturbations_unscored_no_xfg": 467,
+      "perturbation_errors": 0,
+      "label_flips": 346,
+      "attack_eligible_variants": 5180,
+      "attack_successes": 131,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 510.4361048970002,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "cvefixes__20_vulnerable_irssi_ssl_handshake",
+    "graph_action": {
+      "action": "node_attribute_modify",
+      "strategy": "random",
+      "seed": 29,
+      "budget": 5,
+      "requested_count": 5,
+      "applied_count": 5,
+      "budget_fully_applied": true,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            34,
+            25
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 34 token source from line 34 to line 25"
+        },
+        {
+          "step": 2,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            33,
+            24
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 33 token source from line 33 to line 24"
+        },
+        {
+          "step": 3,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            14,
+            17
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 14 token source from line 14 to line 17"
+        },
+        {
+          "step": 4,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            38,
+            18
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 38 token source from line 38 to line 18"
+        },
+        {
+          "step": 5,
+          "action": "node_attribute_modify",
+          "target_nodes": [
+            38,
+            23
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "changed node 38 token source from line 18 to line 23"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 30,
+      "baseline_pdg_edges": 43,
+      "perturbed_pdg_nodes": 30,
+      "perturbed_pdg_edges": 43
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.004205012694001198,
+      "predicted_label": 0,
+      "xfg_count": 7,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 27.11429999999382,
+      "xfg_predictions": [
+        {
+          "category": "call",
+          "key_line": 32,
+          "vulnerability_probability": 2.1968661612081775e-10,
+          "predicted_label": 0
+        },
+        {
+          "category": "call",
+          "key_line": 10,
+          "vulnerability_probability": 0.004205012694001198,
+          "predicted_label": 0
+        },
+        {
+          "category": "call",
+          "key_line": 22,
+          "vulnerability_probability": 2.0829216129669703e-09,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 8,
+          "vulnerability_probability": 0.0008390768198296428,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 10,
+          "vulnerability_probability": 0.004205012694001198,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 32,
+          "vulnerability_probability": 2.1968661612081775e-10,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 37,
+          "vulnerability_probability": 2.322053105352495e-10,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 28.10501599969939
+  }
+}

@@ -1,0 +1,77 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1.c								
+ANR	2	Function	sctlr_write	1:0:0:565							
+ANR	3	FunctionDef	"sctlr_write (CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value)"		2	0					
+ANR	4	CompoundStatement		5:0:108:565	2	0					
+ANR	5	IdentifierDeclStatement	ARMCPU * cpu = arm_env_get_cpu ( env ) ;	7:4:115:149	2	0	True				
+ANR	6	IdentifierDecl	* cpu = arm_env_get_cpu ( env )		2	0					
+ANR	7	IdentifierDeclType	ARMCPU *		2	0					
+ANR	8	Identifier	cpu		2	1					
+ANR	9	AssignmentExpression	* cpu = arm_env_get_cpu ( env )		2	2		=			
+ANR	10	Identifier	cpu		2	0					
+ANR	11	CallExpression	arm_env_get_cpu ( env )		2	1					
+ANR	12	Callee	arm_env_get_cpu		2	0					
+ANR	13	Identifier	arm_env_get_cpu		2	0					
+ANR	14	ArgumentList	env		2	1					
+ANR	15	Argument	env		2	0					
+ANR	16	Identifier	env		2	0					
+ANR	17	IfStatement	if ( env -> cp15 . c1_sys == value )		2	1					
+ANR	18	Condition	env -> cp15 . c1_sys == value	11:8:162:186	2	0	True				
+ANR	19	EqualityExpression	env -> cp15 . c1_sys == value		2	0		==			
+ANR	20	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	21	PtrMemberAccess	env -> cp15		2	0					
+ANR	22	Identifier	env		2	0					
+ANR	23	Identifier	cp15		2	1					
+ANR	24	Identifier	c1_sys		2	1					
+ANR	25	Identifier	value		2	1					
+ANR	26	CompoundStatement		7:35:80:80	2	1					
+ANR	27	IfStatement	if ( 1 )		2	0					
+ANR	28	Condition	1	19:12:340:340	2	0	True				
+ANR	29	PrimaryExpression	1		2	0					
+ANR	30	CompoundStatement		15:15:234:234	2	1					
+ANR	31	ReturnStatement	return ;	20:12:357:363	2	0	True				
+ANR	32	ExpressionStatement	env -> cp15 . c1_sys = value	27:4:389:413	2	2	True				
+ANR	33	AssignmentExpression	env -> cp15 . c1_sys = value		2	0		=			
+ANR	34	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	35	PtrMemberAccess	env -> cp15		2	0					
+ANR	36	Identifier	env		2	0					
+ANR	37	Identifier	cp15		2	1					
+ANR	38	Identifier	c1_sys		2	1					
+ANR	39	Identifier	value		2	1					
+ANR	40	ExpressionStatement	"tlb_flush ( CPU ( cpu ) , 1 )"	33:4:540:562	2	3	True				
+ANR	41	CallExpression	"tlb_flush ( CPU ( cpu ) , 1 )"		2	0					
+ANR	42	Callee	tlb_flush		2	0					
+ANR	43	Identifier	tlb_flush		2	0					
+ANR	44	ArgumentList	CPU ( cpu )		2	1					
+ANR	45	Argument	CPU ( cpu )		2	0					
+ANR	46	CallExpression	CPU ( cpu )		2	0					
+ANR	47	Callee	CPU		2	0					
+ANR	48	Identifier	CPU		2	0					
+ANR	49	ArgumentList	cpu		2	1					
+ANR	50	Argument	cpu		2	0					
+ANR	51	Identifier	cpu		2	0					
+ANR	52	Argument	1		2	1					
+ANR	53	PrimaryExpression	1		2	0					
+ANR	54	ReturnType	static void		2	1					
+ANR	55	Identifier	sctlr_write		2	2					
+ANR	56	ParameterList	"CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value"		2	3					
+ANR	57	Parameter	CPUARMState * env	1:24:24:39	2	0	True				
+ANR	58	ParameterType	CPUARMState *		2	0					
+ANR	59	Identifier	env		2	1					
+ANR	60	Parameter	const ARMCPRegInfo * ri	1:42:42:63	2	1	True				
+ANR	61	ParameterType	const ARMCPRegInfo *		2	0					
+ANR	62	Identifier	ri		2	1					
+ANR	63	Parameter	uint64_t value	3:24:91:104	2	2	True				
+ANR	64	ParameterType	uint64_t		2	0					
+ANR	65	Identifier	value		2	1					
+ANR	66	CFGEntryNode	ENTRY		2		True				
+ANR	67	CFGExitNode	EXIT		2		True				
+ANR	68	Symbol	arm_env_get_cpu		2						
+ANR	69	Symbol	env -> cp15 . c1_sys		2						
+ANR	70	Symbol	ri		2						
+ANR	71	Symbol	* env		2						
+ANR	72	Symbol	cpu		2						
+ANR	73	Symbol	CPU		2						
+ANR	74	Symbol	env		2						
+ANR	75	Symbol	value		2						
+ANR	76	Symbol	env -> cp15		2						

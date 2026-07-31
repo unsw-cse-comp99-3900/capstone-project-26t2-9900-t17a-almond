@@ -1,0 +1,93 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__data_flow_alias__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__data_flow_alias__c1.c								
+ANR	2	Function	sctlr_write	1:0:0:626							
+ANR	3	FunctionDef	"sctlr_write (CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value)"		2	0					
+ANR	4	CompoundStatement		5:0:108:626	2	0					
+ANR	5	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( env ) ;	7:4:115:148	2	0	True				
+ANR	6	IdentifierDecl	* dwk_alias_1 = ( void * ) ( env )		2	0					
+ANR	7	IdentifierDeclType	void *		2	0					
+ANR	8	Identifier	dwk_alias_1		2	1					
+ANR	9	AssignmentExpression	* dwk_alias_1 = ( void * ) ( env )		2	2		=			
+ANR	10	Identifier	dwk_alias_1		2	0					
+ANR	11	CastExpression	( void * ) ( env )		2	1					
+ANR	12	CastTarget	void *		2	0					
+ANR	13	Identifier	env		2	1					
+ANR	14	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	8:4:154:201	2	1	True				
+ANR	15	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	16	Identifier	dwk_alias_1		2	0					
+ANR	17	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	18	CastTarget	void *		2	0					
+ANR	19	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	20	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	21	CastTarget	char *		2	0					
+ANR	22	Identifier	dwk_alias_1		2	1					
+ANR	23	PrimaryExpression	0		2	1					
+ANR	24	IdentifierDeclStatement	ARMCPU * cpu = arm_env_get_cpu ( env ) ;	9:4:207:241	2	2	True				
+ANR	25	IdentifierDecl	* cpu = arm_env_get_cpu ( env )		2	0					
+ANR	26	IdentifierDeclType	ARMCPU *		2	0					
+ANR	27	Identifier	cpu		2	1					
+ANR	28	AssignmentExpression	* cpu = arm_env_get_cpu ( env )		2	2		=			
+ANR	29	Identifier	cpu		2	0					
+ANR	30	CallExpression	arm_env_get_cpu ( env )		2	1					
+ANR	31	Callee	arm_env_get_cpu		2	0					
+ANR	32	Identifier	arm_env_get_cpu		2	0					
+ANR	33	ArgumentList	env		2	1					
+ANR	34	Argument	env		2	0					
+ANR	35	Identifier	env		2	0					
+ANR	36	IfStatement	if ( env -> cp15 . c1_sys == value )		2	3					
+ANR	37	Condition	env -> cp15 . c1_sys == value	13:8:254:278	2	0	True				
+ANR	38	EqualityExpression	env -> cp15 . c1_sys == value		2	0		==			
+ANR	39	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	40	PtrMemberAccess	env -> cp15		2	0					
+ANR	41	Identifier	env		2	0					
+ANR	42	Identifier	cp15		2	1					
+ANR	43	Identifier	c1_sys		2	1					
+ANR	44	Identifier	value		2	1					
+ANR	45	CompoundStatement		9:35:172:172	2	1					
+ANR	46	ReturnStatement	return ;	21:8:428:434	2	0	True				
+ANR	47	ExpressionStatement	env -> cp15 . c1_sys = value	27:4:450:474	2	4	True				
+ANR	48	AssignmentExpression	env -> cp15 . c1_sys = value		2	0		=			
+ANR	49	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	50	PtrMemberAccess	env -> cp15		2	0					
+ANR	51	Identifier	env		2	0					
+ANR	52	Identifier	cp15		2	1					
+ANR	53	Identifier	c1_sys		2	1					
+ANR	54	Identifier	value		2	1					
+ANR	55	ExpressionStatement	"tlb_flush ( CPU ( cpu ) , 1 )"	33:4:601:623	2	5	True				
+ANR	56	CallExpression	"tlb_flush ( CPU ( cpu ) , 1 )"		2	0					
+ANR	57	Callee	tlb_flush		2	0					
+ANR	58	Identifier	tlb_flush		2	0					
+ANR	59	ArgumentList	CPU ( cpu )		2	1					
+ANR	60	Argument	CPU ( cpu )		2	0					
+ANR	61	CallExpression	CPU ( cpu )		2	0					
+ANR	62	Callee	CPU		2	0					
+ANR	63	Identifier	CPU		2	0					
+ANR	64	ArgumentList	cpu		2	1					
+ANR	65	Argument	cpu		2	0					
+ANR	66	Identifier	cpu		2	0					
+ANR	67	Argument	1		2	1					
+ANR	68	PrimaryExpression	1		2	0					
+ANR	69	ReturnType	static void		2	1					
+ANR	70	Identifier	sctlr_write		2	2					
+ANR	71	ParameterList	"CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value"		2	3					
+ANR	72	Parameter	CPUARMState * env	1:24:24:39	2	0	True				
+ANR	73	ParameterType	CPUARMState *		2	0					
+ANR	74	Identifier	env		2	1					
+ANR	75	Parameter	const ARMCPRegInfo * ri	1:42:42:63	2	1	True				
+ANR	76	ParameterType	const ARMCPRegInfo *		2	0					
+ANR	77	Identifier	ri		2	1					
+ANR	78	Parameter	uint64_t value	3:24:91:104	2	2	True				
+ANR	79	ParameterType	uint64_t		2	0					
+ANR	80	Identifier	value		2	1					
+ANR	81	CFGEntryNode	ENTRY		2		True				
+ANR	82	CFGExitNode	EXIT		2		True				
+ANR	83	Symbol	arm_env_get_cpu		2						
+ANR	84	Symbol	env -> cp15 . c1_sys		2						
+ANR	85	Symbol	ri		2						
+ANR	86	Symbol	* env		2						
+ANR	87	Symbol	cpu		2						
+ANR	88	Symbol	CPU		2						
+ANR	89	Symbol	dwk_alias_1		2						
+ANR	90	Symbol	env		2						
+ANR	91	Symbol	value		2						
+ANR	92	Symbol	env -> cp15		2						

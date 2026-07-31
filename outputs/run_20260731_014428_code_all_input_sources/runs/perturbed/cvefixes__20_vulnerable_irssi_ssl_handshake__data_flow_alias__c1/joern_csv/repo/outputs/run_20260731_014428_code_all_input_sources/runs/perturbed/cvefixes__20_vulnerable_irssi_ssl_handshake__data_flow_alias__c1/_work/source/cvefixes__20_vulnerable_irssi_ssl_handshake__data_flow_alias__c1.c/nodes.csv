@@ -1,0 +1,281 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cvefixes__20_vulnerable_irssi_ssl_handshake__data_flow_alias__c1/_work/source/cvefixes__20_vulnerable_irssi_ssl_handshake__data_flow_alias__c1.c								
+ANR	2	Function	irssi_ssl_handshake	1:0:0:1216							
+ANR	3	FunctionDef	irssi_ssl_handshake (GIOChannel * handle)		2	0					
+ANR	4	CompoundStatement		2:0:44:1216	2	0					
+ANR	5	IdentifierDeclStatement	GIOSSLChannel * chan = ( GIOSSLChannel * ) handle ;	3:1:47:92	2	0	True				
+ANR	6	IdentifierDecl	* chan = ( GIOSSLChannel * ) handle		2	0					
+ANR	7	IdentifierDeclType	GIOSSLChannel *		2	0					
+ANR	8	Identifier	chan		2	1					
+ANR	9	AssignmentExpression	* chan = ( GIOSSLChannel * ) handle		2	2		=			
+ANR	10	Identifier	chan		2	0					
+ANR	11	CastExpression	( GIOSSLChannel * ) handle		2	1					
+ANR	12	CastTarget	GIOSSLChannel *		2	0					
+ANR	13	Identifier	handle		2	1					
+ANR	14	IdentifierDeclStatement	"int ret , err ;"	4:1:95:107	2	1	True				
+ANR	15	IdentifierDecl	ret		2	0					
+ANR	16	IdentifierDeclType	int		2	0					
+ANR	17	Identifier	ret		2	1					
+ANR	18	IdentifierDecl	err		2	1					
+ANR	19	IdentifierDeclType	int		2	0					
+ANR	20	Identifier	err		2	1					
+ANR	21	IdentifierDeclStatement	X509 * cert ;	5:1:110:120	2	2	True				
+ANR	22	IdentifierDecl	* cert		2	0					
+ANR	23	IdentifierDeclType	X509 *		2	0					
+ANR	24	Identifier	cert		2	1					
+ANR	25	IdentifierDeclStatement	const char * errstr ;	6:1:123:141	2	3	True				
+ANR	26	IdentifierDecl	* errstr		2	0					
+ANR	27	IdentifierDeclType	const char *		2	0					
+ANR	28	Identifier	errstr		2	1					
+ANR	29	IdentifierDeclStatement	int dwk_flow_value_1 = ( int ) ( chan -> ssl ) ;	8:1:145:184	2	4	True				
+ANR	30	IdentifierDecl	dwk_flow_value_1 = ( int ) ( chan -> ssl )		2	0					
+ANR	31	IdentifierDeclType	int		2	0					
+ANR	32	Identifier	dwk_flow_value_1		2	1					
+ANR	33	AssignmentExpression	dwk_flow_value_1 = ( int ) ( chan -> ssl )		2	2		=			
+ANR	34	Identifier	dwk_flow_value_1		2	0					
+ANR	35	CastExpression	( int ) ( chan -> ssl )		2	1					
+ANR	36	CastTarget	int		2	0					
+ANR	37	PtrMemberAccess	chan -> ssl		2	1					
+ANR	38	Identifier	chan		2	0					
+ANR	39	Identifier	ssl		2	1					
+ANR	40	ExpressionStatement	dwk_flow_value_1 += 0	9:1:187:208	2	5	True				
+ANR	41	AssignmentExpression	dwk_flow_value_1 += 0		2	0		+=			
+ANR	42	Identifier	dwk_flow_value_1		2	0					
+ANR	43	PrimaryExpression	0		2	1					
+ANR	44	ExpressionStatement	ret = SSL_connect ( chan -> ssl )	10:1:211:239	2	6	True				
+ANR	45	AssignmentExpression	ret = SSL_connect ( chan -> ssl )		2	0		=			
+ANR	46	Identifier	ret		2	0					
+ANR	47	CallExpression	SSL_connect ( chan -> ssl )		2	1					
+ANR	48	Callee	SSL_connect		2	0					
+ANR	49	Identifier	SSL_connect		2	0					
+ANR	50	ArgumentList	chan -> ssl		2	1					
+ANR	51	Argument	chan -> ssl		2	0					
+ANR	52	PtrMemberAccess	chan -> ssl		2	0					
+ANR	53	Identifier	chan		2	0					
+ANR	54	Identifier	ssl		2	1					
+ANR	55	IfStatement	if ( ret <= 0 )		2	7					
+ANR	56	Condition	ret <= 0	11:5:246:253	2	0	True				
+ANR	57	RelationalExpression	ret <= 0		2	0		<=			
+ANR	58	Identifier	ret		2	0					
+ANR	59	PrimaryExpression	0		2	1					
+ANR	60	CompoundStatement		10:15:211:211	2	1					
+ANR	61	ExpressionStatement	"err = SSL_get_error ( chan -> ssl , ret )"	12:2:260:295	2	0	True				
+ANR	62	AssignmentExpression	"err = SSL_get_error ( chan -> ssl , ret )"		2	0		=			
+ANR	63	Identifier	err		2	0					
+ANR	64	CallExpression	"SSL_get_error ( chan -> ssl , ret )"		2	1					
+ANR	65	Callee	SSL_get_error		2	0					
+ANR	66	Identifier	SSL_get_error		2	0					
+ANR	67	ArgumentList	chan -> ssl		2	1					
+ANR	68	Argument	chan -> ssl		2	0					
+ANR	69	PtrMemberAccess	chan -> ssl		2	0					
+ANR	70	Identifier	chan		2	0					
+ANR	71	Identifier	ssl		2	1					
+ANR	72	Argument	ret		2	1					
+ANR	73	Identifier	ret		2	0					
+ANR	74	SwitchStatement	switch ( err )		2	1					
+ANR	75	Condition	err	13:10:307:309	2	0	True				
+ANR	76	Identifier	err		2	0					
+ANR	77	CompoundStatement		12:15:267:267	2	1					
+ANR	78	Label	case SSL_ERROR_WANT_READ :	14:3:317:341	2	0	True				
+ANR	79	Identifier	SSL_ERROR_WANT_READ		2	0					
+ANR	80	ReturnStatement	return 1 ;	15:4:347:355	2	1	True				
+ANR	81	PrimaryExpression	1		2	0					
+ANR	82	Label	case SSL_ERROR_WANT_WRITE :	16:3:360:385	2	2	True				
+ANR	83	Identifier	SSL_ERROR_WANT_WRITE		2	0					
+ANR	84	ReturnStatement	return 3 ;	17:4:391:399	2	3	True				
+ANR	85	PrimaryExpression	3		2	0					
+ANR	86	Label	case SSL_ERROR_ZERO_RETURN :	18:3:404:430	2	4	True				
+ANR	87	Identifier	SSL_ERROR_ZERO_RETURN		2	0					
+ANR	88	ExpressionStatement	"g_warning ( ""SSL handshake failed: %s"" , ""server closed connection"" )"	19:4:436:501	2	5	True				
+ANR	89	CallExpression	"g_warning ( ""SSL handshake failed: %s"" , ""server closed connection"" )"		2	0					
+ANR	90	Callee	g_warning		2	0					
+ANR	91	Identifier	g_warning		2	0					
+ANR	92	ArgumentList	"""SSL handshake failed: %s"""		2	1					
+ANR	93	Argument	"""SSL handshake failed: %s"""		2	0					
+ANR	94	PrimaryExpression	"""SSL handshake failed: %s"""		2	0					
+ANR	95	Argument	"""server closed connection"""		2	1					
+ANR	96	PrimaryExpression	"""server closed connection"""		2	0					
+ANR	97	ReturnStatement	return - 1 ;	20:4:507:516	2	6	True				
+ANR	98	UnaryOperationExpression	- 1		2	0					
+ANR	99	UnaryOperator	-		2	0					
+ANR	100	PrimaryExpression	1		2	1					
+ANR	101	Label	case SSL_ERROR_SYSCALL :	21:3:521:543	2	7	True				
+ANR	102	Identifier	SSL_ERROR_SYSCALL		2	0					
+ANR	103	ExpressionStatement	errstr = ERR_reason_error_string ( ERR_get_error ( ) )	22:4:549:598	2	8	True				
+ANR	104	AssignmentExpression	errstr = ERR_reason_error_string ( ERR_get_error ( ) )		2	0		=			
+ANR	105	Identifier	errstr		2	0					
+ANR	106	CallExpression	ERR_reason_error_string ( ERR_get_error ( ) )		2	1					
+ANR	107	Callee	ERR_reason_error_string		2	0					
+ANR	108	Identifier	ERR_reason_error_string		2	0					
+ANR	109	ArgumentList	ERR_get_error ( )		2	1					
+ANR	110	Argument	ERR_get_error ( )		2	0					
+ANR	111	CallExpression	ERR_get_error ( )		2	0					
+ANR	112	Callee	ERR_get_error		2	0					
+ANR	113	Identifier	ERR_get_error		2	0					
+ANR	114	ArgumentList			2	1					
+ANR	115	IfStatement	if ( errstr == NULL && ret == - 1 )		2	9					
+ANR	116	Condition	errstr == NULL && ret == - 1	23:8:608:634	2	0	True				
+ANR	117	AndExpression	errstr == NULL && ret == - 1		2	0		&&			
+ANR	118	EqualityExpression	errstr == NULL		2	0		==			
+ANR	119	Identifier	errstr		2	0					
+ANR	120	Identifier	NULL		2	1					
+ANR	121	EqualityExpression	ret == - 1		2	1		==			
+ANR	122	Identifier	ret		2	0					
+ANR	123	UnaryOperationExpression	- 1		2	1					
+ANR	124	UnaryOperator	-		2	0					
+ANR	125	PrimaryExpression	1		2	1					
+ANR	126	ExpressionStatement	errstr = strerror ( errno )	24:5:642:666	2	1	True				
+ANR	127	AssignmentExpression	errstr = strerror ( errno )		2	0		=			
+ANR	128	Identifier	errstr		2	0					
+ANR	129	CallExpression	strerror ( errno )		2	1					
+ANR	130	Callee	strerror		2	0					
+ANR	131	Identifier	strerror		2	0					
+ANR	132	ArgumentList	errno		2	1					
+ANR	133	Argument	errno		2	0					
+ANR	134	Identifier	errno		2	0					
+ANR	135	ExpressionStatement	"g_warning ( ""SSL handshake failed: %s"" , errstr != NULL ? errstr : ""server closed connection unexpectedly"" )"	25:4:672:776	2	10	True				
+ANR	136	CallExpression	"g_warning ( ""SSL handshake failed: %s"" , errstr != NULL ? errstr : ""server closed connection unexpectedly"" )"		2	0					
+ANR	137	Callee	g_warning		2	0					
+ANR	138	Identifier	g_warning		2	0					
+ANR	139	ArgumentList	"""SSL handshake failed: %s"""		2	1					
+ANR	140	Argument	"""SSL handshake failed: %s"""		2	0					
+ANR	141	PrimaryExpression	"""SSL handshake failed: %s"""		2	0					
+ANR	142	Argument	"errstr != NULL ? errstr : ""server closed connection unexpectedly"""		2	1					
+ANR	143	ConditionalExpression	"errstr != NULL ? errstr : ""server closed connection unexpectedly"""		2	0					
+ANR	144	Condition	errstr != NULL		2	0					
+ANR	145	EqualityExpression	errstr != NULL		2	0		!=			
+ANR	146	Identifier	errstr		2	0					
+ANR	147	Identifier	NULL		2	1					
+ANR	148	Identifier	errstr		2	1					
+ANR	149	PrimaryExpression	"""server closed connection unexpectedly"""		2	2					
+ANR	150	ReturnStatement	return - 1 ;	26:4:782:791	2	11	True				
+ANR	151	UnaryOperationExpression	- 1		2	0					
+ANR	152	UnaryOperator	-		2	0					
+ANR	153	PrimaryExpression	1		2	1					
+ANR	154	Label	default :	27:3:796:803	2	12	True				
+ANR	155	Identifier	default		2	0					
+ANR	156	ExpressionStatement	errstr = ERR_reason_error_string ( ERR_get_error ( ) )	28:4:809:858	2	13	True				
+ANR	157	AssignmentExpression	errstr = ERR_reason_error_string ( ERR_get_error ( ) )		2	0		=			
+ANR	158	Identifier	errstr		2	0					
+ANR	159	CallExpression	ERR_reason_error_string ( ERR_get_error ( ) )		2	1					
+ANR	160	Callee	ERR_reason_error_string		2	0					
+ANR	161	Identifier	ERR_reason_error_string		2	0					
+ANR	162	ArgumentList	ERR_get_error ( )		2	1					
+ANR	163	Argument	ERR_get_error ( )		2	0					
+ANR	164	CallExpression	ERR_get_error ( )		2	0					
+ANR	165	Callee	ERR_get_error		2	0					
+ANR	166	Identifier	ERR_get_error		2	0					
+ANR	167	ArgumentList			2	1					
+ANR	168	ExpressionStatement	"g_warning ( ""SSL handshake failed: %s"" , errstr != NULL ? errstr : ""unknown SSL error"" )"	29:4:864:948	2	14	True				
+ANR	169	CallExpression	"g_warning ( ""SSL handshake failed: %s"" , errstr != NULL ? errstr : ""unknown SSL error"" )"		2	0					
+ANR	170	Callee	g_warning		2	0					
+ANR	171	Identifier	g_warning		2	0					
+ANR	172	ArgumentList	"""SSL handshake failed: %s"""		2	1					
+ANR	173	Argument	"""SSL handshake failed: %s"""		2	0					
+ANR	174	PrimaryExpression	"""SSL handshake failed: %s"""		2	0					
+ANR	175	Argument	"errstr != NULL ? errstr : ""unknown SSL error"""		2	1					
+ANR	176	ConditionalExpression	"errstr != NULL ? errstr : ""unknown SSL error"""		2	0					
+ANR	177	Condition	errstr != NULL		2	0					
+ANR	178	EqualityExpression	errstr != NULL		2	0		!=			
+ANR	179	Identifier	errstr		2	0					
+ANR	180	Identifier	NULL		2	1					
+ANR	181	Identifier	errstr		2	1					
+ANR	182	PrimaryExpression	"""unknown SSL error"""		2	2					
+ANR	183	ReturnStatement	return - 1 ;	30:4:954:963	2	15	True				
+ANR	184	UnaryOperationExpression	- 1		2	0					
+ANR	185	UnaryOperator	-		2	0					
+ANR	186	PrimaryExpression	1		2	1					
+ANR	187	ExpressionStatement	cert = SSL_get_peer_certificate ( chan -> ssl )	34:1:974:1016	2	8	True				
+ANR	188	AssignmentExpression	cert = SSL_get_peer_certificate ( chan -> ssl )		2	0		=			
+ANR	189	Identifier	cert		2	0					
+ANR	190	CallExpression	SSL_get_peer_certificate ( chan -> ssl )		2	1					
+ANR	191	Callee	SSL_get_peer_certificate		2	0					
+ANR	192	Identifier	SSL_get_peer_certificate		2	0					
+ANR	193	ArgumentList	chan -> ssl		2	1					
+ANR	194	Argument	chan -> ssl		2	0					
+ANR	195	PtrMemberAccess	chan -> ssl		2	0					
+ANR	196	Identifier	chan		2	0					
+ANR	197	Identifier	ssl		2	1					
+ANR	198	IfStatement	if ( cert == NULL )		2	9					
+ANR	199	Condition	cert == NULL	35:5:1023:1034	2	0	True				
+ANR	200	EqualityExpression	cert == NULL		2	0		==			
+ANR	201	Identifier	cert		2	0					
+ANR	202	Identifier	NULL		2	1					
+ANR	203	CompoundStatement		34:19:992:992	2	1					
+ANR	204	ExpressionStatement	"g_warning ( ""SSL server supplied no certificate"" )"	36:2:1041:1088	2	0	True				
+ANR	205	CallExpression	"g_warning ( ""SSL server supplied no certificate"" )"		2	0					
+ANR	206	Callee	g_warning		2	0					
+ANR	207	Identifier	g_warning		2	0					
+ANR	208	ArgumentList	"""SSL server supplied no certificate"""		2	1					
+ANR	209	Argument	"""SSL server supplied no certificate"""		2	0					
+ANR	210	PrimaryExpression	"""SSL server supplied no certificate"""		2	0					
+ANR	211	ReturnStatement	return - 1 ;	37:2:1092:1101	2	1	True				
+ANR	212	UnaryOperationExpression	- 1		2	0					
+ANR	213	UnaryOperator	-		2	0					
+ANR	214	PrimaryExpression	1		2	1					
+ANR	215	ExpressionStatement	"ret = ! chan -> verify || irssi_ssl_verify ( chan -> ssl , chan -> ctx , cert )"	39:1:1107:1174	2	10	True				
+ANR	216	AssignmentExpression	"ret = ! chan -> verify || irssi_ssl_verify ( chan -> ssl , chan -> ctx , cert )"		2	0		=			
+ANR	217	Identifier	ret		2	0					
+ANR	218	OrExpression	"! chan -> verify || irssi_ssl_verify ( chan -> ssl , chan -> ctx , cert )"		2	1		||			
+ANR	219	UnaryOperationExpression	! chan -> verify		2	0					
+ANR	220	UnaryOperator	!		2	0					
+ANR	221	PtrMemberAccess	chan -> verify		2	1					
+ANR	222	Identifier	chan		2	0					
+ANR	223	Identifier	verify		2	1					
+ANR	224	CallExpression	"irssi_ssl_verify ( chan -> ssl , chan -> ctx , cert )"		2	1					
+ANR	225	Callee	irssi_ssl_verify		2	0					
+ANR	226	Identifier	irssi_ssl_verify		2	0					
+ANR	227	ArgumentList	chan -> ssl		2	1					
+ANR	228	Argument	chan -> ssl		2	0					
+ANR	229	PtrMemberAccess	chan -> ssl		2	0					
+ANR	230	Identifier	chan		2	0					
+ANR	231	Identifier	ssl		2	1					
+ANR	232	Argument	chan -> ctx		2	1					
+ANR	233	PtrMemberAccess	chan -> ctx		2	0					
+ANR	234	Identifier	chan		2	0					
+ANR	235	Identifier	ctx		2	1					
+ANR	236	Argument	cert		2	2					
+ANR	237	Identifier	cert		2	0					
+ANR	238	ExpressionStatement	X509_free ( cert )	40:1:1177:1192	2	11	True				
+ANR	239	CallExpression	X509_free ( cert )		2	0					
+ANR	240	Callee	X509_free		2	0					
+ANR	241	Identifier	X509_free		2	0					
+ANR	242	ArgumentList	cert		2	1					
+ANR	243	Argument	cert		2	0					
+ANR	244	Identifier	cert		2	0					
+ANR	245	ReturnStatement	return ret ? 0 : - 1 ;	41:1:1195:1214	2	12	True				
+ANR	246	ConditionalExpression	ret ? 0 : - 1		2	0					
+ANR	247	Condition	ret		2	0					
+ANR	248	Identifier	ret		2	0					
+ANR	249	PrimaryExpression	0		2	1					
+ANR	250	UnaryOperationExpression	- 1		2	2					
+ANR	251	UnaryOperator	-		2	0					
+ANR	252	PrimaryExpression	1		2	1					
+ANR	253	ReturnType	int		2	1					
+ANR	254	Identifier	irssi_ssl_handshake		2	2					
+ANR	255	ParameterList	GIOChannel * handle		2	3					
+ANR	256	Parameter	GIOChannel * handle	1:24:24:41	2	0	True				
+ANR	257	ParameterType	GIOChannel *		2	0					
+ANR	258	Identifier	handle		2	1					
+ANR	259	CFGEntryNode	ENTRY		2		True				
+ANR	260	CFGExitNode	EXIT		2		True				
+ANR	261	Symbol	ret		2						
+ANR	262	Symbol	chan -> verify		2						
+ANR	263	Symbol	SSL_get_error		2						
+ANR	264	Symbol	errno		2						
+ANR	265	Symbol	NULL		2						
+ANR	266	Symbol	err		2						
+ANR	267	Symbol	irssi_ssl_verify		2						
+ANR	268	Symbol	chan -> ctx		2						
+ANR	269	Symbol	ERR_get_error		2						
+ANR	270	Symbol	handle		2						
+ANR	271	Symbol	cert		2						
+ANR	272	Symbol	chan -> ssl		2						
+ANR	273	Symbol	dwk_flow_value_1		2						
+ANR	274	Symbol	strerror		2						
+ANR	275	Symbol	ERR_reason_error_string		2						
+ANR	276	Symbol	* chan		2						
+ANR	277	Symbol	errstr		2						
+ANR	278	Symbol	SSL_get_peer_certificate		2						
+ANR	279	Symbol	chan		2						
+ANR	280	Symbol	SSL_connect		2						

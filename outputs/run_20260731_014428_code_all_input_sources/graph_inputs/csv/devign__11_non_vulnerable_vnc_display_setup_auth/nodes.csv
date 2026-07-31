@@ -1,0 +1,243 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/baseline/devign__11_non_vulnerable_vnc_display_setup_auth/_work/source/11_non_vulnerable_vnc_display_setup_auth.c								
+ANR	2	Function	vnc_display_setup_auth	1:0:0:2839							
+ANR	3	FunctionDef	"vnc_display_setup_auth (VncDisplay * vs , bool password , bool sasl , bool tls , bool x509)"		2	0					
+ANR	4	CompoundStatement		11:0:183:2839	2	0					
+ANR	5	IfStatement	if ( password )		2	0					
+ANR	6	Condition	password	81:8:1050:1057	2	0	True				
+ANR	7	Identifier	password		2	0					
+ANR	8	CompoundStatement		71:18:876:876	2	1					
+ANR	9	IfStatement	if ( tls )		2	0					
+ANR	10	Condition	tls	83:12:1075:1077	2	0	True				
+ANR	11	Identifier	tls		2	0					
+ANR	12	CompoundStatement		73:17:896:896	2	1					
+ANR	13	ExpressionStatement	vs -> auth = VNC_AUTH_VENCRYPT	85:12:1095:1123	2	0	True				
+ANR	14	AssignmentExpression	vs -> auth = VNC_AUTH_VENCRYPT		2	0		=			
+ANR	15	PtrMemberAccess	vs -> auth		2	0					
+ANR	16	Identifier	vs		2	0					
+ANR	17	Identifier	auth		2	1					
+ANR	18	Identifier	VNC_AUTH_VENCRYPT		2	1					
+ANR	19	IfStatement	if ( x509 )		2	1					
+ANR	20	Condition	x509	87:16:1142:1145	2	0	True				
+ANR	21	Identifier	x509		2	0					
+ANR	22	CompoundStatement		77:22:964:964	2	1					
+ANR	23	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with x509 password auth\\n"" )"	89:16:1167:1229	2	0	True				
+ANR	24	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with x509 password auth\\n"" )"		2	0					
+ANR	25	Callee	VNC_DEBUG		2	0					
+ANR	26	Identifier	VNC_DEBUG		2	0					
+ANR	27	ArgumentList	"""Initializing VNC server with x509 password auth\\n"""		2	1					
+ANR	28	Argument	"""Initializing VNC server with x509 password auth\\n"""		2	0					
+ANR	29	PrimaryExpression	"""Initializing VNC server with x509 password auth\\n"""		2	0					
+ANR	30	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_X509VNC	91:16:1248:1287	2	1	True				
+ANR	31	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_X509VNC		2	0		=			
+ANR	32	PtrMemberAccess	vs -> subauth		2	0					
+ANR	33	Identifier	vs		2	0					
+ANR	34	Identifier	subauth		2	1					
+ANR	35	Identifier	VNC_AUTH_VENCRYPT_X509VNC		2	1					
+ANR	36	ElseStatement	else		2	0					
+ANR	37	CompoundStatement		83:19:1125:1125	2	0					
+ANR	38	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with TLS password auth\\n"" )"	95:16:1328:1389	2	0	True				
+ANR	39	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with TLS password auth\\n"" )"		2	0					
+ANR	40	Callee	VNC_DEBUG		2	0					
+ANR	41	Identifier	VNC_DEBUG		2	0					
+ANR	42	ArgumentList	"""Initializing VNC server with TLS password auth\\n"""		2	1					
+ANR	43	Argument	"""Initializing VNC server with TLS password auth\\n"""		2	0					
+ANR	44	PrimaryExpression	"""Initializing VNC server with TLS password auth\\n"""		2	0					
+ANR	45	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_TLSVNC	97:16:1408:1446	2	1	True				
+ANR	46	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_TLSVNC		2	0		=			
+ANR	47	PtrMemberAccess	vs -> subauth		2	0					
+ANR	48	Identifier	vs		2	0					
+ANR	49	Identifier	subauth		2	1					
+ANR	50	Identifier	VNC_AUTH_VENCRYPT_TLSVNC		2	1					
+ANR	51	ElseStatement	else		2	0					
+ANR	52	CompoundStatement		91:15:1295:1295	2	0					
+ANR	53	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with password auth\\n"" )"	103:12:1494:1551	2	0	True				
+ANR	54	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with password auth\\n"" )"		2	0					
+ANR	55	Callee	VNC_DEBUG		2	0					
+ANR	56	Identifier	VNC_DEBUG		2	0					
+ANR	57	ArgumentList	"""Initializing VNC server with password auth\\n"""		2	1					
+ANR	58	Argument	"""Initializing VNC server with password auth\\n"""		2	0					
+ANR	59	PrimaryExpression	"""Initializing VNC server with password auth\\n"""		2	0					
+ANR	60	ExpressionStatement	vs -> auth = VNC_AUTH_VNC	105:12:1566:1589	2	1	True				
+ANR	61	AssignmentExpression	vs -> auth = VNC_AUTH_VNC		2	0		=			
+ANR	62	PtrMemberAccess	vs -> auth		2	0					
+ANR	63	Identifier	vs		2	0					
+ANR	64	Identifier	auth		2	1					
+ANR	65	Identifier	VNC_AUTH_VNC		2	1					
+ANR	66	ExpressionStatement	vs -> subauth = VNC_AUTH_INVALID	107:12:1604:1634	2	2	True				
+ANR	67	AssignmentExpression	vs -> subauth = VNC_AUTH_INVALID		2	0		=			
+ANR	68	PtrMemberAccess	vs -> subauth		2	0					
+ANR	69	Identifier	vs		2	0					
+ANR	70	Identifier	subauth		2	1					
+ANR	71	Identifier	VNC_AUTH_INVALID		2	1					
+ANR	72	ElseStatement	else		2	0					
+ANR	73	IfStatement	if ( sasl )		2	0					
+ANR	74	Condition	sasl	111:15:1663:1666	2	0	True				
+ANR	75	Identifier	sasl		2	0					
+ANR	76	CompoundStatement		101:21:1485:1485	2	1					
+ANR	77	IfStatement	if ( tls )		2	0					
+ANR	78	Condition	tls	113:12:1684:1686	2	0	True				
+ANR	79	Identifier	tls		2	0					
+ANR	80	CompoundStatement		103:17:1505:1505	2	1					
+ANR	81	ExpressionStatement	vs -> auth = VNC_AUTH_VENCRYPT	115:12:1704:1732	2	0	True				
+ANR	82	AssignmentExpression	vs -> auth = VNC_AUTH_VENCRYPT		2	0		=			
+ANR	83	PtrMemberAccess	vs -> auth		2	0					
+ANR	84	Identifier	vs		2	0					
+ANR	85	Identifier	auth		2	1					
+ANR	86	Identifier	VNC_AUTH_VENCRYPT		2	1					
+ANR	87	IfStatement	if ( x509 )		2	1					
+ANR	88	Condition	x509	117:16:1751:1754	2	0	True				
+ANR	89	Identifier	x509		2	0					
+ANR	90	CompoundStatement		107:22:1573:1573	2	1					
+ANR	91	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with x509 SASL auth\\n"" )"	119:16:1776:1834	2	0	True				
+ANR	92	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with x509 SASL auth\\n"" )"		2	0					
+ANR	93	Callee	VNC_DEBUG		2	0					
+ANR	94	Identifier	VNC_DEBUG		2	0					
+ANR	95	ArgumentList	"""Initializing VNC server with x509 SASL auth\\n"""		2	1					
+ANR	96	Argument	"""Initializing VNC server with x509 SASL auth\\n"""		2	0					
+ANR	97	PrimaryExpression	"""Initializing VNC server with x509 SASL auth\\n"""		2	0					
+ANR	98	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_X509SASL	121:16:1853:1893	2	1	True				
+ANR	99	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_X509SASL		2	0		=			
+ANR	100	PtrMemberAccess	vs -> subauth		2	0					
+ANR	101	Identifier	vs		2	0					
+ANR	102	Identifier	subauth		2	1					
+ANR	103	Identifier	VNC_AUTH_VENCRYPT_X509SASL		2	1					
+ANR	104	ElseStatement	else		2	0					
+ANR	105	CompoundStatement		113:19:1731:1731	2	0					
+ANR	106	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with TLS SASL auth\\n"" )"	125:16:1934:1991	2	0	True				
+ANR	107	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with TLS SASL auth\\n"" )"		2	0					
+ANR	108	Callee	VNC_DEBUG		2	0					
+ANR	109	Identifier	VNC_DEBUG		2	0					
+ANR	110	ArgumentList	"""Initializing VNC server with TLS SASL auth\\n"""		2	1					
+ANR	111	Argument	"""Initializing VNC server with TLS SASL auth\\n"""		2	0					
+ANR	112	PrimaryExpression	"""Initializing VNC server with TLS SASL auth\\n"""		2	0					
+ANR	113	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_TLSSASL	127:16:2010:2049	2	1	True				
+ANR	114	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_TLSSASL		2	0		=			
+ANR	115	PtrMemberAccess	vs -> subauth		2	0					
+ANR	116	Identifier	vs		2	0					
+ANR	117	Identifier	subauth		2	1					
+ANR	118	Identifier	VNC_AUTH_VENCRYPT_TLSSASL		2	1					
+ANR	119	ElseStatement	else		2	0					
+ANR	120	CompoundStatement		121:15:1898:1898	2	0					
+ANR	121	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with SASL auth\\n"" )"	133:12:2097:2150	2	0	True				
+ANR	122	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with SASL auth\\n"" )"		2	0					
+ANR	123	Callee	VNC_DEBUG		2	0					
+ANR	124	Identifier	VNC_DEBUG		2	0					
+ANR	125	ArgumentList	"""Initializing VNC server with SASL auth\\n"""		2	1					
+ANR	126	Argument	"""Initializing VNC server with SASL auth\\n"""		2	0					
+ANR	127	PrimaryExpression	"""Initializing VNC server with SASL auth\\n"""		2	0					
+ANR	128	ExpressionStatement	vs -> auth = VNC_AUTH_SASL	135:12:2165:2189	2	1	True				
+ANR	129	AssignmentExpression	vs -> auth = VNC_AUTH_SASL		2	0		=			
+ANR	130	PtrMemberAccess	vs -> auth		2	0					
+ANR	131	Identifier	vs		2	0					
+ANR	132	Identifier	auth		2	1					
+ANR	133	Identifier	VNC_AUTH_SASL		2	1					
+ANR	134	ExpressionStatement	vs -> subauth = VNC_AUTH_INVALID	137:12:2204:2234	2	2	True				
+ANR	135	AssignmentExpression	vs -> subauth = VNC_AUTH_INVALID		2	0		=			
+ANR	136	PtrMemberAccess	vs -> subauth		2	0					
+ANR	137	Identifier	vs		2	0					
+ANR	138	Identifier	subauth		2	1					
+ANR	139	Identifier	VNC_AUTH_INVALID		2	1					
+ANR	140	ElseStatement	else		2	0					
+ANR	141	CompoundStatement		131:11:2075:2075	2	0					
+ANR	142	IfStatement	if ( tls )		2	0					
+ANR	143	Condition	tls	143:12:2274:2276	2	0	True				
+ANR	144	Identifier	tls		2	0					
+ANR	145	CompoundStatement		133:17:2095:2095	2	1					
+ANR	146	ExpressionStatement	vs -> auth = VNC_AUTH_VENCRYPT	145:12:2294:2322	2	0	True				
+ANR	147	AssignmentExpression	vs -> auth = VNC_AUTH_VENCRYPT		2	0		=			
+ANR	148	PtrMemberAccess	vs -> auth		2	0					
+ANR	149	Identifier	vs		2	0					
+ANR	150	Identifier	auth		2	1					
+ANR	151	Identifier	VNC_AUTH_VENCRYPT		2	1					
+ANR	152	IfStatement	if ( x509 )		2	1					
+ANR	153	Condition	x509	147:16:2341:2344	2	0	True				
+ANR	154	Identifier	x509		2	0					
+ANR	155	CompoundStatement		137:22:2163:2163	2	1					
+ANR	156	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with x509 no auth\\n"" )"	149:16:2366:2422	2	0	True				
+ANR	157	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with x509 no auth\\n"" )"		2	0					
+ANR	158	Callee	VNC_DEBUG		2	0					
+ANR	159	Identifier	VNC_DEBUG		2	0					
+ANR	160	ArgumentList	"""Initializing VNC server with x509 no auth\\n"""		2	1					
+ANR	161	Argument	"""Initializing VNC server with x509 no auth\\n"""		2	0					
+ANR	162	PrimaryExpression	"""Initializing VNC server with x509 no auth\\n"""		2	0					
+ANR	163	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_X509NONE	151:16:2441:2481	2	1	True				
+ANR	164	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_X509NONE		2	0		=			
+ANR	165	PtrMemberAccess	vs -> subauth		2	0					
+ANR	166	Identifier	vs		2	0					
+ANR	167	Identifier	subauth		2	1					
+ANR	168	Identifier	VNC_AUTH_VENCRYPT_X509NONE		2	1					
+ANR	169	ElseStatement	else		2	0					
+ANR	170	CompoundStatement		143:19:2319:2319	2	0					
+ANR	171	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with TLS no auth\\n"" )"	155:16:2522:2577	2	0	True				
+ANR	172	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with TLS no auth\\n"" )"		2	0					
+ANR	173	Callee	VNC_DEBUG		2	0					
+ANR	174	Identifier	VNC_DEBUG		2	0					
+ANR	175	ArgumentList	"""Initializing VNC server with TLS no auth\\n"""		2	1					
+ANR	176	Argument	"""Initializing VNC server with TLS no auth\\n"""		2	0					
+ANR	177	PrimaryExpression	"""Initializing VNC server with TLS no auth\\n"""		2	0					
+ANR	178	ExpressionStatement	vs -> subauth = VNC_AUTH_VENCRYPT_TLSNONE	157:16:2596:2635	2	1	True				
+ANR	179	AssignmentExpression	vs -> subauth = VNC_AUTH_VENCRYPT_TLSNONE		2	0		=			
+ANR	180	PtrMemberAccess	vs -> subauth		2	0					
+ANR	181	Identifier	vs		2	0					
+ANR	182	Identifier	subauth		2	1					
+ANR	183	Identifier	VNC_AUTH_VENCRYPT_TLSNONE		2	1					
+ANR	184	ElseStatement	else		2	0					
+ANR	185	CompoundStatement		151:15:2484:2484	2	0					
+ANR	186	ExpressionStatement	"VNC_DEBUG ( ""Initializing VNC server with no auth\\n"" )"	163:12:2683:2734	2	0	True				
+ANR	187	CallExpression	"VNC_DEBUG ( ""Initializing VNC server with no auth\\n"" )"		2	0					
+ANR	188	Callee	VNC_DEBUG		2	0					
+ANR	189	Identifier	VNC_DEBUG		2	0					
+ANR	190	ArgumentList	"""Initializing VNC server with no auth\\n"""		2	1					
+ANR	191	Argument	"""Initializing VNC server with no auth\\n"""		2	0					
+ANR	192	PrimaryExpression	"""Initializing VNC server with no auth\\n"""		2	0					
+ANR	193	ExpressionStatement	vs -> auth = VNC_AUTH_NONE	165:12:2749:2773	2	1	True				
+ANR	194	AssignmentExpression	vs -> auth = VNC_AUTH_NONE		2	0		=			
+ANR	195	PtrMemberAccess	vs -> auth		2	0					
+ANR	196	Identifier	vs		2	0					
+ANR	197	Identifier	auth		2	1					
+ANR	198	Identifier	VNC_AUTH_NONE		2	1					
+ANR	199	ExpressionStatement	vs -> subauth = VNC_AUTH_INVALID	167:12:2788:2818	2	2	True				
+ANR	200	AssignmentExpression	vs -> subauth = VNC_AUTH_INVALID		2	0		=			
+ANR	201	PtrMemberAccess	vs -> subauth		2	0					
+ANR	202	Identifier	vs		2	0					
+ANR	203	Identifier	subauth		2	1					
+ANR	204	Identifier	VNC_AUTH_INVALID		2	1					
+ANR	205	Identifier	vnc_display_setup_auth		2	1					
+ANR	206	ParameterList	"VncDisplay * vs , bool password , bool sasl , bool tls , bool x509"		2	2					
+ANR	207	Parameter	VncDisplay * vs	1:23:23:36	2	0	True				
+ANR	208	ParameterType	VncDisplay *		2	0					
+ANR	209	Identifier	vs		2	1					
+ANR	210	Parameter	bool password	3:23:63:75	2	1	True				
+ANR	211	ParameterType	bool		2	0					
+ANR	212	Identifier	password		2	1					
+ANR	213	Parameter	bool sasl	5:23:102:110	2	2	True				
+ANR	214	ParameterType	bool		2	0					
+ANR	215	Identifier	sasl		2	1					
+ANR	216	Parameter	bool tls	7:23:137:144	2	3	True				
+ANR	217	ParameterType	bool		2	0					
+ANR	218	Identifier	tls		2	1					
+ANR	219	Parameter	bool x509	9:23:171:179	2	4	True				
+ANR	220	ParameterType	bool		2	0					
+ANR	221	Identifier	x509		2	1					
+ANR	222	CFGEntryNode	ENTRY		2		True				
+ANR	223	CFGExitNode	EXIT		2		True				
+ANR	224	Symbol	* vs		2						
+ANR	225	Symbol	VNC_AUTH_VENCRYPT_X509NONE		2						
+ANR	226	Symbol	VNC_AUTH_VENCRYPT_TLSSASL		2						
+ANR	227	Symbol	VNC_AUTH_SASL		2						
+ANR	228	Symbol	vs -> auth		2						
+ANR	229	Symbol	VNC_AUTH_INVALID		2						
+ANR	230	Symbol	VNC_AUTH_VENCRYPT_TLSNONE		2						
+ANR	231	Symbol	VNC_AUTH_VENCRYPT		2						
+ANR	232	Symbol	VNC_AUTH_VENCRYPT_X509VNC		2						
+ANR	233	Symbol	vs -> subauth		2						
+ANR	234	Symbol	x509		2						
+ANR	235	Symbol	password		2						
+ANR	236	Symbol	sasl		2						
+ANR	237	Symbol	VNC_AUTH_VENCRYPT_TLSVNC		2						
+ANR	238	Symbol	VNC_AUTH_VENCRYPT_X509SASL		2						
+ANR	239	Symbol	VNC_AUTH_NONE		2						
+ANR	240	Symbol	tls		2						
+ANR	241	Symbol	VNC_AUTH_VNC		2						
+ANR	242	Symbol	vs		2						

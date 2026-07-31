@@ -1,0 +1,242 @@
+{
+  "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+  "prediction": {
+    "sample_id": "cvefixes__20_vulnerable_irssi_ssl_handshake__node_delete__b5__s17",
+    "input_file": "/repo/outputs/run_20260731_014428_code_all_input_sources/graph_inputs/sources/cvefixes__20_vulnerable_irssi_ssl_handshake.c",
+    "function_name": "irssi_ssl_handshake",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 25,
+    "num_edges": 34,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.014875181950628757,
+    "threshold": 0.5,
+    "confidence": 0.9851248180493712,
+    "graph_score": 0.014875181950628757,
+    "final_score": 0.014875181950628757,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T02:23:41.650016+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 10440,
+      "perturbations_completed": 10440,
+      "perturbations_scored": 9973,
+      "perturbations_unscored_no_xfg": 467,
+      "perturbation_errors": 0,
+      "label_flips": 346,
+      "attack_eligible_variants": 5180,
+      "attack_successes": 131,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 510.4361048970002,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "cvefixes__20_vulnerable_irssi_ssl_handshake",
+    "graph_action": {
+      "action": "node_delete",
+      "strategy": "random",
+      "seed": 17,
+      "budget": 5,
+      "requested_count": 5,
+      "applied_count": 5,
+      "budget_fully_applied": true,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_delete",
+          "target_nodes": [
+            21
+          ],
+          "removed_edges": [
+            [
+              8,
+              21,
+              "d"
+            ],
+            [
+              11,
+              21,
+              "c"
+            ],
+            [
+              20,
+              21,
+              "d"
+            ],
+            [
+              21,
+              22,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 21 and its incident edges"
+        },
+        {
+          "step": 2,
+          "action": "node_delete",
+          "target_nodes": [
+            15
+          ],
+          "removed_edges": [
+            [
+              11,
+              15,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 15 and its incident edges"
+        },
+        {
+          "step": 3,
+          "action": "node_delete",
+          "target_nodes": [
+            26
+          ],
+          "removed_edges": [
+            [
+              11,
+              26,
+              "c"
+            ],
+            [
+              26,
+              27,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 26 and its incident edges"
+        },
+        {
+          "step": 4,
+          "action": "node_delete",
+          "target_nodes": [
+            14
+          ],
+          "removed_edges": [
+            [
+              11,
+              14,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 14 and its incident edges"
+        },
+        {
+          "step": 5,
+          "action": "node_delete",
+          "target_nodes": [
+            27
+          ],
+          "removed_edges": [
+            [
+              11,
+              27,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 27 and its incident edges"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 30,
+      "baseline_pdg_edges": 43,
+      "perturbed_pdg_nodes": 25,
+      "perturbed_pdg_edges": 34
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.014875181950628757,
+      "predicted_label": 0,
+      "xfg_count": 7,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 23.09506599976885,
+      "xfg_predictions": [
+        {
+          "category": "call",
+          "key_line": 32,
+          "vulnerability_probability": 5.019850050302921e-06,
+          "predicted_label": 0
+        },
+        {
+          "category": "call",
+          "key_line": 10,
+          "vulnerability_probability": 0.014875181950628757,
+          "predicted_label": 0
+        },
+        {
+          "category": "call",
+          "key_line": 22,
+          "vulnerability_probability": 0.0,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 8,
+          "vulnerability_probability": 3.774340802920051e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 10,
+          "vulnerability_probability": 0.014875181950628757,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 32,
+          "vulnerability_probability": 5.019850050302921e-06,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 37,
+          "vulnerability_probability": 1.7545378483418972e-09,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 23.734659000183456
+  }
+}

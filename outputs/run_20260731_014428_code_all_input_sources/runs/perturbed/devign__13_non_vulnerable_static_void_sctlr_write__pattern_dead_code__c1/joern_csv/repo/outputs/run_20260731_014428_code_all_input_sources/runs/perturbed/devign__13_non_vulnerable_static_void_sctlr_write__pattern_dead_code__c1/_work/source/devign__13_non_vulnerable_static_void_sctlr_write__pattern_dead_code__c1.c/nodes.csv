@@ -1,0 +1,128 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__pattern_dead_code__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__pattern_dead_code__c1.c								
+ANR	2	Function	sctlr_write	1:0:0:759							
+ANR	3	FunctionDef	"sctlr_write (CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value)"		2	0					
+ANR	4	CompoundStatement		5:0:108:759	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	7:8:119:119	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		6:8:89:127	2	1					
+ANR	9	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	8:8:132:155	2	0	True				
+ANR	10	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		2	0					
+ANR	11	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	12	Identifier	dwk_src_1		2	1					
+ANR	13	PrimaryExpression	8		2	2					
+ANR	14	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		2	3		=			
+ANR	15	Identifier	dwk_src_1		2	0					
+ANR	16	InitializerList	0		2	1					
+ANR	17	PrimaryExpression	0		2	0					
+ANR	18	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	9:8:165:188	2	1	True				
+ANR	19	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		2	0					
+ANR	20	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	21	Identifier	dwk_dst_1		2	1					
+ANR	22	PrimaryExpression	8		2	2					
+ANR	23	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		2	3		=			
+ANR	24	Identifier	dwk_dst_1		2	0					
+ANR	25	InitializerList	0		2	1					
+ANR	26	PrimaryExpression	0		2	0					
+ANR	27	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	10:8:198:236	2	2	True				
+ANR	28	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	0					
+ANR	29	IdentifierDeclType	int		2	0					
+ANR	30	Identifier	dwk_len_1		2	1					
+ANR	31	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	2		=			
+ANR	32	Identifier	dwk_len_1		2	0					
+ANR	33	CastExpression	( int ) sizeof ( dwk_dst_1 )		2	1					
+ANR	34	CastTarget	int		2	0					
+ANR	35	SizeofExpression	sizeof ( dwk_dst_1 )		2	1					
+ANR	36	Sizeof	sizeof		2	0					
+ANR	37	SizeofOperand	dwk_dst_1		2	1					
+ANR	38	IfStatement	if ( dwk_len_1 > 0 )		2	3					
+ANR	39	Condition	dwk_len_1 > 0	11:12:250:262	2	0	True				
+ANR	40	RelationalExpression	dwk_len_1 > 0		2	0		>			
+ANR	41	Identifier	dwk_len_1		2	0					
+ANR	42	PrimaryExpression	0		2	1					
+ANR	43	CompoundStatement		7:27:156:156	2	1					
+ANR	44	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	12:12:279:318	2	0	True				
+ANR	45	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		2	0		=			
+ANR	46	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		2	0					
+ANR	47	Identifier	dwk_dst_1		2	0					
+ANR	48	AdditiveExpression	dwk_len_1 - 1		2	1		-			
+ANR	49	Identifier	dwk_len_1		2	0					
+ANR	50	PrimaryExpression	1		2	1					
+ANR	51	ArrayIndexing	dwk_src_1 [ 0 ]		2	1					
+ANR	52	Identifier	dwk_src_1		2	0					
+ANR	53	PrimaryExpression	0		2	1					
+ANR	54	IdentifierDeclStatement	ARMCPU * cpu = arm_env_get_cpu ( env ) ;	15:4:340:374	2	1	True				
+ANR	55	IdentifierDecl	* cpu = arm_env_get_cpu ( env )		2	0					
+ANR	56	IdentifierDeclType	ARMCPU *		2	0					
+ANR	57	Identifier	cpu		2	1					
+ANR	58	AssignmentExpression	* cpu = arm_env_get_cpu ( env )		2	2		=			
+ANR	59	Identifier	cpu		2	0					
+ANR	60	CallExpression	arm_env_get_cpu ( env )		2	1					
+ANR	61	Callee	arm_env_get_cpu		2	0					
+ANR	62	Identifier	arm_env_get_cpu		2	0					
+ANR	63	ArgumentList	env		2	1					
+ANR	64	Argument	env		2	0					
+ANR	65	Identifier	env		2	0					
+ANR	66	IfStatement	if ( env -> cp15 . c1_sys == value )		2	2					
+ANR	67	Condition	env -> cp15 . c1_sys == value	19:8:387:411	2	0	True				
+ANR	68	EqualityExpression	env -> cp15 . c1_sys == value		2	0		==			
+ANR	69	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	70	PtrMemberAccess	env -> cp15		2	0					
+ANR	71	Identifier	env		2	0					
+ANR	72	Identifier	cp15		2	1					
+ANR	73	Identifier	c1_sys		2	1					
+ANR	74	Identifier	value		2	1					
+ANR	75	CompoundStatement		15:35:305:305	2	1					
+ANR	76	ReturnStatement	return ;	27:8:561:567	2	0	True				
+ANR	77	ExpressionStatement	env -> cp15 . c1_sys = value	33:4:583:607	2	3	True				
+ANR	78	AssignmentExpression	env -> cp15 . c1_sys = value		2	0		=			
+ANR	79	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	80	PtrMemberAccess	env -> cp15		2	0					
+ANR	81	Identifier	env		2	0					
+ANR	82	Identifier	cp15		2	1					
+ANR	83	Identifier	c1_sys		2	1					
+ANR	84	Identifier	value		2	1					
+ANR	85	ExpressionStatement	"tlb_flush ( CPU ( cpu ) , 1 )"	39:4:734:756	2	4	True				
+ANR	86	CallExpression	"tlb_flush ( CPU ( cpu ) , 1 )"		2	0					
+ANR	87	Callee	tlb_flush		2	0					
+ANR	88	Identifier	tlb_flush		2	0					
+ANR	89	ArgumentList	CPU ( cpu )		2	1					
+ANR	90	Argument	CPU ( cpu )		2	0					
+ANR	91	CallExpression	CPU ( cpu )		2	0					
+ANR	92	Callee	CPU		2	0					
+ANR	93	Identifier	CPU		2	0					
+ANR	94	ArgumentList	cpu		2	1					
+ANR	95	Argument	cpu		2	0					
+ANR	96	Identifier	cpu		2	0					
+ANR	97	Argument	1		2	1					
+ANR	98	PrimaryExpression	1		2	0					
+ANR	99	ReturnType	static void		2	1					
+ANR	100	Identifier	sctlr_write		2	2					
+ANR	101	ParameterList	"CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value"		2	3					
+ANR	102	Parameter	CPUARMState * env	1:24:24:39	2	0	True				
+ANR	103	ParameterType	CPUARMState *		2	0					
+ANR	104	Identifier	env		2	1					
+ANR	105	Parameter	const ARMCPRegInfo * ri	1:42:42:63	2	1	True				
+ANR	106	ParameterType	const ARMCPRegInfo *		2	0					
+ANR	107	Identifier	ri		2	1					
+ANR	108	Parameter	uint64_t value	3:24:91:104	2	2	True				
+ANR	109	ParameterType	uint64_t		2	0					
+ANR	110	Identifier	value		2	1					
+ANR	111	CFGEntryNode	ENTRY		2		True				
+ANR	112	CFGExitNode	EXIT		2		True				
+ANR	113	Symbol	arm_env_get_cpu		2						
+ANR	114	Symbol	* dwk_src_1		2						
+ANR	115	Symbol	env -> cp15 . c1_sys		2						
+ANR	116	Symbol	dwk_dst_1		2						
+ANR	117	Symbol	dwk_src_1		2						
+ANR	118	Symbol	* env		2						
+ANR	119	Symbol	cpu		2						
+ANR	120	Symbol	CPU		2						
+ANR	121	Symbol	env		2						
+ANR	122	Symbol	* dwk_dst_1		2						
+ANR	123	Symbol	ri		2						
+ANR	124	Symbol	* dwk_len_1		2						
+ANR	125	Symbol	value		2						
+ANR	126	Symbol	env -> cp15		2						
+ANR	127	Symbol	dwk_len_1		2						

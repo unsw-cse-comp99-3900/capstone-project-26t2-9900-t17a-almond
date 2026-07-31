@@ -1,0 +1,78 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_014428_code_all_input_sources/runs/perturbed/cwe119__02_vulnerable_04_vulnerable_55__xfg_targeted_dead_code__c1/_work/source/cwe119__02_vulnerable_04_vulnerable_55__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	main	51:0:1829:2076							
+ANR	3	FunctionDef	"main (int argc , char * argv [ ])"		2	0					
+ANR	4	CompoundStatement		52:0:1862:2076	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	53:6:1870:1870	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		3:6:18:41	2	1					
+ANR	9	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	54:6:1881:1904	2	0	True				
+ANR	10	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	dwk_xfg_guard_1		2	1					
+ANR	13	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	14	Identifier	dwk_xfg_guard_1		2	0					
+ANR	15	PrimaryExpression	1		2	1					
+ANR	16	ExpressionStatement	dwk_xfg_guard_1 += 0	55:6:1912:1932	2	1	True				
+ANR	17	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	18	Identifier	dwk_xfg_guard_1		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	char buf [ 10 ] ;	57:2:1940:1952	2	1	True				
+ANR	21	IdentifierDecl	buf [ 10 ]		2	0					
+ANR	22	IdentifierDeclType	char [ 10 ]		2	0					
+ANR	23	Identifier	buf		2	1					
+ANR	24	PrimaryExpression	10		2	2					
+ANR	25	IfStatement	if ( ( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 ) )		2	2					
+ANR	26	Condition	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )	59:6:1961:1994	2	0	True				
+ANR	27	OrExpression	( argc < 5 ) || ( atoi ( argv [ 3 ] ) > 17 )		2	0		||			
+ANR	28	RelationalExpression	argc < 5		2	0		<			
+ANR	29	Identifier	argc		2	0					
+ANR	30	PrimaryExpression	5		2	1					
+ANR	31	RelationalExpression	atoi ( argv [ 3 ] ) > 17		2	1		>			
+ANR	32	CallExpression	atoi ( argv [ 3 ] )		2	0					
+ANR	33	Callee	atoi		2	0					
+ANR	34	Identifier	atoi		2	0					
+ANR	35	ArgumentList	argv [ 3 ]		2	1					
+ANR	36	Argument	argv [ 3 ]		2	0					
+ANR	37	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	38	Identifier	argv		2	0					
+ANR	39	PrimaryExpression	3		2	1					
+ANR	40	PrimaryExpression	17		2	1					
+ANR	41	CompoundStatement		9:2:136:136	2	1					
+ANR	42	ReturnStatement	return 0 ;	61:4:2005:2013	2	0	True				
+ANR	43	PrimaryExpression	0		2	0					
+ANR	44	ExpressionStatement	buf [ atoi ( argv [ 3 ] ) ] = 'A'	65:2:2036:2060	2	3	True				
+ANR	45	AssignmentExpression	buf [ atoi ( argv [ 3 ] ) ] = 'A'		2	0		=			
+ANR	46	ArrayIndexing	buf [ atoi ( argv [ 3 ] ) ]		2	0					
+ANR	47	Identifier	buf		2	0					
+ANR	48	CallExpression	atoi ( argv [ 3 ] )		2	1					
+ANR	49	Callee	atoi		2	0					
+ANR	50	Identifier	atoi		2	0					
+ANR	51	ArgumentList	argv [ 3 ]		2	1					
+ANR	52	Argument	argv [ 3 ]		2	0					
+ANR	53	ArrayIndexing	argv [ 3 ]		2	0					
+ANR	54	Identifier	argv		2	0					
+ANR	55	PrimaryExpression	3		2	1					
+ANR	56	PrimaryExpression	'A'		2	1					
+ANR	57	ReturnStatement	return 0 ;	68:2:2066:2074	2	4	True				
+ANR	58	PrimaryExpression	0		2	0					
+ANR	59	ReturnType	int		2	1					
+ANR	60	Identifier	main		2	2					
+ANR	61	ParameterList	"int argc , char * argv [ ]"		2	3					
+ANR	62	Parameter	int argc	51:9:1838:1845	2	0	True				
+ANR	63	ParameterType	int		2	0					
+ANR	64	Identifier	argc		2	1					
+ANR	65	Parameter	char * argv [ ]	51:19:1848:1859	2	1	True				
+ANR	66	ParameterType	char * [ ]		2	0					
+ANR	67	Identifier	argv		2	1					
+ANR	68	CFGEntryNode	ENTRY		2		True				
+ANR	69	CFGExitNode	EXIT		2		True				
+ANR	70	Symbol	argc		2						
+ANR	71	Symbol	atoi		2						
+ANR	72	Symbol	buf		2						
+ANR	73	Symbol	* buf		2						
+ANR	74	Symbol	dwk_xfg_guard_1		2						
+ANR	75	Symbol	* argv		2						
+ANR	76	Symbol	argv		2						
+ANR	77	Symbol	* atoi		2						

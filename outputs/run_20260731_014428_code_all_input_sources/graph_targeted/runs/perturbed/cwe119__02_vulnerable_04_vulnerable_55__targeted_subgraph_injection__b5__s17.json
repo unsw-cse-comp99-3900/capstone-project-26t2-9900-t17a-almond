@@ -1,0 +1,367 @@
+{
+  "comparison": {
+    "sample": "cwe119__02_vulnerable_04_vulnerable_55",
+    "action": "targeted_subgraph_injection",
+    "method_family": "winner_xfg",
+    "budget": 5,
+    "seed": 17,
+    "function": "main",
+    "true_label": 1,
+    "target_label": 0,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 1,
+    "variant_label": 0,
+    "flipped": true,
+    "attack_success": true,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 0.9979885816574097,
+    "variant_prob": 0.005598373245447874,
+    "delta_probability": -0.9923902084119618,
+    "base_nodes": 6,
+    "variant_nodes": 21,
+    "delta_nodes": 15,
+    "base_edges": 6,
+    "variant_edges": 26,
+    "delta_edges": 20,
+    "base_xfg_count": 4,
+    "variant_xfg_count": 4,
+    "winner_category": "call",
+    "winner_key_line": 61,
+    "winner_raw_nodes": 4,
+    "winner_nodes": 4,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 5,
+    "applied_count": 5,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 20.253864000096655,
+    "operations": [
+      {
+        "step": 1,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          55,
+          -1,
+          -2,
+          -3,
+          61
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            55,
+            -1,
+            "d"
+          ],
+          [
+            -1,
+            -2,
+            "d"
+          ],
+          [
+            -2,
+            -3,
+            "c"
+          ],
+          [
+            -3,
+            61,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node neutral-feature motif around winner key line 61"
+      },
+      {
+        "step": 2,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          55,
+          -4,
+          -5,
+          -6,
+          61
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            55,
+            -4,
+            "d"
+          ],
+          [
+            -4,
+            -5,
+            "d"
+          ],
+          [
+            -5,
+            -6,
+            "c"
+          ],
+          [
+            -6,
+            61,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node neutral-feature motif around winner key line 61"
+      },
+      {
+        "step": 3,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          55,
+          -7,
+          -8,
+          -9,
+          61
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            55,
+            -7,
+            "d"
+          ],
+          [
+            -7,
+            -8,
+            "d"
+          ],
+          [
+            -8,
+            -9,
+            "c"
+          ],
+          [
+            -9,
+            61,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node neutral-feature motif around winner key line 61"
+      },
+      {
+        "step": 4,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          55,
+          -10,
+          -11,
+          -12,
+          61
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            55,
+            -10,
+            "d"
+          ],
+          [
+            -10,
+            -11,
+            "d"
+          ],
+          [
+            -11,
+            -12,
+            "c"
+          ],
+          [
+            -12,
+            61,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node neutral-feature motif around winner key line 61"
+      },
+      {
+        "step": 5,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          55,
+          -13,
+          -14,
+          -15,
+          61
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            55,
+            -13,
+            "d"
+          ],
+          [
+            -13,
+            -14,
+            "d"
+          ],
+          [
+            -14,
+            -15,
+            "c"
+          ],
+          [
+            -15,
+            61,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node neutral-feature motif around winner key line 61"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 0.005598373245447874,
+    "predicted_label": 0,
+    "xfg_count": 4,
+    "xfg_predictions": [
+      {
+        "category": "call",
+        "key_line": 61,
+        "nodes": [
+          55,
+          61,
+          51,
+          53,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 0.004888345953077078,
+        "predicted_label": 0
+      },
+      {
+        "category": "call",
+        "key_line": 55,
+        "nodes": [
+          55,
+          57,
+          61,
+          64,
+          51,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 0.005598373245447874,
+        "predicted_label": 0
+      },
+      {
+        "category": "array",
+        "key_line": 61,
+        "nodes": [
+          55,
+          61,
+          51,
+          53,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 0.004888345953077078,
+        "predicted_label": 0
+      },
+      {
+        "category": "array",
+        "key_line": 55,
+        "nodes": [
+          55,
+          57,
+          61,
+          64,
+          51,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 0.0055983709171414375,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "call",
+      "key_line": 55,
+      "nodes": [
+        55,
+        57,
+        61,
+        64,
+        51,
+        -1,
+        -2,
+        -3,
+        -4,
+        -5,
+        -6,
+        -7,
+        -8,
+        -9,
+        -10,
+        -11,
+        -12,
+        -13,
+        -14,
+        -15
+      ],
+      "probability": 0.005598373245447874
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 19.71594799988452
+  }
+}
