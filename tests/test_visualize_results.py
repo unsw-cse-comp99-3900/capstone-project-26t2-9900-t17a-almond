@@ -298,6 +298,14 @@ class VisualizationTests(unittest.TestCase):
             content = report.read_text(encoding="utf-8")
 
             self.assertIn("Paired common-cohort comparison", content)
+            self.assertIn("Random overall vs Winner-XFG overall by budget", content)
+            self.assertIn(
+                'aria-label="Random overall versus Winner-XFG overall attack success rate by budget"',
+                content,
+            )
+            self.assertEqual(content.count('class="paired-family-bar"'), 4)
+            self.assertIn('data-family="random_graph" data-budget="1"', content)
+            self.assertIn('data-family="winner_xfg" data-budget="3"', content)
             self.assertTrue((report.parent / "paired_common_summary.csv").is_file())
 
     def test_combined_graph_rows_require_matching_budgets_and_seeds(self):

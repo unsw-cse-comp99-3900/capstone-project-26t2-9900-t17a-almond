@@ -1388,6 +1388,114 @@ def paired_common_summaries(rows: list[dict[str, str]]) -> list[dict[str, object
     return summaries
 
 
+def svg_paired_family_budget_bars(summaries: list[dict[str, object]]) -> str:
+    """Compare Random and Winner-XFG overall ASR at each shared budget."""
+    families = ("random_graph", "winner_xfg")
+    family_labels = {
+        "random_graph": "Random overall",
+        "winner_xfg": "Winner-XFG overall",
+    }
+    family_colours = {
+        "random_graph": "#2563eb",
+        "winner_xfg": "#d97706",
+    }
+    lookup = {
+        (str(summary["family"]), int(summary["budget"])): summary
+        for summary in summaries
+    }
+    budgets = sorted(
+        {
+            int(summary["budget"])
+            for summary in summaries
+            if all((family, int(summary["budget"])) in lookup for family in families)
+        }
+    )
+    if not budgets:
+        return ""
+
+    width, height = 1080, 500
+    left, right, top, bottom = 90, 44, 54, 92
+    plot_width, plot_height = width - left - right, height - top - bottom
+    maximum = max(
+        float(lookup[(family, budget)]["variant_attack_success_rate"])
+        for budget in budgets
+        for family in families
+    )
+    y_max = min(1.0, max(0.1, math.ceil(maximum * 10) / 10))
+
+    def y_for(value: float) -> float:
+        return top + plot_height - value / y_max * plot_height
+
+    marks: list[str] = []
+    for tick in range(6):
+        value = y_max * tick / 5
+        y = y_for(value)
+        marks.append(
+            f'<line class="grid" x1="{left}" y1="{y:.1f}" '
+            f'x2="{left + plot_width}" y2="{y:.1f}"/>'
+        )
+        marks.append(
+            f'<text class="axis-label" x="{left - 12}" y="{y + 5:.1f}" '
+            f'text-anchor="end">{value:.0%}</text>'
+        )
+
+    group_width = plot_width / len(budgets)
+    bar_width = min(112.0, group_width * 0.28)
+    gap = min(24.0, group_width * 0.06)
+    for budget_index, budget in enumerate(budgets):
+        centre = left + (budget_index + 0.5) * group_width
+        total_width = bar_width * len(families) + gap
+        start = centre - total_width / 2
+        for family_index, family in enumerate(families):
+            summary = lookup[(family, budget)]
+            value = float(summary["variant_attack_success_rate"])
+            successes = int(summary["attack_successes"])
+            variants = int(summary["scored_action_variants"])
+            x = start + family_index * (bar_width + gap)
+            y = y_for(value)
+            bar_height = top + plot_height - y
+            label_y = max(top - 8, y - 9)
+            marks.append(
+                f'<rect class="paired-family-bar" data-family="{family}" '
+                f'data-budget="{budget}" x="{x:.1f}" y="{y:.1f}" '
+                f'width="{bar_width:.1f}" height="{bar_height:.1f}" '
+                f'fill="{family_colours[family]}" rx="3">'
+                f'<title>{family_labels[family]}, budget {budget}: '
+                f'{value:.1%} ({successes}/{variants})</title></rect>'
+            )
+            marks.append(
+                f'<text class="point-label" x="{x + bar_width / 2:.1f}" '
+                f'y="{label_y:.1f}" text-anchor="middle">{value:.1%}</text>'
+            )
+        marks.append(
+            f'<text class="axis-label" x="{centre:.1f}" '
+            f'y="{top + plot_height + 32}" text-anchor="middle">B{budget}</text>'
+        )
+
+    legend_x = left + plot_width / 2 - 190
+    for index, family in enumerate(families):
+        x = legend_x + index * 245
+        marks.append(
+            f'<rect x="{x:.1f}" y="{height - 38}" width="18" height="18" '
+            f'fill="{family_colours[family]}" rx="2"/>'
+            f'<text class="legend-label" x="{x + 27:.1f}" y="{height - 24}">'
+            f'{family_labels[family]}</text>'
+        )
+
+    return (
+        '<div class="chart-wrap"><svg class="comparison-chart" '
+        'viewBox="0 0 1080 500" role="img" '
+        'aria-label="Random overall versus Winner-XFG overall attack success rate by budget">'
+        '<title>Random overall vs Winner-XFG overall by budget</title>'
+        '<desc>Each budget contains two bars calculated on sample, budget, and seed keys '
+        'scoreable by both graph families. Bar height is variant attack success rate.</desc>'
+        f'{"".join(marks)}'
+        f'<text class="axis-title" transform="translate(22 {top + plot_height / 2:.1f}) '
+        'rotate(-90)" text-anchor="middle">Variant attack success rate</text>'
+        '</svg></div>'
+    )
+
+
 def sample_level_table(rows: list[dict[str, str]]) -> str:
     summaries = sample_level_summaries(rows)
     if not summaries or not any(row.get("seed", "") for row in rows):
@@ -1421,6 +1529,7 @@ def paired_common_table(rows: list[dict[str, str]]) -> str:
     summaries = paired_common_summaries(rows)
     if not summaries:
         return ""
+    family_chart = svg_paired_family_budget_bars(summaries)
     body = "".join(
         '<tr><td>{family}</td><td class="num">{budget}</td><td class="num">{samples}</td>'
         '<td class="num">{keys}</td><td class="num">{successes}/{variants} ({variant_rate:.1%})</td>'
@@ -1442,6 +1551,8 @@ def paired_common_table(rows: list[dict[str, str]]) -> str:
     return (
         '<section><h2>Paired common-cohort comparison</h2>'
         '<p class="explain">Only sample, budget, and seed keys scoreable in both graph families are included. Variant ASR averages over each family’s actions; “any action” is also shown but is descriptive because the families contain different numbers of actions.</p>'
+        '<div class="chart-block"><h3>Random overall vs Winner-XFG overall by budget</h3>'
+        f'{family_chart}</div>'
         '<div class="table-scroll"><table class="summary-table"><thead><tr><th>Graph family</th>'
         '<th>Budget</th><th>Common samples</th><th>Common sample-seed keys</th>'
         '<th>Variant ASR</th><th>Any-action success per paired key</th>'
