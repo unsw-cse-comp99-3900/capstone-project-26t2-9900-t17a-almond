@@ -1,0 +1,13 @@
+# DeepWuKong Prediction Report
+
+Input file: `/repo/outputs/run_20260731_124703_code_all_input_sources/variants/cwe119/cwe119__01_vulnerable_03_vulnerable_30__array_index_bound_guard__c1.c`
+
+Prediction: `vulnerable`
+
+Vulnerability probability: `1.000000`
+
+Confidence: `1.000000`
+
+XFG slices scored: `43`
+
+Joern status: `success`

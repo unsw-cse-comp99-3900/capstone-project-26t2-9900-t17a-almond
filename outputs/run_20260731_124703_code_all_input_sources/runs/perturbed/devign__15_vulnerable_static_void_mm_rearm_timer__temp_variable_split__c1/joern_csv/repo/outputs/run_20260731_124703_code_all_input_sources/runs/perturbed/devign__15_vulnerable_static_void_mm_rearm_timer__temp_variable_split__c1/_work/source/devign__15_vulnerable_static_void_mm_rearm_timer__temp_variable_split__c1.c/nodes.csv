@@ -1,0 +1,118 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__15_vulnerable_static_void_mm_rearm_timer__temp_variable_split__c1/_work/source/devign__15_vulnerable_static_void_mm_rearm_timer__temp_variable_split__c1.c								
+ANR	2	Function	mm_rearm_timer	1:0:0:703							
+ANR	3	FunctionDef	"mm_rearm_timer (struct qemu_alarm_timer * t , int64_t delta)"		2	0					
+ANR	4	CompoundStatement		3:0:71:703	2	0					
+ANR	5	IdentifierDeclStatement	int nearest_delta_ms = ( delta + 999999 ) / 1000000 ;	5:4:78:127	2	0	True				
+ANR	6	IdentifierDecl	nearest_delta_ms = ( delta + 999999 ) / 1000000		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	nearest_delta_ms		2	1					
+ANR	9	AssignmentExpression	nearest_delta_ms = ( delta + 999999 ) / 1000000		2	2		=			
+ANR	10	Identifier	nearest_delta_ms		2	0					
+ANR	11	MultiplicativeExpression	( delta + 999999 ) / 1000000		2	1		/			
+ANR	12	AdditiveExpression	delta + 999999		2	0		+			
+ANR	13	Identifier	delta		2	0					
+ANR	14	PrimaryExpression	999999		2	1					
+ANR	15	PrimaryExpression	1000000		2	1					
+ANR	16	IfStatement	if ( nearest_delta_ms < 1 )		2	1					
+ANR	17	Condition	nearest_delta_ms < 1	7:8:138:157	2	0	True				
+ANR	18	RelationalExpression	nearest_delta_ms < 1		2	0		<			
+ANR	19	Identifier	nearest_delta_ms		2	0					
+ANR	20	PrimaryExpression	1		2	1					
+ANR	21	CompoundStatement		7:8:99:116	2	1					
+ANR	22	IdentifierDeclStatement	int dwk_tmp_1 = 1 ;	9:8:171:188	2	0	True				
+ANR	23	IdentifierDecl	dwk_tmp_1 = 1		2	0					
+ANR	24	IdentifierDeclType	int		2	0					
+ANR	25	Identifier	dwk_tmp_1		2	1					
+ANR	26	AssignmentExpression	dwk_tmp_1 = 1		2	2		=			
+ANR	27	Identifier	dwk_tmp_1		2	0					
+ANR	28	PrimaryExpression	1		2	1					
+ANR	29	ExpressionStatement	nearest_delta_ms = dwk_tmp_1	10:8:198:226	2	1	True				
+ANR	30	AssignmentExpression	nearest_delta_ms = dwk_tmp_1		2	0		=			
+ANR	31	Identifier	nearest_delta_ms		2	0					
+ANR	32	Identifier	dwk_tmp_1		2	1					
+ANR	33	ExpressionStatement	timeKillEvent ( mm_timer )	16:4:242:265	2	2	True				
+ANR	34	CallExpression	timeKillEvent ( mm_timer )		2	0					
+ANR	35	Callee	timeKillEvent		2	0					
+ANR	36	Identifier	timeKillEvent		2	0					
+ANR	37	ArgumentList	mm_timer		2	1					
+ANR	38	Argument	mm_timer		2	0					
+ANR	39	Identifier	mm_timer		2	0					
+ANR	40	ExpressionStatement	"mm_timer = timeSetEvent ( nearest_delta_ms , mm_period , mm_alarm_handler , ( DWORD_PTR ) t , TIME_ONESHOT | TIME_CALLBACK_FUNCTION )"	18:4:272:511	2	3	True				
+ANR	41	AssignmentExpression	"mm_timer = timeSetEvent ( nearest_delta_ms , mm_period , mm_alarm_handler , ( DWORD_PTR ) t , TIME_ONESHOT | TIME_CALLBACK_FUNCTION )"		2	0		=			
+ANR	42	Identifier	mm_timer		2	0					
+ANR	43	CallExpression	"timeSetEvent ( nearest_delta_ms , mm_period , mm_alarm_handler , ( DWORD_PTR ) t , TIME_ONESHOT | TIME_CALLBACK_FUNCTION )"		2	1					
+ANR	44	Callee	timeSetEvent		2	0					
+ANR	45	Identifier	timeSetEvent		2	0					
+ANR	46	ArgumentList	nearest_delta_ms		2	1					
+ANR	47	Argument	nearest_delta_ms		2	0					
+ANR	48	Identifier	nearest_delta_ms		2	0					
+ANR	49	Argument	mm_period		2	1					
+ANR	50	Identifier	mm_period		2	0					
+ANR	51	Argument	mm_alarm_handler		2	2					
+ANR	52	Identifier	mm_alarm_handler		2	0					
+ANR	53	Argument	( DWORD_PTR ) t		2	3					
+ANR	54	CastExpression	( DWORD_PTR ) t		2	0					
+ANR	55	CastTarget	DWORD_PTR		2	0					
+ANR	56	Identifier	t		2	1					
+ANR	57	Argument	TIME_ONESHOT | TIME_CALLBACK_FUNCTION		2	4					
+ANR	58	InclusiveOrExpression	TIME_ONESHOT | TIME_CALLBACK_FUNCTION		2	0		|			
+ANR	59	Identifier	TIME_ONESHOT		2	0					
+ANR	60	Identifier	TIME_CALLBACK_FUNCTION		2	1					
+ANR	61	IfStatement	if ( ! mm_timer )		2	4					
+ANR	62	Condition	! mm_timer	30:8:524:532	2	0	True				
+ANR	63	UnaryOperationExpression	! mm_timer		2	0					
+ANR	64	UnaryOperator	!		2	0					
+ANR	65	Identifier	mm_timer		2	1					
+ANR	66	CompoundStatement		28:19:463:463	2	1					
+ANR	67	ExpressionStatement	"fprintf ( stderr , ""Failed to re-arm win32 alarm timer %ld\\n"" , GetLastError ( ) )"	32:8:546:638	2	0	True				
+ANR	68	CallExpression	"fprintf ( stderr , ""Failed to re-arm win32 alarm timer %ld\\n"" , GetLastError ( ) )"		2	0					
+ANR	69	Callee	fprintf		2	0					
+ANR	70	Identifier	fprintf		2	0					
+ANR	71	ArgumentList	stderr		2	1					
+ANR	72	Argument	stderr		2	0					
+ANR	73	Identifier	stderr		2	0					
+ANR	74	Argument	"""Failed to re-arm win32 alarm timer %ld\\n"""		2	1					
+ANR	75	PrimaryExpression	"""Failed to re-arm win32 alarm timer %ld\\n"""		2	0					
+ANR	76	Argument	GetLastError ( )		2	2					
+ANR	77	CallExpression	GetLastError ( )		2	0					
+ANR	78	Callee	GetLastError		2	0					
+ANR	79	Identifier	GetLastError		2	0					
+ANR	80	ArgumentList			2	1					
+ANR	81	ExpressionStatement	timeEndPeriod ( mm_period )	38:8:651:675	2	1	True				
+ANR	82	CallExpression	timeEndPeriod ( mm_period )		2	0					
+ANR	83	Callee	timeEndPeriod		2	0					
+ANR	84	Identifier	timeEndPeriod		2	0					
+ANR	85	ArgumentList	mm_period		2	1					
+ANR	86	Argument	mm_period		2	0					
+ANR	87	Identifier	mm_period		2	0					
+ANR	88	ExpressionStatement	exit ( 1 )	40:8:686:693	2	2	True				
+ANR	89	CallExpression	exit ( 1 )		2	0					
+ANR	90	Callee	exit		2	0					
+ANR	91	Identifier	exit		2	0					
+ANR	92	ArgumentList	1		2	1					
+ANR	93	Argument	1		2	0					
+ANR	94	PrimaryExpression	1		2	0					
+ANR	95	ReturnType	static void		2	1					
+ANR	96	Identifier	mm_rearm_timer		2	2					
+ANR	97	ParameterList	"struct qemu_alarm_timer * t , int64_t delta"		2	3					
+ANR	98	Parameter	struct qemu_alarm_timer * t	1:27:27:52	2	0	True				
+ANR	99	ParameterType	struct qemu_alarm_timer *		2	0					
+ANR	100	Identifier	t		2	1					
+ANR	101	Parameter	int64_t delta	1:55:55:67	2	1	True				
+ANR	102	ParameterType	int64_t		2	0					
+ANR	103	Identifier	delta		2	1					
+ANR	104	CFGEntryNode	ENTRY		2		True				
+ANR	105	CFGExitNode	EXIT		2		True				
+ANR	106	Symbol	mm_timer		2						
+ANR	107	Symbol	TIME_CALLBACK_FUNCTION		2						
+ANR	108	Symbol	t		2						
+ANR	109	Symbol	dwk_tmp_1		2						
+ANR	110	Symbol	mm_period		2						
+ANR	111	Symbol	GetLastError		2						
+ANR	112	Symbol	delta		2						
+ANR	113	Symbol	nearest_delta_ms		2						
+ANR	114	Symbol	timeSetEvent		2						
+ANR	115	Symbol	mm_alarm_handler		2						
+ANR	116	Symbol	stderr		2						
+ANR	117	Symbol	TIME_ONESHOT		2						

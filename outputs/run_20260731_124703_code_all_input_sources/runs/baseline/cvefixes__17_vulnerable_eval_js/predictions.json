@@ -1,0 +1,145 @@
+{
+  "generated_at_utc": "2026-07-31T12:55:29.717029+00:00",
+  "prediction": {
+    "sample_id": "17_vulnerable_eval_js",
+    "input_file": "/repo/input_sources/cvefixes/17_vulnerable_eval_js.c",
+    "function_name": "unknown",
+    "joern_status": "success",
+    "num_nodes": 280,
+    "num_edges": 538,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.0,
+    "threshold": 0.5,
+    "confidence": 1.0,
+    "lexical_score": null,
+    "graph_score": 0.0,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 0.0
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/_work/joern-parse-lf.sh",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/joern_csv",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/_work/source"
+      ],
+      "stdout": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/_work/source/17_vulnerable_eval_js.c\n",
+      "stderr": "",
+      "csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/joern_csv",
+      "selected_csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/joern_csv/repo/outputs/run_20260731_124703_code_all_input_sources/runs/baseline/cvefixes__17_vulnerable_eval_js/_work/source/17_vulnerable_eval_js.c",
+      "runtime_ms": 524.8483989998931,
+      "node_count": 280,
+      "edge_count": 538,
+      "summary": {
+        "node_count": 280,
+        "edge_count": 538
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "unknown",
+        "char_length": 1607,
+        "line_count": 45
+      },
+      "graph": {
+        "available": true,
+        "node_count": 280,
+        "edge_count": 538
+      },
+      "xfg": {
+        "xfg_count": 0,
+        "key_line_counts": {
+          "call": 0,
+          "array": 0,
+          "ptr": 0,
+          "arith": 0
+        },
+        "xfg_predictions": []
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 0.0,
+        "status": "ok",
+        "model": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 0
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 0.0
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 0.0,
+      "predicted_label": 0,
+      "confidence": 1.0,
+      "threshold": 0.5
+    },
+    "runtime_ms": 2863.9660259999573,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": [
+      "No XFG slices were generated from the sensitive seed lines."
+    ]
+  }
+}

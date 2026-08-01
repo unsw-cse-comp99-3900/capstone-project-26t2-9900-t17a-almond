@@ -1,0 +1,472 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__12_vulnerable_static_inline_void_qtrle_decode_2n4b__data_flow_alias__c1/_work/source/devign__12_vulnerable_static_inline_void_qtrle_decode_2n4b__data_flow_alias__c1.c								
+ANR	2	Function	qtrle_decode_2n4bpp	1:0:0:2634							
+ANR	3	FunctionDef	"qtrle_decode_2n4bpp (QtrleContext * s , int stream_ptr , int row_ptr , int lines_to_change , int bpp)"		2	0					
+ANR	4	CompoundStatement		5:0:146:2634	2	0					
+ANR	5	IdentifierDeclStatement	"int rle_code , i ;"	7:4:153:168	2	0	True				
+ANR	6	IdentifierDecl	rle_code		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	rle_code		2	1					
+ANR	9	IdentifierDecl	i		2	1					
+ANR	10	IdentifierDeclType	int		2	0					
+ANR	11	Identifier	i		2	1					
+ANR	12	IdentifierDeclStatement	int pixel_ptr ;	9:4:175:188	2	1	True				
+ANR	13	IdentifierDecl	pixel_ptr		2	0					
+ANR	14	IdentifierDeclType	int		2	0					
+ANR	15	Identifier	pixel_ptr		2	1					
+ANR	16	IdentifierDeclStatement	int row_inc = s -> frame . linesize [ 0 ] ;	11:4:195:229	2	2	True				
+ANR	17	IdentifierDecl	row_inc = s -> frame . linesize [ 0 ]		2	0					
+ANR	18	IdentifierDeclType	int		2	0					
+ANR	19	Identifier	row_inc		2	1					
+ANR	20	AssignmentExpression	row_inc = s -> frame . linesize [ 0 ]		2	2		=			
+ANR	21	Identifier	row_inc		2	0					
+ANR	22	ArrayIndexing	s -> frame . linesize [ 0 ]		2	1					
+ANR	23	MemberAccess	s -> frame . linesize		2	0					
+ANR	24	PtrMemberAccess	s -> frame		2	0					
+ANR	25	Identifier	s		2	0					
+ANR	26	Identifier	frame		2	1					
+ANR	27	Identifier	linesize		2	1					
+ANR	28	PrimaryExpression	0		2	1					
+ANR	29	IdentifierDeclStatement	unsigned char pi [ 16 ] ;	13:4:236:256	2	3	True				
+ANR	30	IdentifierDecl	pi [ 16 ]		2	0					
+ANR	31	IdentifierDeclType	unsigned char [ 16 ]		2	0					
+ANR	32	Identifier	pi		2	1					
+ANR	33	PrimaryExpression	16		2	2					
+ANR	34	IdentifierDeclStatement	unsigned char * rgb = s -> frame . data [ 0 ] ;	15:4:289:326	2	4	True				
+ANR	35	IdentifierDecl	* rgb = s -> frame . data [ 0 ]		2	0					
+ANR	36	IdentifierDeclType	unsigned char *		2	0					
+ANR	37	Identifier	rgb		2	1					
+ANR	38	AssignmentExpression	* rgb = s -> frame . data [ 0 ]		2	2		=			
+ANR	39	Identifier	rgb		2	0					
+ANR	40	ArrayIndexing	s -> frame . data [ 0 ]		2	1					
+ANR	41	MemberAccess	s -> frame . data		2	0					
+ANR	42	PtrMemberAccess	s -> frame		2	0					
+ANR	43	Identifier	s		2	0					
+ANR	44	Identifier	frame		2	1					
+ANR	45	Identifier	data		2	1					
+ANR	46	PrimaryExpression	0		2	1					
+ANR	47	IdentifierDeclStatement	int pixel_limit = s -> frame . linesize [ 0 ] * s -> avctx -> height ;	17:4:333:390	2	5	True				
+ANR	48	IdentifierDecl	pixel_limit = s -> frame . linesize [ 0 ] * s -> avctx -> height		2	0					
+ANR	49	IdentifierDeclType	int		2	0					
+ANR	50	Identifier	pixel_limit		2	1					
+ANR	51	AssignmentExpression	pixel_limit = s -> frame . linesize [ 0 ] * s -> avctx -> height		2	2		=			
+ANR	52	Identifier	pixel_limit		2	0					
+ANR	53	MultiplicativeExpression	s -> frame . linesize [ 0 ] * s -> avctx -> height		2	1		*			
+ANR	54	ArrayIndexing	s -> frame . linesize [ 0 ]		2	0					
+ANR	55	MemberAccess	s -> frame . linesize		2	0					
+ANR	56	PtrMemberAccess	s -> frame		2	0					
+ANR	57	Identifier	s		2	0					
+ANR	58	Identifier	frame		2	1					
+ANR	59	Identifier	linesize		2	1					
+ANR	60	PrimaryExpression	0		2	1					
+ANR	61	PtrMemberAccess	s -> avctx -> height		2	1					
+ANR	62	PtrMemberAccess	s -> avctx		2	0					
+ANR	63	Identifier	s		2	0					
+ANR	64	Identifier	avctx		2	1					
+ANR	65	Identifier	height		2	1					
+ANR	66	IdentifierDeclStatement	int num_pixels = ( bpp == 4 ) ? 8 : 16 ;	19:4:397:433	2	6	True				
+ANR	67	IdentifierDecl	num_pixels = ( bpp == 4 ) ? 8 : 16		2	0					
+ANR	68	IdentifierDeclType	int		2	0					
+ANR	69	Identifier	num_pixels		2	1					
+ANR	70	AssignmentExpression	num_pixels = ( bpp == 4 ) ? 8 : 16		2	2		=			
+ANR	71	Identifier	num_pixels		2	0					
+ANR	72	ConditionalExpression	( bpp == 4 ) ? 8 : 16		2	1					
+ANR	73	Condition	bpp == 4		2	0					
+ANR	74	EqualityExpression	bpp == 4		2	0		==			
+ANR	75	Identifier	bpp		2	0					
+ANR	76	PrimaryExpression	4		2	1					
+ANR	77	PrimaryExpression	8		2	1					
+ANR	78	PrimaryExpression	16		2	2					
+ANR	79	WhileStatement	while ( lines_to_change -- )		2	7					
+ANR	80	Condition	lines_to_change --	23:11:449:465	2	0	True				
+ANR	81	PostIncDecOperationExpression	lines_to_change --		2	0					
+ANR	82	Identifier	lines_to_change		2	0					
+ANR	83	IncDec	--		2	1					
+ANR	84	CompoundStatement		21:8:332:363	2	1					
+ANR	85	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( 2 ) ;	25:8:479:510	2	0	True				
+ANR	86	IdentifierDecl	* dwk_alias_1 = ( void * ) ( 2 )		2	0					
+ANR	87	IdentifierDeclType	void *		2	0					
+ANR	88	Identifier	dwk_alias_1		2	1					
+ANR	89	AssignmentExpression	* dwk_alias_1 = ( void * ) ( 2 )		2	2		=			
+ANR	90	Identifier	dwk_alias_1		2	0					
+ANR	91	CastExpression	( void * ) ( 2 )		2	1					
+ANR	92	CastTarget	void *		2	0					
+ANR	93	PrimaryExpression	2		2	1					
+ANR	94	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	26:8:520:567	2	1	True				
+ANR	95	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	96	Identifier	dwk_alias_1		2	0					
+ANR	97	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	98	CastTarget	void *		2	0					
+ANR	99	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	100	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	101	CastTarget	char *		2	0					
+ANR	102	Identifier	dwk_alias_1		2	1					
+ANR	103	PrimaryExpression	0		2	1					
+ANR	104	ExpressionStatement	CHECK_STREAM_PTR ( 2 )	27:8:577:596	2	2	True				
+ANR	105	CallExpression	CHECK_STREAM_PTR ( 2 )		2	0					
+ANR	106	Callee	CHECK_STREAM_PTR		2	0					
+ANR	107	Identifier	CHECK_STREAM_PTR		2	0					
+ANR	108	ArgumentList	2		2	1					
+ANR	109	Argument	2		2	0					
+ANR	110	PrimaryExpression	2		2	0					
+ANR	111	ExpressionStatement	pixel_ptr = row_ptr + ( num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 ) )	29:8:607:670	2	3	True				
+ANR	112	AssignmentExpression	pixel_ptr = row_ptr + ( num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 ) )		2	0		=			
+ANR	113	Identifier	pixel_ptr		2	0					
+ANR	114	AdditiveExpression	row_ptr + ( num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 ) )		2	1		+			
+ANR	115	Identifier	row_ptr		2	0					
+ANR	116	MultiplicativeExpression	num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 )		2	1		*			
+ANR	117	Identifier	num_pixels		2	0					
+ANR	118	AdditiveExpression	s -> buf [ stream_ptr ++ ] - 1		2	1		-			
+ANR	119	ArrayIndexing	s -> buf [ stream_ptr ++ ]		2	0					
+ANR	120	PtrMemberAccess	s -> buf		2	0					
+ANR	121	Identifier	s		2	0					
+ANR	122	Identifier	buf		2	1					
+ANR	123	PostIncDecOperationExpression	stream_ptr ++		2	1					
+ANR	124	Identifier	stream_ptr		2	0					
+ANR	125	IncDec	++		2	1					
+ANR	126	PrimaryExpression	1		2	1					
+ANR	127	WhileStatement	while ( ( rle_code = ( signed char ) s -> buf [ stream_ptr ++ ] ) != - 1 )		2	4					
+ANR	128	Condition	( rle_code = ( signed char ) s -> buf [ stream_ptr ++ ] ) != - 1	34:15:691:742	2	0	True				
+ANR	129	EqualityExpression	( rle_code = ( signed char ) s -> buf [ stream_ptr ++ ] ) != - 1		2	0		!=			
+ANR	130	AssignmentExpression	rle_code = ( signed char ) s -> buf [ stream_ptr ++ ]		2	0		=			
+ANR	131	Identifier	rle_code		2	0					
+ANR	132	CastExpression	( signed char ) s -> buf [ stream_ptr ++ ]		2	1					
+ANR	133	CastTarget	signed char		2	0					
+ANR	134	ArrayIndexing	s -> buf [ stream_ptr ++ ]		2	1					
+ANR	135	PtrMemberAccess	s -> buf		2	0					
+ANR	136	Identifier	s		2	0					
+ANR	137	Identifier	buf		2	1					
+ANR	138	PostIncDecOperationExpression	stream_ptr ++		2	1					
+ANR	139	Identifier	stream_ptr		2	0					
+ANR	140	IncDec	++		2	1					
+ANR	141	UnaryOperationExpression	- 1		2	1					
+ANR	142	UnaryOperator	-		2	0					
+ANR	143	PrimaryExpression	1		2	1					
+ANR	144	CompoundStatement		30:69:598:598	2	1					
+ANR	145	IfStatement	if ( rle_code == 0 )		2	0					
+ANR	146	Condition	rle_code == 0	36:16:764:776	2	0	True				
+ANR	147	EqualityExpression	rle_code == 0		2	0		==			
+ANR	148	Identifier	rle_code		2	0					
+ANR	149	PrimaryExpression	0		2	1					
+ANR	150	CompoundStatement		32:31:632:632	2	1					
+ANR	151	ExpressionStatement	CHECK_STREAM_PTR ( 1 )	40:16:861:880	2	0	True				
+ANR	152	CallExpression	CHECK_STREAM_PTR ( 1 )		2	0					
+ANR	153	Callee	CHECK_STREAM_PTR		2	0					
+ANR	154	Identifier	CHECK_STREAM_PTR		2	0					
+ANR	155	ArgumentList	1		2	1					
+ANR	156	Argument	1		2	0					
+ANR	157	PrimaryExpression	1		2	0					
+ANR	158	ExpressionStatement	pixel_ptr += ( num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 ) )	42:16:899:953	2	1	True				
+ANR	159	AssignmentExpression	pixel_ptr += ( num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 ) )		2	0		+=			
+ANR	160	Identifier	pixel_ptr		2	0					
+ANR	161	MultiplicativeExpression	num_pixels * ( s -> buf [ stream_ptr ++ ] - 1 )		2	1		*			
+ANR	162	Identifier	num_pixels		2	0					
+ANR	163	AdditiveExpression	s -> buf [ stream_ptr ++ ] - 1		2	1		-			
+ANR	164	ArrayIndexing	s -> buf [ stream_ptr ++ ]		2	0					
+ANR	165	PtrMemberAccess	s -> buf		2	0					
+ANR	166	Identifier	s		2	0					
+ANR	167	Identifier	buf		2	1					
+ANR	168	PostIncDecOperationExpression	stream_ptr ++		2	1					
+ANR	169	Identifier	stream_ptr		2	0					
+ANR	170	IncDec	++		2	1					
+ANR	171	PrimaryExpression	1		2	1					
+ANR	172	ElseStatement	else		2	0					
+ANR	173	IfStatement	if ( rle_code < 0 )		2	0					
+ANR	174	Condition	rle_code < 0	45:23:980:991	2	0	True				
+ANR	175	RelationalExpression	rle_code < 0		2	0		<			
+ANR	176	Identifier	rle_code		2	0					
+ANR	177	PrimaryExpression	0		2	1					
+ANR	178	CompoundStatement		41:37:847:847	2	1					
+ANR	179	ExpressionStatement	rle_code = - rle_code	49:16:1063:1083	2	0	True				
+ANR	180	AssignmentExpression	rle_code = - rle_code		2	0		=			
+ANR	181	Identifier	rle_code		2	0					
+ANR	182	UnaryOperationExpression	- rle_code		2	1					
+ANR	183	UnaryOperator	-		2	0					
+ANR	184	Identifier	rle_code		2	1					
+ANR	185	ExpressionStatement	CHECK_STREAM_PTR ( 4 )	55:16:1245:1264	2	1	True				
+ANR	186	CallExpression	CHECK_STREAM_PTR ( 4 )		2	0					
+ANR	187	Callee	CHECK_STREAM_PTR		2	0					
+ANR	188	Identifier	CHECK_STREAM_PTR		2	0					
+ANR	189	ArgumentList	4		2	1					
+ANR	190	Argument	4		2	0					
+ANR	191	PrimaryExpression	4		2	0					
+ANR	192	ForStatement	for ( i = num_pixels - 1 ; i >= 0 ; i -- )		2	2					
+ANR	193	ForInit	i = num_pixels - 1 ;	57:21:1288:1304	2	0	True				
+ANR	194	AssignmentExpression	i = num_pixels - 1		2	0		=			
+ANR	195	Identifier	i		2	0					
+ANR	196	AdditiveExpression	num_pixels - 1		2	1		-			
+ANR	197	Identifier	num_pixels		2	0					
+ANR	198	PrimaryExpression	1		2	1					
+ANR	199	Condition	i >= 0	57:39:1306:1311	2	1	True				
+ANR	200	RelationalExpression	i >= 0		2	0		>=			
+ANR	201	Identifier	i		2	0					
+ANR	202	PrimaryExpression	0		2	1					
+ANR	203	PostIncDecOperationExpression	i --	57:47:1314:1316	2	2	True				
+ANR	204	Identifier	i		2	0					
+ANR	205	IncDec	--		2	1					
+ANR	206	CompoundStatement		53:52:1172:1172	2	3					
+ANR	207	ExpressionStatement	pi [ num_pixels - 1 - i ] = ( s -> buf [ stream_ptr ] >> ( ( i * bpp ) & 0x07 ) ) & ( ( 1 << bpp ) - 1 )	59:20:1342:1418	2	0	True				
+ANR	208	AssignmentExpression	pi [ num_pixels - 1 - i ] = ( s -> buf [ stream_ptr ] >> ( ( i * bpp ) & 0x07 ) ) & ( ( 1 << bpp ) - 1 )		2	0		=			
+ANR	209	ArrayIndexing	pi [ num_pixels - 1 - i ]		2	0					
+ANR	210	Identifier	pi		2	0					
+ANR	211	AdditiveExpression	num_pixels - 1 - i		2	1		-			
+ANR	212	Identifier	num_pixels		2	0					
+ANR	213	AdditiveExpression	1 - i		2	1		-			
+ANR	214	PrimaryExpression	1		2	0					
+ANR	215	Identifier	i		2	1					
+ANR	216	BitAndExpression	( s -> buf [ stream_ptr ] >> ( ( i * bpp ) & 0x07 ) ) & ( ( 1 << bpp ) - 1 )		2	1		&			
+ANR	217	ShiftExpression	s -> buf [ stream_ptr ] >> ( ( i * bpp ) & 0x07 )		2	0		>>			
+ANR	218	ArrayIndexing	s -> buf [ stream_ptr ]		2	0					
+ANR	219	PtrMemberAccess	s -> buf		2	0					
+ANR	220	Identifier	s		2	0					
+ANR	221	Identifier	buf		2	1					
+ANR	222	Identifier	stream_ptr		2	1					
+ANR	223	BitAndExpression	( i * bpp ) & 0x07		2	1		&			
+ANR	224	MultiplicativeExpression	i * bpp		2	0		*			
+ANR	225	Identifier	i		2	0					
+ANR	226	Identifier	bpp		2	1					
+ANR	227	PrimaryExpression	0x07		2	1					
+ANR	228	AdditiveExpression	( 1 << bpp ) - 1		2	1		-			
+ANR	229	ShiftExpression	1 << bpp		2	0		<<			
+ANR	230	PrimaryExpression	1		2	0					
+ANR	231	Identifier	bpp		2	1					
+ANR	232	PrimaryExpression	1		2	1					
+ANR	233	ExpressionStatement	stream_ptr += ( ( i & ( ( num_pixels >> 2 ) - 1 ) ) == 0 )	61:20:1441:1486	2	1	True				
+ANR	234	AssignmentExpression	stream_ptr += ( ( i & ( ( num_pixels >> 2 ) - 1 ) ) == 0 )		2	0		+=			
+ANR	235	Identifier	stream_ptr		2	0					
+ANR	236	EqualityExpression	( i & ( ( num_pixels >> 2 ) - 1 ) ) == 0		2	1		==			
+ANR	237	BitAndExpression	i & ( ( num_pixels >> 2 ) - 1 )		2	0		&			
+ANR	238	Identifier	i		2	0					
+ANR	239	AdditiveExpression	( num_pixels >> 2 ) - 1		2	1		-			
+ANR	240	ShiftExpression	num_pixels >> 2		2	0		>>			
+ANR	241	Identifier	num_pixels		2	0					
+ANR	242	PrimaryExpression	2		2	1					
+ANR	243	PrimaryExpression	1		2	1					
+ANR	244	PrimaryExpression	0		2	1					
+ANR	245	ExpressionStatement	CHECK_PIXEL_PTR ( rle_code * num_pixels )	65:16:1524:1562	2	3	True				
+ANR	246	CallExpression	CHECK_PIXEL_PTR ( rle_code * num_pixels )		2	0					
+ANR	247	Callee	CHECK_PIXEL_PTR		2	0					
+ANR	248	Identifier	CHECK_PIXEL_PTR		2	0					
+ANR	249	ArgumentList	rle_code * num_pixels		2	1					
+ANR	250	Argument	rle_code * num_pixels		2	0					
+ANR	251	MultiplicativeExpression	rle_code * num_pixels		2	0		*			
+ANR	252	Identifier	rle_code		2	0					
+ANR	253	Identifier	num_pixels		2	1					
+ANR	254	WhileStatement	while ( rle_code -- )		2	4					
+ANR	255	Condition	rle_code --	67:23:1588:1597	2	0	True				
+ANR	256	PostIncDecOperationExpression	rle_code --		2	0					
+ANR	257	Identifier	rle_code		2	0					
+ANR	258	IncDec	--		2	1					
+ANR	259	CompoundStatement		63:35:1453:1453	2	1					
+ANR	260	ForStatement	for ( i = 0 ; i < num_pixels ; i ++ )		2	0					
+ANR	261	ForInit	i = 0 ;	69:25:1628:1633	2	0	True				
+ANR	262	AssignmentExpression	i = 0		2	0		=			
+ANR	263	Identifier	i		2	0					
+ANR	264	PrimaryExpression	0		2	1					
+ANR	265	Condition	i < num_pixels	69:32:1635:1648	2	1	True				
+ANR	266	RelationalExpression	i < num_pixels		2	0		<			
+ANR	267	Identifier	i		2	0					
+ANR	268	Identifier	num_pixels		2	1					
+ANR	269	PostIncDecOperationExpression	i ++	69:48:1651:1653	2	2	True				
+ANR	270	Identifier	i		2	0					
+ANR	271	IncDec	++		2	1					
+ANR	272	ExpressionStatement	rgb [ pixel_ptr ++ ] = pi [ i ]	71:24:1681:1705	2	3	True				
+ANR	273	AssignmentExpression	rgb [ pixel_ptr ++ ] = pi [ i ]		2	0		=			
+ANR	274	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	275	Identifier	rgb		2	0					
+ANR	276	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	277	Identifier	pixel_ptr		2	0					
+ANR	278	IncDec	++		2	1					
+ANR	279	ArrayIndexing	pi [ i ]		2	1					
+ANR	280	Identifier	pi		2	0					
+ANR	281	Identifier	i		2	1					
+ANR	282	ElseStatement	else		2	0					
+ANR	283	CompoundStatement		71:19:1599:1599	2	0					
+ANR	284	ExpressionStatement	rle_code *= 4	79:16:1835:1848	2	0	True				
+ANR	285	AssignmentExpression	rle_code *= 4		2	0		*=			
+ANR	286	Identifier	rle_code		2	0					
+ANR	287	PrimaryExpression	4		2	1					
+ANR	288	ExpressionStatement	CHECK_STREAM_PTR ( rle_code )	81:16:1867:1893	2	1	True				
+ANR	289	CallExpression	CHECK_STREAM_PTR ( rle_code )		2	0					
+ANR	290	Callee	CHECK_STREAM_PTR		2	0					
+ANR	291	Identifier	CHECK_STREAM_PTR		2	0					
+ANR	292	ArgumentList	rle_code		2	1					
+ANR	293	Argument	rle_code		2	0					
+ANR	294	Identifier	rle_code		2	0					
+ANR	295	ExpressionStatement	CHECK_PIXEL_PTR ( rle_code * ( num_pixels >> 2 ) )	83:16:1912:1953	2	2	True				
+ANR	296	CallExpression	CHECK_PIXEL_PTR ( rle_code * ( num_pixels >> 2 ) )		2	0					
+ANR	297	Callee	CHECK_PIXEL_PTR		2	0					
+ANR	298	Identifier	CHECK_PIXEL_PTR		2	0					
+ANR	299	ArgumentList	rle_code * ( num_pixels >> 2 )		2	1					
+ANR	300	Argument	rle_code * ( num_pixels >> 2 )		2	0					
+ANR	301	MultiplicativeExpression	rle_code * ( num_pixels >> 2 )		2	0		*			
+ANR	302	Identifier	rle_code		2	0					
+ANR	303	ShiftExpression	num_pixels >> 2		2	1		>>			
+ANR	304	Identifier	num_pixels		2	0					
+ANR	305	PrimaryExpression	2		2	1					
+ANR	306	WhileStatement	while ( rle_code -- )		2	3					
+ANR	307	Condition	rle_code --	85:23:1979:1988	2	0	True				
+ANR	308	PostIncDecOperationExpression	rle_code --		2	0					
+ANR	309	Identifier	rle_code		2	0					
+ANR	310	IncDec	--		2	1					
+ANR	311	CompoundStatement		81:35:1844:1844	2	1					
+ANR	312	IfStatement	if ( bpp == 4 )		2	0					
+ANR	313	Condition	bpp == 4	87:23:2017:2024	2	0	True				
+ANR	314	EqualityExpression	bpp == 4		2	0		==			
+ANR	315	Identifier	bpp		2	0					
+ANR	316	PrimaryExpression	4		2	1					
+ANR	317	CompoundStatement		83:33:1880:1880	2	1					
+ANR	318	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x0f	89:24:2054:2107	2	0	True				
+ANR	319	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x0f		2	0		=			
+ANR	320	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	321	Identifier	rgb		2	0					
+ANR	322	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	323	Identifier	pixel_ptr		2	0					
+ANR	324	IncDec	++		2	1					
+ANR	325	BitAndExpression	( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x0f		2	1		&			
+ANR	326	ShiftExpression	( s -> buf [ stream_ptr ] ) >> 4		2	0		>>			
+ANR	327	ArrayIndexing	s -> buf [ stream_ptr ]		2	0					
+ANR	328	PtrMemberAccess	s -> buf		2	0					
+ANR	329	Identifier	s		2	0					
+ANR	330	Identifier	buf		2	1					
+ANR	331	Identifier	stream_ptr		2	1					
+ANR	332	PrimaryExpression	4		2	1					
+ANR	333	PrimaryExpression	0x0f		2	1					
+ANR	334	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( s -> buf [ stream_ptr ++ ] ) & 0x0f	91:24:2134:2182	2	1	True				
+ANR	335	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( s -> buf [ stream_ptr ++ ] ) & 0x0f		2	0		=			
+ANR	336	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	337	Identifier	rgb		2	0					
+ANR	338	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	339	Identifier	pixel_ptr		2	0					
+ANR	340	IncDec	++		2	1					
+ANR	341	BitAndExpression	( s -> buf [ stream_ptr ++ ] ) & 0x0f		2	1		&			
+ANR	342	ArrayIndexing	s -> buf [ stream_ptr ++ ]		2	0					
+ANR	343	PtrMemberAccess	s -> buf		2	0					
+ANR	344	Identifier	s		2	0					
+ANR	345	Identifier	buf		2	1					
+ANR	346	PostIncDecOperationExpression	stream_ptr ++		2	1					
+ANR	347	Identifier	stream_ptr		2	0					
+ANR	348	IncDec	++		2	1					
+ANR	349	PrimaryExpression	0x0f		2	1					
+ANR	350	ElseStatement	else		2	0					
+ANR	351	CompoundStatement		89:27:2065:2065	2	0					
+ANR	352	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 6 ) & 0x03	95:24:2239:2292	2	0	True				
+ANR	353	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 6 ) & 0x03		2	0		=			
+ANR	354	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	355	Identifier	rgb		2	0					
+ANR	356	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	357	Identifier	pixel_ptr		2	0					
+ANR	358	IncDec	++		2	1					
+ANR	359	BitAndExpression	( ( s -> buf [ stream_ptr ] ) >> 6 ) & 0x03		2	1		&			
+ANR	360	ShiftExpression	( s -> buf [ stream_ptr ] ) >> 6		2	0		>>			
+ANR	361	ArrayIndexing	s -> buf [ stream_ptr ]		2	0					
+ANR	362	PtrMemberAccess	s -> buf		2	0					
+ANR	363	Identifier	s		2	0					
+ANR	364	Identifier	buf		2	1					
+ANR	365	Identifier	stream_ptr		2	1					
+ANR	366	PrimaryExpression	6		2	1					
+ANR	367	PrimaryExpression	0x03		2	1					
+ANR	368	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x03	97:24:2319:2372	2	1	True				
+ANR	369	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x03		2	0		=			
+ANR	370	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	371	Identifier	rgb		2	0					
+ANR	372	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	373	Identifier	pixel_ptr		2	0					
+ANR	374	IncDec	++		2	1					
+ANR	375	BitAndExpression	( ( s -> buf [ stream_ptr ] ) >> 4 ) & 0x03		2	1		&			
+ANR	376	ShiftExpression	( s -> buf [ stream_ptr ] ) >> 4		2	0		>>			
+ANR	377	ArrayIndexing	s -> buf [ stream_ptr ]		2	0					
+ANR	378	PtrMemberAccess	s -> buf		2	0					
+ANR	379	Identifier	s		2	0					
+ANR	380	Identifier	buf		2	1					
+ANR	381	Identifier	stream_ptr		2	1					
+ANR	382	PrimaryExpression	4		2	1					
+ANR	383	PrimaryExpression	0x03		2	1					
+ANR	384	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 2 ) & 0x03	99:24:2399:2452	2	2	True				
+ANR	385	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( ( s -> buf [ stream_ptr ] ) >> 2 ) & 0x03		2	0		=			
+ANR	386	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	387	Identifier	rgb		2	0					
+ANR	388	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	389	Identifier	pixel_ptr		2	0					
+ANR	390	IncDec	++		2	1					
+ANR	391	BitAndExpression	( ( s -> buf [ stream_ptr ] ) >> 2 ) & 0x03		2	1		&			
+ANR	392	ShiftExpression	( s -> buf [ stream_ptr ] ) >> 2		2	0		>>			
+ANR	393	ArrayIndexing	s -> buf [ stream_ptr ]		2	0					
+ANR	394	PtrMemberAccess	s -> buf		2	0					
+ANR	395	Identifier	s		2	0					
+ANR	396	Identifier	buf		2	1					
+ANR	397	Identifier	stream_ptr		2	1					
+ANR	398	PrimaryExpression	2		2	1					
+ANR	399	PrimaryExpression	0x03		2	1					
+ANR	400	ExpressionStatement	rgb [ pixel_ptr ++ ] = ( s -> buf [ stream_ptr ++ ] ) & 0x03	101:24:2479:2527	2	3	True				
+ANR	401	AssignmentExpression	rgb [ pixel_ptr ++ ] = ( s -> buf [ stream_ptr ++ ] ) & 0x03		2	0		=			
+ANR	402	ArrayIndexing	rgb [ pixel_ptr ++ ]		2	0					
+ANR	403	Identifier	rgb		2	0					
+ANR	404	PostIncDecOperationExpression	pixel_ptr ++		2	1					
+ANR	405	Identifier	pixel_ptr		2	0					
+ANR	406	IncDec	++		2	1					
+ANR	407	BitAndExpression	( s -> buf [ stream_ptr ++ ] ) & 0x03		2	1		&			
+ANR	408	ArrayIndexing	s -> buf [ stream_ptr ++ ]		2	0					
+ANR	409	PtrMemberAccess	s -> buf		2	0					
+ANR	410	Identifier	s		2	0					
+ANR	411	Identifier	buf		2	1					
+ANR	412	PostIncDecOperationExpression	stream_ptr ++		2	1					
+ANR	413	Identifier	stream_ptr		2	0					
+ANR	414	IncDec	++		2	1					
+ANR	415	PrimaryExpression	0x03		2	1					
+ANR	416	ExpressionStatement	row_ptr += row_inc	111:8:2606:2624	2	5	True				
+ANR	417	AssignmentExpression	row_ptr += row_inc		2	0		+=			
+ANR	418	Identifier	row_ptr		2	0					
+ANR	419	Identifier	row_inc		2	1					
+ANR	420	ReturnType	static inline void		2	1					
+ANR	421	Identifier	qtrle_decode_2n4bpp		2	2					
+ANR	422	ParameterList	"QtrleContext * s , int stream_ptr , int row_ptr , int lines_to_change , int bpp"		2	3					
+ANR	423	Parameter	QtrleContext * s	1:39:39:53	2	0	True				
+ANR	424	ParameterType	QtrleContext *		2	0					
+ANR	425	Identifier	s		2	1					
+ANR	426	Parameter	int stream_ptr	1:56:56:69	2	1	True				
+ANR	427	ParameterType	int		2	0					
+ANR	428	Identifier	stream_ptr		2	1					
+ANR	429	Parameter	int row_ptr	3:29:102:112	2	2	True				
+ANR	430	ParameterType	int		2	0					
+ANR	431	Identifier	row_ptr		2	1					
+ANR	432	Parameter	int lines_to_change	3:42:115:133	2	3	True				
+ANR	433	ParameterType	int		2	0					
+ANR	434	Identifier	lines_to_change		2	1					
+ANR	435	Parameter	int bpp	3:63:136:142	2	4	True				
+ANR	436	ParameterType	int		2	0					
+ANR	437	Identifier	bpp		2	1					
+ANR	438	CFGEntryNode	ENTRY		2		True				
+ANR	439	CFGExitNode	EXIT		2		True				
+ANR	440	Symbol	* num_pixels		2						
+ANR	441	Symbol	pixel_ptr		2						
+ANR	442	Symbol	num_pixels		2						
+ANR	443	Symbol	s -> frame . data		2						
+ANR	444	Symbol	* s -> buf		2						
+ANR	445	Symbol	rgb		2						
+ANR	446	Symbol	* s -> frame		2						
+ANR	447	Symbol	* s -> frame . data		2						
+ANR	448	Symbol	row_inc		2						
+ANR	449	Symbol	* * s		2						
+ANR	450	Symbol	s -> frame		2						
+ANR	451	Symbol	dwk_alias_1		2						
+ANR	452	Symbol	lines_to_change		2						
+ANR	453	Symbol	stream_ptr		2						
+ANR	454	Symbol	* s -> avctx		2						
+ANR	455	Symbol	row_ptr		2						
+ANR	456	Symbol	bpp		2						
+ANR	457	Symbol	s -> buf		2						
+ANR	458	Symbol	rle_code		2						
+ANR	459	Symbol	i		2						
+ANR	460	Symbol	* s -> frame . linesize		2						
+ANR	461	Symbol	* stream_ptr		2						
+ANR	462	Symbol	s		2						
+ANR	463	Symbol	s -> frame . linesize		2						
+ANR	464	Symbol	* i		2						
+ANR	465	Symbol	* rgb		2						
+ANR	466	Symbol	s -> avctx -> height		2						
+ANR	467	Symbol	pi		2						
+ANR	468	Symbol	pixel_limit		2						
+ANR	469	Symbol	s -> avctx		2						
+ANR	470	Symbol	* pi		2						
+ANR	471	Symbol	* s		2						

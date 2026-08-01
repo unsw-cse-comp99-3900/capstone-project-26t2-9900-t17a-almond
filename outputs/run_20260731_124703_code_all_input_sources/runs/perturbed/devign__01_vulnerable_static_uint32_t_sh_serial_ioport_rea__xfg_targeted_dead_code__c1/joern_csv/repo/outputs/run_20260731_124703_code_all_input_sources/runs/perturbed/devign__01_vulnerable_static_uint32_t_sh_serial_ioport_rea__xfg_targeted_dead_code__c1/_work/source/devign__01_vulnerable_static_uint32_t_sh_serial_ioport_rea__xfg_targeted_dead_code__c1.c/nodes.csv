@@ -1,0 +1,392 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__01_vulnerable_static_uint32_t_sh_serial_ioport_rea__xfg_targeted_dead_code__c1/_work/source/devign__01_vulnerable_static_uint32_t_sh_serial_ioport_rea__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	sh_serial_ioport_read	1:0:0:2523							
+ANR	3	FunctionDef	"sh_serial_ioport_read (void * opaque , uint32_t offs)"		2	0					
+ANR	4	CompoundStatement		3:0:68:2523	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	5:8:79:79	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		4:8:23:46	2	1					
+ANR	9	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	6:8:92:115	2	0	True				
+ANR	10	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	dwk_xfg_guard_1		2	1					
+ANR	13	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	14	Identifier	dwk_xfg_guard_1		2	0					
+ANR	15	PrimaryExpression	1		2	1					
+ANR	16	ExpressionStatement	dwk_xfg_guard_1 += 0	7:8:125:145	2	1	True				
+ANR	17	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	18	Identifier	dwk_xfg_guard_1		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	sh_serial_state * s = opaque ;	9:4:157:184	2	1	True				
+ANR	21	IdentifierDecl	* s = opaque		2	0					
+ANR	22	IdentifierDeclType	sh_serial_state *		2	0					
+ANR	23	Identifier	s		2	1					
+ANR	24	AssignmentExpression	* s = opaque		2	2		=			
+ANR	25	Identifier	opaque		2	0					
+ANR	26	Identifier	opaque		2	1					
+ANR	27	IdentifierDeclStatement	uint32_t ret = ~0 ;	11:4:191:208	2	2	True				
+ANR	28	IdentifierDecl	ret = ~0		2	0					
+ANR	29	IdentifierDeclType	uint32_t		2	0					
+ANR	30	Identifier	ret		2	1					
+ANR	31	AssignmentExpression	ret = ~0		2	2		=			
+ANR	32	Identifier	~0		2	0					
+ANR	33	Identifier	~0		2	1					
+ANR	34	SwitchStatement	switch ( offs )		2	3					
+ANR	35	Condition	offs	17:11:231:234	2	0	True				
+ANR	36	Identifier	offs		2	0					
+ANR	37	CompoundStatement		15:17:168:168	2	1					
+ANR	38	Label	case 0x00 :	19:4:244:253	2	0	True				
+ANR	39	ExpressionStatement	ret = s -> smr	21:8:264:276	2	1	True				
+ANR	40	AssignmentExpression	ret = s -> smr		2	0		=			
+ANR	41	Identifier	ret		2	0					
+ANR	42	PtrMemberAccess	s -> smr		2	1					
+ANR	43	Identifier	s		2	0					
+ANR	44	Identifier	smr		2	1					
+ANR	45	BreakStatement	break ;	23:8:287:292	2	2	True				
+ANR	46	Label	case 0x04 :	25:4:299:308	2	3	True				
+ANR	47	ExpressionStatement	ret = s -> brr	27:8:319:331	2	4	True				
+ANR	48	AssignmentExpression	ret = s -> brr		2	0		=			
+ANR	49	Identifier	ret		2	0					
+ANR	50	PtrMemberAccess	s -> brr		2	1					
+ANR	51	Identifier	s		2	0					
+ANR	52	Identifier	brr		2	1					
+ANR	53	BreakStatement	break ;	29:1:335:340	2	5	True				
+ANR	54	Label	case 0x08 :	31:4:347:356	2	6	True				
+ANR	55	ExpressionStatement	ret = s -> scr	33:8:367:379	2	7	True				
+ANR	56	AssignmentExpression	ret = s -> scr		2	0		=			
+ANR	57	Identifier	ret		2	0					
+ANR	58	PtrMemberAccess	s -> scr		2	1					
+ANR	59	Identifier	s		2	0					
+ANR	60	Identifier	scr		2	1					
+ANR	61	BreakStatement	break ;	35:8:390:395	2	8	True				
+ANR	62	Label	case 0x14 :	37:4:402:411	2	9	True				
+ANR	63	ExpressionStatement	ret = 0	39:8:422:429	2	10	True				
+ANR	64	AssignmentExpression	ret = 0		2	0		=			
+ANR	65	Identifier	ret		2	0					
+ANR	66	PrimaryExpression	0		2	1					
+ANR	67	BreakStatement	break ;	41:8:440:445	2	11	True				
+ANR	68	IfStatement	if ( s -> feat & SH_SERIAL_FEAT_SCIF )		2	4					
+ANR	69	Condition	s -> feat & SH_SERIAL_FEAT_SCIF	47:8:471:499	2	0	True				
+ANR	70	BitAndExpression	s -> feat & SH_SERIAL_FEAT_SCIF		2	0		&			
+ANR	71	PtrMemberAccess	s -> feat		2	0					
+ANR	72	Identifier	s		2	0					
+ANR	73	Identifier	feat		2	1					
+ANR	74	Identifier	SH_SERIAL_FEAT_SCIF		2	1					
+ANR	75	CompoundStatement		45:39:433:433	2	1					
+ANR	76	SwitchStatement	switch ( offs )		2	0					
+ANR	77	Condition	offs	49:15:520:523	2	0	True				
+ANR	78	Identifier	offs		2	0					
+ANR	79	CompoundStatement		47:21:457:457	2	1					
+ANR	80	Label	case 0x00 :	51:8:537:546	2	0	True				
+ANR	81	ExpressionStatement	ret = s -> smr	53:12:571:583	2	1	True				
+ANR	82	AssignmentExpression	ret = s -> smr		2	0		=			
+ANR	83	Identifier	ret		2	0					
+ANR	84	PtrMemberAccess	s -> smr		2	1					
+ANR	85	Identifier	s		2	0					
+ANR	86	Identifier	smr		2	1					
+ANR	87	BreakStatement	break ;	55:12:598:603	2	2	True				
+ANR	88	Label	case 0x08 :	57:8:614:623	2	3	True				
+ANR	89	ExpressionStatement	ret = s -> scr	59:12:648:660	2	4	True				
+ANR	90	AssignmentExpression	ret = s -> scr		2	0		=			
+ANR	91	Identifier	ret		2	0					
+ANR	92	PtrMemberAccess	s -> scr		2	1					
+ANR	93	Identifier	s		2	0					
+ANR	94	Identifier	scr		2	1					
+ANR	95	BreakStatement	break ;	61:12:675:680	2	5	True				
+ANR	96	Label	case 0x10 :	63:8:691:700	2	6	True				
+ANR	97	ExpressionStatement	ret = 0	65:12:725:732	2	7	True				
+ANR	98	AssignmentExpression	ret = 0		2	0		=			
+ANR	99	Identifier	ret		2	0					
+ANR	100	PrimaryExpression	0		2	1					
+ANR	101	IfStatement	if ( s -> flags & SH_SERIAL_FLAG_TEND )		2	8					
+ANR	102	Condition	s -> flags & SH_SERIAL_FLAG_TEND	67:16:751:780	2	0	True				
+ANR	103	BitAndExpression	s -> flags & SH_SERIAL_FLAG_TEND		2	0		&			
+ANR	104	PtrMemberAccess	s -> flags		2	0					
+ANR	105	Identifier	s		2	0					
+ANR	106	Identifier	flags		2	1					
+ANR	107	Identifier	SH_SERIAL_FLAG_TEND		2	1					
+ANR	108	ExpressionStatement	ret |= ( 1 << 6 )	69:16:800:815	2	1	True				
+ANR	109	AssignmentExpression	ret |= ( 1 << 6 )		2	0		|=			
+ANR	110	Identifier	ret		2	0					
+ANR	111	ShiftExpression	1 << 6		2	1		<<			
+ANR	112	PrimaryExpression	1		2	0					
+ANR	113	PrimaryExpression	6		2	1					
+ANR	114	IfStatement	if ( s -> flags & SH_SERIAL_FLAG_TDE )		2	9					
+ANR	115	Condition	s -> flags & SH_SERIAL_FLAG_TDE	71:16:834:862	2	0	True				
+ANR	116	BitAndExpression	s -> flags & SH_SERIAL_FLAG_TDE		2	0		&			
+ANR	117	PtrMemberAccess	s -> flags		2	0					
+ANR	118	Identifier	s		2	0					
+ANR	119	Identifier	flags		2	1					
+ANR	120	Identifier	SH_SERIAL_FLAG_TDE		2	1					
+ANR	121	ExpressionStatement	ret |= ( 1 << 5 )	73:16:882:897	2	1	True				
+ANR	122	AssignmentExpression	ret |= ( 1 << 5 )		2	0		|=			
+ANR	123	Identifier	ret		2	0					
+ANR	124	ShiftExpression	1 << 5		2	1		<<			
+ANR	125	PrimaryExpression	1		2	0					
+ANR	126	PrimaryExpression	5		2	1					
+ANR	127	IfStatement	if ( s -> flags & SH_SERIAL_FLAG_BRK )		2	10					
+ANR	128	Condition	s -> flags & SH_SERIAL_FLAG_BRK	75:16:916:944	2	0	True				
+ANR	129	BitAndExpression	s -> flags & SH_SERIAL_FLAG_BRK		2	0		&			
+ANR	130	PtrMemberAccess	s -> flags		2	0					
+ANR	131	Identifier	s		2	0					
+ANR	132	Identifier	flags		2	1					
+ANR	133	Identifier	SH_SERIAL_FLAG_BRK		2	1					
+ANR	134	ExpressionStatement	ret |= ( 1 << 4 )	77:16:964:979	2	1	True				
+ANR	135	AssignmentExpression	ret |= ( 1 << 4 )		2	0		|=			
+ANR	136	Identifier	ret		2	0					
+ANR	137	ShiftExpression	1 << 4		2	1		<<			
+ANR	138	PrimaryExpression	1		2	0					
+ANR	139	PrimaryExpression	4		2	1					
+ANR	140	IfStatement	if ( s -> flags & SH_SERIAL_FLAG_RDF )		2	11					
+ANR	141	Condition	s -> flags & SH_SERIAL_FLAG_RDF	79:16:998:1026	2	0	True				
+ANR	142	BitAndExpression	s -> flags & SH_SERIAL_FLAG_RDF		2	0		&			
+ANR	143	PtrMemberAccess	s -> flags		2	0					
+ANR	144	Identifier	s		2	0					
+ANR	145	Identifier	flags		2	1					
+ANR	146	Identifier	SH_SERIAL_FLAG_RDF		2	1					
+ANR	147	ExpressionStatement	ret |= ( 1 << 1 )	81:16:1046:1061	2	1	True				
+ANR	148	AssignmentExpression	ret |= ( 1 << 1 )		2	0		|=			
+ANR	149	Identifier	ret		2	0					
+ANR	150	ShiftExpression	1 << 1		2	1		<<			
+ANR	151	PrimaryExpression	1		2	0					
+ANR	152	PrimaryExpression	1		2	1					
+ANR	153	IfStatement	if ( s -> flags & SH_SERIAL_FLAG_DR )		2	12					
+ANR	154	Condition	s -> flags & SH_SERIAL_FLAG_DR	83:16:1080:1107	2	0	True				
+ANR	155	BitAndExpression	s -> flags & SH_SERIAL_FLAG_DR		2	0		&			
+ANR	156	PtrMemberAccess	s -> flags		2	0					
+ANR	157	Identifier	s		2	0					
+ANR	158	Identifier	flags		2	1					
+ANR	159	Identifier	SH_SERIAL_FLAG_DR		2	1					
+ANR	160	ExpressionStatement	ret |= ( 1 << 0 )	85:16:1127:1142	2	1	True				
+ANR	161	AssignmentExpression	ret |= ( 1 << 0 )		2	0		|=			
+ANR	162	Identifier	ret		2	0					
+ANR	163	ShiftExpression	1 << 0		2	1		<<			
+ANR	164	PrimaryExpression	1		2	0					
+ANR	165	PrimaryExpression	0		2	1					
+ANR	166	IfStatement	if ( s -> scr & ( 1 << 5 ) )		2	13					
+ANR	167	Condition	s -> scr & ( 1 << 5 )	89:16:1163:1179	2	0	True				
+ANR	168	BitAndExpression	s -> scr & ( 1 << 5 )		2	0		&			
+ANR	169	PtrMemberAccess	s -> scr		2	0					
+ANR	170	Identifier	s		2	0					
+ANR	171	Identifier	scr		2	1					
+ANR	172	ShiftExpression	1 << 5		2	1		<<			
+ANR	173	PrimaryExpression	1		2	0					
+ANR	174	PrimaryExpression	5		2	1					
+ANR	175	ExpressionStatement	s -> flags |= SH_SERIAL_FLAG_TDE | SH_SERIAL_FLAG_TEND	91:16:1199:1251	2	1	True				
+ANR	176	AssignmentExpression	s -> flags |= SH_SERIAL_FLAG_TDE | SH_SERIAL_FLAG_TEND		2	0		|=			
+ANR	177	PtrMemberAccess	s -> flags		2	0					
+ANR	178	Identifier	s		2	0					
+ANR	179	Identifier	flags		2	1					
+ANR	180	InclusiveOrExpression	SH_SERIAL_FLAG_TDE | SH_SERIAL_FLAG_TEND		2	1		|			
+ANR	181	Identifier	SH_SERIAL_FLAG_TDE		2	0					
+ANR	182	Identifier	SH_SERIAL_FLAG_TEND		2	1					
+ANR	183	BreakStatement	break ;	95:12:1268:1273	2	14	True				
+ANR	184	Label	case 0x14 :	97:8:1284:1293	2	15	True				
+ANR	185	IfStatement	if ( s -> rx_cnt > 0 )		2	16					
+ANR	186	Condition	s -> rx_cnt > 0	99:16:1312:1324	2	0	True				
+ANR	187	RelationalExpression	s -> rx_cnt > 0		2	0		>			
+ANR	188	PtrMemberAccess	s -> rx_cnt		2	0					
+ANR	189	Identifier	s		2	0					
+ANR	190	Identifier	rx_cnt		2	1					
+ANR	191	PrimaryExpression	0		2	1					
+ANR	192	CompoundStatement		97:31:1258:1258	2	1					
+ANR	193	ExpressionStatement	ret = s -> rx_fifo [ s -> rx_tail ++ ]	101:16:1346:1376	2	0	True				
+ANR	194	AssignmentExpression	ret = s -> rx_fifo [ s -> rx_tail ++ ]		2	0		=			
+ANR	195	Identifier	ret		2	0					
+ANR	196	ArrayIndexing	s -> rx_fifo [ s -> rx_tail ++ ]		2	1					
+ANR	197	PtrMemberAccess	s -> rx_fifo		2	0					
+ANR	198	Identifier	s		2	0					
+ANR	199	Identifier	rx_fifo		2	1					
+ANR	200	PostIncDecOperationExpression	s -> rx_tail ++		2	1					
+ANR	201	PtrMemberAccess	s -> rx_tail		2	0					
+ANR	202	Identifier	s		2	0					
+ANR	203	Identifier	rx_tail		2	1					
+ANR	204	IncDec	++		2	1					
+ANR	205	ExpressionStatement	s -> rx_cnt --	103:16:1395:1406	2	1	True				
+ANR	206	PostIncDecOperationExpression	s -> rx_cnt --		2	0					
+ANR	207	PtrMemberAccess	s -> rx_cnt		2	0					
+ANR	208	Identifier	s		2	0					
+ANR	209	Identifier	rx_cnt		2	1					
+ANR	210	IncDec	--		2	1					
+ANR	211	IfStatement	if ( s -> rx_tail == SH_RX_FIFO_LENGTH )		2	2					
+ANR	212	Condition	s -> rx_tail == SH_RX_FIFO_LENGTH	105:20:1429:1459	2	0	True				
+ANR	213	EqualityExpression	s -> rx_tail == SH_RX_FIFO_LENGTH		2	0		==			
+ANR	214	PtrMemberAccess	s -> rx_tail		2	0					
+ANR	215	Identifier	s		2	0					
+ANR	216	Identifier	rx_tail		2	1					
+ANR	217	Identifier	SH_RX_FIFO_LENGTH		2	1					
+ANR	218	ExpressionStatement	s -> rx_tail = 0	107:20:1483:1497	2	1	True				
+ANR	219	AssignmentExpression	s -> rx_tail = 0		2	0		=			
+ANR	220	PtrMemberAccess	s -> rx_tail		2	0					
+ANR	221	Identifier	s		2	0					
+ANR	222	Identifier	rx_tail		2	1					
+ANR	223	PrimaryExpression	0		2	1					
+ANR	224	IfStatement	if ( s -> rx_cnt < s -> rtrg )		2	3					
+ANR	225	Condition	s -> rx_cnt < s -> rtrg	109:20:1520:1538	2	0	True				
+ANR	226	RelationalExpression	s -> rx_cnt < s -> rtrg		2	0		<			
+ANR	227	PtrMemberAccess	s -> rx_cnt		2	0					
+ANR	228	Identifier	s		2	0					
+ANR	229	Identifier	rx_cnt		2	1					
+ANR	230	PtrMemberAccess	s -> rtrg		2	1					
+ANR	231	Identifier	s		2	0					
+ANR	232	Identifier	rtrg		2	1					
+ANR	233	ExpressionStatement	s -> flags &= ~SH_SERIAL_FLAG_RDF	111:20:1562:1593	2	1	True				
+ANR	234	AssignmentExpression	s -> flags &= ~SH_SERIAL_FLAG_RDF		2	0		&=			
+ANR	235	PtrMemberAccess	s -> flags		2	0					
+ANR	236	Identifier	s		2	0					
+ANR	237	Identifier	flags		2	1					
+ANR	238	Identifier	~SH_SERIAL_FLAG_RDF		2	1					
+ANR	239	BreakStatement	break ;	115:12:1623:1628	2	17	True				
+ANR	240	Label	case 0x18 :	119:8:1646:1655	2	18	True				
+ANR	241	ExpressionStatement	ret = s -> fcr	121:12:1670:1682	2	19	True				
+ANR	242	AssignmentExpression	ret = s -> fcr		2	0		=			
+ANR	243	Identifier	ret		2	0					
+ANR	244	PtrMemberAccess	s -> fcr		2	1					
+ANR	245	Identifier	s		2	0					
+ANR	246	Identifier	fcr		2	1					
+ANR	247	BreakStatement	break ;	123:12:1697:1702	2	20	True				
+ANR	248	Label	case 0x1c :	127:8:1721:1730	2	21	True				
+ANR	249	ExpressionStatement	ret = s -> rx_cnt	129:12:1745:1760	2	22	True				
+ANR	250	AssignmentExpression	ret = s -> rx_cnt		2	0		=			
+ANR	251	Identifier	ret		2	0					
+ANR	252	PtrMemberAccess	s -> rx_cnt		2	1					
+ANR	253	Identifier	s		2	0					
+ANR	254	Identifier	rx_cnt		2	1					
+ANR	255	BreakStatement	break ;	131:12:1775:1780	2	23	True				
+ANR	256	Label	case 0x20 :	133:8:1791:1800	2	24	True				
+ANR	257	ExpressionStatement	ret = s -> sptr	135:12:1815:1828	2	25	True				
+ANR	258	AssignmentExpression	ret = s -> sptr		2	0		=			
+ANR	259	Identifier	ret		2	0					
+ANR	260	PtrMemberAccess	s -> sptr		2	1					
+ANR	261	Identifier	s		2	0					
+ANR	262	Identifier	sptr		2	1					
+ANR	263	BreakStatement	break ;	137:12:1843:1848	2	26	True				
+ANR	264	Label	case 0x24 :	139:8:1859:1868	2	27	True				
+ANR	265	ExpressionStatement	ret = 0	141:12:1883:1890	2	28	True				
+ANR	266	AssignmentExpression	ret = 0		2	0		=			
+ANR	267	Identifier	ret		2	0					
+ANR	268	PrimaryExpression	0		2	1					
+ANR	269	BreakStatement	break ;	143:12:1905:1910	2	29	True				
+ANR	270	ElseStatement	else		2	0					
+ANR	271	CompoundStatement		147:9:1871:1871	2	0					
+ANR	272	SwitchStatement	switch ( offs )		2	0					
+ANR	273	Condition	offs	153:15:1965:1968	2	0	True				
+ANR	274	Identifier	offs		2	0					
+ANR	275	CompoundStatement		151:21:1902:1902	2	1					
+ANR	276	Label	case 0x0c :	155:8:1982:1991	2	0	True				
+ANR	277	ExpressionStatement	ret = s -> dr	157:12:2006:2017	2	1	True				
+ANR	278	AssignmentExpression	ret = s -> dr		2	0		=			
+ANR	279	Identifier	ret		2	0					
+ANR	280	PtrMemberAccess	s -> dr		2	1					
+ANR	281	Identifier	s		2	0					
+ANR	282	Identifier	dr		2	1					
+ANR	283	BreakStatement	break ;	159:12:2032:2037	2	2	True				
+ANR	284	Label	case 0x10 :	161:8:2048:2057	2	3	True				
+ANR	285	ExpressionStatement	ret = 0	163:12:2072:2079	2	4	True				
+ANR	286	AssignmentExpression	ret = 0		2	0		=			
+ANR	287	Identifier	ret		2	0					
+ANR	288	PrimaryExpression	0		2	1					
+ANR	289	BreakStatement	break ;	165:12:2094:2099	2	5	True				
+ANR	290	Label	case 0x14 :	167:8:2110:2119	2	6	True				
+ANR	291	ExpressionStatement	ret = s -> rx_fifo [ 0 ]	169:12:2134:2153	2	7	True				
+ANR	292	AssignmentExpression	ret = s -> rx_fifo [ 0 ]		2	0		=			
+ANR	293	Identifier	ret		2	0					
+ANR	294	ArrayIndexing	s -> rx_fifo [ 0 ]		2	1					
+ANR	295	PtrMemberAccess	s -> rx_fifo		2	0					
+ANR	296	Identifier	s		2	0					
+ANR	297	Identifier	rx_fifo		2	1					
+ANR	298	PrimaryExpression	0		2	1					
+ANR	299	BreakStatement	break ;	171:12:2168:2173	2	8	True				
+ANR	300	Label	case 0x1c :	173:8:2184:2193	2	9	True				
+ANR	301	ExpressionStatement	ret = s -> sptr	175:12:2208:2221	2	10	True				
+ANR	302	AssignmentExpression	ret = s -> sptr		2	0		=			
+ANR	303	Identifier	ret		2	0					
+ANR	304	PtrMemberAccess	s -> sptr		2	1					
+ANR	305	Identifier	s		2	0					
+ANR	306	Identifier	sptr		2	1					
+ANR	307	BreakStatement	break ;	177:12:2236:2241	2	11	True				
+ANR	308	ExpressionStatement	"printf ( ""sh_serial: read offs=0x%02x val=0x%x\\n"" , offs , ret )"	187:4:2295:2359	2	5	True				
+ANR	309	CallExpression	"printf ( ""sh_serial: read offs=0x%02x val=0x%x\\n"" , offs , ret )"		2	0					
+ANR	310	Callee	printf		2	0					
+ANR	311	Identifier	printf		2	0					
+ANR	312	ArgumentList	"""sh_serial: read offs=0x%02x val=0x%x\\n"""		2	1					
+ANR	313	Argument	"""sh_serial: read offs=0x%02x val=0x%x\\n"""		2	0					
+ANR	314	PrimaryExpression	"""sh_serial: read offs=0x%02x val=0x%x\\n"""		2	0					
+ANR	315	Argument	offs		2	1					
+ANR	316	Identifier	offs		2	0					
+ANR	317	Argument	ret		2	2					
+ANR	318	Identifier	ret		2	0					
+ANR	319	IfStatement	if ( ret & ~ ( ( 1 << 16 ) - 1 ) )		2	6					
+ANR	320	Condition	ret & ~ ( ( 1 << 16 ) - 1 )	195:8:2380:2401	2	0	True				
+ANR	321	BitAndExpression	ret & ~ ( ( 1 << 16 ) - 1 )		2	0		&			
+ANR	322	Identifier	ret		2	0					
+ANR	323	UnaryOperationExpression	~ ( ( 1 << 16 ) - 1 )		2	1					
+ANR	324	UnaryOperator	~		2	0					
+ANR	325	AdditiveExpression	( 1 << 16 ) - 1		2	1		-			
+ANR	326	ShiftExpression	1 << 16		2	0		<<			
+ANR	327	PrimaryExpression	1		2	0					
+ANR	328	PrimaryExpression	16		2	1					
+ANR	329	PrimaryExpression	1		2	1					
+ANR	330	CompoundStatement		193:32:2335:2335	2	1					
+ANR	331	ExpressionStatement	"fprintf ( stderr , ""sh_serial: unsupported read from 0x%02x\\n"" , offs )"	197:8:2415:2481	2	0	True				
+ANR	332	CallExpression	"fprintf ( stderr , ""sh_serial: unsupported read from 0x%02x\\n"" , offs )"		2	0					
+ANR	333	Callee	fprintf		2	0					
+ANR	334	Identifier	fprintf		2	0					
+ANR	335	ArgumentList	stderr		2	1					
+ANR	336	Argument	stderr		2	0					
+ANR	337	Identifier	stderr		2	0					
+ANR	338	Argument	"""sh_serial: unsupported read from 0x%02x\\n"""		2	1					
+ANR	339	PrimaryExpression	"""sh_serial: unsupported read from 0x%02x\\n"""		2	0					
+ANR	340	Argument	offs		2	2					
+ANR	341	Identifier	offs		2	0					
+ANR	342	ExpressionStatement	assert ( 0 )	199:1:2485:2494	2	1	True				
+ANR	343	CallExpression	assert ( 0 )		2	0					
+ANR	344	Callee	assert		2	0					
+ANR	345	Identifier	assert		2	0					
+ANR	346	ArgumentList	0		2	1					
+ANR	347	Argument	0		2	0					
+ANR	348	PrimaryExpression	0		2	0					
+ANR	349	ReturnStatement	return ret ;	205:4:2510:2520	2	7	True				
+ANR	350	Identifier	ret		2	0					
+ANR	351	ReturnType	static uint32_t		2	1					
+ANR	352	Identifier	sh_serial_ioport_read		2	2					
+ANR	353	ParameterList	"void * opaque , uint32_t offs"		2	3					
+ANR	354	Parameter	void * opaque	1:38:38:49	2	0	True				
+ANR	355	ParameterType	void *		2	0					
+ANR	356	Identifier	opaque		2	1					
+ANR	357	Parameter	uint32_t offs	1:52:52:64	2	1	True				
+ANR	358	ParameterType	uint32_t		2	0					
+ANR	359	Identifier	offs		2	1					
+ANR	360	CFGEntryNode	ENTRY		2		True				
+ANR	361	CFGExitNode	EXIT		2		True				
+ANR	362	Symbol	s -> rx_cnt		2						
+ANR	363	Symbol	s -> fcr		2						
+ANR	364	Symbol	SH_SERIAL_FEAT_SCIF		2						
+ANR	365	Symbol	s -> smr		2						
+ANR	366	Symbol	s -> rx_tail		2						
+ANR	367	Symbol	* s -> rx_fifo		2						
+ANR	368	Symbol	SH_SERIAL_FLAG_BRK		2						
+ANR	369	Symbol	~SH_SERIAL_FLAG_RDF		2						
+ANR	370	Symbol	SH_SERIAL_FLAG_TEND		2						
+ANR	371	Symbol	s -> feat		2						
+ANR	372	Symbol	offs		2						
+ANR	373	Symbol	* * s		2						
+ANR	374	Symbol	s -> sptr		2						
+ANR	375	Symbol	SH_SERIAL_FLAG_DR		2						
+ANR	376	Symbol	ret		2						
+ANR	377	Symbol	opaque		2						
+ANR	378	Symbol	dwk_xfg_guard_1		2						
+ANR	379	Symbol	s -> flags		2						
+ANR	380	Symbol	SH_SERIAL_FLAG_TDE		2						
+ANR	381	Symbol	stderr		2						
+ANR	382	Symbol	SH_SERIAL_FLAG_RDF		2						
+ANR	383	Symbol	s -> dr		2						
+ANR	384	Symbol	SH_RX_FIFO_LENGTH		2						
+ANR	385	Symbol	~0		2						
+ANR	386	Symbol	s -> brr		2						
+ANR	387	Symbol	s -> scr		2						
+ANR	388	Symbol	s		2						
+ANR	389	Symbol	s -> rx_fifo		2						
+ANR	390	Symbol	s -> rtrg		2						
+ANR	391	Symbol	* s		2						

@@ -1,0 +1,144 @@
+{
+  "prediction": {
+    "sample": "devign__10_non_vulnerable_static_void_kvm_virtio_pci_vq_vector",
+    "function": "kvm_virtio_pci_vq_vector_release",
+    "true_label": 0,
+    "status": "ok",
+    "label": 0,
+    "correct": 1,
+    "prob": 6.079402936620681e-08,
+    "nodes": 11,
+    "edges": 12,
+    "xfg_count": 7,
+    "winner_category": "ptr",
+    "winner_key_line": 25,
+    "winner_raw_nodes": 5,
+    "winner_nodes": 5,
+    "winner_fallback": "winner_xfg"
+  },
+  "details": {
+    "status": "ok",
+    "probability": 6.079402936620681e-08,
+    "predicted_label": 0,
+    "xfg_count": 7,
+    "xfg_predictions": [
+      {
+        "category": "call",
+        "key_line": 21,
+        "nodes": [
+          19,
+          21,
+          1,
+          9,
+          13,
+          3,
+          5,
+          11
+        ],
+        "vulnerability_probability": 1.8439246574075696e-08,
+        "predicted_label": 0
+      },
+      {
+        "category": "array",
+        "key_line": 13,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          13,
+          5
+        ],
+        "vulnerability_probability": 8.020565141946337e-14,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 9,
+        "nodes": [
+          19,
+          21,
+          1,
+          9,
+          3,
+          11,
+          33
+        ],
+        "vulnerability_probability": 2.1191617904925408e-11,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 13,
+        "nodes": [
+          25,
+          27,
+          19,
+          21,
+          1,
+          13,
+          5
+        ],
+        "vulnerability_probability": 8.020565141946337e-14,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 19,
+        "nodes": [
+          19,
+          21,
+          1,
+          9,
+          13,
+          3,
+          5,
+          11
+        ],
+        "vulnerability_probability": 1.8439246574075696e-08,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 25,
+        "nodes": [
+          1,
+          5,
+          13,
+          25,
+          27
+        ],
+        "vulnerability_probability": 6.079402936620681e-08,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 27,
+        "nodes": [
+          1,
+          5,
+          13,
+          25,
+          27
+        ],
+        "vulnerability_probability": 6.079391567936909e-08,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "ptr",
+      "key_line": 25,
+      "nodes": [
+        1,
+        5,
+        13,
+        25,
+        27
+      ],
+      "probability": 6.079402936620681e-08
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 26.49654400011059
+  }
+}

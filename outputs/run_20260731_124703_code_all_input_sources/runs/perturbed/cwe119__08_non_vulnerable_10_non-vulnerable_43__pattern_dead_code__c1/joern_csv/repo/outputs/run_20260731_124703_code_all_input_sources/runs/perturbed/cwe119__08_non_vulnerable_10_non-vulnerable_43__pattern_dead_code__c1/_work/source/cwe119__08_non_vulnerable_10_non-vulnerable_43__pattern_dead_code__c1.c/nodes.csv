@@ -1,0 +1,280 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__08_non_vulnerable_10_non-vulnerable_43__pattern_dead_code__c1/_work/source/cwe119__08_non_vulnerable_10_non-vulnerable_43__pattern_dead_code__c1.c								
+ANR	2	DeclStmt									
+ANR	3	Decl							void	"void ( map < int , char * > dataMap )"	badSink
+ANR	4	Function	bad	32:0:817:1533							
+ANR	5	FunctionDef	bad ()		4	0					
+ANR	6	CompoundStatement		33:0:828:1533	4	0					
+ANR	7	IfStatement	if ( 0 )		4	0					
+ANR	8	Condition	0	34:8:838:838	4	0	True				
+ANR	9	PrimaryExpression	0		4	0					
+ANR	10	CompoundStatement		5:8:88:126	4	1					
+ANR	11	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	35:8:851:874	4	0	True				
+ANR	12	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		4	0					
+ANR	13	IdentifierDeclType	char [ 8 ]		4	0					
+ANR	14	Identifier	dwk_src_1		4	1					
+ANR	15	PrimaryExpression	8		4	2					
+ANR	16	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		4	3		=			
+ANR	17	Identifier	dwk_src_1		4	0					
+ANR	18	InitializerList	0		4	1					
+ANR	19	PrimaryExpression	0		4	0					
+ANR	20	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	36:8:884:907	4	1	True				
+ANR	21	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		4	0					
+ANR	22	IdentifierDeclType	char [ 8 ]		4	0					
+ANR	23	Identifier	dwk_dst_1		4	1					
+ANR	24	PrimaryExpression	8		4	2					
+ANR	25	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		4	3		=			
+ANR	26	Identifier	dwk_dst_1		4	0					
+ANR	27	InitializerList	0		4	1					
+ANR	28	PrimaryExpression	0		4	0					
+ANR	29	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	37:8:917:955	4	2	True				
+ANR	30	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		4	0					
+ANR	31	IdentifierDeclType	int		4	0					
+ANR	32	Identifier	dwk_len_1		4	1					
+ANR	33	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		4	2		=			
+ANR	34	Identifier	dwk_len_1		4	0					
+ANR	35	CastExpression	( int ) sizeof ( dwk_dst_1 )		4	1					
+ANR	36	CastTarget	int		4	0					
+ANR	37	SizeofExpression	sizeof ( dwk_dst_1 )		4	1					
+ANR	38	Sizeof	sizeof		4	0					
+ANR	39	SizeofOperand	dwk_dst_1		4	1					
+ANR	40	IfStatement	if ( dwk_len_1 > 0 )		4	3					
+ANR	41	Condition	dwk_len_1 > 0	38:12:969:981	4	0	True				
+ANR	42	RelationalExpression	dwk_len_1 > 0		4	0		>			
+ANR	43	Identifier	dwk_len_1		4	0					
+ANR	44	PrimaryExpression	0		4	1					
+ANR	45	CompoundStatement		6:27:155:155	4	1					
+ANR	46	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	39:12:998:1037	4	0	True				
+ANR	47	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		4	0		=			
+ANR	48	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		4	0					
+ANR	49	Identifier	dwk_dst_1		4	0					
+ANR	50	AdditiveExpression	dwk_len_1 - 1		4	1		-			
+ANR	51	Identifier	dwk_len_1		4	0					
+ANR	52	PrimaryExpression	1		4	1					
+ANR	53	ArrayIndexing	dwk_src_1 [ 0 ]		4	1					
+ANR	54	Identifier	dwk_src_1		4	0					
+ANR	55	PrimaryExpression	0		4	1					
+ANR	56	IdentifierDeclStatement	char * data ;	42:4:1059:1070	4	1	True				
+ANR	57	IdentifierDecl	* data		4	0					
+ANR	58	IdentifierDeclType	char *		4	0					
+ANR	59	Identifier	data		4	1					
+ANR	60	IdentifierDeclStatement	"map < int , char * > dataMap ;"	43:4:1076:1100	4	2	True				
+ANR	61	IdentifierDecl	dataMap		4	0					
+ANR	62	IdentifierDeclType	"map < int , char * >"		4	0					
+ANR	63	Identifier	dataMap		4	1					
+ANR	64	IdentifierDeclStatement	char dataBadBuffer [ 50 ] ;	44:4:1106:1128	4	3	True				
+ANR	65	IdentifierDecl	dataBadBuffer [ 50 ]		4	0					
+ANR	66	IdentifierDeclType	char [ 50 ]		4	0					
+ANR	67	Identifier	dataBadBuffer		4	1					
+ANR	68	PrimaryExpression	50		4	2					
+ANR	69	IdentifierDeclStatement	char dataGoodBuffer [ 100 ] ;	45:4:1134:1158	4	4	True				
+ANR	70	IdentifierDecl	dataGoodBuffer [ 100 ]		4	0					
+ANR	71	IdentifierDeclType	char [ 100 ]		4	0					
+ANR	72	Identifier	dataGoodBuffer		4	1					
+ANR	73	PrimaryExpression	100		4	2					
+ANR	74	ExpressionStatement	data = dataBadBuffer	48:4:1351:1371	4	5	True				
+ANR	75	AssignmentExpression	data = dataBadBuffer		4	0		=			
+ANR	76	Identifier	data		4	0					
+ANR	77	Identifier	dataBadBuffer		4	1					
+ANR	78	ExpressionStatement	data [ 0 ] = '\\0'	49:4:1377:1391	4	6	True				
+ANR	79	AssignmentExpression	data [ 0 ] = '\\0'		4	0		=			
+ANR	80	ArrayIndexing	data [ 0 ]		4	0					
+ANR	81	Identifier	data		4	0					
+ANR	82	PrimaryExpression	0		4	1					
+ANR	83	PrimaryExpression	'\\0'		4	1					
+ANR	84	ExpressionStatement	dataMap [ 0 ] = data	51:4:1446:1463	4	7	True				
+ANR	85	AssignmentExpression	dataMap [ 0 ] = data		4	0		=			
+ANR	86	ArrayIndexing	dataMap [ 0 ]		4	0					
+ANR	87	Identifier	dataMap		4	0					
+ANR	88	PrimaryExpression	0		4	1					
+ANR	89	Identifier	data		4	1					
+ANR	90	ExpressionStatement	dataMap [ 1 ] = data	52:4:1469:1486	4	8	True				
+ANR	91	AssignmentExpression	dataMap [ 1 ] = data		4	0		=			
+ANR	92	ArrayIndexing	dataMap [ 1 ]		4	0					
+ANR	93	Identifier	dataMap		4	0					
+ANR	94	PrimaryExpression	1		4	1					
+ANR	95	Identifier	data		4	1					
+ANR	96	ExpressionStatement	dataMap [ 2 ] = data	53:4:1492:1509	4	9	True				
+ANR	97	AssignmentExpression	dataMap [ 2 ] = data		4	0		=			
+ANR	98	ArrayIndexing	dataMap [ 2 ]		4	0					
+ANR	99	Identifier	dataMap		4	0					
+ANR	100	PrimaryExpression	2		4	1					
+ANR	101	Identifier	data		4	1					
+ANR	102	ExpressionStatement	badSink ( dataMap )	54:4:1515:1531	4	10	True				
+ANR	103	CallExpression	badSink ( dataMap )		4	0					
+ANR	104	Callee	badSink		4	0					
+ANR	105	Identifier	badSink		4	0					
+ANR	106	ArgumentList	dataMap		4	1					
+ANR	107	Argument	dataMap		4	0					
+ANR	108	Identifier	dataMap		4	0					
+ANR	109	ReturnType	void		4	1					
+ANR	110	Identifier	bad		4	2					
+ANR	111	ParameterList			4	3					
+ANR	112	CFGEntryNode	ENTRY		4		True				
+ANR	113	CFGExitNode	EXIT		4		True				
+ANR	114	Symbol	* dwk_src_1		4						
+ANR	115	Symbol	dataBadBuffer		4						
+ANR	116	Symbol	* dwk_dst_1		4						
+ANR	117	Symbol	data		4						
+ANR	118	Symbol	dwk_dst_1		4						
+ANR	119	Symbol	dwk_src_1		4						
+ANR	120	Symbol	dataMap		4						
+ANR	121	Symbol	* dataMap		4						
+ANR	122	Symbol	* dwk_len_1		4						
+ANR	123	Symbol	dataGoodBuffer		4						
+ANR	124	Symbol	* data		4						
+ANR	125	Symbol	dwk_len_1		4						
+ANR	126	DeclStmt									
+ANR	127	Decl							void	"void ( map < int , char * > dataMap )"	goodG2BSink
+ANR	128	Function	goodG2B	66:0:1706:2121							
+ANR	129	FunctionDef	goodG2B ()		128	0					
+ANR	130	CompoundStatement		67:0:1728:2121	128	0					
+ANR	131	IdentifierDeclStatement	char * data ;	68:4:1734:1745	128	0	True				
+ANR	132	IdentifierDecl	* data		128	0					
+ANR	133	IdentifierDeclType	char *		128	0					
+ANR	134	Identifier	data		128	1					
+ANR	135	IdentifierDeclStatement	"map < int , char * > dataMap ;"	69:4:1751:1775	128	1	True				
+ANR	136	IdentifierDecl	dataMap		128	0					
+ANR	137	IdentifierDeclType	"map < int , char * >"		128	0					
+ANR	138	Identifier	dataMap		128	1					
+ANR	139	IdentifierDeclStatement	char dataBadBuffer [ 50 ] ;	70:4:1781:1803	128	2	True				
+ANR	140	IdentifierDecl	dataBadBuffer [ 50 ]		128	0					
+ANR	141	IdentifierDeclType	char [ 50 ]		128	0					
+ANR	142	Identifier	dataBadBuffer		128	1					
+ANR	143	PrimaryExpression	50		128	2					
+ANR	144	IdentifierDeclStatement	char dataGoodBuffer [ 100 ] ;	71:4:1809:1833	128	3	True				
+ANR	145	IdentifierDecl	dataGoodBuffer [ 100 ]		128	0					
+ANR	146	IdentifierDeclType	char [ 100 ]		128	0					
+ANR	147	Identifier	dataGoodBuffer		128	1					
+ANR	148	PrimaryExpression	100		128	2					
+ANR	149	ExpressionStatement	data = dataGoodBuffer	73:4:1934:1955	128	4	True				
+ANR	150	AssignmentExpression	data = dataGoodBuffer		128	0		=			
+ANR	151	Identifier	data		128	0					
+ANR	152	Identifier	dataGoodBuffer		128	1					
+ANR	153	ExpressionStatement	data [ 0 ] = '\\0'	74:4:1961:1975	128	5	True				
+ANR	154	AssignmentExpression	data [ 0 ] = '\\0'		128	0		=			
+ANR	155	ArrayIndexing	data [ 0 ]		128	0					
+ANR	156	Identifier	data		128	0					
+ANR	157	PrimaryExpression	0		128	1					
+ANR	158	PrimaryExpression	'\\0'		128	1					
+ANR	159	ExpressionStatement	dataMap [ 0 ] = data	76:4:2030:2047	128	6	True				
+ANR	160	AssignmentExpression	dataMap [ 0 ] = data		128	0		=			
+ANR	161	ArrayIndexing	dataMap [ 0 ]		128	0					
+ANR	162	Identifier	dataMap		128	0					
+ANR	163	PrimaryExpression	0		128	1					
+ANR	164	Identifier	data		128	1					
+ANR	165	ExpressionStatement	dataMap [ 1 ] = data	77:4:2053:2070	128	7	True				
+ANR	166	AssignmentExpression	dataMap [ 1 ] = data		128	0		=			
+ANR	167	ArrayIndexing	dataMap [ 1 ]		128	0					
+ANR	168	Identifier	dataMap		128	0					
+ANR	169	PrimaryExpression	1		128	1					
+ANR	170	Identifier	data		128	1					
+ANR	171	ExpressionStatement	dataMap [ 2 ] = data	78:4:2076:2093	128	8	True				
+ANR	172	AssignmentExpression	dataMap [ 2 ] = data		128	0		=			
+ANR	173	ArrayIndexing	dataMap [ 2 ]		128	0					
+ANR	174	Identifier	dataMap		128	0					
+ANR	175	PrimaryExpression	2		128	1					
+ANR	176	Identifier	data		128	1					
+ANR	177	ExpressionStatement	goodG2BSink ( dataMap )	79:4:2099:2119	128	9	True				
+ANR	178	CallExpression	goodG2BSink ( dataMap )		128	0					
+ANR	179	Callee	goodG2BSink		128	0					
+ANR	180	Identifier	goodG2BSink		128	0					
+ANR	181	ArgumentList	dataMap		128	1					
+ANR	182	Argument	dataMap		128	0					
+ANR	183	Identifier	dataMap		128	0					
+ANR	184	ReturnType	static void		128	1					
+ANR	185	Identifier	goodG2B		128	2					
+ANR	186	ParameterList			128	3					
+ANR	187	CFGEntryNode	ENTRY		128		True				
+ANR	188	CFGExitNode	EXIT		128		True				
+ANR	189	Symbol	dataBadBuffer		128						
+ANR	190	Symbol	data		128						
+ANR	191	Symbol	dataMap		128						
+ANR	192	Symbol	* dataMap		128						
+ANR	193	Symbol	dataGoodBuffer		128						
+ANR	194	Symbol	* data		128						
+ANR	195	Function	good	82:0:2124:2153							
+ANR	196	FunctionDef	good ()		195	0					
+ANR	197	CompoundStatement		83:0:2136:2153	195	0					
+ANR	198	ExpressionStatement	goodG2B ( )	84:4:2142:2151	195	0	True				
+ANR	199	CallExpression	goodG2B ( )		195	0					
+ANR	200	Callee	goodG2B		195	0					
+ANR	201	Identifier	goodG2B		195	0					
+ANR	202	ArgumentList			195	1					
+ANR	203	ReturnType	void		195	1					
+ANR	204	Identifier	good		195	2					
+ANR	205	ParameterList			195	3					
+ANR	206	CFGEntryNode	ENTRY		195		True				
+ANR	207	CFGExitNode	EXIT		195		True				
+ANR	208	Function	main	101:0:2639:2987							
+ANR	209	FunctionDef	"main (int argc , char * argv [ ])"		208	0					
+ANR	210	CompoundStatement		102:0:2673:2987	208	0					
+ANR	211	ExpressionStatement	srand ( ( unsigned ) time ( NULL ) )	104:4:2705:2734	208	0	True				
+ANR	212	CallExpression	srand ( ( unsigned ) time ( NULL ) )		208	0					
+ANR	213	Callee	srand		208	0					
+ANR	214	Identifier	srand		208	0					
+ANR	215	ArgumentList	( unsigned ) time ( NULL )		208	1					
+ANR	216	Argument	( unsigned ) time ( NULL )		208	0					
+ANR	217	CastExpression	( unsigned ) time ( NULL )		208	0					
+ANR	218	CastTarget	unsigned		208	0					
+ANR	219	CallExpression	time ( NULL )		208	1					
+ANR	220	Callee	time		208	0					
+ANR	221	Identifier	time		208	0					
+ANR	222	ArgumentList	NULL		208	1					
+ANR	223	Argument	NULL		208	0					
+ANR	224	Identifier	NULL		208	0					
+ANR	225	ExpressionStatement	"printLine ( ""Calling good()..."" )"	106:4:2757:2787	208	1	True				
+ANR	226	CallExpression	"printLine ( ""Calling good()..."" )"		208	0					
+ANR	227	Callee	printLine		208	0					
+ANR	228	Identifier	printLine		208	0					
+ANR	229	ArgumentList	"""Calling good()..."""		208	1					
+ANR	230	Argument	"""Calling good()..."""		208	0					
+ANR	231	PrimaryExpression	"""Calling good()..."""		208	0					
+ANR	232	ExpressionStatement	good ( )	107:4:2793:2799	208	2	True				
+ANR	233	CallExpression	good ( )		208	0					
+ANR	234	Callee	good		208	0					
+ANR	235	Identifier	good		208	0					
+ANR	236	ArgumentList			208	1					
+ANR	237	ExpressionStatement	"printLine ( ""Finished good()"" )"	108:4:2805:2833	208	3	True				
+ANR	238	CallExpression	"printLine ( ""Finished good()"" )"		208	0					
+ANR	239	Callee	printLine		208	0					
+ANR	240	Identifier	printLine		208	0					
+ANR	241	ArgumentList	"""Finished good()"""		208	1					
+ANR	242	Argument	"""Finished good()"""		208	0					
+ANR	243	PrimaryExpression	"""Finished good()"""		208	0					
+ANR	244	ExpressionStatement	"printLine ( ""Calling bad()..."" )"	111:4:2877:2906	208	4	True				
+ANR	245	CallExpression	"printLine ( ""Calling bad()..."" )"		208	0					
+ANR	246	Callee	printLine		208	0					
+ANR	247	Identifier	printLine		208	0					
+ANR	248	ArgumentList	"""Calling bad()..."""		208	1					
+ANR	249	Argument	"""Calling bad()..."""		208	0					
+ANR	250	PrimaryExpression	"""Calling bad()..."""		208	0					
+ANR	251	ExpressionStatement	bad ( )	112:4:2912:2917	208	5	True				
+ANR	252	CallExpression	bad ( )		208	0					
+ANR	253	Callee	bad		208	0					
+ANR	254	Identifier	bad		208	0					
+ANR	255	ArgumentList			208	1					
+ANR	256	ExpressionStatement	"printLine ( ""Finished bad()"" )"	113:4:2923:2950	208	6	True				
+ANR	257	CallExpression	"printLine ( ""Finished bad()"" )"		208	0					
+ANR	258	Callee	printLine		208	0					
+ANR	259	Identifier	printLine		208	0					
+ANR	260	ArgumentList	"""Finished bad()"""		208	1					
+ANR	261	Argument	"""Finished bad()"""		208	0					
+ANR	262	PrimaryExpression	"""Finished bad()"""		208	0					
+ANR	263	ReturnStatement	return 0 ;	115:4:2977:2985	208	7	True				
+ANR	264	PrimaryExpression	0		208	0					
+ANR	265	ReturnType	int		208	1					
+ANR	266	Identifier	main		208	2					
+ANR	267	ParameterList	"int argc , char * argv [ ]"		208	3					
+ANR	268	Parameter	int argc	101:9:2648:2655	208	0	True				
+ANR	269	ParameterType	int		208	0					
+ANR	270	Identifier	argc		208	1					
+ANR	271	Parameter	char * argv [ ]	101:19:2658:2670	208	1	True				
+ANR	272	ParameterType	char * [ ]		208	0					
+ANR	273	Identifier	argv		208	1					
+ANR	274	CFGEntryNode	ENTRY		208		True				
+ANR	275	CFGExitNode	EXIT		208		True				
+ANR	276	Symbol	argc		208						
+ANR	277	Symbol	NULL		208						
+ANR	278	Symbol	time		208						
+ANR	279	Symbol	argv		208						

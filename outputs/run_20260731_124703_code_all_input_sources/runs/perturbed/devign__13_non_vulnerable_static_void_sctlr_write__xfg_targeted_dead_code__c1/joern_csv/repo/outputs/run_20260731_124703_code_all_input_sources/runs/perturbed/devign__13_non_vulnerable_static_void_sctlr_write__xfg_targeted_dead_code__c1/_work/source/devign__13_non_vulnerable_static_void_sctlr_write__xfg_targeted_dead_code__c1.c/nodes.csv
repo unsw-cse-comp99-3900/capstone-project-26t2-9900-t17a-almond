@@ -1,0 +1,89 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__xfg_targeted_dead_code__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	sctlr_write	1:0:0:616							
+ANR	3	FunctionDef	"sctlr_write (CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value)"		2	0					
+ANR	4	CompoundStatement		5:0:108:616	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	7:8:119:119	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		4:8:23:46	2	1					
+ANR	9	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	8:8:132:155	2	0	True				
+ANR	10	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	11	IdentifierDeclType	int		2	0					
+ANR	12	Identifier	dwk_xfg_guard_1		2	1					
+ANR	13	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	14	Identifier	dwk_xfg_guard_1		2	0					
+ANR	15	PrimaryExpression	1		2	1					
+ANR	16	ExpressionStatement	dwk_xfg_guard_1 += 0	9:8:165:185	2	1	True				
+ANR	17	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	18	Identifier	dwk_xfg_guard_1		2	0					
+ANR	19	PrimaryExpression	0		2	1					
+ANR	20	IdentifierDeclStatement	ARMCPU * cpu = arm_env_get_cpu ( env ) ;	11:4:197:231	2	1	True				
+ANR	21	IdentifierDecl	* cpu = arm_env_get_cpu ( env )		2	0					
+ANR	22	IdentifierDeclType	ARMCPU *		2	0					
+ANR	23	Identifier	cpu		2	1					
+ANR	24	AssignmentExpression	* cpu = arm_env_get_cpu ( env )		2	2		=			
+ANR	25	Identifier	cpu		2	0					
+ANR	26	CallExpression	arm_env_get_cpu ( env )		2	1					
+ANR	27	Callee	arm_env_get_cpu		2	0					
+ANR	28	Identifier	arm_env_get_cpu		2	0					
+ANR	29	ArgumentList	env		2	1					
+ANR	30	Argument	env		2	0					
+ANR	31	Identifier	env		2	0					
+ANR	32	IfStatement	if ( env -> cp15 . c1_sys == value )		2	2					
+ANR	33	Condition	env -> cp15 . c1_sys == value	15:8:244:268	2	0	True				
+ANR	34	EqualityExpression	env -> cp15 . c1_sys == value		2	0		==			
+ANR	35	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	36	PtrMemberAccess	env -> cp15		2	0					
+ANR	37	Identifier	env		2	0					
+ANR	38	Identifier	cp15		2	1					
+ANR	39	Identifier	c1_sys		2	1					
+ANR	40	Identifier	value		2	1					
+ANR	41	CompoundStatement		11:35:162:162	2	1					
+ANR	42	ReturnStatement	return ;	23:8:418:424	2	0	True				
+ANR	43	ExpressionStatement	env -> cp15 . c1_sys = value	29:4:440:464	2	3	True				
+ANR	44	AssignmentExpression	env -> cp15 . c1_sys = value		2	0		=			
+ANR	45	MemberAccess	env -> cp15 . c1_sys		2	0					
+ANR	46	PtrMemberAccess	env -> cp15		2	0					
+ANR	47	Identifier	env		2	0					
+ANR	48	Identifier	cp15		2	1					
+ANR	49	Identifier	c1_sys		2	1					
+ANR	50	Identifier	value		2	1					
+ANR	51	ExpressionStatement	"tlb_flush ( CPU ( cpu ) , 1 )"	35:4:591:613	2	4	True				
+ANR	52	CallExpression	"tlb_flush ( CPU ( cpu ) , 1 )"		2	0					
+ANR	53	Callee	tlb_flush		2	0					
+ANR	54	Identifier	tlb_flush		2	0					
+ANR	55	ArgumentList	CPU ( cpu )		2	1					
+ANR	56	Argument	CPU ( cpu )		2	0					
+ANR	57	CallExpression	CPU ( cpu )		2	0					
+ANR	58	Callee	CPU		2	0					
+ANR	59	Identifier	CPU		2	0					
+ANR	60	ArgumentList	cpu		2	1					
+ANR	61	Argument	cpu		2	0					
+ANR	62	Identifier	cpu		2	0					
+ANR	63	Argument	1		2	1					
+ANR	64	PrimaryExpression	1		2	0					
+ANR	65	ReturnType	static void		2	1					
+ANR	66	Identifier	sctlr_write		2	2					
+ANR	67	ParameterList	"CPUARMState * env , const ARMCPRegInfo * ri , uint64_t value"		2	3					
+ANR	68	Parameter	CPUARMState * env	1:24:24:39	2	0	True				
+ANR	69	ParameterType	CPUARMState *		2	0					
+ANR	70	Identifier	env		2	1					
+ANR	71	Parameter	const ARMCPRegInfo * ri	1:42:42:63	2	1	True				
+ANR	72	ParameterType	const ARMCPRegInfo *		2	0					
+ANR	73	Identifier	ri		2	1					
+ANR	74	Parameter	uint64_t value	3:24:91:104	2	2	True				
+ANR	75	ParameterType	uint64_t		2	0					
+ANR	76	Identifier	value		2	1					
+ANR	77	CFGEntryNode	ENTRY		2		True				
+ANR	78	CFGExitNode	EXIT		2		True				
+ANR	79	Symbol	arm_env_get_cpu		2						
+ANR	80	Symbol	env -> cp15 . c1_sys		2						
+ANR	81	Symbol	ri		2						
+ANR	82	Symbol	dwk_xfg_guard_1		2						
+ANR	83	Symbol	* env		2						
+ANR	84	Symbol	cpu		2						
+ANR	85	Symbol	CPU		2						
+ANR	86	Symbol	env		2						
+ANR	87	Symbol	value		2						
+ANR	88	Symbol	env -> cp15		2						

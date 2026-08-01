@@ -1,0 +1,238 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__06_non_vulnerable_08_non-vulnerable_32__pattern_dead_code__c1/_work/source/cwe119__06_non_vulnerable_08_non-vulnerable_32__pattern_dead_code__c1.c								
+ANR	2	DeclStmt									
+ANR	3	Decl							int64_t	int64_t *	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_badData
+ANR	4	DeclStmt									
+ANR	5	Decl							int64_t	int64_t *	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_goodG2BData
+ANR	6	DeclStmt									
+ANR	7	Decl							void	void ( )	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_badSink
+ANR	8	Function	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad	27:0:967:1628							
+ANR	9	FunctionDef	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad ()		8	0					
+ANR	10	CompoundStatement		28:0:1040:1628	8	0					
+ANR	11	IfStatement	if ( 0 )		8	0					
+ANR	12	Condition	0	29:8:1050:1050	8	0	True				
+ANR	13	PrimaryExpression	0		8	0					
+ANR	14	CompoundStatement		5:8:88:126	8	1					
+ANR	15	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	30:8:1063:1086	8	0	True				
+ANR	16	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		8	0					
+ANR	17	IdentifierDeclType	char [ 8 ]		8	0					
+ANR	18	Identifier	dwk_src_1		8	1					
+ANR	19	PrimaryExpression	8		8	2					
+ANR	20	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		8	3		=			
+ANR	21	Identifier	dwk_src_1		8	0					
+ANR	22	InitializerList	0		8	1					
+ANR	23	PrimaryExpression	0		8	0					
+ANR	24	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	31:8:1096:1119	8	1	True				
+ANR	25	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		8	0					
+ANR	26	IdentifierDeclType	char [ 8 ]		8	0					
+ANR	27	Identifier	dwk_dst_1		8	1					
+ANR	28	PrimaryExpression	8		8	2					
+ANR	29	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		8	3		=			
+ANR	30	Identifier	dwk_dst_1		8	0					
+ANR	31	InitializerList	0		8	1					
+ANR	32	PrimaryExpression	0		8	0					
+ANR	33	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	32:8:1129:1167	8	2	True				
+ANR	34	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		8	0					
+ANR	35	IdentifierDeclType	int		8	0					
+ANR	36	Identifier	dwk_len_1		8	1					
+ANR	37	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		8	2		=			
+ANR	38	Identifier	dwk_len_1		8	0					
+ANR	39	CastExpression	( int ) sizeof ( dwk_dst_1 )		8	1					
+ANR	40	CastTarget	int		8	0					
+ANR	41	SizeofExpression	sizeof ( dwk_dst_1 )		8	1					
+ANR	42	Sizeof	sizeof		8	0					
+ANR	43	SizeofOperand	dwk_dst_1		8	1					
+ANR	44	IfStatement	if ( dwk_len_1 > 0 )		8	3					
+ANR	45	Condition	dwk_len_1 > 0	33:12:1181:1193	8	0	True				
+ANR	46	RelationalExpression	dwk_len_1 > 0		8	0		>			
+ANR	47	Identifier	dwk_len_1		8	0					
+ANR	48	PrimaryExpression	0		8	1					
+ANR	49	CompoundStatement		6:27:155:155	8	1					
+ANR	50	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	34:12:1210:1249	8	0	True				
+ANR	51	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		8	0		=			
+ANR	52	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		8	0					
+ANR	53	Identifier	dwk_dst_1		8	0					
+ANR	54	AdditiveExpression	dwk_len_1 - 1		8	1		-			
+ANR	55	Identifier	dwk_len_1		8	0					
+ANR	56	PrimaryExpression	1		8	1					
+ANR	57	ArrayIndexing	dwk_src_1 [ 0 ]		8	1					
+ANR	58	Identifier	dwk_src_1		8	0					
+ANR	59	PrimaryExpression	0		8	1					
+ANR	60	IdentifierDeclStatement	int64_t * data ;	37:4:1271:1285	8	1	True				
+ANR	61	IdentifierDecl	* data		8	0					
+ANR	62	IdentifierDeclType	int64_t *		8	0					
+ANR	63	Identifier	data		8	1					
+ANR	64	ExpressionStatement	data = NULL	38:4:1291:1302	8	2	True				
+ANR	65	AssignmentExpression	data = NULL		8	0		=			
+ANR	66	Identifier	data		8	0					
+ANR	67	Identifier	NULL		8	1					
+ANR	68	ExpressionStatement	data = ( int64_t * ) malloc ( 50 * sizeof ( int64_t ) )	40:4:1422:1466	8	3	True				
+ANR	69	AssignmentExpression	data = ( int64_t * ) malloc ( 50 * sizeof ( int64_t ) )		8	0		=			
+ANR	70	Identifier	data		8	0					
+ANR	71	CastExpression	( int64_t * ) malloc ( 50 * sizeof ( int64_t ) )		8	1					
+ANR	72	CastTarget	int64_t *		8	0					
+ANR	73	CallExpression	malloc ( 50 * sizeof ( int64_t ) )		8	1					
+ANR	74	Callee	malloc		8	0					
+ANR	75	Identifier	malloc		8	0					
+ANR	76	ArgumentList	50 * sizeof ( int64_t )		8	1					
+ANR	77	Argument	50 * sizeof ( int64_t )		8	0					
+ANR	78	MultiplicativeExpression	50 * sizeof ( int64_t )		8	0		*			
+ANR	79	PrimaryExpression	50		8	0					
+ANR	80	SizeofExpression	sizeof ( int64_t )		8	1					
+ANR	81	Sizeof	sizeof		8	0					
+ANR	82	SizeofOperand	int64_t		8	1					
+ANR	83	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_badData = data	41:4:1472:1548	8	4	True				
+ANR	84	AssignmentExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_badData = data		8	0		=			
+ANR	85	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_badData		8	0					
+ANR	86	Identifier	data		8	1					
+ANR	87	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_badSink ( )	42:4:1554:1626	8	5	True				
+ANR	88	CallExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_badSink ( )		8	0					
+ANR	89	Callee	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_badSink		8	0					
+ANR	90	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_badSink		8	0					
+ANR	91	ArgumentList			8	1					
+ANR	92	ReturnType	void		8	1					
+ANR	93	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad		8	2					
+ANR	94	ParameterList			8	3					
+ANR	95	CFGEntryNode	ENTRY		8		True				
+ANR	96	CFGExitNode	EXIT		8		True				
+ANR	97	Symbol	malloc		8						
+ANR	98	Symbol	* dwk_src_1		8						
+ANR	99	Symbol	* dwk_dst_1		8						
+ANR	100	Symbol	NULL		8						
+ANR	101	Symbol	data		8						
+ANR	102	Symbol	dwk_dst_1		8						
+ANR	103	Symbol	dwk_src_1		8						
+ANR	104	Symbol	* dwk_len_1		8						
+ANR	105	Symbol	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_badData		8						
+ANR	106	Symbol	dwk_len_1		8						
+ANR	107	DeclStmt									
+ANR	108	Decl							void	void ( )	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_goodG2BSink
+ANR	109	Function	goodG2B	53:0:1839:2239							
+ANR	110	FunctionDef	goodG2B ()		109	0					
+ANR	111	CompoundStatement		54:0:1861:2239	109	0					
+ANR	112	IdentifierDeclStatement	int64_t * data ;	55:4:1867:1881	109	0	True				
+ANR	113	IdentifierDecl	* data		109	0					
+ANR	114	IdentifierDeclType	int64_t *		109	0					
+ANR	115	Identifier	data		109	1					
+ANR	116	ExpressionStatement	data = NULL	56:4:1887:1898	109	1	True				
+ANR	117	AssignmentExpression	data = NULL		109	0		=			
+ANR	118	Identifier	data		109	0					
+ANR	119	Identifier	NULL		109	1					
+ANR	120	ExpressionStatement	data = ( int64_t * ) malloc ( 100 * sizeof ( int64_t ) )	58:4:2024:2069	109	2	True				
+ANR	121	AssignmentExpression	data = ( int64_t * ) malloc ( 100 * sizeof ( int64_t ) )		109	0		=			
+ANR	122	Identifier	data		109	0					
+ANR	123	CastExpression	( int64_t * ) malloc ( 100 * sizeof ( int64_t ) )		109	1					
+ANR	124	CastTarget	int64_t *		109	0					
+ANR	125	CallExpression	malloc ( 100 * sizeof ( int64_t ) )		109	1					
+ANR	126	Callee	malloc		109	0					
+ANR	127	Identifier	malloc		109	0					
+ANR	128	ArgumentList	100 * sizeof ( int64_t )		109	1					
+ANR	129	Argument	100 * sizeof ( int64_t )		109	0					
+ANR	130	MultiplicativeExpression	100 * sizeof ( int64_t )		109	0		*			
+ANR	131	PrimaryExpression	100		109	0					
+ANR	132	SizeofExpression	sizeof ( int64_t )		109	1					
+ANR	133	Sizeof	sizeof		109	0					
+ANR	134	SizeofOperand	int64_t		109	1					
+ANR	135	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_goodG2BData = data	59:4:2075:2155	109	3	True				
+ANR	136	AssignmentExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_goodG2BData = data		109	0		=			
+ANR	137	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_goodG2BData		109	0					
+ANR	138	Identifier	data		109	1					
+ANR	139	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_goodG2BSink ( )	60:4:2161:2237	109	4	True				
+ANR	140	CallExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_goodG2BSink ( )		109	0					
+ANR	141	Callee	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_goodG2BSink		109	0					
+ANR	142	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68b_goodG2BSink		109	0					
+ANR	143	ArgumentList			109	1					
+ANR	144	ReturnType	static void		109	1					
+ANR	145	Identifier	goodG2B		109	2					
+ANR	146	ParameterList			109	3					
+ANR	147	CFGEntryNode	ENTRY		109		True				
+ANR	148	CFGExitNode	EXIT		109		True				
+ANR	149	Symbol	malloc		109						
+ANR	150	Symbol	NULL		109						
+ANR	151	Symbol	data		109						
+ANR	152	Symbol	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_goodG2BData		109						
+ANR	153	Function	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good	63:0:2242:2333							
+ANR	154	FunctionDef	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good ()		153	0					
+ANR	155	CompoundStatement		64:0:2316:2333	153	0					
+ANR	156	ExpressionStatement	goodG2B ( )	65:4:2322:2331	153	0	True				
+ANR	157	CallExpression	goodG2B ( )		153	0					
+ANR	158	Callee	goodG2B		153	0					
+ANR	159	Identifier	goodG2B		153	0					
+ANR	160	ArgumentList			153	1					
+ANR	161	ReturnType	void		153	1					
+ANR	162	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good		153	2					
+ANR	163	ParameterList			153	3					
+ANR	164	CFGEntryNode	ENTRY		153		True				
+ANR	165	CFGExitNode	EXIT		153		True				
+ANR	166	Function	main	78:0:2670:3142							
+ANR	167	FunctionDef	"main (int argc , char * argv [ ])"		166	0					
+ANR	168	CompoundStatement		79:0:2704:3142	166	0					
+ANR	169	ExpressionStatement	srand ( ( unsigned ) time ( NULL ) )	81:4:2736:2765	166	0	True				
+ANR	170	CallExpression	srand ( ( unsigned ) time ( NULL ) )		166	0					
+ANR	171	Callee	srand		166	0					
+ANR	172	Identifier	srand		166	0					
+ANR	173	ArgumentList	( unsigned ) time ( NULL )		166	1					
+ANR	174	Argument	( unsigned ) time ( NULL )		166	0					
+ANR	175	CastExpression	( unsigned ) time ( NULL )		166	0					
+ANR	176	CastTarget	unsigned		166	0					
+ANR	177	CallExpression	time ( NULL )		166	1					
+ANR	178	Callee	time		166	0					
+ANR	179	Identifier	time		166	0					
+ANR	180	ArgumentList	NULL		166	1					
+ANR	181	Argument	NULL		166	0					
+ANR	182	Identifier	NULL		166	0					
+ANR	183	ExpressionStatement	"printLine ( ""Calling good()..."" )"	83:4:2788:2818	166	1	True				
+ANR	184	CallExpression	"printLine ( ""Calling good()..."" )"		166	0					
+ANR	185	Callee	printLine		166	0					
+ANR	186	Identifier	printLine		166	0					
+ANR	187	ArgumentList	"""Calling good()..."""		166	1					
+ANR	188	Argument	"""Calling good()..."""		166	0					
+ANR	189	PrimaryExpression	"""Calling good()..."""		166	0					
+ANR	190	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good ( )	84:4:2824:2892	166	2	True				
+ANR	191	CallExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good ( )		166	0					
+ANR	192	Callee	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good		166	0					
+ANR	193	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_good		166	0					
+ANR	194	ArgumentList			166	1					
+ANR	195	ExpressionStatement	"printLine ( ""Finished good()"" )"	85:4:2898:2926	166	3	True				
+ANR	196	CallExpression	"printLine ( ""Finished good()"" )"		166	0					
+ANR	197	Callee	printLine		166	0					
+ANR	198	Identifier	printLine		166	0					
+ANR	199	ArgumentList	"""Finished good()"""		166	1					
+ANR	200	Argument	"""Finished good()"""		166	0					
+ANR	201	PrimaryExpression	"""Finished good()"""		166	0					
+ANR	202	ExpressionStatement	"printLine ( ""Calling bad()..."" )"	88:4:2970:2999	166	4	True				
+ANR	203	CallExpression	"printLine ( ""Calling bad()..."" )"		166	0					
+ANR	204	Callee	printLine		166	0					
+ANR	205	Identifier	printLine		166	0					
+ANR	206	ArgumentList	"""Calling bad()..."""		166	1					
+ANR	207	Argument	"""Calling bad()..."""		166	0					
+ANR	208	PrimaryExpression	"""Calling bad()..."""		166	0					
+ANR	209	ExpressionStatement	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad ( )	89:4:3005:3072	166	5	True				
+ANR	210	CallExpression	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad ( )		166	0					
+ANR	211	Callee	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad		166	0					
+ANR	212	Identifier	CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_memcpy_68_bad		166	0					
+ANR	213	ArgumentList			166	1					
+ANR	214	ExpressionStatement	"printLine ( ""Finished bad()"" )"	90:4:3078:3105	166	6	True				
+ANR	215	CallExpression	"printLine ( ""Finished bad()"" )"		166	0					
+ANR	216	Callee	printLine		166	0					
+ANR	217	Identifier	printLine		166	0					
+ANR	218	ArgumentList	"""Finished bad()"""		166	1					
+ANR	219	Argument	"""Finished bad()"""		166	0					
+ANR	220	PrimaryExpression	"""Finished bad()"""		166	0					
+ANR	221	ReturnStatement	return 0 ;	92:4:3132:3140	166	7	True				
+ANR	222	PrimaryExpression	0		166	0					
+ANR	223	ReturnType	int		166	1					
+ANR	224	Identifier	main		166	2					
+ANR	225	ParameterList	"int argc , char * argv [ ]"		166	3					
+ANR	226	Parameter	int argc	78:9:2679:2686	166	0	True				
+ANR	227	ParameterType	int		166	0					
+ANR	228	Identifier	argc		166	1					
+ANR	229	Parameter	char * argv [ ]	78:19:2689:2701	166	1	True				
+ANR	230	ParameterType	char * [ ]		166	0					
+ANR	231	Identifier	argv		166	1					
+ANR	232	CFGEntryNode	ENTRY		166		True				
+ANR	233	CFGExitNode	EXIT		166		True				
+ANR	234	Symbol	argc		166						
+ANR	235	Symbol	NULL		166						
+ANR	236	Symbol	time		166						
+ANR	237	Symbol	argv		166						

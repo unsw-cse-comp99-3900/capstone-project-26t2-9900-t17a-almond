@@ -1,0 +1,194 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__08_non_vulnerable_build_tpm_tcpa__data_flow_alias__c1/_work/source/devign__08_non_vulnerable_build_tpm_tcpa__data_flow_alias__c1.c								
+ANR	2	Function	build_tpm_tcpa	1:0:0:1154							
+ANR	3	FunctionDef	"build_tpm_tcpa (GArray * table_data , GArray * linker , GArray * tcpalog)"		2	0					
+ANR	4	CompoundStatement		3:0:69:1154	2	0					
+ANR	5	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( table_data ) ;	5:4:76:116	2	0	True				
+ANR	6	IdentifierDecl	* dwk_alias_1 = ( void * ) ( table_data )		2	0					
+ANR	7	IdentifierDeclType	void *		2	0					
+ANR	8	Identifier	dwk_alias_1		2	1					
+ANR	9	AssignmentExpression	* dwk_alias_1 = ( void * ) ( table_data )		2	2		=			
+ANR	10	Identifier	dwk_alias_1		2	0					
+ANR	11	CastExpression	( void * ) ( table_data )		2	1					
+ANR	12	CastTarget	void *		2	0					
+ANR	13	Identifier	table_data		2	1					
+ANR	14	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	6:4:122:169	2	1	True				
+ANR	15	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	16	Identifier	dwk_alias_1		2	0					
+ANR	17	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	18	CastTarget	void *		2	0					
+ANR	19	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	20	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	21	CastTarget	char *		2	0					
+ANR	22	Identifier	dwk_alias_1		2	1					
+ANR	23	PrimaryExpression	0		2	1					
+ANR	24	IdentifierDeclStatement	"Acpi20Tcpa * tcpa = acpi_data_push ( table_data , sizeof * tcpa ) ;"	7:4:175:234	2	2	True				
+ANR	25	IdentifierDecl	"* tcpa = acpi_data_push ( table_data , sizeof * tcpa )"		2	0					
+ANR	26	IdentifierDeclType	Acpi20Tcpa *		2	0					
+ANR	27	Identifier	tcpa		2	1					
+ANR	28	AssignmentExpression	"* tcpa = acpi_data_push ( table_data , sizeof * tcpa )"		2	2		=			
+ANR	29	Identifier	tcpa		2	0					
+ANR	30	CallExpression	"acpi_data_push ( table_data , sizeof * tcpa )"		2	1					
+ANR	31	Callee	acpi_data_push		2	0					
+ANR	32	Identifier	acpi_data_push		2	0					
+ANR	33	ArgumentList	table_data		2	1					
+ANR	34	Argument	table_data		2	0					
+ANR	35	Identifier	table_data		2	0					
+ANR	36	Argument	sizeof * tcpa		2	1					
+ANR	37	SizeofExpression	sizeof * tcpa		2	0					
+ANR	38	Sizeof	sizeof		2	0					
+ANR	39	UnaryOperationExpression	* tcpa		2	1					
+ANR	40	UnaryOperator	*		2	0					
+ANR	41	Identifier	tcpa		2	1					
+ANR	42	IdentifierDeclStatement	uint64_t log_area_start_address = acpi_data_len ( tcpalog ) ;	9:4:241:297	2	3	True				
+ANR	43	IdentifierDecl	log_area_start_address = acpi_data_len ( tcpalog )		2	0					
+ANR	44	IdentifierDeclType	uint64_t		2	0					
+ANR	45	Identifier	log_area_start_address		2	1					
+ANR	46	AssignmentExpression	log_area_start_address = acpi_data_len ( tcpalog )		2	2		=			
+ANR	47	Identifier	log_area_start_address		2	0					
+ANR	48	CallExpression	acpi_data_len ( tcpalog )		2	1					
+ANR	49	Callee	acpi_data_len		2	0					
+ANR	50	Identifier	acpi_data_len		2	0					
+ANR	51	ArgumentList	tcpalog		2	1					
+ANR	52	Argument	tcpalog		2	0					
+ANR	53	Identifier	tcpalog		2	0					
+ANR	54	ExpressionStatement	tcpa -> platform_class = cpu_to_le16 ( TPM_TCPA_ACPI_CLASS_CLIENT )	13:4:306:368	2	4	True				
+ANR	55	AssignmentExpression	tcpa -> platform_class = cpu_to_le16 ( TPM_TCPA_ACPI_CLASS_CLIENT )		2	0		=			
+ANR	56	PtrMemberAccess	tcpa -> platform_class		2	0					
+ANR	57	Identifier	tcpa		2	0					
+ANR	58	Identifier	platform_class		2	1					
+ANR	59	CallExpression	cpu_to_le16 ( TPM_TCPA_ACPI_CLASS_CLIENT )		2	1					
+ANR	60	Callee	cpu_to_le16		2	0					
+ANR	61	Identifier	cpu_to_le16		2	0					
+ANR	62	ArgumentList	TPM_TCPA_ACPI_CLASS_CLIENT		2	1					
+ANR	63	Argument	TPM_TCPA_ACPI_CLASS_CLIENT		2	0					
+ANR	64	Identifier	TPM_TCPA_ACPI_CLASS_CLIENT		2	0					
+ANR	65	ExpressionStatement	tcpa -> log_area_minimum_length = cpu_to_le32 ( TPM_LOG_AREA_MINIMUM_SIZE )	15:4:375:445	2	5	True				
+ANR	66	AssignmentExpression	tcpa -> log_area_minimum_length = cpu_to_le32 ( TPM_LOG_AREA_MINIMUM_SIZE )		2	0		=			
+ANR	67	PtrMemberAccess	tcpa -> log_area_minimum_length		2	0					
+ANR	68	Identifier	tcpa		2	0					
+ANR	69	Identifier	log_area_minimum_length		2	1					
+ANR	70	CallExpression	cpu_to_le32 ( TPM_LOG_AREA_MINIMUM_SIZE )		2	1					
+ANR	71	Callee	cpu_to_le32		2	0					
+ANR	72	Identifier	cpu_to_le32		2	0					
+ANR	73	ArgumentList	TPM_LOG_AREA_MINIMUM_SIZE		2	1					
+ANR	74	Argument	TPM_LOG_AREA_MINIMUM_SIZE		2	0					
+ANR	75	Identifier	TPM_LOG_AREA_MINIMUM_SIZE		2	0					
+ANR	76	ExpressionStatement	tcpa -> log_area_start_address = cpu_to_le64 ( log_area_start_address )	17:4:452:518	2	6	True				
+ANR	77	AssignmentExpression	tcpa -> log_area_start_address = cpu_to_le64 ( log_area_start_address )		2	0		=			
+ANR	78	PtrMemberAccess	tcpa -> log_area_start_address		2	0					
+ANR	79	Identifier	tcpa		2	0					
+ANR	80	Identifier	log_area_start_address		2	1					
+ANR	81	CallExpression	cpu_to_le64 ( log_area_start_address )		2	1					
+ANR	82	Callee	cpu_to_le64		2	0					
+ANR	83	Identifier	cpu_to_le64		2	0					
+ANR	84	ArgumentList	log_area_start_address		2	1					
+ANR	85	Argument	log_area_start_address		2	0					
+ANR	86	Identifier	log_area_start_address		2	0					
+ANR	87	ExpressionStatement	"bios_linker_loader_alloc ( linker , ACPI_BUILD_TPMLOG_FILE , 1 , false )"	21:4:527:641	2	7	True				
+ANR	88	CallExpression	"bios_linker_loader_alloc ( linker , ACPI_BUILD_TPMLOG_FILE , 1 , false )"		2	0					
+ANR	89	Callee	bios_linker_loader_alloc		2	0					
+ANR	90	Identifier	bios_linker_loader_alloc		2	0					
+ANR	91	ArgumentList	linker		2	1					
+ANR	92	Argument	linker		2	0					
+ANR	93	Identifier	linker		2	0					
+ANR	94	Argument	ACPI_BUILD_TPMLOG_FILE		2	1					
+ANR	95	Identifier	ACPI_BUILD_TPMLOG_FILE		2	0					
+ANR	96	Argument	1		2	2					
+ANR	97	PrimaryExpression	1		2	0					
+ANR	98	Argument	false		2	3					
+ANR	99	Identifier	false		2	0					
+ANR	100	ExpressionStatement	"bios_linker_loader_add_pointer ( linker , ACPI_BUILD_TABLE_FILE , ACPI_BUILD_TPMLOG_FILE , table_data , & tcpa -> log_area_start_address , sizeof ( tcpa -> log_area_start_address ) )"	29:4:713:987	2	8	True				
+ANR	101	CallExpression	"bios_linker_loader_add_pointer ( linker , ACPI_BUILD_TABLE_FILE , ACPI_BUILD_TPMLOG_FILE , table_data , & tcpa -> log_area_start_address , sizeof ( tcpa -> log_area_start_address ) )"		2	0					
+ANR	102	Callee	bios_linker_loader_add_pointer		2	0					
+ANR	103	Identifier	bios_linker_loader_add_pointer		2	0					
+ANR	104	ArgumentList	linker		2	1					
+ANR	105	Argument	linker		2	0					
+ANR	106	Identifier	linker		2	0					
+ANR	107	Argument	ACPI_BUILD_TABLE_FILE		2	1					
+ANR	108	Identifier	ACPI_BUILD_TABLE_FILE		2	0					
+ANR	109	Argument	ACPI_BUILD_TPMLOG_FILE		2	2					
+ANR	110	Identifier	ACPI_BUILD_TPMLOG_FILE		2	0					
+ANR	111	Argument	table_data		2	3					
+ANR	112	Identifier	table_data		2	0					
+ANR	113	Argument	& tcpa -> log_area_start_address		2	4					
+ANR	114	UnaryOperationExpression	& tcpa -> log_area_start_address		2	0					
+ANR	115	UnaryOperator	&		2	0					
+ANR	116	PtrMemberAccess	tcpa -> log_area_start_address		2	1					
+ANR	117	Identifier	tcpa		2	0					
+ANR	118	Identifier	log_area_start_address		2	1					
+ANR	119	Argument	sizeof ( tcpa -> log_area_start_address )		2	5					
+ANR	120	SizeofExpression	sizeof ( tcpa -> log_area_start_address )		2	0					
+ANR	121	Sizeof	sizeof		2	0					
+ANR	122	PtrMemberAccess	tcpa -> log_area_start_address		2	1					
+ANR	123	Identifier	tcpa		2	0					
+ANR	124	Identifier	log_area_start_address		2	1					
+ANR	125	ExpressionStatement	"build_header ( linker , table_data , ( void * ) tcpa , ""TCPA"" , sizeof ( * tcpa ) , 2 , NULL )"	39:4:996:1092	2	9	True				
+ANR	126	CallExpression	"build_header ( linker , table_data , ( void * ) tcpa , ""TCPA"" , sizeof ( * tcpa ) , 2 , NULL )"		2	0					
+ANR	127	Callee	build_header		2	0					
+ANR	128	Identifier	build_header		2	0					
+ANR	129	ArgumentList	linker		2	1					
+ANR	130	Argument	linker		2	0					
+ANR	131	Identifier	linker		2	0					
+ANR	132	Argument	table_data		2	1					
+ANR	133	Identifier	table_data		2	0					
+ANR	134	Argument	( void * ) tcpa		2	2					
+ANR	135	CastExpression	( void * ) tcpa		2	0					
+ANR	136	CastTarget	void *		2	0					
+ANR	137	Identifier	tcpa		2	1					
+ANR	138	Argument	"""TCPA"""		2	3					
+ANR	139	PrimaryExpression	"""TCPA"""		2	0					
+ANR	140	Argument	sizeof ( * tcpa )		2	4					
+ANR	141	SizeofExpression	sizeof ( * tcpa )		2	0					
+ANR	142	Sizeof	sizeof		2	0					
+ANR	143	UnaryOperationExpression	* tcpa		2	1					
+ANR	144	UnaryOperator	*		2	0					
+ANR	145	Identifier	tcpa		2	1					
+ANR	146	Argument	2		2	5					
+ANR	147	PrimaryExpression	2		2	0					
+ANR	148	Argument	NULL		2	6					
+ANR	149	Identifier	NULL		2	0					
+ANR	150	ExpressionStatement	"acpi_data_push ( tcpalog , TPM_LOG_AREA_MINIMUM_SIZE )"	45:4:1101:1151	2	10	True				
+ANR	151	CallExpression	"acpi_data_push ( tcpalog , TPM_LOG_AREA_MINIMUM_SIZE )"		2	0					
+ANR	152	Callee	acpi_data_push		2	0					
+ANR	153	Identifier	acpi_data_push		2	0					
+ANR	154	ArgumentList	tcpalog		2	1					
+ANR	155	Argument	tcpalog		2	0					
+ANR	156	Identifier	tcpalog		2	0					
+ANR	157	Argument	TPM_LOG_AREA_MINIMUM_SIZE		2	1					
+ANR	158	Identifier	TPM_LOG_AREA_MINIMUM_SIZE		2	0					
+ANR	159	Identifier	build_tpm_tcpa		2	1					
+ANR	160	ParameterList	"GArray * table_data , GArray * linker , GArray * tcpalog"		2	2					
+ANR	161	Parameter	GArray * table_data	1:15:15:32	2	0	True				
+ANR	162	ParameterType	GArray *		2	0					
+ANR	163	Identifier	table_data		2	1					
+ANR	164	Parameter	GArray * linker	1:35:35:48	2	1	True				
+ANR	165	ParameterType	GArray *		2	0					
+ANR	166	Identifier	linker		2	1					
+ANR	167	Parameter	GArray * tcpalog	1:51:51:65	2	2	True				
+ANR	168	ParameterType	GArray *		2	0					
+ANR	169	Identifier	tcpalog		2	1					
+ANR	170	CFGEntryNode	ENTRY		2		True				
+ANR	171	CFGExitNode	EXIT		2		True				
+ANR	172	Symbol	linker		2						
+ANR	173	Symbol	& tcpa -> log_area_start_address		2						
+ANR	174	Symbol	NULL		2						
+ANR	175	Symbol	tcpa -> log_area_minimum_length		2						
+ANR	176	Symbol	tcpa -> platform_class		2						
+ANR	177	Symbol	tcpa -> log_area_start_address		2						
+ANR	178	Symbol	false		2						
+ANR	179	Symbol	ACPI_BUILD_TPMLOG_FILE		2						
+ANR	180	Symbol	* tcpa		2						
+ANR	181	Symbol	TPM_TCPA_ACPI_CLASS_CLIENT		2						
+ANR	182	Symbol	TPM_LOG_AREA_MINIMUM_SIZE		2						
+ANR	183	Symbol	tcpa		2						
+ANR	184	Symbol	cpu_to_le32		2						
+ANR	185	Symbol	table_data		2						
+ANR	186	Symbol	acpi_data_len		2						
+ANR	187	Symbol	cpu_to_le64		2						
+ANR	188	Symbol	ACPI_BUILD_TABLE_FILE		2						
+ANR	189	Symbol	cpu_to_le16		2						
+ANR	190	Symbol	acpi_data_push		2						
+ANR	191	Symbol	dwk_alias_1		2						
+ANR	192	Symbol	tcpalog		2						
+ANR	193	Symbol	log_area_start_address		2						

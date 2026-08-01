@@ -1,0 +1,91 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__11_vulnerable_CWE121_Stack_Based_Buffer_Overflow____range_clamp__c1/_work/source/cwe119__11_vulnerable_CWE121_Stack_Based_Buffer_Overflow____range_clamp__c1.c								
+ANR	2	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action	24:0:779:1403							
+ANR	3	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action (char * data)		2	0					
+ANR	4	CompoundStatement		25:0:875:1403	2	0					
+ANR	5	CompoundStatement		5:8:126:184	2	0					
+ANR	6	IdentifierDeclStatement	"char dest [ 50 ] = """" ;"	27:8:891:909	2	0	True				
+ANR	7	IdentifierDecl	"dest [ 50 ] = """""		2	0					
+ANR	8	IdentifierDeclType	char [ 50 ]		2	0					
+ANR	9	Identifier	dest		2	1					
+ANR	10	PrimaryExpression	50		2	2					
+ANR	11	AssignmentExpression	"dest [ 50 ] = """""		2	3		=			
+ANR	12	Identifier	dest		2	0					
+ANR	13	PrimaryExpression	""""""		2	1					
+ANR	14	IdentifierDeclStatement	int dwk_clamped_value_1 = ( int ) ( strlen ( data ) * sizeof ( char ) ) ;	29:8:1002:1060	2	1	True				
+ANR	15	IdentifierDecl	dwk_clamped_value_1 = ( int ) ( strlen ( data ) * sizeof ( char ) )		2	0					
+ANR	16	IdentifierDeclType	int		2	0					
+ANR	17	Identifier	dwk_clamped_value_1		2	1					
+ANR	18	AssignmentExpression	dwk_clamped_value_1 = ( int ) ( strlen ( data ) * sizeof ( char ) )		2	2		=			
+ANR	19	Identifier	dwk_clamped_value_1		2	0					
+ANR	20	CastExpression	( int ) ( strlen ( data ) * sizeof ( char ) )		2	1					
+ANR	21	CastTarget	int		2	0					
+ANR	22	MultiplicativeExpression	strlen ( data ) * sizeof ( char )		2	1		*			
+ANR	23	CallExpression	strlen ( data )		2	0					
+ANR	24	Callee	strlen		2	0					
+ANR	25	Identifier	strlen		2	0					
+ANR	26	ArgumentList	data		2	1					
+ANR	27	Argument	data		2	0					
+ANR	28	Identifier	data		2	0					
+ANR	29	SizeofExpression	sizeof ( char )		2	1					
+ANR	30	Sizeof	sizeof		2	0					
+ANR	31	SizeofOperand	char		2	1					
+ANR	32	IfStatement	if ( dwk_clamped_value_1 < 0 )		2	2					
+ANR	33	Condition	dwk_clamped_value_1 < 0	30:12:1074:1096	2	0	True				
+ANR	34	RelationalExpression	dwk_clamped_value_1 < 0		2	0		<			
+ANR	35	Identifier	dwk_clamped_value_1		2	0					
+ANR	36	PrimaryExpression	0		2	1					
+ANR	37	CompoundStatement		6:37:223:223	2	1					
+ANR	38	ExpressionStatement	dwk_clamped_value_1 = 0	31:12:1113:1136	2	0	True				
+ANR	39	AssignmentExpression	dwk_clamped_value_1 = 0		2	0		=			
+ANR	40	Identifier	dwk_clamped_value_1		2	0					
+ANR	41	PrimaryExpression	0		2	1					
+ANR	42	IfStatement	if ( dwk_clamped_value_1 > 4096 )		2	3					
+ANR	43	Condition	dwk_clamped_value_1 > 4096	33:12:1160:1185	2	0	True				
+ANR	44	RelationalExpression	dwk_clamped_value_1 > 4096		2	0		>			
+ANR	45	Identifier	dwk_clamped_value_1		2	0					
+ANR	46	PrimaryExpression	4096		2	1					
+ANR	47	CompoundStatement		9:40:312:312	2	1					
+ANR	48	ExpressionStatement	dwk_clamped_value_1 = 4096	34:12:1202:1228	2	0	True				
+ANR	49	AssignmentExpression	dwk_clamped_value_1 = 4096		2	0		=			
+ANR	50	Identifier	dwk_clamped_value_1		2	0					
+ANR	51	PrimaryExpression	4096		2	1					
+ANR	52	ExpressionStatement	"memmove ( dest , data , dwk_clamped_value_1 )"	36:8:1248:1288	2	4	True				
+ANR	53	CallExpression	"memmove ( dest , data , dwk_clamped_value_1 )"		2	0					
+ANR	54	Callee	memmove		2	0					
+ANR	55	Identifier	memmove		2	0					
+ANR	56	ArgumentList	dest		2	1					
+ANR	57	Argument	dest		2	0					
+ANR	58	Identifier	dest		2	0					
+ANR	59	Argument	data		2	1					
+ANR	60	Identifier	data		2	0					
+ANR	61	Argument	dwk_clamped_value_1		2	2					
+ANR	62	Identifier	dwk_clamped_value_1		2	0					
+ANR	63	ExpressionStatement	dest [ 50 - 1 ] = '\\0'	37:8:1298:1315	2	5	True				
+ANR	64	AssignmentExpression	dest [ 50 - 1 ] = '\\0'		2	0		=			
+ANR	65	ArrayIndexing	dest [ 50 - 1 ]		2	0					
+ANR	66	Identifier	dest		2	0					
+ANR	67	AdditiveExpression	50 - 1		2	1		-			
+ANR	68	PrimaryExpression	50		2	0					
+ANR	69	PrimaryExpression	1		2	1					
+ANR	70	PrimaryExpression	'\\0'		2	1					
+ANR	71	ExpressionStatement	printLine ( data )	38:8:1380:1395	2	6	True				
+ANR	72	CallExpression	printLine ( data )		2	0					
+ANR	73	Callee	printLine		2	0					
+ANR	74	Identifier	printLine		2	0					
+ANR	75	ArgumentList	data		2	1					
+ANR	76	Argument	data		2	0					
+ANR	77	Identifier	data		2	0					
+ANR	78	ReturnType	void		2	1					
+ANR	79	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_memmove_82_bad :: action		2	2					
+ANR	80	ParameterList	char * data		2	3					
+ANR	81	Parameter	char * data	24:83:862:872	2	0	True				
+ANR	82	ParameterType	char *		2	0					
+ANR	83	Identifier	data		2	1					
+ANR	84	CFGEntryNode	ENTRY		2		True				
+ANR	85	CFGExitNode	EXIT		2		True				
+ANR	86	Symbol	strlen		2						
+ANR	87	Symbol	dwk_clamped_value_1		2						
+ANR	88	Symbol	data		2						
+ANR	89	Symbol	* dest		2						
+ANR	90	Symbol	dest		2						

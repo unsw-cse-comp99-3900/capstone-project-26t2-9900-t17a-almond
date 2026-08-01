@@ -1,0 +1,303 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__05_non_vulnerable_static_int_slb_lookup__xfg_targeted_dead_code__c1/_work/source/devign__05_non_vulnerable_static_int_slb_lookup__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	slb_lookup	1:0:0:1975							
+ANR	3	FunctionDef	"slb_lookup (CPUPPCState * env , target_ulong eaddr , target_ulong * vsid , target_ulong * page_mask , int * attr)"		2	0					
+ANR	4	CompoundStatement		5:0:142:1975	2	0					
+ANR	5	IdentifierDeclStatement	target_phys_addr_t sr_base ;	7:4:149:175	2	0	True				
+ANR	6	IdentifierDecl	sr_base		2	0					
+ANR	7	IdentifierDeclType	target_phys_addr_t		2	0					
+ANR	8	Identifier	sr_base		2	1					
+ANR	9	IdentifierDeclStatement	target_ulong mask ;	9:4:182:199	2	1	True				
+ANR	10	IdentifierDecl	mask		2	0					
+ANR	11	IdentifierDeclType	target_ulong		2	0					
+ANR	12	Identifier	mask		2	1					
+ANR	13	IdentifierDeclStatement	uint64_t tmp64 ;	11:4:206:220	2	2	True				
+ANR	14	IdentifierDecl	tmp64		2	0					
+ANR	15	IdentifierDeclType	uint64_t		2	0					
+ANR	16	Identifier	tmp64		2	1					
+ANR	17	IdentifierDeclStatement	uint32_t tmp ;	13:4:227:239	2	3	True				
+ANR	18	IdentifierDecl	tmp		2	0					
+ANR	19	IdentifierDeclType	uint32_t		2	0					
+ANR	20	Identifier	tmp		2	1					
+ANR	21	IdentifierDeclStatement	"int n , ret ;"	15:4:246:256	2	4	True				
+ANR	22	IdentifierDecl	n		2	0					
+ANR	23	IdentifierDeclType	int		2	0					
+ANR	24	Identifier	n		2	1					
+ANR	25	IdentifierDecl	ret		2	1					
+ANR	26	IdentifierDeclType	int		2	0					
+ANR	27	Identifier	ret		2	1					
+ANR	28	IdentifierDeclStatement	int slb_nr ;	17:4:263:273	2	5	True				
+ANR	29	IdentifierDecl	slb_nr		2	0					
+ANR	30	IdentifierDeclType	int		2	0					
+ANR	31	Identifier	slb_nr		2	1					
+ANR	32	ExpressionStatement	ret = - 5	21:4:282:290	2	6	True				
+ANR	33	AssignmentExpression	ret = - 5		2	0		=			
+ANR	34	Identifier	ret		2	0					
+ANR	35	UnaryOperationExpression	- 5		2	1					
+ANR	36	UnaryOperator	-		2	0					
+ANR	37	PrimaryExpression	5		2	1					
+ANR	38	IfStatement	if ( 0 )		2	7					
+ANR	39	Condition	0	23:8:301:301	2	0	True				
+ANR	40	PrimaryExpression	0		2	0					
+ANR	41	CompoundStatement		20:8:171:194	2	1					
+ANR	42	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	24:8:314:337	2	0	True				
+ANR	43	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	44	IdentifierDeclType	int		2	0					
+ANR	45	Identifier	dwk_xfg_guard_1		2	1					
+ANR	46	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	47	Identifier	dwk_xfg_guard_1		2	0					
+ANR	48	PrimaryExpression	1		2	1					
+ANR	49	ExpressionStatement	dwk_xfg_guard_1 += 0	25:8:347:367	2	1	True				
+ANR	50	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	51	Identifier	dwk_xfg_guard_1		2	0					
+ANR	52	PrimaryExpression	0		2	1					
+ANR	53	ExpressionStatement	sr_base = env -> spr [ SPR_ASR ]	27:4:379:406	2	8	True				
+ANR	54	AssignmentExpression	sr_base = env -> spr [ SPR_ASR ]		2	0		=			
+ANR	55	Identifier	sr_base		2	0					
+ANR	56	ArrayIndexing	env -> spr [ SPR_ASR ]		2	1					
+ANR	57	PtrMemberAccess	env -> spr		2	0					
+ANR	58	Identifier	env		2	0					
+ANR	59	Identifier	spr		2	1					
+ANR	60	Identifier	SPR_ASR		2	1					
+ANR	61	IfStatement	if ( loglevel != 0 )		2	9					
+ANR	62	Condition	loglevel != 0	31:8:441:453	2	0	True				
+ANR	63	EqualityExpression	loglevel != 0		2	0		!=			
+ANR	64	Identifier	loglevel		2	0					
+ANR	65	PrimaryExpression	0		2	1					
+ANR	66	CompoundStatement		27:23:313:313	2	1					
+ANR	67	Statement	fprintf	33:8:467:473	2	0	True				
+ANR	68	Statement	(	33:15:474:474	2	1	True				
+ANR	69	Statement	logfile	33:16:475:481	2	2	True				
+ANR	70	Statement	","	33:23:482:482	2	3	True				
+ANR	71	Statement	"""%s: eaddr """	33:25:484:495	2	4	True				
+ANR	72	Statement	ADDRX	33:38:497:501	2	5	True				
+ANR	73	Statement	""" base """	33:44:503:510	2	6	True				
+ANR	74	Statement	PADDRX	33:53:512:517	2	7	True				
+ANR	75	Statement	"""\\n"""	33:60:519:522	2	8	True				
+ANR	76	Statement	","	33:64:523:523	2	9	True				
+ANR	77	Statement	__func__	35:16:542:549	2	10	True				
+ANR	78	Statement	","	35:24:550:550	2	11	True				
+ANR	79	Statement	eaddr	35:26:552:556	2	12	True				
+ANR	80	Statement	","	35:31:557:557	2	13	True				
+ANR	81	Statement	sr_base	35:33:559:565	2	14	True				
+ANR	82	Statement	)	35:40:566:566	2	15	True				
+ANR	83	ExpressionStatement		35:41:567:567	2	16	True				
+ANR	84	Statement	mask	41:4:589:592	2	10	True				
+ANR	85	Statement	=	41:9:594:594	2	11	True				
+ANR	86	Statement	0x0000000000000000UL	41:11:596:615	2	12	True				
+ANR	87	ExpressionStatement	L	41:31:616:617	2	13	True				
+ANR	88	Identifier	L		2	0					
+ANR	89	ExpressionStatement	slb_nr = env -> slb_nr	43:4:648:668	2	14	True				
+ANR	90	AssignmentExpression	slb_nr = env -> slb_nr		2	0		=			
+ANR	91	Identifier	slb_nr		2	0					
+ANR	92	PtrMemberAccess	env -> slb_nr		2	1					
+ANR	93	Identifier	env		2	0					
+ANR	94	Identifier	slb_nr		2	1					
+ANR	95	ForStatement	for ( n = 0 ; n < slb_nr ; n ++ )		2	15					
+ANR	96	ForInit	n = 0 ;	45:9:680:685	2	0	True				
+ANR	97	AssignmentExpression	n = 0		2	0		=			
+ANR	98	Identifier	n		2	0					
+ANR	99	PrimaryExpression	0		2	1					
+ANR	100	Condition	n < slb_nr	45:16:687:696	2	1	True				
+ANR	101	RelationalExpression	n < slb_nr		2	0		<			
+ANR	102	Identifier	n		2	0					
+ANR	103	Identifier	slb_nr		2	1					
+ANR	104	PostIncDecOperationExpression	n ++	45:28:699:701	2	2	True				
+ANR	105	Identifier	n		2	0					
+ANR	106	IncDec	++		2	1					
+ANR	107	CompoundStatement		41:33:561:561	2	3					
+ANR	108	ExpressionStatement	tmp64 = ldq_phys ( sr_base )	47:8:715:740	2	0	True				
+ANR	109	AssignmentExpression	tmp64 = ldq_phys ( sr_base )		2	0		=			
+ANR	110	Identifier	tmp64		2	0					
+ANR	111	CallExpression	ldq_phys ( sr_base )		2	1					
+ANR	112	Callee	ldq_phys		2	0					
+ANR	113	Identifier	ldq_phys		2	0					
+ANR	114	ArgumentList	sr_base		2	1					
+ANR	115	Argument	sr_base		2	0					
+ANR	116	Identifier	sr_base		2	0					
+ANR	117	ExpressionStatement	tmp = ldl_phys ( sr_base + 8 )	49:8:751:778	2	1	True				
+ANR	118	AssignmentExpression	tmp = ldl_phys ( sr_base + 8 )		2	0		=			
+ANR	119	Identifier	tmp		2	0					
+ANR	120	CallExpression	ldl_phys ( sr_base + 8 )		2	1					
+ANR	121	Callee	ldl_phys		2	0					
+ANR	122	Identifier	ldl_phys		2	0					
+ANR	123	ArgumentList	sr_base + 8		2	1					
+ANR	124	Argument	sr_base + 8		2	0					
+ANR	125	AdditiveExpression	sr_base + 8		2	0		+			
+ANR	126	Identifier	sr_base		2	0					
+ANR	127	PrimaryExpression	8		2	1					
+ANR	128	IfStatement	if ( loglevel != 0 )		2	2					
+ANR	129	Condition	loglevel != 0	53:12:817:829	2	0	True				
+ANR	130	EqualityExpression	loglevel != 0		2	0		!=			
+ANR	131	Identifier	loglevel		2	0					
+ANR	132	PrimaryExpression	0		2	1					
+ANR	133	CompoundStatement		49:27:689:689	2	1					
+ANR	134	Statement	fprintf	55:12:847:853	2	0	True				
+ANR	135	Statement	(	55:19:854:854	2	1	True				
+ANR	136	Statement	logfile	55:20:855:861	2	2	True				
+ANR	137	Statement	","	55:27:862:862	2	3	True				
+ANR	138	Statement	"""%s: seg %d """	55:29:864:876	2	4	True				
+ANR	139	Statement	PADDRX	55:43:878:883	2	5	True				
+ANR	140	Statement	""" %016"""	55:50:885:891	2	6	True				
+ANR	141	Statement	PRIx64	55:58:893:898	2	7	True				
+ANR	142	Statement	""" %08"""	55:65:900:905	2	8	True				
+ANR	143	Statement	PRIx32	57:20:928:933	2	9	True				
+ANR	144	Statement	"""\\n"""	57:27:935:938	2	10	True				
+ANR	145	Statement	","	57:31:939:939	2	11	True				
+ANR	146	Statement	__func__	57:33:941:948	2	12	True				
+ANR	147	Statement	","	57:41:949:949	2	13	True				
+ANR	148	Statement	n	57:43:951:951	2	14	True				
+ANR	149	Statement	","	57:44:952:952	2	15	True				
+ANR	150	Statement	sr_base	57:46:954:960	2	16	True				
+ANR	151	Statement	","	57:53:961:961	2	17	True				
+ANR	152	Statement	tmp64	57:55:963:967	2	18	True				
+ANR	153	Statement	","	57:60:968:968	2	19	True				
+ANR	154	Statement	tmp	57:62:970:972	2	20	True				
+ANR	155	Statement	)	57:65:973:973	2	21	True				
+ANR	156	ExpressionStatement		57:66:974:974	2	22	True				
+ANR	157	Statement	if	63:8:1004:1005	2	3	True				
+ANR	158	Statement	(	63:11:1007:1007	2	4	True				
+ANR	159	Statement	tmp64	63:12:1008:1012	2	5	True				
+ANR	160	Statement	&	63:18:1014:1014	2	6	True				
+ANR	161	Statement	0x0000000008000000UL	63:20:1016:1035	2	7	True				
+ANR	162	Statement	L	63:40:1036:1036	2	8	True				
+ANR	163	Statement	)	63:41:1037:1037	2	9	True				
+ANR	164	CompoundStatement		59:43:896:896	2	10					
+ANR	165	Statement	switch	67:12:1092:1097	2	0	True				
+ANR	166	Statement	(	67:19:1099:1099	2	1	True				
+ANR	167	Statement	tmp64	67:20:1100:1104	2	2	True				
+ANR	168	Statement	&	67:26:1106:1106	2	3	True				
+ANR	169	Statement	0x0000000006000000UL	67:28:1108:1127	2	4	True				
+ANR	170	Statement	L	67:48:1128:1128	2	5	True				
+ANR	171	Statement	)	67:49:1129:1129	2	6	True				
+ANR	172	CompoundStatement		63:51:988:988	2	7					
+ANR	173	Statement	case	69:12:1146:1149	2	0	True				
+ANR	174	Statement	0x0000000000000000UL	69:17:1151:1170	2	1	True				
+ANR	175	Label	L :	69:37:1171:1172	2	2	True				
+ANR	176	Identifier	L		2	0					
+ANR	177	Statement	mask	73:16:1229:1232	2	3	True				
+ANR	178	Statement	=	73:21:1234:1234	2	4	True				
+ANR	179	Statement	0xFFFFFFFFF0000000UL	73:23:1236:1255	2	5	True				
+ANR	180	ExpressionStatement	L	73:43:1256:1257	2	6	True				
+ANR	181	Identifier	L		2	0					
+ANR	182	BreakStatement	break ;	75:16:1276:1281	2	7	True				
+ANR	183	Statement	case	77:12:1296:1299	2	8	True				
+ANR	184	Statement	0x0000000002000000UL	77:17:1301:1320	2	9	True				
+ANR	185	Label	L :	77:37:1321:1322	2	10	True				
+ANR	186	Identifier	L		2	0					
+ANR	187	Statement	mask	81:16:1377:1380	2	11	True				
+ANR	188	Statement	=	81:21:1382:1382	2	12	True				
+ANR	189	Statement	0xFFFF000000000000UL	81:23:1384:1403	2	13	True				
+ANR	190	ExpressionStatement	L	81:43:1404:1405	2	14	True				
+ANR	191	Identifier	L		2	0					
+ANR	192	BreakStatement	break ;	83:16:1424:1429	2	15	True				
+ANR	193	Statement	case	85:12:1444:1447	2	16	True				
+ANR	194	Statement	0x0000000004000000UL	85:17:1449:1468	2	17	True				
+ANR	195	Label	L :	85:37:1469:1470	2	18	True				
+ANR	196	Identifier	L		2	0					
+ANR	197	Statement	case	87:12:1485:1488	2	19	True				
+ANR	198	Statement	0x0000000006000000UL	87:17:1490:1509	2	20	True				
+ANR	199	Label	L :	87:37:1510:1511	2	21	True				
+ANR	200	Identifier	L		2	0					
+ANR	201	ContinueStatement	continue ;	91:16:1584:1592	2	22	True				
+ANR	202	IfStatement	if ( ( eaddr & mask ) == ( tmp64 & mask ) )		2	8					
+ANR	203	Condition	( eaddr & mask ) == ( tmp64 & mask )	95:16:1626:1657	2	0	True				
+ANR	204	EqualityExpression	( eaddr & mask ) == ( tmp64 & mask )		2	0		==			
+ANR	205	BitAndExpression	eaddr & mask		2	0		&			
+ANR	206	Identifier	eaddr		2	0					
+ANR	207	Identifier	mask		2	1					
+ANR	208	BitAndExpression	tmp64 & mask		2	1		&			
+ANR	209	Identifier	tmp64		2	0					
+ANR	210	Identifier	mask		2	1					
+ANR	211	CompoundStatement		91:50:1517:1517	2	1					
+ANR	212	Statement	*	99:16:1712:1712	2	0	True				
+ANR	213	Statement	vsid	99:17:1713:1716	2	1	True				
+ANR	214	Statement	=	99:22:1718:1718	2	2	True				
+ANR	215	Statement	(	99:24:1720:1720	2	3	True				
+ANR	216	Statement	(	99:25:1721:1721	2	4	True				
+ANR	217	Statement	tmp64	99:26:1722:1726	2	5	True				
+ANR	218	Statement	<<	99:32:1728:1729	2	6	True				
+ANR	219	Statement	24	99:35:1731:1732	2	7	True				
+ANR	220	Statement	)	99:37:1733:1733	2	8	True				
+ANR	221	Statement	|	99:39:1735:1735	2	9	True				
+ANR	222	Statement	(	99:41:1737:1737	2	10	True				
+ANR	223	Statement	tmp	99:42:1738:1740	2	11	True				
+ANR	224	Statement	>>	99:46:1742:1743	2	12	True				
+ANR	225	Statement	8	99:49:1745:1745	2	13	True				
+ANR	226	Statement	)	99:50:1746:1746	2	14	True				
+ANR	227	Statement	)	99:51:1747:1747	2	15	True				
+ANR	228	Statement	&	99:53:1749:1749	2	16	True				
+ANR	229	Statement	0x0003FFFFFFFFFFFFUL	99:55:1751:1770	2	17	True				
+ANR	230	ExpressionStatement	L	99:75:1771:1772	2	18	True				
+ANR	231	Identifier	L		2	0					
+ANR	232	ExpressionStatement	* page_mask = ~mask	101:16:1791:1809	2	19	True				
+ANR	233	AssignmentExpression	* page_mask = ~mask		2	0		=			
+ANR	234	UnaryOperationExpression	* page_mask		2	0					
+ANR	235	UnaryOperator	*		2	0					
+ANR	236	Identifier	page_mask		2	1					
+ANR	237	Identifier	~mask		2	1					
+ANR	238	ExpressionStatement	* attr = tmp & 0xFF	103:16:1828:1846	2	20	True				
+ANR	239	AssignmentExpression	* attr = tmp & 0xFF		2	0		=			
+ANR	240	UnaryOperationExpression	* attr		2	0					
+ANR	241	UnaryOperator	*		2	0					
+ANR	242	Identifier	attr		2	1					
+ANR	243	BitAndExpression	tmp & 0xFF		2	1		&			
+ANR	244	Identifier	tmp		2	0					
+ANR	245	PrimaryExpression	0xFF		2	1					
+ANR	246	ExpressionStatement	ret = 0	105:16:1865:1872	2	21	True				
+ANR	247	AssignmentExpression	ret = 0		2	0		=			
+ANR	248	Identifier	ret		2	0					
+ANR	249	PrimaryExpression	0		2	1					
+ANR	250	BreakStatement	break ;	107:16:1891:1896	2	22	True				
+ANR	251	ExpressionStatement	sr_base += 12	113:8:1933:1946	2	11	True				
+ANR	252	AssignmentExpression	sr_base += 12		2	0		+=			
+ANR	253	Identifier	sr_base		2	0					
+ANR	254	PrimaryExpression	12		2	1					
+ANR	255	ReturnStatement	return ret ;	119:4:1962:1972	2	16	True				
+ANR	256	Identifier	ret		2	0					
+ANR	257	ReturnType	static int		2	1					
+ANR	258	Identifier	slb_lookup		2	2					
+ANR	259	ParameterList	"CPUPPCState * env , target_ulong eaddr , target_ulong * vsid , target_ulong * page_mask , int * attr"		2	3					
+ANR	260	Parameter	CPUPPCState * env	1:23:23:38	2	0	True				
+ANR	261	ParameterType	CPUPPCState *		2	0					
+ANR	262	Identifier	env		2	1					
+ANR	263	Parameter	target_ulong eaddr	1:41:41:58	2	1	True				
+ANR	264	ParameterType	target_ulong		2	0					
+ANR	265	Identifier	eaddr		2	1					
+ANR	266	Parameter	target_ulong * vsid	3:23:85:102	2	2	True				
+ANR	267	ParameterType	target_ulong *		2	0					
+ANR	268	Identifier	vsid		2	1					
+ANR	269	Parameter	target_ulong * page_mask	3:43:105:127	2	3	True				
+ANR	270	ParameterType	target_ulong *		2	0					
+ANR	271	Identifier	page_mask		2	1					
+ANR	272	Parameter	int * attr	3:68:130:138	2	4	True				
+ANR	273	ParameterType	int *		2	0					
+ANR	274	Identifier	attr		2	1					
+ANR	275	CFGEntryNode	ENTRY		2		True				
+ANR	276	CFGExitNode	EXIT		2		True				
+ANR	277	Symbol	tmp64		2						
+ANR	278	Symbol	* * env		2						
+ANR	279	Symbol	slb_nr		2						
+ANR	280	Symbol	~mask		2						
+ANR	281	Symbol	ldl_phys		2						
+ANR	282	Symbol	tmp		2						
+ANR	283	Symbol	attr		2						
+ANR	284	Symbol	mask		2						
+ANR	285	Symbol	ret		2						
+ANR	286	Symbol	env -> slb_nr		2						
+ANR	287	Symbol	dwk_xfg_guard_1		2						
+ANR	288	Symbol	* env		2						
+ANR	289	Symbol	ldq_phys		2						
+ANR	290	Symbol	eaddr		2						
+ANR	291	Symbol	env		2						
+ANR	292	Symbol	sr_base		2						
+ANR	293	Symbol	n		2						
+ANR	294	Symbol	env -> spr		2						
+ANR	295	Symbol	SPR_ASR		2						
+ANR	296	Symbol	vsid		2						
+ANR	297	Symbol	page_mask		2						
+ANR	298	Symbol	loglevel		2						
+ANR	299	Symbol	* SPR_ASR		2						
+ANR	300	Symbol	* page_mask		2						
+ANR	301	Symbol	* attr		2						
+ANR	302	Symbol	* env -> spr		2						

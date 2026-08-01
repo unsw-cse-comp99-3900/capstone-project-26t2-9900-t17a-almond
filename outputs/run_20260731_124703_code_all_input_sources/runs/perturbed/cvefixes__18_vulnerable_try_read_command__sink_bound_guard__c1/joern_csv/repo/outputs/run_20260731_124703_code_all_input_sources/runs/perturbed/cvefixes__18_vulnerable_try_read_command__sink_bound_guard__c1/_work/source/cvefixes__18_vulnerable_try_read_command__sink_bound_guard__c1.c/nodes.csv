@@ -1,0 +1,795 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__18_vulnerable_try_read_command__sink_bound_guard__c1/_work/source/cvefixes__18_vulnerable_try_read_command__sink_bound_guard__c1.c								
+ANR	2	Function	try_read_command	1:0:0:4211							
+ANR	3	FunctionDef	try_read_command (conn * c)		2	0					
+ANR	4	CompoundStatement		1:37:37:4211	2	0					
+ANR	5	ExpressionStatement	assert ( c != NULL )	2:4:43:60	2	0	True				
+ANR	6	CallExpression	assert ( c != NULL )		2	0					
+ANR	7	Callee	assert		2	0					
+ANR	8	Identifier	assert		2	0					
+ANR	9	ArgumentList	c != NULL		2	1					
+ANR	10	Argument	c != NULL		2	0					
+ANR	11	EqualityExpression	c != NULL		2	0		!=			
+ANR	12	Identifier	c		2	0					
+ANR	13	Identifier	NULL		2	1					
+ANR	14	ExpressionStatement	assert ( c -> rcurr <= ( c -> rbuf + c -> rsize ) )	3:4:66:106	2	1	True				
+ANR	15	CallExpression	assert ( c -> rcurr <= ( c -> rbuf + c -> rsize ) )		2	0					
+ANR	16	Callee	assert		2	0					
+ANR	17	Identifier	assert		2	0					
+ANR	18	ArgumentList	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	1					
+ANR	19	Argument	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	0					
+ANR	20	RelationalExpression	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	0		<=			
+ANR	21	PtrMemberAccess	c -> rcurr		2	0					
+ANR	22	Identifier	c		2	0					
+ANR	23	Identifier	rcurr		2	1					
+ANR	24	AdditiveExpression	c -> rbuf + c -> rsize		2	1		+			
+ANR	25	PtrMemberAccess	c -> rbuf		2	0					
+ANR	26	Identifier	c		2	0					
+ANR	27	Identifier	rbuf		2	1					
+ANR	28	PtrMemberAccess	c -> rsize		2	1					
+ANR	29	Identifier	c		2	0					
+ANR	30	Identifier	rsize		2	1					
+ANR	31	ExpressionStatement	assert ( c -> rbytes > 0 )	4:4:112:133	2	2	True				
+ANR	32	CallExpression	assert ( c -> rbytes > 0 )		2	0					
+ANR	33	Callee	assert		2	0					
+ANR	34	Identifier	assert		2	0					
+ANR	35	ArgumentList	c -> rbytes > 0		2	1					
+ANR	36	Argument	c -> rbytes > 0		2	0					
+ANR	37	RelationalExpression	c -> rbytes > 0		2	0		>			
+ANR	38	PtrMemberAccess	c -> rbytes		2	0					
+ANR	39	Identifier	c		2	0					
+ANR	40	Identifier	rbytes		2	1					
+ANR	41	PrimaryExpression	0		2	1					
+ANR	42	IfStatement	if ( c -> protocol == negotiating_prot || c -> transport == udp_transport )		2	3					
+ANR	43	Condition	c -> protocol == negotiating_prot || c -> transport == udp_transport	6:8:144:207	2	0	True				
+ANR	44	OrExpression	c -> protocol == negotiating_prot || c -> transport == udp_transport		2	0		||			
+ANR	45	EqualityExpression	c -> protocol == negotiating_prot		2	0		==			
+ANR	46	PtrMemberAccess	c -> protocol		2	0					
+ANR	47	Identifier	c		2	0					
+ANR	48	Identifier	protocol		2	1					
+ANR	49	Identifier	negotiating_prot		2	1					
+ANR	50	EqualityExpression	c -> transport == udp_transport		2	1		==			
+ANR	51	PtrMemberAccess	c -> transport		2	0					
+ANR	52	Identifier	c		2	0					
+ANR	53	Identifier	transport		2	1					
+ANR	54	Identifier	udp_transport		2	1					
+ANR	55	CompoundStatement		6:75:173:173	2	1					
+ANR	56	IfStatement	if ( ( unsigned char ) c -> rbuf [ 0 ] == ( unsigned char ) PROTOCOL_BINARY_REQ )		2	0					
+ANR	57	Condition	( unsigned char ) c -> rbuf [ 0 ] == ( unsigned char ) PROTOCOL_BINARY_REQ	7:12:225:287	2	0	True				
+ANR	58	EqualityExpression	( unsigned char ) c -> rbuf [ 0 ] == ( unsigned char ) PROTOCOL_BINARY_REQ		2	0		==			
+ANR	59	CastExpression	( unsigned char ) c -> rbuf [ 0 ]		2	0					
+ANR	60	CastTarget	unsigned char		2	0					
+ANR	61	ArrayIndexing	c -> rbuf [ 0 ]		2	1					
+ANR	62	PtrMemberAccess	c -> rbuf		2	0					
+ANR	63	Identifier	c		2	0					
+ANR	64	Identifier	rbuf		2	1					
+ANR	65	PrimaryExpression	0		2	1					
+ANR	66	CastExpression	( unsigned char ) PROTOCOL_BINARY_REQ		2	1					
+ANR	67	CastTarget	unsigned char		2	0					
+ANR	68	Identifier	PROTOCOL_BINARY_REQ		2	1					
+ANR	69	CompoundStatement		7:77:252:252	2	1					
+ANR	70	ExpressionStatement	c -> protocol = binary_prot	8:12:304:329	2	0	True				
+ANR	71	AssignmentExpression	c -> protocol = binary_prot		2	0		=			
+ANR	72	PtrMemberAccess	c -> protocol		2	0					
+ANR	73	Identifier	c		2	0					
+ANR	74	Identifier	protocol		2	1					
+ANR	75	Identifier	binary_prot		2	1					
+ANR	76	ElseStatement	else		2	0					
+ANR	77	CompoundStatement		9:15:308:308	2	0					
+ANR	78	ExpressionStatement	c -> protocol = ascii_prot	10:12:360:384	2	0	True				
+ANR	79	AssignmentExpression	c -> protocol = ascii_prot		2	0		=			
+ANR	80	PtrMemberAccess	c -> protocol		2	0					
+ANR	81	Identifier	c		2	0					
+ANR	82	Identifier	protocol		2	1					
+ANR	83	Identifier	ascii_prot		2	1					
+ANR	84	IfStatement	if ( settings . verbose > 1 )		2	1					
+ANR	85	Condition	settings . verbose > 1	13:12:409:428	2	0	True				
+ANR	86	RelationalExpression	settings . verbose > 1		2	0		>			
+ANR	87	MemberAccess	settings . verbose		2	0					
+ANR	88	Identifier	settings		2	0					
+ANR	89	Identifier	verbose		2	1					
+ANR	90	PrimaryExpression	1		2	1					
+ANR	91	CompoundStatement		13:34:393:393	2	1					
+ANR	92	ExpressionStatement	"fprintf ( stderr , ""%d: Client using the %s protocol\\n"" , c -> sfd , prot_text ( c -> protocol ) )"	14:12:445:550	2	0	True				
+ANR	93	CallExpression	"fprintf ( stderr , ""%d: Client using the %s protocol\\n"" , c -> sfd , prot_text ( c -> protocol ) )"		2	0					
+ANR	94	Callee	fprintf		2	0					
+ANR	95	Identifier	fprintf		2	0					
+ANR	96	ArgumentList	stderr		2	1					
+ANR	97	Argument	stderr		2	0					
+ANR	98	Identifier	stderr		2	0					
+ANR	99	Argument	"""%d: Client using the %s protocol\\n"""		2	1					
+ANR	100	PrimaryExpression	"""%d: Client using the %s protocol\\n"""		2	0					
+ANR	101	Argument	c -> sfd		2	2					
+ANR	102	PtrMemberAccess	c -> sfd		2	0					
+ANR	103	Identifier	c		2	0					
+ANR	104	Identifier	sfd		2	1					
+ANR	105	Argument	prot_text ( c -> protocol )		2	3					
+ANR	106	CallExpression	prot_text ( c -> protocol )		2	0					
+ANR	107	Callee	prot_text		2	0					
+ANR	108	Identifier	prot_text		2	0					
+ANR	109	ArgumentList	c -> protocol		2	1					
+ANR	110	Argument	c -> protocol		2	0					
+ANR	111	PtrMemberAccess	c -> protocol		2	0					
+ANR	112	Identifier	c		2	0					
+ANR	113	Identifier	protocol		2	1					
+ANR	114	IfStatement	if ( c -> protocol == binary_prot )		2	4					
+ANR	115	Condition	c -> protocol == binary_prot	19:8:577:602	2	0	True				
+ANR	116	EqualityExpression	c -> protocol == binary_prot		2	0		==			
+ANR	117	PtrMemberAccess	c -> protocol		2	0					
+ANR	118	Identifier	c		2	0					
+ANR	119	Identifier	protocol		2	1					
+ANR	120	Identifier	binary_prot		2	1					
+ANR	121	CompoundStatement		19:36:567:567	2	1					
+ANR	122	IfStatement	if ( c -> rbytes < sizeof ( c -> binary_header ) )		2	0					
+ANR	123	Condition	c -> rbytes < sizeof ( c -> binary_header )	21:12:672:707	2	0	True				
+ANR	124	RelationalExpression	c -> rbytes < sizeof ( c -> binary_header )		2	0		<			
+ANR	125	PtrMemberAccess	c -> rbytes		2	0					
+ANR	126	Identifier	c		2	0					
+ANR	127	Identifier	rbytes		2	1					
+ANR	128	SizeofExpression	sizeof ( c -> binary_header )		2	1					
+ANR	129	Sizeof	sizeof		2	0					
+ANR	130	PtrMemberAccess	c -> binary_header		2	1					
+ANR	131	Identifier	c		2	0					
+ANR	132	Identifier	binary_header		2	1					
+ANR	133	CompoundStatement		21:50:672:672	2	1					
+ANR	134	ReturnStatement	return 0 ;	23:12:758:766	2	0	True				
+ANR	135	PrimaryExpression	0		2	0					
+ANR	136	ElseStatement	else		2	0					
+ANR	137	CompoundStatement		38:12:1220:1255	2	0					
+ANR	138	IfStatement	if ( ( ( long ) ( c -> rcurr ) ) % 8 != 0 )		2	0					
+ANR	139	Condition	( ( long ) ( c -> rcurr ) ) % 8 != 0	26:16:819:845	2	0	True				
+ANR	140	EqualityExpression	( ( long ) ( c -> rcurr ) ) % 8 != 0		2	0		!=			
+ANR	141	MultiplicativeExpression	( ( long ) ( c -> rcurr ) ) % 8		2	0		%			
+ANR	142	CastExpression	( long ) ( c -> rcurr )		2	0					
+ANR	143	CastTarget	long		2	0					
+ANR	144	PtrMemberAccess	c -> rcurr		2	1					
+ANR	145	Identifier	c		2	0					
+ANR	146	Identifier	rcurr		2	1					
+ANR	147	PrimaryExpression	8		2	1					
+ANR	148	PrimaryExpression	0		2	1					
+ANR	149	CompoundStatement		26:45:810:810	2	1					
+ANR	150	IfStatement	if ( ( size_t ) ( c -> rbytes ) > 4096U )		2	0					
+ANR	151	Condition	( size_t ) ( c -> rbytes ) > 4096U	28:20:918:944	2	0	True				
+ANR	152	RelationalExpression	( size_t ) ( c -> rbytes ) > 4096U		2	0		>			
+ANR	153	CastExpression	( size_t ) ( c -> rbytes )		2	0					
+ANR	154	CastTarget	size_t		2	0					
+ANR	155	PtrMemberAccess	c -> rbytes		2	1					
+ANR	156	Identifier	c		2	0					
+ANR	157	Identifier	rbytes		2	1					
+ANR	158	PrimaryExpression	4096U		2	1					
+ANR	159	CompoundStatement		28:49:909:909	2	1					
+ANR	160	ReturnStatement	return 0 ;	29:20:969:977	2	0	True				
+ANR	161	PrimaryExpression	0		2	0					
+ANR	162	ExpressionStatement	"memmove ( c -> rbuf , c -> rcurr , c -> rbytes )"	31:16:1013:1050	2	1	True				
+ANR	163	CallExpression	"memmove ( c -> rbuf , c -> rcurr , c -> rbytes )"		2	0					
+ANR	164	Callee	memmove		2	0					
+ANR	165	Identifier	memmove		2	0					
+ANR	166	ArgumentList	c -> rbuf		2	1					
+ANR	167	Argument	c -> rbuf		2	0					
+ANR	168	PtrMemberAccess	c -> rbuf		2	0					
+ANR	169	Identifier	c		2	0					
+ANR	170	Identifier	rbuf		2	1					
+ANR	171	Argument	c -> rcurr		2	1					
+ANR	172	PtrMemberAccess	c -> rcurr		2	0					
+ANR	173	Identifier	c		2	0					
+ANR	174	Identifier	rcurr		2	1					
+ANR	175	Argument	c -> rbytes		2	2					
+ANR	176	PtrMemberAccess	c -> rbytes		2	0					
+ANR	177	Identifier	c		2	0					
+ANR	178	Identifier	rbytes		2	1					
+ANR	179	ExpressionStatement	c -> rcurr = c -> rbuf	32:16:1068:1086	2	2	True				
+ANR	180	AssignmentExpression	c -> rcurr = c -> rbuf		2	0		=			
+ANR	181	PtrMemberAccess	c -> rcurr		2	0					
+ANR	182	Identifier	c		2	0					
+ANR	183	Identifier	rcurr		2	1					
+ANR	184	PtrMemberAccess	c -> rbuf		2	1					
+ANR	185	Identifier	c		2	0					
+ANR	186	Identifier	rbuf		2	1					
+ANR	187	IfStatement	if ( settings . verbose > 1 )		2	3					
+ANR	188	Condition	settings . verbose > 1	33:20:1108:1127	2	0	True				
+ANR	189	RelationalExpression	settings . verbose > 1		2	0		>			
+ANR	190	MemberAccess	settings . verbose		2	0					
+ANR	191	Identifier	settings		2	0					
+ANR	192	Identifier	verbose		2	1					
+ANR	193	PrimaryExpression	1		2	1					
+ANR	194	CompoundStatement		33:42:1092:1092	2	1					
+ANR	195	ExpressionStatement	"fprintf ( stderr , ""%d: Realign input buffer\\n"" , c -> sfd )"	34:20:1152:1205	2	0	True				
+ANR	196	CallExpression	"fprintf ( stderr , ""%d: Realign input buffer\\n"" , c -> sfd )"		2	0					
+ANR	197	Callee	fprintf		2	0					
+ANR	198	Identifier	fprintf		2	0					
+ANR	199	ArgumentList	stderr		2	1					
+ANR	200	Argument	stderr		2	0					
+ANR	201	Identifier	stderr		2	0					
+ANR	202	Argument	"""%d: Realign input buffer\\n"""		2	1					
+ANR	203	PrimaryExpression	"""%d: Realign input buffer\\n"""		2	0					
+ANR	204	Argument	c -> sfd		2	2					
+ANR	205	PtrMemberAccess	c -> sfd		2	0					
+ANR	206	Identifier	c		2	0					
+ANR	207	Identifier	sfd		2	1					
+ANR	208	IdentifierDeclStatement	protocol_binary_request_header * req ;	38:12:1258:1293	2	1	True				
+ANR	209	IdentifierDecl	* req		2	0					
+ANR	210	IdentifierDeclType	protocol_binary_request_header *		2	0					
+ANR	211	Identifier	req		2	1					
+ANR	212	ExpressionStatement	req = ( protocol_binary_request_header * ) c -> rcurr	39:12:1307:1354	2	2	True				
+ANR	213	AssignmentExpression	req = ( protocol_binary_request_header * ) c -> rcurr		2	0		=			
+ANR	214	Identifier	req		2	0					
+ANR	215	CastExpression	( protocol_binary_request_header * ) c -> rcurr		2	1					
+ANR	216	CastTarget	protocol_binary_request_header *		2	0					
+ANR	217	PtrMemberAccess	c -> rcurr		2	1					
+ANR	218	Identifier	c		2	0					
+ANR	219	Identifier	rcurr		2	1					
+ANR	220	IfStatement	if ( settings . verbose > 1 )		2	3					
+ANR	221	Condition	settings . verbose > 1	41:16:1373:1392	2	0	True				
+ANR	222	RelationalExpression	settings . verbose > 1		2	0		>			
+ANR	223	MemberAccess	settings . verbose		2	0					
+ANR	224	Identifier	settings		2	0					
+ANR	225	Identifier	verbose		2	1					
+ANR	226	PrimaryExpression	1		2	1					
+ANR	227	CompoundStatement		43:16:1448:1454	2	1					
+ANR	228	IdentifierDeclStatement	int ii ;	43:16:1486:1492	2	0	True				
+ANR	229	IdentifierDecl	ii		2	0					
+ANR	230	IdentifierDeclType	int		2	0					
+ANR	231	Identifier	ii		2	1					
+ANR	232	ExpressionStatement	"fprintf ( stderr , ""<%d Read binary protocol data:"" , c -> sfd )"	44:16:1510:1567	2	1	True				
+ANR	233	CallExpression	"fprintf ( stderr , ""<%d Read binary protocol data:"" , c -> sfd )"		2	0					
+ANR	234	Callee	fprintf		2	0					
+ANR	235	Identifier	fprintf		2	0					
+ANR	236	ArgumentList	stderr		2	1					
+ANR	237	Argument	stderr		2	0					
+ANR	238	Identifier	stderr		2	0					
+ANR	239	Argument	"""<%d Read binary protocol data:"""		2	1					
+ANR	240	PrimaryExpression	"""<%d Read binary protocol data:"""		2	0					
+ANR	241	Argument	c -> sfd		2	2					
+ANR	242	PtrMemberAccess	c -> sfd		2	0					
+ANR	243	Identifier	c		2	0					
+ANR	244	Identifier	sfd		2	1					
+ANR	245	ForStatement	for ( ii = 0 ; ii < sizeof ( req -> bytes ) ; ++ ii )		2	2					
+ANR	246	ForInit	ii = 0 ;	45:21:1590:1596	2	0	True				
+ANR	247	AssignmentExpression	ii = 0		2	0		=			
+ANR	248	Identifier	ii		2	0					
+ANR	249	PrimaryExpression	0		2	1					
+ANR	250	Condition	ii < sizeof ( req -> bytes )	45:29:1598:1620	2	1	True				
+ANR	251	RelationalExpression	ii < sizeof ( req -> bytes )		2	0		<			
+ANR	252	Identifier	ii		2	0					
+ANR	253	SizeofExpression	sizeof ( req -> bytes )		2	1					
+ANR	254	Sizeof	sizeof		2	0					
+ANR	255	PtrMemberAccess	req -> bytes		2	1					
+ANR	256	Identifier	req		2	0					
+ANR	257	Identifier	bytes		2	1					
+ANR	258	UnaryExpression	++ ii	45:54:1623:1626	2	2	True				
+ANR	259	IncDec	++		2	0					
+ANR	260	Identifier	ii		2	1					
+ANR	261	CompoundStatement		45:60:1591:1591	2	3					
+ANR	262	IfStatement	if ( ii % 4 == 0 )		2	0					
+ANR	263	Condition	ii % 4 == 0	46:24:1655:1665	2	0	True				
+ANR	264	EqualityExpression	ii % 4 == 0		2	0		==			
+ANR	265	MultiplicativeExpression	ii % 4		2	0		%			
+ANR	266	Identifier	ii		2	0					
+ANR	267	PrimaryExpression	4		2	1					
+ANR	268	PrimaryExpression	0		2	1					
+ANR	269	CompoundStatement		46:37:1630:1630	2	1					
+ANR	270	ExpressionStatement	"fprintf ( stderr , ""\\n<%d   "" , c -> sfd )"	47:24:1694:1729	2	0	True				
+ANR	271	CallExpression	"fprintf ( stderr , ""\\n<%d   "" , c -> sfd )"		2	0					
+ANR	272	Callee	fprintf		2	0					
+ANR	273	Identifier	fprintf		2	0					
+ANR	274	ArgumentList	stderr		2	1					
+ANR	275	Argument	stderr		2	0					
+ANR	276	Identifier	stderr		2	0					
+ANR	277	Argument	"""\\n<%d   """		2	1					
+ANR	278	PrimaryExpression	"""\\n<%d   """		2	0					
+ANR	279	Argument	c -> sfd		2	2					
+ANR	280	PtrMemberAccess	c -> sfd		2	0					
+ANR	281	Identifier	c		2	0					
+ANR	282	Identifier	sfd		2	1					
+ANR	283	ExpressionStatement	"fprintf ( stderr , "" 0x%02x"" , req -> bytes [ ii ] )"	49:20:1773:1815	2	1	True				
+ANR	284	CallExpression	"fprintf ( stderr , "" 0x%02x"" , req -> bytes [ ii ] )"		2	0					
+ANR	285	Callee	fprintf		2	0					
+ANR	286	Identifier	fprintf		2	0					
+ANR	287	ArgumentList	stderr		2	1					
+ANR	288	Argument	stderr		2	0					
+ANR	289	Identifier	stderr		2	0					
+ANR	290	Argument	""" 0x%02x"""		2	1					
+ANR	291	PrimaryExpression	""" 0x%02x"""		2	0					
+ANR	292	Argument	req -> bytes [ ii ]		2	2					
+ANR	293	ArrayIndexing	req -> bytes [ ii ]		2	0					
+ANR	294	PtrMemberAccess	req -> bytes		2	0					
+ANR	295	Identifier	req		2	0					
+ANR	296	Identifier	bytes		2	1					
+ANR	297	Identifier	ii		2	1					
+ANR	298	ExpressionStatement	"fprintf ( stderr , ""\\n"" )"	51:16:1851:1872	2	3	True				
+ANR	299	CallExpression	"fprintf ( stderr , ""\\n"" )"		2	0					
+ANR	300	Callee	fprintf		2	0					
+ANR	301	Identifier	fprintf		2	0					
+ANR	302	ArgumentList	stderr		2	1					
+ANR	303	Argument	stderr		2	0					
+ANR	304	Identifier	stderr		2	0					
+ANR	305	Argument	"""\\n"""		2	1					
+ANR	306	PrimaryExpression	"""\\n"""		2	0					
+ANR	307	ExpressionStatement	c -> binary_header = * req	54:12:1901:1924	2	4	True				
+ANR	308	AssignmentExpression	c -> binary_header = * req		2	0		=			
+ANR	309	PtrMemberAccess	c -> binary_header		2	0					
+ANR	310	Identifier	c		2	0					
+ANR	311	Identifier	binary_header		2	1					
+ANR	312	UnaryOperationExpression	* req		2	1					
+ANR	313	UnaryOperator	*		2	0					
+ANR	314	Identifier	req		2	1					
+ANR	315	ExpressionStatement	c -> binary_header . request . keylen = ntohs ( req -> request . keylen )	55:12:1938:1998	2	5	True				
+ANR	316	AssignmentExpression	c -> binary_header . request . keylen = ntohs ( req -> request . keylen )		2	0		=			
+ANR	317	MemberAccess	c -> binary_header . request . keylen		2	0					
+ANR	318	MemberAccess	c -> binary_header . request		2	0					
+ANR	319	PtrMemberAccess	c -> binary_header		2	0					
+ANR	320	Identifier	c		2	0					
+ANR	321	Identifier	binary_header		2	1					
+ANR	322	Identifier	request		2	1					
+ANR	323	Identifier	keylen		2	1					
+ANR	324	CallExpression	ntohs ( req -> request . keylen )		2	1					
+ANR	325	Callee	ntohs		2	0					
+ANR	326	Identifier	ntohs		2	0					
+ANR	327	ArgumentList	req -> request . keylen		2	1					
+ANR	328	Argument	req -> request . keylen		2	0					
+ANR	329	MemberAccess	req -> request . keylen		2	0					
+ANR	330	PtrMemberAccess	req -> request		2	0					
+ANR	331	Identifier	req		2	0					
+ANR	332	Identifier	request		2	1					
+ANR	333	Identifier	keylen		2	1					
+ANR	334	ExpressionStatement	c -> binary_header . request . bodylen = ntohl ( req -> request . bodylen )	56:12:2012:2074	2	6	True				
+ANR	335	AssignmentExpression	c -> binary_header . request . bodylen = ntohl ( req -> request . bodylen )		2	0		=			
+ANR	336	MemberAccess	c -> binary_header . request . bodylen		2	0					
+ANR	337	MemberAccess	c -> binary_header . request		2	0					
+ANR	338	PtrMemberAccess	c -> binary_header		2	0					
+ANR	339	Identifier	c		2	0					
+ANR	340	Identifier	binary_header		2	1					
+ANR	341	Identifier	request		2	1					
+ANR	342	Identifier	bodylen		2	1					
+ANR	343	CallExpression	ntohl ( req -> request . bodylen )		2	1					
+ANR	344	Callee	ntohl		2	0					
+ANR	345	Identifier	ntohl		2	0					
+ANR	346	ArgumentList	req -> request . bodylen		2	1					
+ANR	347	Argument	req -> request . bodylen		2	0					
+ANR	348	MemberAccess	req -> request . bodylen		2	0					
+ANR	349	PtrMemberAccess	req -> request		2	0					
+ANR	350	Identifier	req		2	0					
+ANR	351	Identifier	request		2	1					
+ANR	352	Identifier	bodylen		2	1					
+ANR	353	ExpressionStatement	c -> binary_header . request . cas = ntohll ( req -> request . cas )	57:12:2088:2143	2	7	True				
+ANR	354	AssignmentExpression	c -> binary_header . request . cas = ntohll ( req -> request . cas )		2	0		=			
+ANR	355	MemberAccess	c -> binary_header . request . cas		2	0					
+ANR	356	MemberAccess	c -> binary_header . request		2	0					
+ANR	357	PtrMemberAccess	c -> binary_header		2	0					
+ANR	358	Identifier	c		2	0					
+ANR	359	Identifier	binary_header		2	1					
+ANR	360	Identifier	request		2	1					
+ANR	361	Identifier	cas		2	1					
+ANR	362	CallExpression	ntohll ( req -> request . cas )		2	1					
+ANR	363	Callee	ntohll		2	0					
+ANR	364	Identifier	ntohll		2	0					
+ANR	365	ArgumentList	req -> request . cas		2	1					
+ANR	366	Argument	req -> request . cas		2	0					
+ANR	367	MemberAccess	req -> request . cas		2	0					
+ANR	368	PtrMemberAccess	req -> request		2	0					
+ANR	369	Identifier	req		2	0					
+ANR	370	Identifier	request		2	1					
+ANR	371	Identifier	cas		2	1					
+ANR	372	IfStatement	if ( c -> binary_header . request . magic != PROTOCOL_BINARY_REQ )		2	8					
+ANR	373	Condition	c -> binary_header . request . magic != PROTOCOL_BINARY_REQ	59:16:2162:2214	2	0	True				
+ANR	374	EqualityExpression	c -> binary_header . request . magic != PROTOCOL_BINARY_REQ		2	0		!=			
+ANR	375	MemberAccess	c -> binary_header . request . magic		2	0					
+ANR	376	MemberAccess	c -> binary_header . request		2	0					
+ANR	377	PtrMemberAccess	c -> binary_header		2	0					
+ANR	378	Identifier	c		2	0					
+ANR	379	Identifier	binary_header		2	1					
+ANR	380	Identifier	request		2	1					
+ANR	381	Identifier	magic		2	1					
+ANR	382	Identifier	PROTOCOL_BINARY_REQ		2	1					
+ANR	383	CompoundStatement		59:71:2179:2179	2	1					
+ANR	384	IfStatement	if ( settings . verbose )		2	0					
+ANR	385	Condition	settings . verbose	60:20:2239:2254	2	0	True				
+ANR	386	MemberAccess	settings . verbose		2	0					
+ANR	387	Identifier	settings		2	0					
+ANR	388	Identifier	verbose		2	1					
+ANR	389	CompoundStatement		60:38:2219:2219	2	1					
+ANR	390	ExpressionStatement	"fprintf ( stderr , ""Invalid magic:  %x\\n"" , c -> binary_header . request . magic )"	61:20:2279:2378	2	0	True				
+ANR	391	CallExpression	"fprintf ( stderr , ""Invalid magic:  %x\\n"" , c -> binary_header . request . magic )"		2	0					
+ANR	392	Callee	fprintf		2	0					
+ANR	393	Identifier	fprintf		2	0					
+ANR	394	ArgumentList	stderr		2	1					
+ANR	395	Argument	stderr		2	0					
+ANR	396	Identifier	stderr		2	0					
+ANR	397	Argument	"""Invalid magic:  %x\\n"""		2	1					
+ANR	398	PrimaryExpression	"""Invalid magic:  %x\\n"""		2	0					
+ANR	399	Argument	c -> binary_header . request . magic		2	2					
+ANR	400	MemberAccess	c -> binary_header . request . magic		2	0					
+ANR	401	MemberAccess	c -> binary_header . request		2	0					
+ANR	402	PtrMemberAccess	c -> binary_header		2	0					
+ANR	403	Identifier	c		2	0					
+ANR	404	Identifier	binary_header		2	1					
+ANR	405	Identifier	request		2	1					
+ANR	406	Identifier	magic		2	1					
+ANR	407	ExpressionStatement	"conn_set_state ( c , conn_closing )"	64:16:2414:2445	2	1	True				
+ANR	408	CallExpression	"conn_set_state ( c , conn_closing )"		2	0					
+ANR	409	Callee	conn_set_state		2	0					
+ANR	410	Identifier	conn_set_state		2	0					
+ANR	411	ArgumentList	c		2	1					
+ANR	412	Argument	c		2	0					
+ANR	413	Identifier	c		2	0					
+ANR	414	Argument	conn_closing		2	1					
+ANR	415	Identifier	conn_closing		2	0					
+ANR	416	ReturnStatement	return - 1 ;	65:16:2463:2472	2	2	True				
+ANR	417	UnaryOperationExpression	- 1		2	0					
+ANR	418	UnaryOperator	-		2	0					
+ANR	419	PrimaryExpression	1		2	1					
+ANR	420	ExpressionStatement	c -> msgcurr = 0	68:12:2501:2515	2	9	True				
+ANR	421	AssignmentExpression	c -> msgcurr = 0		2	0		=			
+ANR	422	PtrMemberAccess	c -> msgcurr		2	0					
+ANR	423	Identifier	c		2	0					
+ANR	424	Identifier	msgcurr		2	1					
+ANR	425	PrimaryExpression	0		2	1					
+ANR	426	ExpressionStatement	c -> msgused = 0	69:12:2529:2543	2	10	True				
+ANR	427	AssignmentExpression	c -> msgused = 0		2	0		=			
+ANR	428	PtrMemberAccess	c -> msgused		2	0					
+ANR	429	Identifier	c		2	0					
+ANR	430	Identifier	msgused		2	1					
+ANR	431	PrimaryExpression	0		2	1					
+ANR	432	ExpressionStatement	c -> iovused = 0	70:12:2557:2571	2	11	True				
+ANR	433	AssignmentExpression	c -> iovused = 0		2	0		=			
+ANR	434	PtrMemberAccess	c -> iovused		2	0					
+ANR	435	Identifier	c		2	0					
+ANR	436	Identifier	iovused		2	1					
+ANR	437	PrimaryExpression	0		2	1					
+ANR	438	IfStatement	if ( add_msghdr ( c ) != 0 )		2	12					
+ANR	439	Condition	add_msghdr ( c ) != 0	71:16:2589:2606	2	0	True				
+ANR	440	EqualityExpression	add_msghdr ( c ) != 0		2	0		!=			
+ANR	441	CallExpression	add_msghdr ( c )		2	0					
+ANR	442	Callee	add_msghdr		2	0					
+ANR	443	Identifier	add_msghdr		2	0					
+ANR	444	ArgumentList	c		2	1					
+ANR	445	Argument	c		2	0					
+ANR	446	Identifier	c		2	0					
+ANR	447	PrimaryExpression	0		2	1					
+ANR	448	CompoundStatement		71:36:2571:2571	2	1					
+ANR	449	ExpressionStatement	"out_string ( c , ""SERVER_ERROR out of memory"" )"	72:16:2627:2670	2	0	True				
+ANR	450	CallExpression	"out_string ( c , ""SERVER_ERROR out of memory"" )"		2	0					
+ANR	451	Callee	out_string		2	0					
+ANR	452	Identifier	out_string		2	0					
+ANR	453	ArgumentList	c		2	1					
+ANR	454	Argument	c		2	0					
+ANR	455	Identifier	c		2	0					
+ANR	456	Argument	"""SERVER_ERROR out of memory"""		2	1					
+ANR	457	PrimaryExpression	"""SERVER_ERROR out of memory"""		2	0					
+ANR	458	ReturnStatement	return 0 ;	73:16:2688:2696	2	1	True				
+ANR	459	PrimaryExpression	0		2	0					
+ANR	460	ExpressionStatement	c -> cmd = c -> binary_header . request . opcode	76:12:2725:2765	2	13	True				
+ANR	461	AssignmentExpression	c -> cmd = c -> binary_header . request . opcode		2	0		=			
+ANR	462	PtrMemberAccess	c -> cmd		2	0					
+ANR	463	Identifier	c		2	0					
+ANR	464	Identifier	cmd		2	1					
+ANR	465	MemberAccess	c -> binary_header . request . opcode		2	1					
+ANR	466	MemberAccess	c -> binary_header . request		2	0					
+ANR	467	PtrMemberAccess	c -> binary_header		2	0					
+ANR	468	Identifier	c		2	0					
+ANR	469	Identifier	binary_header		2	1					
+ANR	470	Identifier	request		2	1					
+ANR	471	Identifier	opcode		2	1					
+ANR	472	ExpressionStatement	c -> keylen = c -> binary_header . request . keylen	77:12:2779:2822	2	14	True				
+ANR	473	AssignmentExpression	c -> keylen = c -> binary_header . request . keylen		2	0		=			
+ANR	474	PtrMemberAccess	c -> keylen		2	0					
+ANR	475	Identifier	c		2	0					
+ANR	476	Identifier	keylen		2	1					
+ANR	477	MemberAccess	c -> binary_header . request . keylen		2	1					
+ANR	478	MemberAccess	c -> binary_header . request		2	0					
+ANR	479	PtrMemberAccess	c -> binary_header		2	0					
+ANR	480	Identifier	c		2	0					
+ANR	481	Identifier	binary_header		2	1					
+ANR	482	Identifier	request		2	1					
+ANR	483	Identifier	keylen		2	1					
+ANR	484	ExpressionStatement	c -> opaque = c -> binary_header . request . opaque	78:12:2836:2879	2	15	True				
+ANR	485	AssignmentExpression	c -> opaque = c -> binary_header . request . opaque		2	0		=			
+ANR	486	PtrMemberAccess	c -> opaque		2	0					
+ANR	487	Identifier	c		2	0					
+ANR	488	Identifier	opaque		2	1					
+ANR	489	MemberAccess	c -> binary_header . request . opaque		2	1					
+ANR	490	MemberAccess	c -> binary_header . request		2	0					
+ANR	491	PtrMemberAccess	c -> binary_header		2	0					
+ANR	492	Identifier	c		2	0					
+ANR	493	Identifier	binary_header		2	1					
+ANR	494	Identifier	request		2	1					
+ANR	495	Identifier	opaque		2	1					
+ANR	496	ExpressionStatement	c -> cas = 0	80:12:2940:2950	2	16	True				
+ANR	497	AssignmentExpression	c -> cas = 0		2	0		=			
+ANR	498	PtrMemberAccess	c -> cas		2	0					
+ANR	499	Identifier	c		2	0					
+ANR	500	Identifier	cas		2	1					
+ANR	501	PrimaryExpression	0		2	1					
+ANR	502	ExpressionStatement	dispatch_bin_command ( c )	82:12:2965:2988	2	17	True				
+ANR	503	CallExpression	dispatch_bin_command ( c )		2	0					
+ANR	504	Callee	dispatch_bin_command		2	0					
+ANR	505	Identifier	dispatch_bin_command		2	0					
+ANR	506	ArgumentList	c		2	1					
+ANR	507	Argument	c		2	0					
+ANR	508	Identifier	c		2	0					
+ANR	509	ExpressionStatement	c -> rbytes -= sizeof ( c -> binary_header )	84:12:3003:3040	2	18	True				
+ANR	510	AssignmentExpression	c -> rbytes -= sizeof ( c -> binary_header )		2	0		-=			
+ANR	511	PtrMemberAccess	c -> rbytes		2	0					
+ANR	512	Identifier	c		2	0					
+ANR	513	Identifier	rbytes		2	1					
+ANR	514	SizeofExpression	sizeof ( c -> binary_header )		2	1					
+ANR	515	Sizeof	sizeof		2	0					
+ANR	516	PtrMemberAccess	c -> binary_header		2	1					
+ANR	517	Identifier	c		2	0					
+ANR	518	Identifier	binary_header		2	1					
+ANR	519	ExpressionStatement	c -> rcurr += sizeof ( c -> binary_header )	85:12:3054:3090	2	19	True				
+ANR	520	AssignmentExpression	c -> rcurr += sizeof ( c -> binary_header )		2	0		+=			
+ANR	521	PtrMemberAccess	c -> rcurr		2	0					
+ANR	522	Identifier	c		2	0					
+ANR	523	Identifier	rcurr		2	1					
+ANR	524	SizeofExpression	sizeof ( c -> binary_header )		2	1					
+ANR	525	Sizeof	sizeof		2	0					
+ANR	526	PtrMemberAccess	c -> binary_header		2	1					
+ANR	527	Identifier	c		2	0					
+ANR	528	Identifier	binary_header		2	1					
+ANR	529	ElseStatement	else		2	0					
+ANR	530	CompoundStatement		88:8:3085:3100	2	0					
+ANR	531	IdentifierDeclStatement	"char * el , * cont ;"	88:8:3123:3138	2	0	True				
+ANR	532	IdentifierDecl	* el		2	0					
+ANR	533	IdentifierDeclType	char *		2	0					
+ANR	534	Identifier	el		2	1					
+ANR	535	IdentifierDecl	* cont		2	1					
+ANR	536	IdentifierDeclType	char *		2	0					
+ANR	537	Identifier	cont		2	1					
+ANR	538	IfStatement	if ( c -> rbytes == 0 )		2	1					
+ANR	539	Condition	c -> rbytes == 0	90:12:3153:3166	2	0	True				
+ANR	540	EqualityExpression	c -> rbytes == 0		2	0		==			
+ANR	541	PtrMemberAccess	c -> rbytes		2	0					
+ANR	542	Identifier	c		2	0					
+ANR	543	Identifier	rbytes		2	1					
+ANR	544	PrimaryExpression	0		2	1					
+ANR	545	ReturnStatement	return 0 ;	91:12:3181:3189	2	1	True				
+ANR	546	PrimaryExpression	0		2	0					
+ANR	547	ExpressionStatement	"el = memchr ( c -> rcurr , '\\n' , c -> rbytes )"	93:8:3200:3238	2	2	True				
+ANR	548	AssignmentExpression	"el = memchr ( c -> rcurr , '\\n' , c -> rbytes )"		2	0		=			
+ANR	549	Identifier	el		2	0					
+ANR	550	CallExpression	"memchr ( c -> rcurr , '\\n' , c -> rbytes )"		2	1					
+ANR	551	Callee	memchr		2	0					
+ANR	552	Identifier	memchr		2	0					
+ANR	553	ArgumentList	c -> rcurr		2	1					
+ANR	554	Argument	c -> rcurr		2	0					
+ANR	555	PtrMemberAccess	c -> rcurr		2	0					
+ANR	556	Identifier	c		2	0					
+ANR	557	Identifier	rcurr		2	1					
+ANR	558	Argument	'\\n'		2	1					
+ANR	559	PrimaryExpression	'\\n'		2	0					
+ANR	560	Argument	c -> rbytes		2	2					
+ANR	561	PtrMemberAccess	c -> rbytes		2	0					
+ANR	562	Identifier	c		2	0					
+ANR	563	Identifier	rbytes		2	1					
+ANR	564	IfStatement	if ( ! el )		2	3					
+ANR	565	Condition	! el	94:12:3252:3254	2	0	True				
+ANR	566	UnaryOperationExpression	! el		2	0					
+ANR	567	UnaryOperator	!		2	0					
+ANR	568	Identifier	el		2	1					
+ANR	569	CompoundStatement		94:17:3219:3219	2	1					
+ANR	570	IfStatement	if ( c -> rbytes > 1024 )		2	0					
+ANR	571	Condition	c -> rbytes > 1024	95:16:3275:3290	2	0	True				
+ANR	572	RelationalExpression	c -> rbytes > 1024		2	0		>			
+ANR	573	PtrMemberAccess	c -> rbytes		2	0					
+ANR	574	Identifier	c		2	0					
+ANR	575	Identifier	rbytes		2	1					
+ANR	576	PrimaryExpression	1024		2	1					
+ANR	577	CompoundStatement		100:16:3466:3486	2	1					
+ANR	578	IdentifierDeclStatement	char * ptr = c -> rcurr ;	100:16:3504:3524	2	0	True				
+ANR	579	IdentifierDecl	* ptr = c -> rcurr		2	0					
+ANR	580	IdentifierDeclType	char *		2	0					
+ANR	581	Identifier	ptr		2	1					
+ANR	582	AssignmentExpression	* ptr = c -> rcurr		2	2		=			
+ANR	583	Identifier	ptr		2	0					
+ANR	584	PtrMemberAccess	c -> rcurr		2	1					
+ANR	585	Identifier	c		2	0					
+ANR	586	Identifier	rcurr		2	1					
+ANR	587	WhileStatement	while ( * ptr == ' ' )		2	1					
+ANR	588	Condition	* ptr == ' '	101:23:3549:3559	2	0	True				
+ANR	589	EqualityExpression	* ptr == ' '		2	0		==			
+ANR	590	UnaryOperationExpression	* ptr		2	0					
+ANR	591	UnaryOperator	*		2	0					
+ANR	592	Identifier	ptr		2	1					
+ANR	593	PrimaryExpression	' '		2	1					
+ANR	594	CompoundStatement		101:36:3524:3524	2	1					
+ANR	595	ExpressionStatement	++ ptr	102:20:3617:3622	2	0	True				
+ANR	596	UnaryExpression	++ ptr		2	0					
+ANR	597	IncDec	++		2	0					
+ANR	598	Identifier	ptr		2	1					
+ANR	599	IfStatement	"if ( strcmp ( ptr , ""get "" ) && strcmp ( ptr , ""gets "" ) )"		2	2					
+ANR	600	Condition	"strcmp ( ptr , ""get "" ) && strcmp ( ptr , ""gets "" )"	105:20:3663:3705	2	0	True				
+ANR	601	AndExpression	"strcmp ( ptr , ""get "" ) && strcmp ( ptr , ""gets "" )"		2	0		&&			
+ANR	602	CallExpression	"strcmp ( ptr , ""get "" )"		2	0					
+ANR	603	Callee	strcmp		2	0					
+ANR	604	Identifier	strcmp		2	0					
+ANR	605	ArgumentList	ptr		2	1					
+ANR	606	Argument	ptr		2	0					
+ANR	607	Identifier	ptr		2	0					
+ANR	608	Argument	"""get """		2	1					
+ANR	609	PrimaryExpression	"""get """		2	0					
+ANR	610	CallExpression	"strcmp ( ptr , ""gets "" )"		2	1					
+ANR	611	Callee	strcmp		2	0					
+ANR	612	Identifier	strcmp		2	0					
+ANR	613	ArgumentList	ptr		2	1					
+ANR	614	Argument	ptr		2	0					
+ANR	615	Identifier	ptr		2	0					
+ANR	616	Argument	"""gets """		2	1					
+ANR	617	PrimaryExpression	"""gets """		2	0					
+ANR	618	CompoundStatement		105:65:3670:3670	2	1					
+ANR	619	ExpressionStatement	"conn_set_state ( c , conn_closing )"	106:20:3730:3761	2	0	True				
+ANR	620	CallExpression	"conn_set_state ( c , conn_closing )"		2	0					
+ANR	621	Callee	conn_set_state		2	0					
+ANR	622	Identifier	conn_set_state		2	0					
+ANR	623	ArgumentList	c		2	1					
+ANR	624	Argument	c		2	0					
+ANR	625	Identifier	c		2	0					
+ANR	626	Argument	conn_closing		2	1					
+ANR	627	Identifier	conn_closing		2	0					
+ANR	628	ReturnStatement	return 1 ;	107:20:3783:3791	2	1	True				
+ANR	629	PrimaryExpression	1		2	0					
+ANR	630	ReturnStatement	return 0 ;	111:12:3838:3846	2	1	True				
+ANR	631	PrimaryExpression	0		2	0					
+ANR	632	ExpressionStatement	cont = el + 1	113:8:3866:3879	2	4	True				
+ANR	633	AssignmentExpression	cont = el + 1		2	0		=			
+ANR	634	Identifier	cont		2	0					
+ANR	635	AdditiveExpression	el + 1		2	1		+			
+ANR	636	Identifier	el		2	0					
+ANR	637	PrimaryExpression	1		2	1					
+ANR	638	IfStatement	if ( ( el - c -> rcurr ) > 1 && * ( el - 1 ) == '\\r' )		2	5					
+ANR	639	Condition	( el - c -> rcurr ) > 1 && * ( el - 1 ) == '\\r'	114:12:3893:3932	2	0	True				
+ANR	640	AndExpression	( el - c -> rcurr ) > 1 && * ( el - 1 ) == '\\r'		2	0		&&			
+ANR	641	RelationalExpression	( el - c -> rcurr ) > 1		2	0		>			
+ANR	642	AdditiveExpression	el - c -> rcurr		2	0		-			
+ANR	643	Identifier	el		2	0					
+ANR	644	PtrMemberAccess	c -> rcurr		2	1					
+ANR	645	Identifier	c		2	0					
+ANR	646	Identifier	rcurr		2	1					
+ANR	647	PrimaryExpression	1		2	1					
+ANR	648	EqualityExpression	* ( el - 1 ) == '\\r'		2	1		==			
+ANR	649	UnaryOperationExpression	* ( el - 1 )		2	0					
+ANR	650	UnaryOperator	*		2	0					
+ANR	651	AdditiveExpression	el - 1		2	1		-			
+ANR	652	Identifier	el		2	0					
+ANR	653	PrimaryExpression	1		2	1					
+ANR	654	PrimaryExpression	'\\r'		2	1					
+ANR	655	CompoundStatement		114:54:3897:3897	2	1					
+ANR	656	ExpressionStatement	el --	115:12:3949:3953	2	0	True				
+ANR	657	PostIncDecOperationExpression	el --		2	0					
+ANR	658	Identifier	el		2	0					
+ANR	659	IncDec	--		2	1					
+ANR	660	ExpressionStatement	* el = '\\0'	117:8:3973:3983	2	6	True				
+ANR	661	AssignmentExpression	* el = '\\0'		2	0		=			
+ANR	662	UnaryOperationExpression	* el		2	0					
+ANR	663	UnaryOperator	*		2	0					
+ANR	664	Identifier	el		2	1					
+ANR	665	PrimaryExpression	'\\0'		2	1					
+ANR	666	ExpressionStatement	assert ( cont <= ( c -> rcurr + c -> rbytes ) )	119:8:3994:4032	2	7	True				
+ANR	667	CallExpression	assert ( cont <= ( c -> rcurr + c -> rbytes ) )		2	0					
+ANR	668	Callee	assert		2	0					
+ANR	669	Identifier	assert		2	0					
+ANR	670	ArgumentList	cont <= ( c -> rcurr + c -> rbytes )		2	1					
+ANR	671	Argument	cont <= ( c -> rcurr + c -> rbytes )		2	0					
+ANR	672	RelationalExpression	cont <= ( c -> rcurr + c -> rbytes )		2	0		<=			
+ANR	673	Identifier	cont		2	0					
+ANR	674	AdditiveExpression	c -> rcurr + c -> rbytes		2	1		+			
+ANR	675	PtrMemberAccess	c -> rcurr		2	0					
+ANR	676	Identifier	c		2	0					
+ANR	677	Identifier	rcurr		2	1					
+ANR	678	PtrMemberAccess	c -> rbytes		2	1					
+ANR	679	Identifier	c		2	0					
+ANR	680	Identifier	rbytes		2	1					
+ANR	681	ExpressionStatement	"process_command ( c , c -> rcurr )"	121:8:4043:4071	2	8	True				
+ANR	682	CallExpression	"process_command ( c , c -> rcurr )"		2	0					
+ANR	683	Callee	process_command		2	0					
+ANR	684	Identifier	process_command		2	0					
+ANR	685	ArgumentList	c		2	1					
+ANR	686	Argument	c		2	0					
+ANR	687	Identifier	c		2	0					
+ANR	688	Argument	c -> rcurr		2	1					
+ANR	689	PtrMemberAccess	c -> rcurr		2	0					
+ANR	690	Identifier	c		2	0					
+ANR	691	Identifier	rcurr		2	1					
+ANR	692	ExpressionStatement	c -> rbytes -= ( cont - c -> rcurr )	123:8:4082:4112	2	9	True				
+ANR	693	AssignmentExpression	c -> rbytes -= ( cont - c -> rcurr )		2	0		-=			
+ANR	694	PtrMemberAccess	c -> rbytes		2	0					
+ANR	695	Identifier	c		2	0					
+ANR	696	Identifier	rbytes		2	1					
+ANR	697	AdditiveExpression	cont - c -> rcurr		2	1		-			
+ANR	698	Identifier	cont		2	0					
+ANR	699	PtrMemberAccess	c -> rcurr		2	1					
+ANR	700	Identifier	c		2	0					
+ANR	701	Identifier	rcurr		2	1					
+ANR	702	ExpressionStatement	c -> rcurr = cont	124:8:4122:4137	2	10	True				
+ANR	703	AssignmentExpression	c -> rcurr = cont		2	0		=			
+ANR	704	PtrMemberAccess	c -> rcurr		2	0					
+ANR	705	Identifier	c		2	0					
+ANR	706	Identifier	rcurr		2	1					
+ANR	707	Identifier	cont		2	1					
+ANR	708	ExpressionStatement	assert ( c -> rcurr <= ( c -> rbuf + c -> rsize ) )	126:8:4148:4188	2	11	True				
+ANR	709	CallExpression	assert ( c -> rcurr <= ( c -> rbuf + c -> rsize ) )		2	0					
+ANR	710	Callee	assert		2	0					
+ANR	711	Identifier	assert		2	0					
+ANR	712	ArgumentList	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	1					
+ANR	713	Argument	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	0					
+ANR	714	RelationalExpression	c -> rcurr <= ( c -> rbuf + c -> rsize )		2	0		<=			
+ANR	715	PtrMemberAccess	c -> rcurr		2	0					
+ANR	716	Identifier	c		2	0					
+ANR	717	Identifier	rcurr		2	1					
+ANR	718	AdditiveExpression	c -> rbuf + c -> rsize		2	1		+			
+ANR	719	PtrMemberAccess	c -> rbuf		2	0					
+ANR	720	Identifier	c		2	0					
+ANR	721	Identifier	rbuf		2	1					
+ANR	722	PtrMemberAccess	c -> rsize		2	1					
+ANR	723	Identifier	c		2	0					
+ANR	724	Identifier	rsize		2	1					
+ANR	725	ReturnStatement	return 1 ;	129:4:4201:4209	2	5	True				
+ANR	726	PrimaryExpression	1		2	0					
+ANR	727	ReturnType	static int		2	1					
+ANR	728	Identifier	try_read_command		2	2					
+ANR	729	ParameterList	conn * c		2	3					
+ANR	730	Parameter	conn * c	1:28:28:34	2	0	True				
+ANR	731	ParameterType	conn *		2	0					
+ANR	732	Identifier	c		2	1					
+ANR	733	CFGEntryNode	ENTRY		2		True				
+ANR	734	CFGExitNode	EXIT		2		True				
+ANR	735	Symbol	c -> binary_header . request		2						
+ANR	736	Symbol	c -> rsize		2						
+ANR	737	Symbol	req -> request		2						
+ANR	738	Symbol	negotiating_prot		2						
+ANR	739	Symbol	* c -> rbuf		2						
+ANR	740	Symbol	ntohll		2						
+ANR	741	Symbol	c -> binary_header . request . opaque		2						
+ANR	742	Symbol	c -> rbytes		2						
+ANR	743	Symbol	* req -> bytes		2						
+ANR	744	Symbol	* ptr		2						
+ANR	745	Symbol	cont		2						
+ANR	746	Symbol	c -> protocol		2						
+ANR	747	Symbol	req		2						
+ANR	748	Symbol	ii		2						
+ANR	749	Symbol	strcmp		2						
+ANR	750	Symbol	settings		2						
+ANR	751	Symbol	req -> bytes		2						
+ANR	752	Symbol	NULL		2						
+ANR	753	Symbol	c -> transport		2						
+ANR	754	Symbol	* ( el - 1 )		2						
+ANR	755	Symbol	ascii_prot		2						
+ANR	756	Symbol	el		2						
+ANR	757	Symbol	* * c		2						
+ANR	758	Symbol	c -> binary_header		2						
+ANR	759	Symbol	c -> msgcurr		2						
+ANR	760	Symbol	conn_closing		2						
+ANR	761	Symbol	req -> request . keylen		2						
+ANR	762	Symbol	stderr		2						
+ANR	763	Symbol	c -> binary_header . request . bodylen		2						
+ANR	764	Symbol	req -> request . cas		2						
+ANR	765	Symbol	binary_prot		2						
+ANR	766	Symbol	c -> binary_header . request . keylen		2						
+ANR	767	Symbol	c -> cmd		2						
+ANR	768	Symbol	c -> msgused		2						
+ANR	769	Symbol	c -> sfd		2						
+ANR	770	Symbol	c -> iovused		2						
+ANR	771	Symbol	c -> binary_header . request . opcode		2						
+ANR	772	Symbol	* ii		2						
+ANR	773	Symbol	* req		2						
+ANR	774	Symbol	req -> request . bodylen		2						
+ANR	775	Symbol	c -> rbuf		2						
+ANR	776	Symbol	settings . verbose		2						
+ANR	777	Symbol	add_msghdr		2						
+ANR	778	Symbol	c -> opaque		2						
+ANR	779	Symbol	c -> rcurr		2						
+ANR	780	Symbol	* el		2						
+ANR	781	Symbol	PROTOCOL_BINARY_REQ		2						
+ANR	782	Symbol	c -> cas		2						
+ANR	783	Symbol	c -> binary_header . request . cas		2						
+ANR	784	Symbol	c		2						
+ANR	785	Symbol	c -> binary_header . request . magic		2						
+ANR	786	Symbol	prot_text		2						
+ANR	787	Symbol	ntohl		2						
+ANR	788	Symbol	* c		2						
+ANR	789	Symbol	ptr		2						
+ANR	790	Symbol	ntohs		2						
+ANR	791	Symbol	* * req		2						
+ANR	792	Symbol	udp_transport		2						
+ANR	793	Symbol	memchr		2						
+ANR	794	Symbol	c -> keylen		2						

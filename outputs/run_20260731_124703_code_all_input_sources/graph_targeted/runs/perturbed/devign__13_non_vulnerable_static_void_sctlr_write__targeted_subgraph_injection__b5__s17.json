@@ -1,0 +1,314 @@
+{
+  "comparison": {
+    "sample": "devign__13_non_vulnerable_static_void_sctlr_write",
+    "action": "targeted_subgraph_injection",
+    "method_family": "winner_xfg",
+    "budget": 5,
+    "seed": 17,
+    "function": "sctlr_write",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 0,
+    "flipped": false,
+    "attack_success": false,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 6.299678556587196e-10,
+    "variant_prob": 1.2953249584057858e-09,
+    "delta_probability": 6.653571027470662e-10,
+    "base_nodes": 7,
+    "variant_nodes": 22,
+    "delta_nodes": 15,
+    "base_edges": 9,
+    "variant_edges": 29,
+    "delta_edges": 20,
+    "base_xfg_count": 2,
+    "variant_xfg_count": 2,
+    "winner_category": "ptr",
+    "winner_key_line": 11,
+    "winner_raw_nodes": 6,
+    "winner_nodes": 6,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 5,
+    "applied_count": 5,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 14.828458999545546,
+    "operations": [
+      {
+        "step": 1,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          1,
+          -1,
+          -2,
+          -3,
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            -1,
+            "d"
+          ],
+          [
+            -1,
+            -2,
+            "d"
+          ],
+          [
+            -2,
+            -3,
+            "c"
+          ],
+          [
+            -3,
+            11,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node key-line-feature motif around winner key line 11"
+      },
+      {
+        "step": 2,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          1,
+          -4,
+          -5,
+          -6,
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            -4,
+            "d"
+          ],
+          [
+            -4,
+            -5,
+            "d"
+          ],
+          [
+            -5,
+            -6,
+            "c"
+          ],
+          [
+            -6,
+            11,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node key-line-feature motif around winner key line 11"
+      },
+      {
+        "step": 3,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          1,
+          -7,
+          -8,
+          -9,
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            -7,
+            "d"
+          ],
+          [
+            -7,
+            -8,
+            "d"
+          ],
+          [
+            -8,
+            -9,
+            "c"
+          ],
+          [
+            -9,
+            11,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node key-line-feature motif around winner key line 11"
+      },
+      {
+        "step": 4,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          1,
+          -10,
+          -11,
+          -12,
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            -10,
+            "d"
+          ],
+          [
+            -10,
+            -11,
+            "d"
+          ],
+          [
+            -11,
+            -12,
+            "c"
+          ],
+          [
+            -12,
+            11,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node key-line-feature motif around winner key line 11"
+      },
+      {
+        "step": 5,
+        "action": "targeted_subgraph_injection",
+        "target_nodes": [
+          1,
+          -13,
+          -14,
+          -15,
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [
+          [
+            1,
+            -13,
+            "d"
+          ],
+          [
+            -13,
+            -14,
+            "d"
+          ],
+          [
+            -14,
+            -15,
+            "c"
+          ],
+          [
+            -15,
+            11,
+            "d"
+          ]
+        ],
+        "details": "injected a three-node key-line-feature motif around winner key line 11"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 1.2953249584057858e-09,
+    "predicted_label": 0,
+    "xfg_count": 2,
+    "xfg_predictions": [
+      {
+        "category": "ptr",
+        "key_line": 25,
+        "nodes": [
+          11,
+          25,
+          1,
+          3,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 6.587641543376321e-10,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 11,
+        "nodes": [
+          11,
+          19,
+          25,
+          31,
+          1,
+          3,
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10,
+          -11,
+          -12,
+          -13,
+          -14,
+          -15
+        ],
+        "vulnerability_probability": 1.2953249584057858e-09,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "ptr",
+      "key_line": 11,
+      "nodes": [
+        11,
+        19,
+        25,
+        31,
+        1,
+        3,
+        -1,
+        -2,
+        -3,
+        -4,
+        -5,
+        -6,
+        -7,
+        -8,
+        -9,
+        -10,
+        -11,
+        -12,
+        -13,
+        -14,
+        -15
+      ],
+      "probability": 1.2953249584057858e-09
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 14.27754999986064
+  }
+}

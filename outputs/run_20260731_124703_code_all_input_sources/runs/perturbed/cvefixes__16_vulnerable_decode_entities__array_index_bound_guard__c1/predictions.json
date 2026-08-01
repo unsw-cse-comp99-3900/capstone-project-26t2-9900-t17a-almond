@@ -1,0 +1,277 @@
+{
+  "generated_at_utc": "2026-07-31T12:55:12.113198+00:00",
+  "prediction": {
+    "sample_id": "cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/variants/cvefixes/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1.c",
+    "function_name": "while",
+    "joern_status": "success",
+    "num_nodes": 1025,
+    "num_edges": 2409,
+    "predicted_label": 0,
+    "vulnerability_probability": 5.5245891417143866e-05,
+    "threshold": 0.5,
+    "confidence": 0.9999447541085829,
+    "lexical_score": null,
+    "graph_score": 5.5245891417143866e-05,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 5.5245891417143866e-05
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/_work/joern-parse-lf.sh",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/joern_csv",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/_work/source"
+      ],
+      "stdout": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/_work/source/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1.c\n",
+      "stderr": "",
+      "csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/joern_csv",
+      "selected_csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/joern_csv/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1/_work/source/cvefixes__16_vulnerable_decode_entities__array_index_bound_guard__c1.c",
+      "runtime_ms": 702.1604229998957,
+      "node_count": 1025,
+      "edge_count": 2409,
+      "summary": {
+        "node_count": 1025,
+        "edge_count": 2409
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "while",
+        "char_length": 4413,
+        "line_count": 211
+      },
+      "graph": {
+        "available": true,
+        "node_count": 1025,
+        "edge_count": 2409
+      },
+      "xfg": {
+        "xfg_count": 19,
+        "key_line_counts": {
+          "call": 2,
+          "array": 2,
+          "ptr": 0,
+          "arith": 15
+        },
+        "xfg_predictions": [
+          {
+            "category": "call",
+            "key_line": 25,
+            "vulnerability_probability": 2.2655407519778237e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999773502349854
+          },
+          {
+            "category": "call",
+            "key_line": 41,
+            "vulnerability_probability": 5.5245844123419374e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "array",
+            "key_line": 72,
+            "vulnerability_probability": 4.008899486507289e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999599456787109
+          },
+          {
+            "category": "array",
+            "key_line": 71,
+            "vulnerability_probability": 4.008899486507289e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999599456787109
+          },
+          {
+            "category": "arith",
+            "key_line": 6,
+            "vulnerability_probability": 3.694010229082778e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999630451202393
+          },
+          {
+            "category": "arith",
+            "key_line": 71,
+            "vulnerability_probability": 4.008907126262784e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999599456787109
+          },
+          {
+            "category": "arith",
+            "key_line": 135,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 137,
+            "vulnerability_probability": 5.5245844123419374e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 168,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 107,
+            "vulnerability_probability": 5.524578955373727e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 44,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 170,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 208,
+            "vulnerability_probability": 2.039842183876317e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999796152114868
+          },
+          {
+            "category": "arith",
+            "key_line": 83,
+            "vulnerability_probability": 5.5245844123419374e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 180,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 181,
+            "vulnerability_probability": 5.5245891417143866e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 189,
+            "vulnerability_probability": 4.6428416681010276e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999536275863647
+          },
+          {
+            "category": "arith",
+            "key_line": 57,
+            "vulnerability_probability": 5.524578955373727e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          },
+          {
+            "category": "arith",
+            "key_line": 125,
+            "vulnerability_probability": 5.5245844123419374e-05,
+            "predicted_label": 0,
+            "confidence": 0.999944806098938
+          }
+        ]
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 5.5245891417143866e-05,
+        "status": "ok",
+        "model": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 19
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 5.5245891417143866e-05
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 5.5245891417143866e-05,
+      "predicted_label": 0,
+      "confidence": 0.9999447541085829,
+      "threshold": 0.5
+    },
+    "runtime_ms": 4051.11875099999,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "comparison": {
+    "sample": "devign__13_non_vulnerable_static_void_sctlr_write",
+    "action": "winner_xfg_feature_mask",
+    "method_family": "winner_xfg",
+    "budget": 5,
+    "seed": 17,
+    "function": "sctlr_write",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 0,
+    "flipped": false,
+    "attack_success": false,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 6.299678556587196e-10,
+    "variant_prob": 1.7181532641075137e-08,
+    "delta_probability": 1.6551564785416417e-08,
+    "base_nodes": 7,
+    "variant_nodes": 7,
+    "delta_nodes": 0,
+    "base_edges": 9,
+    "variant_edges": 9,
+    "delta_edges": 0,
+    "base_xfg_count": 2,
+    "variant_xfg_count": 2,
+    "winner_category": "ptr",
+    "winner_key_line": 11,
+    "winner_raw_nodes": 6,
+    "winner_nodes": 6,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 5,
+    "applied_count": 5,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 12.479117999646405,
+    "operations": [
+      {
+        "step": 1,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          1
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 1 from source line 1 to key-line line 11"
+      },
+      {
+        "step": 2,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          3
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 3 from source line 3 to key-line line 11"
+      },
+      {
+        "step": 3,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          31
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 31 from source line 31 to key-line line 11"
+      },
+      {
+        "step": 4,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          19
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 19 from source line 19 to key-line line 11"
+      },
+      {
+        "step": 5,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          7
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 7 from source line 7 to key-line line 11"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 1.7181532641075137e-08,
+    "predicted_label": 0,
+    "xfg_count": 2,
+    "xfg_predictions": [
+      {
+        "category": "ptr",
+        "key_line": 25,
+        "nodes": [
+          11,
+          25,
+          1,
+          3
+        ],
+        "vulnerability_probability": 7.482142017067872e-09,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 11,
+        "nodes": [
+          11,
+          19,
+          25,
+          31,
+          1,
+          3
+        ],
+        "vulnerability_probability": 1.7181532641075137e-08,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "ptr",
+      "key_line": 11,
+      "nodes": [
+        11,
+        19,
+        25,
+        31,
+        1,
+        3
+      ],
+      "probability": 1.7181532641075137e-08
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 12.175453000054404
+  }
+}

@@ -1,0 +1,168 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__03_vulnerable_05_vulnerable_32__data_flow_alias__c1/_work/source/cwe119__03_vulnerable_05_vulnerable_32__data_flow_alias__c1.c								
+ANR	2	Function	badSink	29:0:798:1359							
+ANR	3	FunctionDef	badSink (vector < wchar_t * > dataVector)		2	0					
+ANR	4	CompoundStatement		30:0:841:1359	2	0					
+ANR	5	IdentifierDeclStatement	wchar_t * data = dataVector [ 2 ] ;	32:4:885:915	2	0	True				
+ANR	6	IdentifierDecl	* data = dataVector [ 2 ]		2	0					
+ANR	7	IdentifierDeclType	wchar_t *		2	0					
+ANR	8	Identifier	data		2	1					
+ANR	9	AssignmentExpression	* data = dataVector [ 2 ]		2	2		=			
+ANR	10	Identifier	data		2	0					
+ANR	11	ArrayIndexing	dataVector [ 2 ]		2	1					
+ANR	12	Identifier	dataVector		2	0					
+ANR	13	PrimaryExpression	2		2	1					
+ANR	14	CompoundStatement		6:8:118:154	2	1					
+ANR	15	IdentifierDeclStatement	wchar_t source [ 100 ] ;	34:8:931:950	2	0	True				
+ANR	16	IdentifierDecl	source [ 100 ]		2	0					
+ANR	17	IdentifierDeclType	wchar_t [ 100 ]		2	0					
+ANR	18	Identifier	source		2	1					
+ANR	19	PrimaryExpression	100		2	2					
+ANR	20	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( source ) ;	35:8:960:996	2	1	True				
+ANR	21	IdentifierDecl	* dwk_alias_1 = ( void * ) ( source )		2	0					
+ANR	22	IdentifierDeclType	void *		2	0					
+ANR	23	Identifier	dwk_alias_1		2	1					
+ANR	24	AssignmentExpression	* dwk_alias_1 = ( void * ) ( source )		2	2		=			
+ANR	25	Identifier	dwk_alias_1		2	0					
+ANR	26	CastExpression	( void * ) ( source )		2	1					
+ANR	27	CastTarget	void *		2	0					
+ANR	28	Identifier	source		2	1					
+ANR	29	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	36:8:1006:1053	2	2	True				
+ANR	30	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	31	Identifier	dwk_alias_1		2	0					
+ANR	32	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	33	CastTarget	void *		2	0					
+ANR	34	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	35	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	36	CastTarget	char *		2	0					
+ANR	37	Identifier	dwk_alias_1		2	1					
+ANR	38	PrimaryExpression	0		2	1					
+ANR	39	Statement	wmemset	37:8:1063:1069	2	3	True				
+ANR	40	Statement	(	37:15:1070:1070	2	4	True				
+ANR	41	Statement	source	37:16:1071:1076	2	5	True				
+ANR	42	Statement	","	37:22:1077:1077	2	6	True				
+ANR	43	Statement	L	37:24:1079:1079	2	7	True				
+ANR	44	Statement	'C'	37:25:1080:1082	2	8	True				
+ANR	45	Statement	","	37:28:1083:1083	2	9	True				
+ANR	46	Statement	100	37:30:1085:1087	2	10	True				
+ANR	47	Statement	-	37:33:1088:1088	2	11	True				
+ANR	48	Statement	1	37:34:1089:1089	2	12	True				
+ANR	49	Statement	)	37:35:1090:1090	2	13	True				
+ANR	50	ExpressionStatement		37:36:1091:1091	2	14	True				
+ANR	51	Statement	source	38:8:1123:1128	2	15	True				
+ANR	52	Statement	[	38:14:1129:1129	2	16	True				
+ANR	53	Statement	100	38:15:1130:1132	2	17	True				
+ANR	54	Statement	-	38:18:1133:1133	2	18	True				
+ANR	55	Statement	1	38:19:1134:1134	2	19	True				
+ANR	56	Statement	]	38:20:1135:1135	2	20	True				
+ANR	57	Statement	=	38:22:1137:1137	2	21	True				
+ANR	58	Statement	L	38:24:1139:1139	2	22	True				
+ANR	59	ExpressionStatement	'\\0'	38:25:1140:1144	2	23	True				
+ANR	60	PrimaryExpression	'\\0'		2	0					
+ANR	61	ExpressionStatement	"wcscat ( data , source )"	40:8:1281:1301	2	24	True				
+ANR	62	CallExpression	"wcscat ( data , source )"		2	0					
+ANR	63	Callee	wcscat		2	0					
+ANR	64	Identifier	wcscat		2	0					
+ANR	65	ArgumentList	data		2	1					
+ANR	66	Argument	data		2	0					
+ANR	67	Identifier	data		2	0					
+ANR	68	Argument	source		2	1					
+ANR	69	Identifier	source		2	0					
+ANR	70	ExpressionStatement	printWLine ( data )	41:8:1311:1327	2	25	True				
+ANR	71	CallExpression	printWLine ( data )		2	0					
+ANR	72	Callee	printWLine		2	0					
+ANR	73	Identifier	printWLine		2	0					
+ANR	74	ArgumentList	data		2	1					
+ANR	75	Argument	data		2	0					
+ANR	76	Identifier	data		2	0					
+ANR	77	Statement	delete	42:8:1337:1342	2	26	True				
+ANR	78	Statement	[	42:15:1344:1344	2	27	True				
+ANR	79	Statement	]	42:16:1345:1345	2	28	True				
+ANR	80	ExpressionStatement	data	42:18:1347:1351	2	29	True				
+ANR	81	Identifier	data		2	0					
+ANR	82	ReturnType	void		2	1					
+ANR	83	Identifier	badSink		2	2					
+ANR	84	ParameterList	vector < wchar_t * > dataVector		2	3					
+ANR	85	Parameter	vector < wchar_t * > dataVector	29:13:811:838	2	0	True				
+ANR	86	ParameterType	vector < wchar_t * >		2	0					
+ANR	87	Identifier	dataVector		2	1					
+ANR	88	CFGEntryNode	ENTRY		2		True				
+ANR	89	CFGExitNode	EXIT		2		True				
+ANR	90	Symbol	data		2						
+ANR	91	Symbol	source		2						
+ANR	92	Symbol	dwk_alias_1		2						
+ANR	93	Symbol	dataVector		2						
+ANR	94	Symbol	* dataVector		2						
+ANR	95	Function	goodG2BSink	51:0:1453:1877							
+ANR	96	FunctionDef	goodG2BSink (vector < wchar_t * > dataVector)		95	0					
+ANR	97	CompoundStatement		52:0:1500:1877	95	0					
+ANR	98	IdentifierDeclStatement	wchar_t * data = dataVector [ 2 ] ;	53:4:1506:1536	95	0	True				
+ANR	99	IdentifierDecl	* data = dataVector [ 2 ]		95	0					
+ANR	100	IdentifierDeclType	wchar_t *		95	0					
+ANR	101	Identifier	data		95	1					
+ANR	102	AssignmentExpression	* data = dataVector [ 2 ]		95	2		=			
+ANR	103	Identifier	data		95	0					
+ANR	104	ArrayIndexing	dataVector [ 2 ]		95	1					
+ANR	105	Identifier	dataVector		95	0					
+ANR	106	PrimaryExpression	2		95	1					
+ANR	107	CompoundStatement		4:8:51:70	95	1					
+ANR	108	IdentifierDeclStatement	wchar_t source [ 100 ] ;	55:8:1552:1571	95	0	True				
+ANR	109	IdentifierDecl	source [ 100 ]		95	0					
+ANR	110	IdentifierDeclType	wchar_t [ 100 ]		95	0					
+ANR	111	Identifier	source		95	1					
+ANR	112	PrimaryExpression	100		95	2					
+ANR	113	Statement	wmemset	56:8:1581:1587	95	1	True				
+ANR	114	Statement	(	56:15:1588:1588	95	2	True				
+ANR	115	Statement	source	56:16:1589:1594	95	3	True				
+ANR	116	Statement	","	56:22:1595:1595	95	4	True				
+ANR	117	Statement	L	56:24:1597:1597	95	5	True				
+ANR	118	Statement	'C'	56:25:1598:1600	95	6	True				
+ANR	119	Statement	","	56:28:1601:1601	95	7	True				
+ANR	120	Statement	100	56:30:1603:1605	95	8	True				
+ANR	121	Statement	-	56:33:1606:1606	95	9	True				
+ANR	122	Statement	1	56:34:1607:1607	95	10	True				
+ANR	123	Statement	)	56:35:1608:1608	95	11	True				
+ANR	124	ExpressionStatement		56:36:1609:1609	95	12	True				
+ANR	125	Statement	source	57:8:1641:1646	95	13	True				
+ANR	126	Statement	[	57:14:1647:1647	95	14	True				
+ANR	127	Statement	100	57:15:1648:1650	95	15	True				
+ANR	128	Statement	-	57:18:1651:1651	95	16	True				
+ANR	129	Statement	1	57:19:1652:1652	95	17	True				
+ANR	130	Statement	]	57:20:1653:1653	95	18	True				
+ANR	131	Statement	=	57:22:1655:1655	95	19	True				
+ANR	132	Statement	L	57:24:1657:1657	95	20	True				
+ANR	133	ExpressionStatement	'\\0'	57:25:1658:1662	95	21	True				
+ANR	134	PrimaryExpression	'\\0'		95	0					
+ANR	135	ExpressionStatement	"wcscat ( data , source )"	59:8:1799:1819	95	22	True				
+ANR	136	CallExpression	"wcscat ( data , source )"		95	0					
+ANR	137	Callee	wcscat		95	0					
+ANR	138	Identifier	wcscat		95	0					
+ANR	139	ArgumentList	data		95	1					
+ANR	140	Argument	data		95	0					
+ANR	141	Identifier	data		95	0					
+ANR	142	Argument	source		95	1					
+ANR	143	Identifier	source		95	0					
+ANR	144	ExpressionStatement	printWLine ( data )	60:8:1829:1845	95	23	True				
+ANR	145	CallExpression	printWLine ( data )		95	0					
+ANR	146	Callee	printWLine		95	0					
+ANR	147	Identifier	printWLine		95	0					
+ANR	148	ArgumentList	data		95	1					
+ANR	149	Argument	data		95	0					
+ANR	150	Identifier	data		95	0					
+ANR	151	Statement	delete	61:8:1855:1860	95	24	True				
+ANR	152	Statement	[	61:15:1862:1862	95	25	True				
+ANR	153	Statement	]	61:16:1863:1863	95	26	True				
+ANR	154	ExpressionStatement	data	61:18:1865:1869	95	27	True				
+ANR	155	Identifier	data		95	0					
+ANR	156	ReturnType	void		95	1					
+ANR	157	Identifier	goodG2BSink		95	2					
+ANR	158	ParameterList	vector < wchar_t * > dataVector		95	3					
+ANR	159	Parameter	vector < wchar_t * > dataVector	51:17:1470:1497	95	0	True				
+ANR	160	ParameterType	vector < wchar_t * >		95	0					
+ANR	161	Identifier	dataVector		95	1					
+ANR	162	CFGEntryNode	ENTRY		95		True				
+ANR	163	CFGExitNode	EXIT		95		True				
+ANR	164	Symbol	data		95						
+ANR	165	Symbol	source		95						
+ANR	166	Symbol	dataVector		95						
+ANR	167	Symbol	* dataVector		95						

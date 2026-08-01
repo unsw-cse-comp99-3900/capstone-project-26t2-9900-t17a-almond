@@ -1,0 +1,199 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__07_vulnerable_static_inline_int_usb_bt_fifo_dequeu__sink_bound_guard__c1/_work/source/devign__07_vulnerable_static_inline_int_usb_bt_fifo_dequeu__sink_bound_guard__c1.c								
+ANR	2	Function	usb_bt_fifo_dequeue	1:0:0:764							
+ANR	3	FunctionDef	"usb_bt_fifo_dequeue (struct usb_hci_in_fifo_s * fifo , USBPacket * p)"		2	0					
+ANR	4	CompoundStatement		5:0:102:764	2	0					
+ANR	5	IdentifierDeclStatement	int len ;	7:4:109:116	2	0	True				
+ANR	6	IdentifierDecl	len		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	len		2	1					
+ANR	9	IfStatement	if ( likely ( ! fifo -> len ) )		2	1					
+ANR	10	Condition	likely ( ! fifo -> len )	11:8:129:146	2	0	True				
+ANR	11	CallExpression	likely ( ! fifo -> len )		2	0					
+ANR	12	Callee	likely		2	0					
+ANR	13	Identifier	likely		2	0					
+ANR	14	ArgumentList	! fifo -> len		2	1					
+ANR	15	Argument	! fifo -> len		2	0					
+ANR	16	UnaryOperationExpression	! fifo -> len		2	0					
+ANR	17	UnaryOperator	!		2	0					
+ANR	18	PtrMemberAccess	fifo -> len		2	1					
+ANR	19	Identifier	fifo		2	0					
+ANR	20	Identifier	len		2	1					
+ANR	21	ReturnStatement	return USB_RET_STALL ;	13:8:158:178	2	1	True				
+ANR	22	Identifier	USB_RET_STALL		2	0					
+ANR	23	ExpressionStatement	"len = MIN ( p -> len , fifo -> fifo [ fifo -> start ] . len )"	17:4:187:233	2	2	True				
+ANR	24	AssignmentExpression	"len = MIN ( p -> len , fifo -> fifo [ fifo -> start ] . len )"		2	0		=			
+ANR	25	Identifier	len		2	0					
+ANR	26	CallExpression	"MIN ( p -> len , fifo -> fifo [ fifo -> start ] . len )"		2	1					
+ANR	27	Callee	MIN		2	0					
+ANR	28	Identifier	MIN		2	0					
+ANR	29	ArgumentList	p -> len		2	1					
+ANR	30	Argument	p -> len		2	0					
+ANR	31	PtrMemberAccess	p -> len		2	0					
+ANR	32	Identifier	p		2	0					
+ANR	33	Identifier	len		2	1					
+ANR	34	Argument	fifo -> fifo [ fifo -> start ] . len		2	1					
+ANR	35	MemberAccess	fifo -> fifo [ fifo -> start ] . len		2	0					
+ANR	36	ArrayIndexing	fifo -> fifo [ fifo -> start ]		2	0					
+ANR	37	PtrMemberAccess	fifo -> fifo		2	0					
+ANR	38	Identifier	fifo		2	0					
+ANR	39	Identifier	fifo		2	1					
+ANR	40	PtrMemberAccess	fifo -> start		2	1					
+ANR	41	Identifier	fifo		2	0					
+ANR	42	Identifier	start		2	1					
+ANR	43	Identifier	len		2	1					
+ANR	44	IfStatement	if ( ( size_t ) ( len ) > 4096U )		2	3					
+ANR	45	Condition	( size_t ) ( len ) > 4096U	19:8:244:264	2	0	True				
+ANR	46	RelationalExpression	( size_t ) ( len ) > 4096U		2	0		>			
+ANR	47	CastExpression	( size_t ) ( len )		2	0					
+ANR	48	CastTarget	size_t		2	0					
+ANR	49	Identifier	len		2	1					
+ANR	50	PrimaryExpression	4096U		2	1					
+ANR	51	CompoundStatement		15:31:164:164	2	1					
+ANR	52	ReturnStatement	return 0 ;	20:8:277:285	2	0	True				
+ANR	53	PrimaryExpression	0		2	0					
+ANR	54	ExpressionStatement	"memcpy ( p -> data , fifo -> fifo [ fifo -> start ] . data , len )"	22:4:297:347	2	4	True				
+ANR	55	CallExpression	"memcpy ( p -> data , fifo -> fifo [ fifo -> start ] . data , len )"		2	0					
+ANR	56	Callee	memcpy		2	0					
+ANR	57	Identifier	memcpy		2	0					
+ANR	58	ArgumentList	p -> data		2	1					
+ANR	59	Argument	p -> data		2	0					
+ANR	60	PtrMemberAccess	p -> data		2	0					
+ANR	61	Identifier	p		2	0					
+ANR	62	Identifier	data		2	1					
+ANR	63	Argument	fifo -> fifo [ fifo -> start ] . data		2	1					
+ANR	64	MemberAccess	fifo -> fifo [ fifo -> start ] . data		2	0					
+ANR	65	ArrayIndexing	fifo -> fifo [ fifo -> start ]		2	0					
+ANR	66	PtrMemberAccess	fifo -> fifo		2	0					
+ANR	67	Identifier	fifo		2	0					
+ANR	68	Identifier	fifo		2	1					
+ANR	69	PtrMemberAccess	fifo -> start		2	1					
+ANR	70	Identifier	fifo		2	0					
+ANR	71	Identifier	start		2	1					
+ANR	72	Identifier	data		2	1					
+ANR	73	Argument	len		2	2					
+ANR	74	Identifier	len		2	0					
+ANR	75	IfStatement	if ( len == p -> len )		2	5					
+ANR	76	Condition	len == p -> len	24:8:358:370	2	0	True				
+ANR	77	EqualityExpression	len == p -> len		2	0		==			
+ANR	78	Identifier	len		2	0					
+ANR	79	PtrMemberAccess	p -> len		2	1					
+ANR	80	Identifier	p		2	0					
+ANR	81	Identifier	len		2	1					
+ANR	82	CompoundStatement		20:23:270:270	2	1					
+ANR	83	ExpressionStatement	fifo -> fifo [ fifo -> start ] . len -= len	26:8:384:418	2	0	True				
+ANR	84	AssignmentExpression	fifo -> fifo [ fifo -> start ] . len -= len		2	0		-=			
+ANR	85	MemberAccess	fifo -> fifo [ fifo -> start ] . len		2	0					
+ANR	86	ArrayIndexing	fifo -> fifo [ fifo -> start ]		2	0					
+ANR	87	PtrMemberAccess	fifo -> fifo		2	0					
+ANR	88	Identifier	fifo		2	0					
+ANR	89	Identifier	fifo		2	1					
+ANR	90	PtrMemberAccess	fifo -> start		2	1					
+ANR	91	Identifier	fifo		2	0					
+ANR	92	Identifier	start		2	1					
+ANR	93	Identifier	len		2	1					
+ANR	94	Identifier	len		2	1					
+ANR	95	ExpressionStatement	fifo -> fifo [ fifo -> start ] . data += len	28:8:429:464	2	1	True				
+ANR	96	AssignmentExpression	fifo -> fifo [ fifo -> start ] . data += len		2	0		+=			
+ANR	97	MemberAccess	fifo -> fifo [ fifo -> start ] . data		2	0					
+ANR	98	ArrayIndexing	fifo -> fifo [ fifo -> start ]		2	0					
+ANR	99	PtrMemberAccess	fifo -> fifo		2	0					
+ANR	100	Identifier	fifo		2	0					
+ANR	101	Identifier	fifo		2	1					
+ANR	102	PtrMemberAccess	fifo -> start		2	1					
+ANR	103	Identifier	fifo		2	0					
+ANR	104	Identifier	start		2	1					
+ANR	105	Identifier	data		2	1					
+ANR	106	Identifier	len		2	1					
+ANR	107	ElseStatement	else		2	0					
+ANR	108	CompoundStatement		26:11:375:375	2	0					
+ANR	109	ExpressionStatement	fifo -> start ++	32:8:489:503	2	0	True				
+ANR	110	PostIncDecOperationExpression	fifo -> start ++		2	0					
+ANR	111	PtrMemberAccess	fifo -> start		2	0					
+ANR	112	Identifier	fifo		2	0					
+ANR	113	Identifier	start		2	1					
+ANR	114	IncDec	++		2	1					
+ANR	115	ExpressionStatement	fifo -> start &= CFIFO_LEN_MASK	34:8:514:543	2	1	True				
+ANR	116	AssignmentExpression	fifo -> start &= CFIFO_LEN_MASK		2	0		&=			
+ANR	117	PtrMemberAccess	fifo -> start		2	0					
+ANR	118	Identifier	fifo		2	0					
+ANR	119	Identifier	start		2	1					
+ANR	120	Identifier	CFIFO_LEN_MASK		2	1					
+ANR	121	ExpressionStatement	fifo -> len --	36:8:554:566	2	2	True				
+ANR	122	PostIncDecOperationExpression	fifo -> len --		2	0					
+ANR	123	PtrMemberAccess	fifo -> len		2	0					
+ANR	124	Identifier	fifo		2	0					
+ANR	125	Identifier	len		2	1					
+ANR	126	IncDec	--		2	1					
+ANR	127	ExpressionStatement	fifo -> dstart += len	42:4:582:601	2	6	True				
+ANR	128	AssignmentExpression	fifo -> dstart += len		2	0		+=			
+ANR	129	PtrMemberAccess	fifo -> dstart		2	0					
+ANR	130	Identifier	fifo		2	0					
+ANR	131	Identifier	dstart		2	1					
+ANR	132	Identifier	len		2	1					
+ANR	133	ExpressionStatement	fifo -> dlen -= len	44:4:608:625	2	7	True				
+ANR	134	AssignmentExpression	fifo -> dlen -= len		2	0		-=			
+ANR	135	PtrMemberAccess	fifo -> dlen		2	0					
+ANR	136	Identifier	fifo		2	0					
+ANR	137	Identifier	dlen		2	1					
+ANR	138	Identifier	len		2	1					
+ANR	139	IfStatement	if ( fifo -> dstart >= fifo -> dsize )		2	8					
+ANR	140	Condition	fifo -> dstart >= fifo -> dsize	46:8:636:662	2	0	True				
+ANR	141	RelationalExpression	fifo -> dstart >= fifo -> dsize		2	0		>=			
+ANR	142	PtrMemberAccess	fifo -> dstart		2	0					
+ANR	143	Identifier	fifo		2	0					
+ANR	144	Identifier	dstart		2	1					
+ANR	145	PtrMemberAccess	fifo -> dsize		2	1					
+ANR	146	Identifier	fifo		2	0					
+ANR	147	Identifier	dsize		2	1					
+ANR	148	CompoundStatement		42:37:562:562	2	1					
+ANR	149	ExpressionStatement	fifo -> dstart = 0	48:8:676:692	2	0	True				
+ANR	150	AssignmentExpression	fifo -> dstart = 0		2	0		=			
+ANR	151	PtrMemberAccess	fifo -> dstart		2	0					
+ANR	152	Identifier	fifo		2	0					
+ANR	153	Identifier	dstart		2	1					
+ANR	154	PrimaryExpression	0		2	1					
+ANR	155	ExpressionStatement	fifo -> dsize = DFIFO_LEN_MASK + 1	50:8:703:735	2	1	True				
+ANR	156	AssignmentExpression	fifo -> dsize = DFIFO_LEN_MASK + 1		2	0		=			
+ANR	157	PtrMemberAccess	fifo -> dsize		2	0					
+ANR	158	Identifier	fifo		2	0					
+ANR	159	Identifier	dsize		2	1					
+ANR	160	AdditiveExpression	DFIFO_LEN_MASK + 1		2	1		+			
+ANR	161	Identifier	DFIFO_LEN_MASK		2	0					
+ANR	162	PrimaryExpression	1		2	1					
+ANR	163	ReturnStatement	return len ;	56:4:751:761	2	9	True				
+ANR	164	Identifier	len		2	0					
+ANR	165	ReturnType	static inline int		2	1					
+ANR	166	Identifier	usb_bt_fifo_dequeue		2	2					
+ANR	167	ParameterList	"struct usb_hci_in_fifo_s * fifo , USBPacket * p"		2	3					
+ANR	168	Parameter	struct usb_hci_in_fifo_s * fifo	1:38:38:67	2	0	True				
+ANR	169	ParameterType	struct usb_hci_in_fifo_s *		2	0					
+ANR	170	Identifier	fifo		2	1					
+ANR	171	Parameter	USBPacket * p	3:16:87:98	2	1	True				
+ANR	172	ParameterType	USBPacket *		2	0					
+ANR	173	Identifier	p		2	1					
+ANR	174	CFGEntryNode	ENTRY		2		True				
+ANR	175	CFGExitNode	EXIT		2		True				
+ANR	176	Symbol	likely		2						
+ANR	177	Symbol	fifo -> fifo [ fifo -> start ] . data		2						
+ANR	178	Symbol	fifo		2						
+ANR	179	Symbol	p -> data		2						
+ANR	180	Symbol	fifo -> fifo		2						
+ANR	181	Symbol	USB_RET_STALL		2						
+ANR	182	Symbol	fifo -> len		2						
+ANR	183	Symbol	fifo -> dlen		2						
+ANR	184	Symbol	* * fifo		2						
+ANR	185	Symbol	p		2						
+ANR	186	Symbol	MIN		2						
+ANR	187	Symbol	len		2						
+ANR	188	Symbol	fifo -> start		2						
+ANR	189	Symbol	fifo -> dsize		2						
+ANR	190	Symbol	* fifo -> fifo		2						
+ANR	191	Symbol	p -> len		2						
+ANR	192	Symbol	DFIFO_LEN_MASK		2						
+ANR	193	Symbol	fifo -> fifo [ fifo -> start ] . len		2						
+ANR	194	Symbol	CFIFO_LEN_MASK		2						
+ANR	195	Symbol	* p		2						
+ANR	196	Symbol	fifo -> dstart		2						
+ANR	197	Symbol	* fifo		2						
+ANR	198	Symbol	* fifo -> start		2						

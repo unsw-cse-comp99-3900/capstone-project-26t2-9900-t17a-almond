@@ -1,0 +1,61 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__19_vulnerable_CWE121_Stack_Based_Buffer_Overflow____control_wrapper__c1/_work/source/cwe119__19_vulnerable_CWE121_Stack_Based_Buffer_Overflow____control_wrapper__c1.c								
+ANR	2	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action	24:0:767:1186							
+ANR	3	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action (char * data)		2	0					
+ANR	4	CompoundStatement		25:0:860:1186	2	0					
+ANR	5	CompoundStatement		3:8:15:33	2	0					
+ANR	6	IdentifierDeclStatement	"char dest [ 50 ] = """" ;"	27:8:876:894	2	0	True				
+ANR	7	IdentifierDecl	"dest [ 50 ] = """""		2	0					
+ANR	8	IdentifierDeclType	char [ 50 ]		2	0					
+ANR	9	Identifier	dest		2	1					
+ANR	10	PrimaryExpression	50		2	2					
+ANR	11	AssignmentExpression	"dest [ 50 ] = """""		2	3		=			
+ANR	12	Identifier	dest		2	0					
+ANR	13	PrimaryExpression	""""""		2	1					
+ANR	14	IfStatement	if ( 1 )		2	1					
+ANR	15	Condition	1	29:12:1011:1011	2	0	True				
+ANR	16	PrimaryExpression	1		2	0					
+ANR	17	CompoundStatement		5:15:153:153	2	1					
+ANR	18	ExpressionStatement	"strncat ( dest , data , strlen ( data ) )"	30:12:1028:1061	2	0	True				
+ANR	19	CallExpression	"strncat ( dest , data , strlen ( data ) )"		2	0					
+ANR	20	Callee	strncat		2	0					
+ANR	21	Identifier	strncat		2	0					
+ANR	22	ArgumentList	dest		2	1					
+ANR	23	Argument	dest		2	0					
+ANR	24	Identifier	dest		2	0					
+ANR	25	Argument	data		2	1					
+ANR	26	Identifier	data		2	0					
+ANR	27	Argument	strlen ( data )		2	2					
+ANR	28	CallExpression	strlen ( data )		2	0					
+ANR	29	Callee	strlen		2	0					
+ANR	30	Identifier	strlen		2	0					
+ANR	31	ArgumentList	data		2	1					
+ANR	32	Argument	data		2	0					
+ANR	33	Identifier	data		2	0					
+ANR	34	ExpressionStatement	dest [ 50 - 1 ] = '\\0'	32:8:1081:1098	2	2	True				
+ANR	35	AssignmentExpression	dest [ 50 - 1 ] = '\\0'		2	0		=			
+ANR	36	ArrayIndexing	dest [ 50 - 1 ]		2	0					
+ANR	37	Identifier	dest		2	0					
+ANR	38	AdditiveExpression	50 - 1		2	1		-			
+ANR	39	PrimaryExpression	50		2	0					
+ANR	40	PrimaryExpression	1		2	1					
+ANR	41	PrimaryExpression	'\\0'		2	1					
+ANR	42	ExpressionStatement	printLine ( data )	33:8:1163:1178	2	3	True				
+ANR	43	CallExpression	printLine ( data )		2	0					
+ANR	44	Callee	printLine		2	0					
+ANR	45	Identifier	printLine		2	0					
+ANR	46	ArgumentList	data		2	1					
+ANR	47	Argument	data		2	0					
+ANR	48	Identifier	data		2	0					
+ANR	49	ReturnType	void		2	1					
+ANR	50	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action		2	2					
+ANR	51	ParameterList	char * data		2	3					
+ANR	52	Parameter	char * data	24:80:847:857	2	0	True				
+ANR	53	ParameterType	char *		2	0					
+ANR	54	Identifier	data		2	1					
+ANR	55	CFGEntryNode	ENTRY		2		True				
+ANR	56	CFGExitNode	EXIT		2		True				
+ANR	57	Symbol	strlen		2						
+ANR	58	Symbol	data		2						
+ANR	59	Symbol	* dest		2						
+ANR	60	Symbol	dest		2						

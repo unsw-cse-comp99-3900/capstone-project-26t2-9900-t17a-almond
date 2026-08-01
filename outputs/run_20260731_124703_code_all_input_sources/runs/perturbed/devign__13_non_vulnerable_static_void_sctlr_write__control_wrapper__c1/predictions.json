@@ -1,0 +1,158 @@
+{
+  "generated_at_utc": "2026-07-31T13:13:55.298655+00:00",
+  "prediction": {
+    "sample_id": "devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/variants/devign/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1.c",
+    "function_name": "sctlr_write",
+    "joern_status": "success",
+    "num_nodes": 76,
+    "num_edges": 153,
+    "predicted_label": 0,
+    "vulnerability_probability": 2.897478736940684e-07,
+    "threshold": 0.5,
+    "confidence": 0.9999997102521263,
+    "lexical_score": null,
+    "graph_score": 2.897478736940684e-07,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 2.897478736940684e-07
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/_work/joern-parse-lf.sh",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/joern_csv",
+        "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/_work/source"
+      ],
+      "stdout": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1.c\n",
+      "stderr": "",
+      "csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/joern_csv",
+      "selected_csv_dir": "/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/joern_csv/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1/_work/source/devign__13_non_vulnerable_static_void_sctlr_write__control_wrapper__c1.c",
+      "runtime_ms": 480.25094199988416,
+      "node_count": 76,
+      "edge_count": 153,
+      "summary": {
+        "node_count": 76,
+        "edge_count": 153
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "sctlr_write",
+        "char_length": 567,
+        "line_count": 35
+      },
+      "graph": {
+        "available": true,
+        "node_count": 76,
+        "edge_count": 153
+      },
+      "xfg": {
+        "xfg_count": 2,
+        "key_line_counts": {
+          "call": 0,
+          "array": 0,
+          "ptr": 2,
+          "arith": 0
+        },
+        "xfg_predictions": [
+          {
+            "category": "ptr",
+            "key_line": 27,
+            "vulnerability_probability": 1.2921675882071604e-11,
+            "predicted_label": 0,
+            "confidence": 1.0
+          },
+          {
+            "category": "ptr",
+            "key_line": 11,
+            "vulnerability_probability": 2.897478736940684e-07,
+            "predicted_label": 0,
+            "confidence": 0.9999997615814209
+          }
+        ]
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 2.897478736940684e-07,
+        "status": "ok",
+        "model": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 2
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 2.897478736940684e-07
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 2.897478736940684e-07,
+      "predicted_label": 0,
+      "confidence": 0.9999997102521263,
+      "threshold": 0.5
+    },
+    "runtime_ms": 3522.154931000159,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,219 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__07_fixed_videobuf_vm_close__safe_source_substitution__c1/_work/source/cvefixes__07_fixed_videobuf_vm_close__safe_source_substitution__c1.c								
+ANR	2	Function	videobuf_vm_close	1:0:0:652							
+ANR	3	FunctionDef	videobuf_vm_close (struct vm_area_struct * vma)		2	0					
+ANR	4	CompoundStatement		2:0:46:652	2	0					
+ANR	5	IdentifierDeclStatement	struct videobuf_mapping * map = vma -> vm_private_data ;	3:1:49:100	2	0	True				
+ANR	6	IdentifierDecl	* map = vma -> vm_private_data		2	0					
+ANR	7	IdentifierDeclType	struct videobuf_mapping *		2	0					
+ANR	8	Identifier	map		2	1					
+ANR	9	AssignmentExpression	* map = vma -> vm_private_data		2	2		=			
+ANR	10	Identifier	map		2	0					
+ANR	11	PtrMemberAccess	vma -> vm_private_data		2	1					
+ANR	12	Identifier	vma		2	0					
+ANR	13	Identifier	vm_private_data		2	1					
+ANR	14	IdentifierDeclStatement	struct videobuf_queue * q = map -> q ;	4:1:103:136	2	1	True				
+ANR	15	IdentifierDecl	* q = map -> q		2	0					
+ANR	16	IdentifierDeclType	struct videobuf_queue *		2	0					
+ANR	17	Identifier	q		2	1					
+ANR	18	AssignmentExpression	* q = map -> q		2	2		=			
+ANR	19	Identifier	q		2	0					
+ANR	20	PtrMemberAccess	map -> q		2	1					
+ANR	21	Identifier	map		2	0					
+ANR	22	Identifier	q		2	1					
+ANR	23	IdentifierDeclStatement	int i ;	5:1:139:144	2	2	True				
+ANR	24	IdentifierDecl	i		2	0					
+ANR	25	IdentifierDeclType	int		2	0					
+ANR	26	Identifier	i		2	1					
+ANR	27	ExpressionStatement	"dprintk ( 2 , ""vm_close %p [count=%u,vma=%08lx-%08lx]\\n"" , map , map -> count , vma -> vm_start , vma -> vm_end )"	7:1:148:245	2	3	True				
+ANR	28	CallExpression	"dprintk ( 2 , ""vm_close %p [count=%u,vma=%08lx-%08lx]\\n"" , map , map -> count , vma -> vm_start , vma -> vm_end )"		2	0					
+ANR	29	Callee	dprintk		2	0					
+ANR	30	Identifier	dprintk		2	0					
+ANR	31	ArgumentList	2		2	1					
+ANR	32	Argument	2		2	0					
+ANR	33	PrimaryExpression	2		2	0					
+ANR	34	Argument	"""vm_close %p [count=%u,vma=%08lx-%08lx]\\n"""		2	1					
+ANR	35	PrimaryExpression	"""vm_close %p [count=%u,vma=%08lx-%08lx]\\n"""		2	0					
+ANR	36	Argument	map		2	2					
+ANR	37	Identifier	map		2	0					
+ANR	38	Argument	map -> count		2	3					
+ANR	39	PtrMemberAccess	map -> count		2	0					
+ANR	40	Identifier	map		2	0					
+ANR	41	Identifier	count		2	1					
+ANR	42	Argument	vma -> vm_start		2	4					
+ANR	43	PtrMemberAccess	vma -> vm_start		2	0					
+ANR	44	Identifier	vma		2	0					
+ANR	45	Identifier	vm_start		2	1					
+ANR	46	Argument	vma -> vm_end		2	5					
+ANR	47	PtrMemberAccess	vma -> vm_end		2	0					
+ANR	48	Identifier	vma		2	0					
+ANR	49	Identifier	vm_end		2	1					
+ANR	50	ExpressionStatement	map -> count --	10:1:249:261	2	4	True				
+ANR	51	PostIncDecOperationExpression	map -> count --		2	0					
+ANR	52	PtrMemberAccess	map -> count		2	0					
+ANR	53	Identifier	map		2	0					
+ANR	54	Identifier	count		2	1					
+ANR	55	IncDec	--		2	1					
+ANR	56	IfStatement	if ( 0 == map -> count )		2	5					
+ANR	57	Condition	0 == map -> count	11:5:268:282	2	0	True				
+ANR	58	EqualityExpression	0 == map -> count		2	0		==			
+ANR	59	PrimaryExpression	0		2	0					
+ANR	60	PtrMemberAccess	map -> count		2	1					
+ANR	61	Identifier	map		2	0					
+ANR	62	Identifier	count		2	1					
+ANR	63	CompoundStatement		10:22:238:238	2	1					
+ANR	64	ExpressionStatement	"dprintk ( 1 , ""munmap %p q=%p\\n"" , map , q )"	12:2:289:324	2	0	True				
+ANR	65	CallExpression	"dprintk ( 1 , ""munmap %p q=%p\\n"" , map , q )"		2	0					
+ANR	66	Callee	dprintk		2	0					
+ANR	67	Identifier	dprintk		2	0					
+ANR	68	ArgumentList	1		2	1					
+ANR	69	Argument	1		2	0					
+ANR	70	PrimaryExpression	1		2	0					
+ANR	71	Argument	"""munmap %p q=%p\\n"""		2	1					
+ANR	72	PrimaryExpression	"""munmap %p q=%p\\n"""		2	0					
+ANR	73	Argument	map		2	2					
+ANR	74	Identifier	map		2	0					
+ANR	75	Argument	q		2	3					
+ANR	76	Identifier	q		2	0					
+ANR	77	ExpressionStatement	mutex_lock ( & q -> lock )	13:2:328:348	2	1	True				
+ANR	78	CallExpression	mutex_lock ( & q -> lock )		2	0					
+ANR	79	Callee	mutex_lock		2	0					
+ANR	80	Identifier	mutex_lock		2	0					
+ANR	81	ArgumentList	& q -> lock		2	1					
+ANR	82	Argument	& q -> lock		2	0					
+ANR	83	UnaryOperationExpression	& q -> lock		2	0					
+ANR	84	UnaryOperator	&		2	0					
+ANR	85	PtrMemberAccess	q -> lock		2	1					
+ANR	86	Identifier	q		2	0					
+ANR	87	Identifier	lock		2	1					
+ANR	88	ForStatement	for ( i = 0 ; i < VIDEO_MAX_FRAME ; i ++ )		2	2					
+ANR	89	ForInit	i = 0 ;	14:7:357:362	2	0	True				
+ANR	90	AssignmentExpression	i = 0		2	0		=			
+ANR	91	Identifier	i		2	0					
+ANR	92	PrimaryExpression	0		2	1					
+ANR	93	Condition	i < VIDEO_MAX_FRAME	14:14:364:382	2	1	True				
+ANR	94	RelationalExpression	i < VIDEO_MAX_FRAME		2	0		<			
+ANR	95	Identifier	i		2	0					
+ANR	96	Identifier	VIDEO_MAX_FRAME		2	1					
+ANR	97	PostIncDecOperationExpression	i ++	14:35:385:387	2	2	True				
+ANR	98	Identifier	i		2	0					
+ANR	99	IncDec	++		2	1					
+ANR	100	CompoundStatement		13:40:343:343	2	3					
+ANR	101	IfStatement	if ( NULL == q -> bufs [ i ] )		2	0					
+ANR	102	Condition	NULL == q -> bufs [ i ]	15:7:399:416	2	0	True				
+ANR	103	EqualityExpression	NULL == q -> bufs [ i ]		2	0		==			
+ANR	104	Identifier	NULL		2	0					
+ANR	105	ArrayIndexing	q -> bufs [ i ]		2	1					
+ANR	106	PtrMemberAccess	q -> bufs		2	0					
+ANR	107	Identifier	q		2	0					
+ANR	108	Identifier	bufs		2	1					
+ANR	109	Identifier	i		2	1					
+ANR	110	ContinueStatement	continue ;	16:4:423:431	2	1	True				
+ANR	111	IfStatement	if ( q -> bufs [ i ] -> map != map )		2	1					
+ANR	112	Condition	q -> bufs [ i ] -> map != map	18:7:441:462	2	0	True				
+ANR	113	EqualityExpression	q -> bufs [ i ] -> map != map		2	0		!=			
+ANR	114	PtrMemberAccess	q -> bufs [ i ] -> map		2	0					
+ANR	115	ArrayIndexing	q -> bufs [ i ]		2	0					
+ANR	116	PtrMemberAccess	q -> bufs		2	0					
+ANR	117	Identifier	q		2	0					
+ANR	118	Identifier	bufs		2	1					
+ANR	119	Identifier	i		2	1					
+ANR	120	Identifier	map		2	1					
+ANR	121	Identifier	map		2	1					
+ANR	122	ContinueStatement	continue ;	19:4:469:477	2	1	True				
+ANR	123	ExpressionStatement	"( ( q && q -> ops ) ? q -> ops -> buf_release : 0 ) ( q , q -> bufs [ i ] )"	21:3:483:538	2	2	True				
+ANR	124	CallExpression	"( ( q && q -> ops ) ? q -> ops -> buf_release : 0 ) ( q , q -> bufs [ i ] )"		2	0					
+ANR	125	Callee	( q && q -> ops ) ? q -> ops -> buf_release : 0		2	0					
+ANR	126	ConditionalExpression	( q && q -> ops ) ? q -> ops -> buf_release : 0		2	0					
+ANR	127	Condition	q && q -> ops		2	0					
+ANR	128	AndExpression	q && q -> ops		2	0		&&			
+ANR	129	Identifier	q		2	0					
+ANR	130	PtrMemberAccess	q -> ops		2	1					
+ANR	131	Identifier	q		2	0					
+ANR	132	Identifier	ops		2	1					
+ANR	133	PtrMemberAccess	q -> ops -> buf_release		2	1					
+ANR	134	PtrMemberAccess	q -> ops		2	0					
+ANR	135	Identifier	q		2	0					
+ANR	136	Identifier	ops		2	1					
+ANR	137	Identifier	buf_release		2	1					
+ANR	138	PrimaryExpression	0		2	2					
+ANR	139	ArgumentList	q		2	1					
+ANR	140	Argument	q		2	0					
+ANR	141	Identifier	q		2	0					
+ANR	142	Argument	q -> bufs [ i ]		2	1					
+ANR	143	ArrayIndexing	q -> bufs [ i ]		2	0					
+ANR	144	PtrMemberAccess	q -> bufs		2	0					
+ANR	145	Identifier	q		2	0					
+ANR	146	Identifier	bufs		2	1					
+ANR	147	Identifier	i		2	1					
+ANR	148	ExpressionStatement	q -> bufs [ i ] -> map = NULL	23:3:544:568	2	3	True				
+ANR	149	AssignmentExpression	q -> bufs [ i ] -> map = NULL		2	0		=			
+ANR	150	PtrMemberAccess	q -> bufs [ i ] -> map		2	0					
+ANR	151	ArrayIndexing	q -> bufs [ i ]		2	0					
+ANR	152	PtrMemberAccess	q -> bufs		2	0					
+ANR	153	Identifier	q		2	0					
+ANR	154	Identifier	bufs		2	1					
+ANR	155	Identifier	i		2	1					
+ANR	156	Identifier	map		2	1					
+ANR	157	Identifier	NULL		2	1					
+ANR	158	ExpressionStatement	q -> bufs [ i ] -> baddr = 0	24:3:573:594	2	4	True				
+ANR	159	AssignmentExpression	q -> bufs [ i ] -> baddr = 0		2	0		=			
+ANR	160	PtrMemberAccess	q -> bufs [ i ] -> baddr		2	0					
+ANR	161	ArrayIndexing	q -> bufs [ i ]		2	0					
+ANR	162	PtrMemberAccess	q -> bufs		2	0					
+ANR	163	Identifier	q		2	0					
+ANR	164	Identifier	bufs		2	1					
+ANR	165	Identifier	i		2	1					
+ANR	166	Identifier	baddr		2	1					
+ANR	167	PrimaryExpression	0		2	1					
+ANR	168	ExpressionStatement	mutex_unlock ( & q -> lock )	26:2:602:624	2	3	True				
+ANR	169	CallExpression	mutex_unlock ( & q -> lock )		2	0					
+ANR	170	Callee	mutex_unlock		2	0					
+ANR	171	Identifier	mutex_unlock		2	0					
+ANR	172	ArgumentList	& q -> lock		2	1					
+ANR	173	Argument	& q -> lock		2	0					
+ANR	174	UnaryOperationExpression	& q -> lock		2	0					
+ANR	175	UnaryOperator	&		2	0					
+ANR	176	PtrMemberAccess	q -> lock		2	1					
+ANR	177	Identifier	q		2	0					
+ANR	178	Identifier	lock		2	1					
+ANR	179	ExpressionStatement	kfree ( map )	27:2:628:638	2	4	True				
+ANR	180	CallExpression	kfree ( map )		2	0					
+ANR	181	Callee	kfree		2	0					
+ANR	182	Identifier	kfree		2	0					
+ANR	183	ArgumentList	map		2	1					
+ANR	184	Argument	map		2	0					
+ANR	185	Identifier	map		2	0					
+ANR	186	ReturnStatement	return ;	29:1:644:650	2	6	True				
+ANR	187	Identifier	videobuf_vm_close		2	1					
+ANR	188	ParameterList	struct vm_area_struct * vma		2	2					
+ANR	189	Parameter	struct vm_area_struct * vma	1:18:18:43	2	0	True				
+ANR	190	ParameterType	struct vm_area_struct *		2	0					
+ANR	191	Identifier	vma		2	1					
+ANR	192	CFGEntryNode	ENTRY		2		True				
+ANR	193	CFGExitNode	EXIT		2		True				
+ANR	194	Symbol	* map		2						
+ANR	195	Symbol	vma		2						
+ANR	196	Symbol	* q -> bufs		2						
+ANR	197	Symbol	q -> bufs		2						
+ANR	198	Symbol	VIDEO_MAX_FRAME		2						
+ANR	199	Symbol	map -> q		2						
+ANR	200	Symbol	q -> bufs [ i ] -> map		2						
+ANR	201	Symbol	* * q		2						
+ANR	202	Symbol	map		2						
+ANR	203	Symbol	* * i		2						
+ANR	204	Symbol	q -> ops		2						
+ANR	205	Symbol	NULL		2						
+ANR	206	Symbol	* * q -> bufs		2						
+ANR	207	Symbol	& q -> lock		2						
+ANR	208	Symbol	i		2						
+ANR	209	Symbol	vma -> vm_private_data		2						
+ANR	210	Symbol	map -> count		2						
+ANR	211	Symbol	* * * q		2						
+ANR	212	Symbol	q		2						
+ANR	213	Symbol	vma -> vm_end		2						
+ANR	214	Symbol	* i		2						
+ANR	215	Symbol	* vma		2						
+ANR	216	Symbol	* q		2						
+ANR	217	Symbol	vma -> vm_start		2						
+ANR	218	Symbol	q -> bufs [ i ] -> baddr		2						

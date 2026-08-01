@@ -1,0 +1,73 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__19_vulnerable_CWE121_Stack_Based_Buffer_Overflow____xfg_targeted_dead_code__c1/_work/source/cwe119__19_vulnerable_CWE121_Stack_Based_Buffer_Overflow____xfg_targeted_dead_code__c1.c								
+ANR	2	Function	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action	24:0:767:1253							
+ANR	3	FunctionDef	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action (char * data)		2	0					
+ANR	4	CompoundStatement		25:0:860:1253	2	0					
+ANR	5	CompoundStatement		7:8:113:131	2	0					
+ANR	6	IfStatement	if ( 0 )		2	0					
+ANR	7	Condition	0	27:12:880:880	2	0	True				
+ANR	8	PrimaryExpression	0		2	0					
+ANR	9	CompoundStatement		4:12:36:59	2	1					
+ANR	10	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	28:12:897:920	2	0	True				
+ANR	11	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	12	IdentifierDeclType	int		2	0					
+ANR	13	Identifier	dwk_xfg_guard_1		2	1					
+ANR	14	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	15	Identifier	dwk_xfg_guard_1		2	0					
+ANR	16	PrimaryExpression	1		2	1					
+ANR	17	ExpressionStatement	dwk_xfg_guard_1 += 0	29:12:934:954	2	1	True				
+ANR	18	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	19	Identifier	dwk_xfg_guard_1		2	0					
+ANR	20	PrimaryExpression	0		2	1					
+ANR	21	IdentifierDeclStatement	"char dest [ 50 ] = """" ;"	31:8:974:992	2	1	True				
+ANR	22	IdentifierDecl	"dest [ 50 ] = """""		2	0					
+ANR	23	IdentifierDeclType	char [ 50 ]		2	0					
+ANR	24	Identifier	dest		2	1					
+ANR	25	PrimaryExpression	50		2	2					
+ANR	26	AssignmentExpression	"dest [ 50 ] = """""		2	3		=			
+ANR	27	Identifier	dest		2	0					
+ANR	28	PrimaryExpression	""""""		2	1					
+ANR	29	ExpressionStatement	"strncat ( dest , data , strlen ( data ) )"	33:8:1105:1138	2	2	True				
+ANR	30	CallExpression	"strncat ( dest , data , strlen ( data ) )"		2	0					
+ANR	31	Callee	strncat		2	0					
+ANR	32	Identifier	strncat		2	0					
+ANR	33	ArgumentList	dest		2	1					
+ANR	34	Argument	dest		2	0					
+ANR	35	Identifier	dest		2	0					
+ANR	36	Argument	data		2	1					
+ANR	37	Identifier	data		2	0					
+ANR	38	Argument	strlen ( data )		2	2					
+ANR	39	CallExpression	strlen ( data )		2	0					
+ANR	40	Callee	strlen		2	0					
+ANR	41	Identifier	strlen		2	0					
+ANR	42	ArgumentList	data		2	1					
+ANR	43	Argument	data		2	0					
+ANR	44	Identifier	data		2	0					
+ANR	45	ExpressionStatement	dest [ 50 - 1 ] = '\\0'	34:8:1148:1165	2	3	True				
+ANR	46	AssignmentExpression	dest [ 50 - 1 ] = '\\0'		2	0		=			
+ANR	47	ArrayIndexing	dest [ 50 - 1 ]		2	0					
+ANR	48	Identifier	dest		2	0					
+ANR	49	AdditiveExpression	50 - 1		2	1		-			
+ANR	50	PrimaryExpression	50		2	0					
+ANR	51	PrimaryExpression	1		2	1					
+ANR	52	PrimaryExpression	'\\0'		2	1					
+ANR	53	ExpressionStatement	printLine ( data )	35:8:1230:1245	2	4	True				
+ANR	54	CallExpression	printLine ( data )		2	0					
+ANR	55	Callee	printLine		2	0					
+ANR	56	Identifier	printLine		2	0					
+ANR	57	ArgumentList	data		2	1					
+ANR	58	Argument	data		2	0					
+ANR	59	Identifier	data		2	0					
+ANR	60	ReturnType	void		2	1					
+ANR	61	Identifier	CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_ncat_82_bad :: action		2	2					
+ANR	62	ParameterList	char * data		2	3					
+ANR	63	Parameter	char * data	24:80:847:857	2	0	True				
+ANR	64	ParameterType	char *		2	0					
+ANR	65	Identifier	data		2	1					
+ANR	66	CFGEntryNode	ENTRY		2		True				
+ANR	67	CFGExitNode	EXIT		2		True				
+ANR	68	Symbol	strlen		2						
+ANR	69	Symbol	data		2						
+ANR	70	Symbol	* dest		2						
+ANR	71	Symbol	dwk_xfg_guard_1		2						
+ANR	72	Symbol	dest		2						

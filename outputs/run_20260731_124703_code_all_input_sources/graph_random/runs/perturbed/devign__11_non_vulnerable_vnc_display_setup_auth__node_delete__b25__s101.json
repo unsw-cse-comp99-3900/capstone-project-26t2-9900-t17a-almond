@@ -1,0 +1,611 @@
+{
+  "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+  "prediction": {
+    "sample_id": "devign__11_non_vulnerable_vnc_display_setup_auth__node_delete__b25__s101",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/graph_inputs/sources/devign__11_non_vulnerable_vnc_display_setup_auth.c",
+    "function_name": "if",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 15,
+    "num_edges": 0,
+    "predicted_label": null,
+    "vulnerability_probability": null,
+    "threshold": 0.5,
+    "confidence": null,
+    "graph_score": null,
+    "final_score": null,
+    "status": "no_xfg",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        20,
+        25
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 34800,
+      "perturbations_completed": 34800,
+      "perturbations_scored": 31404,
+      "perturbations_unscored_no_xfg": 3396,
+      "perturbation_errors": 0,
+      "label_flips": 1936,
+      "attack_eligible_variants": 16307,
+      "attack_successes": 789,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 1758.59281821,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "devign__11_non_vulnerable_vnc_display_setup_auth",
+    "graph_action": {
+      "action": "node_delete",
+      "strategy": "random",
+      "seed": 101,
+      "budget": 25,
+      "requested_count": 25,
+      "applied_count": 22,
+      "budget_fully_applied": false,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_delete",
+          "target_nodes": [
+            5
+          ],
+          "removed_edges": [
+            [
+              5,
+              111,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 5 and its incident edges"
+        },
+        {
+          "step": 2,
+          "action": "node_delete",
+          "target_nodes": [
+            95
+          ],
+          "removed_edges": [
+            [
+              87,
+              95,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 95 and its incident edges"
+        },
+        {
+          "step": 3,
+          "action": "node_delete",
+          "target_nodes": [
+            9
+          ],
+          "removed_edges": [
+            [
+              9,
+              87,
+              "d"
+            ],
+            [
+              9,
+              117,
+              "d"
+            ],
+            [
+              9,
+              147,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 9 and its incident edges"
+        },
+        {
+          "step": 4,
+          "action": "node_delete",
+          "target_nodes": [
+            125
+          ],
+          "removed_edges": [
+            [
+              117,
+              125,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 125 and its incident edges"
+        },
+        {
+          "step": 5,
+          "action": "node_delete",
+          "target_nodes": [
+            155
+          ],
+          "removed_edges": [
+            [
+              147,
+              155,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 155 and its incident edges"
+        },
+        {
+          "step": 6,
+          "action": "node_delete",
+          "target_nodes": [
+            83
+          ],
+          "removed_edges": [
+            [
+              7,
+              83,
+              "d"
+            ],
+            [
+              81,
+              83,
+              "c"
+            ],
+            [
+              83,
+              85,
+              "c"
+            ],
+            [
+              83,
+              87,
+              "c"
+            ],
+            [
+              83,
+              103,
+              "c"
+            ],
+            [
+              83,
+              105,
+              "c"
+            ],
+            [
+              83,
+              107,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 83 and its incident edges"
+        },
+        {
+          "step": 7,
+          "action": "node_delete",
+          "target_nodes": [
+            143
+          ],
+          "removed_edges": [
+            [
+              7,
+              143,
+              "d"
+            ],
+            [
+              111,
+              143,
+              "c"
+            ],
+            [
+              143,
+              145,
+              "c"
+            ],
+            [
+              143,
+              147,
+              "c"
+            ],
+            [
+              143,
+              163,
+              "c"
+            ],
+            [
+              143,
+              165,
+              "c"
+            ],
+            [
+              143,
+              167,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 143 and its incident edges"
+        },
+        {
+          "step": 8,
+          "action": "node_delete",
+          "target_nodes": [
+            147
+          ],
+          "removed_edges": [
+            [
+              147,
+              149,
+              "c"
+            ],
+            [
+              147,
+              151,
+              "c"
+            ],
+            [
+              147,
+              157,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 147 and its incident edges"
+        },
+        {
+          "step": 9,
+          "action": "node_delete",
+          "target_nodes": [
+            103
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 103 and its incident edges"
+        },
+        {
+          "step": 10,
+          "action": "node_delete",
+          "target_nodes": [
+            113
+          ],
+          "removed_edges": [
+            [
+              7,
+              113,
+              "d"
+            ],
+            [
+              111,
+              113,
+              "c"
+            ],
+            [
+              113,
+              115,
+              "c"
+            ],
+            [
+              113,
+              117,
+              "c"
+            ],
+            [
+              113,
+              133,
+              "c"
+            ],
+            [
+              113,
+              135,
+              "c"
+            ],
+            [
+              113,
+              137,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 113 and its incident edges"
+        },
+        {
+          "step": 11,
+          "action": "node_delete",
+          "target_nodes": [
+            163
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 163 and its incident edges"
+        },
+        {
+          "step": 12,
+          "action": "node_delete",
+          "target_nodes": [
+            89
+          ],
+          "removed_edges": [
+            [
+              87,
+              89,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 89 and its incident edges"
+        },
+        {
+          "step": 13,
+          "action": "node_delete",
+          "target_nodes": [
+            119
+          ],
+          "removed_edges": [
+            [
+              117,
+              119,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 119 and its incident edges"
+        },
+        {
+          "step": 14,
+          "action": "node_delete",
+          "target_nodes": [
+            7
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 7 and its incident edges"
+        },
+        {
+          "step": 15,
+          "action": "node_delete",
+          "target_nodes": [
+            111
+          ],
+          "removed_edges": [
+            [
+              81,
+              111,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 111 and its incident edges"
+        },
+        {
+          "step": 16,
+          "action": "node_delete",
+          "target_nodes": [
+            117
+          ],
+          "removed_edges": [
+            [
+              117,
+              121,
+              "c"
+            ],
+            [
+              117,
+              127,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 117 and its incident edges"
+        },
+        {
+          "step": 17,
+          "action": "node_delete",
+          "target_nodes": [
+            87
+          ],
+          "removed_edges": [
+            [
+              87,
+              91,
+              "c"
+            ],
+            [
+              87,
+              97,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 87 and its incident edges"
+        },
+        {
+          "step": 18,
+          "action": "node_delete",
+          "target_nodes": [
+            133
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 133 and its incident edges"
+        },
+        {
+          "step": 19,
+          "action": "node_delete",
+          "target_nodes": [
+            81
+          ],
+          "removed_edges": [
+            [
+              3,
+              81,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 81 and its incident edges"
+        },
+        {
+          "step": 20,
+          "action": "node_delete",
+          "target_nodes": [
+            3
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 3 and its incident edges"
+        },
+        {
+          "step": 21,
+          "action": "node_delete",
+          "target_nodes": [
+            1
+          ],
+          "removed_edges": [
+            [
+              1,
+              85,
+              "d"
+            ],
+            [
+              1,
+              91,
+              "d"
+            ],
+            [
+              1,
+              97,
+              "d"
+            ],
+            [
+              1,
+              105,
+              "d"
+            ],
+            [
+              1,
+              107,
+              "d"
+            ],
+            [
+              1,
+              115,
+              "d"
+            ],
+            [
+              1,
+              121,
+              "d"
+            ],
+            [
+              1,
+              127,
+              "d"
+            ],
+            [
+              1,
+              135,
+              "d"
+            ],
+            [
+              1,
+              137,
+              "d"
+            ],
+            [
+              1,
+              145,
+              "d"
+            ],
+            [
+              1,
+              151,
+              "d"
+            ],
+            [
+              1,
+              157,
+              "d"
+            ],
+            [
+              1,
+              165,
+              "d"
+            ],
+            [
+              1,
+              167,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 1 and its incident edges"
+        },
+        {
+          "step": 22,
+          "action": "node_delete",
+          "target_nodes": [
+            149
+          ],
+          "removed_edges": [],
+          "added_edges": [],
+          "details": "deleted non-key node 149 and its incident edges"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 37,
+      "baseline_pdg_edges": 54,
+      "perturbed_pdg_nodes": 15,
+      "perturbed_pdg_edges": 0
+    },
+    "xfg": {
+      "status": "no_xfg",
+      "probability": null,
+      "predicted_label": null,
+      "xfg_count": 0,
+      "skipped_empty_xfg": 15,
+      "runtime_ms": 40.46001000006072
+    },
+    "runtime_ms": 42.95754900022075
+  }
+}

@@ -1,0 +1,862 @@
+{
+  "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+  "prediction": {
+    "sample_id": "devign__18_vulnerable_mpeg1_decode_sequence__edge_add__b25__s73",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/graph_inputs/sources/devign__18_vulnerable_mpeg1_decode_sequence.c",
+    "function_name": "mpeg1_decode_sequence",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 59,
+    "num_edges": 174,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.07967084646224976,
+    "threshold": 0.5,
+    "confidence": 0.9203291535377502,
+    "graph_score": 0.07967084646224976,
+    "final_score": 0.07967084646224976,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        20,
+        25
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 34800,
+      "perturbations_completed": 34800,
+      "perturbations_scored": 31404,
+      "perturbations_unscored_no_xfg": 3396,
+      "perturbation_errors": 0,
+      "label_flips": 1936,
+      "attack_eligible_variants": 16307,
+      "attack_successes": 789,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 1758.59281821,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "devign__18_vulnerable_mpeg1_decode_sequence",
+    "graph_action": {
+      "action": "edge_add",
+      "strategy": "random",
+      "seed": 73,
+      "budget": 25,
+      "requested_count": 25,
+      "applied_count": 25,
+      "budget_fully_applied": true,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "edge_add",
+          "target_nodes": [
+            79,
+            117
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              79,
+              117,
+              "d"
+            ]
+          ],
+          "details": "added d edge 79->117"
+        },
+        {
+          "step": 2,
+          "action": "edge_add",
+          "target_nodes": [
+            51,
+            25
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              51,
+              25,
+              "d"
+            ]
+          ],
+          "details": "added d edge 51->25"
+        },
+        {
+          "step": 3,
+          "action": "edge_add",
+          "target_nodes": [
+            129,
+            1
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              129,
+              1,
+              "d"
+            ]
+          ],
+          "details": "added d edge 129->1"
+        },
+        {
+          "step": 4,
+          "action": "edge_add",
+          "target_nodes": [
+            119,
+            85
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              119,
+              85,
+              "d"
+            ]
+          ],
+          "details": "added d edge 119->85"
+        },
+        {
+          "step": 5,
+          "action": "edge_add",
+          "target_nodes": [
+            145,
+            79
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              145,
+              79,
+              "d"
+            ]
+          ],
+          "details": "added d edge 145->79"
+        },
+        {
+          "step": 6,
+          "action": "edge_add",
+          "target_nodes": [
+            53,
+            113
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              53,
+              113,
+              "d"
+            ]
+          ],
+          "details": "added d edge 53->113"
+        },
+        {
+          "step": 7,
+          "action": "edge_add",
+          "target_nodes": [
+            117,
+            31
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              117,
+              31,
+              "d"
+            ]
+          ],
+          "details": "added d edge 117->31"
+        },
+        {
+          "step": 8,
+          "action": "edge_add",
+          "target_nodes": [
+            85,
+            23
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              85,
+              23,
+              "d"
+            ]
+          ],
+          "details": "added d edge 85->23"
+        },
+        {
+          "step": 9,
+          "action": "edge_add",
+          "target_nodes": [
+            149,
+            27
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              149,
+              27,
+              "d"
+            ]
+          ],
+          "details": "added d edge 149->27"
+        },
+        {
+          "step": 10,
+          "action": "edge_add",
+          "target_nodes": [
+            33,
+            95
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              33,
+              95,
+              "d"
+            ]
+          ],
+          "details": "added d edge 33->95"
+        },
+        {
+          "step": 11,
+          "action": "edge_add",
+          "target_nodes": [
+            119,
+            17
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              119,
+              17,
+              "d"
+            ]
+          ],
+          "details": "added d edge 119->17"
+        },
+        {
+          "step": 12,
+          "action": "edge_add",
+          "target_nodes": [
+            99,
+            23
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              99,
+              23,
+              "d"
+            ]
+          ],
+          "details": "added d edge 99->23"
+        },
+        {
+          "step": 13,
+          "action": "edge_add",
+          "target_nodes": [
+            139,
+            63
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              139,
+              63,
+              "d"
+            ]
+          ],
+          "details": "added d edge 139->63"
+        },
+        {
+          "step": 14,
+          "action": "edge_add",
+          "target_nodes": [
+            129,
+            17
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              129,
+              17,
+              "d"
+            ]
+          ],
+          "details": "added d edge 129->17"
+        },
+        {
+          "step": 15,
+          "action": "edge_add",
+          "target_nodes": [
+            57,
+            23
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              57,
+              23,
+              "d"
+            ]
+          ],
+          "details": "added d edge 57->23"
+        },
+        {
+          "step": 16,
+          "action": "edge_add",
+          "target_nodes": [
+            115,
+            79
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              115,
+              79,
+              "d"
+            ]
+          ],
+          "details": "added d edge 115->79"
+        },
+        {
+          "step": 17,
+          "action": "edge_add",
+          "target_nodes": [
+            49,
+            63
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              49,
+              63,
+              "d"
+            ]
+          ],
+          "details": "added d edge 49->63"
+        },
+        {
+          "step": 18,
+          "action": "edge_add",
+          "target_nodes": [
+            27,
+            131
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              27,
+              131,
+              "d"
+            ]
+          ],
+          "details": "added d edge 27->131"
+        },
+        {
+          "step": 19,
+          "action": "edge_add",
+          "target_nodes": [
+            73,
+            167
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              73,
+              167,
+              "d"
+            ]
+          ],
+          "details": "added d edge 73->167"
+        },
+        {
+          "step": 20,
+          "action": "edge_add",
+          "target_nodes": [
+            107,
+            111
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              107,
+              111,
+              "d"
+            ]
+          ],
+          "details": "added d edge 107->111"
+        },
+        {
+          "step": 21,
+          "action": "edge_add",
+          "target_nodes": [
+            17,
+            9
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              17,
+              9,
+              "d"
+            ]
+          ],
+          "details": "added d edge 17->9"
+        },
+        {
+          "step": 22,
+          "action": "edge_add",
+          "target_nodes": [
+            27,
+            7
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              27,
+              7,
+              "d"
+            ]
+          ],
+          "details": "added d edge 27->7"
+        },
+        {
+          "step": 23,
+          "action": "edge_add",
+          "target_nodes": [
+            107,
+            161
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              107,
+              161,
+              "d"
+            ]
+          ],
+          "details": "added d edge 107->161"
+        },
+        {
+          "step": 24,
+          "action": "edge_add",
+          "target_nodes": [
+            93,
+            53
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              93,
+              53,
+              "d"
+            ]
+          ],
+          "details": "added d edge 93->53"
+        },
+        {
+          "step": 25,
+          "action": "edge_add",
+          "target_nodes": [
+            145,
+            63
+          ],
+          "removed_edges": [],
+          "added_edges": [
+            [
+              145,
+              63,
+              "d"
+            ]
+          ],
+          "details": "added d edge 145->63"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 59,
+      "baseline_pdg_edges": 149,
+      "perturbed_pdg_nodes": 59,
+      "perturbed_pdg_edges": 174
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.07967084646224976,
+      "predicted_label": 0,
+      "xfg_count": 55,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 218.79177599976174,
+      "xfg_predictions": [
+        {
+          "category": "array",
+          "key_line": 97,
+          "vulnerability_probability": 0.0006841788999736309,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 99,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 113,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 115,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 117,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 119,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 93,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "array",
+          "key_line": 95,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 129,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 7,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 9,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 139,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 141,
+          "vulnerability_probability": 0.009910342283546925,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 143,
+          "vulnerability_probability": 0.03325601667165756,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 17,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 145,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 147,
+          "vulnerability_probability": 0.009488486684858799,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 21,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 149,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 23,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 151,
+          "vulnerability_probability": 0.07967084646224976,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 155,
+          "vulnerability_probability": 0.03534422442317009,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 157,
+          "vulnerability_probability": 4.753881148644723e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 31,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 159,
+          "vulnerability_probability": 4.7538855142192915e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 161,
+          "vulnerability_probability": 4.7538855142192915e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 37,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 165,
+          "vulnerability_probability": 0.07530685514211655,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 39,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 167,
+          "vulnerability_probability": 0.00014088256284594536,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 43,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 49,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 51,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 53,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 57,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 61,
+          "vulnerability_probability": 0.0033047462347894907,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 63,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 71,
+          "vulnerability_probability": 0.019970403984189034,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 73,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 77,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 79,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 85,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 87,
+          "vulnerability_probability": 2.175126383008319e-06,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 93,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 97,
+          "vulnerability_probability": 0.00068417948205024,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 99,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 105,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 107,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 113,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 117,
+          "vulnerability_probability": 2.0874088235700583e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 119,
+          "vulnerability_probability": 2.0874168171758356e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 127,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 17,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 77,
+          "vulnerability_probability": 2.087412909190789e-08,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 61,
+          "vulnerability_probability": 0.0033047397155314684,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 234.31005400016147
+  }
+}

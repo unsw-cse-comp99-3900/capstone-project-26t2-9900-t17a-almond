@@ -1,0 +1,249 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__16_vulnerable_static_int_mxg_update_cache__pattern_dead_code__c1/_work/source/devign__16_vulnerable_static_int_mxg_update_cache__pattern_dead_code__c1.c								
+ANR	2	Function	mxg_update_cache	1:0:0:1197							
+ANR	3	FunctionDef	"mxg_update_cache (AVFormatContext * s , unsigned int cache_size)"		2	0					
+ANR	4	CompoundStatement		3:0:74:1197	2	0					
+ANR	5	IfStatement	if ( 0 )		2	0					
+ANR	6	Condition	0	5:8:85:85	2	0	True				
+ANR	7	PrimaryExpression	0		2	0					
+ANR	8	CompoundStatement		6:8:89:127	2	1					
+ANR	9	IdentifierDeclStatement	char dwk_src_1 [ 8 ] = { 0 } ;	6:8:98:121	2	0	True				
+ANR	10	IdentifierDecl	dwk_src_1 [ 8 ] = { 0 }		2	0					
+ANR	11	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	12	Identifier	dwk_src_1		2	1					
+ANR	13	PrimaryExpression	8		2	2					
+ANR	14	AssignmentExpression	dwk_src_1 [ 8 ] = { 0 }		2	3		=			
+ANR	15	Identifier	dwk_src_1		2	0					
+ANR	16	InitializerList	0		2	1					
+ANR	17	PrimaryExpression	0		2	0					
+ANR	18	IdentifierDeclStatement	char dwk_dst_1 [ 8 ] = { 0 } ;	7:8:131:154	2	1	True				
+ANR	19	IdentifierDecl	dwk_dst_1 [ 8 ] = { 0 }		2	0					
+ANR	20	IdentifierDeclType	char [ 8 ]		2	0					
+ANR	21	Identifier	dwk_dst_1		2	1					
+ANR	22	PrimaryExpression	8		2	2					
+ANR	23	AssignmentExpression	dwk_dst_1 [ 8 ] = { 0 }		2	3		=			
+ANR	24	Identifier	dwk_dst_1		2	0					
+ANR	25	InitializerList	0		2	1					
+ANR	26	PrimaryExpression	0		2	0					
+ANR	27	IdentifierDeclStatement	int dwk_len_1 = ( int ) sizeof ( dwk_dst_1 ) ;	8:8:164:202	2	2	True				
+ANR	28	IdentifierDecl	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	0					
+ANR	29	IdentifierDeclType	int		2	0					
+ANR	30	Identifier	dwk_len_1		2	1					
+ANR	31	AssignmentExpression	dwk_len_1 = ( int ) sizeof ( dwk_dst_1 )		2	2		=			
+ANR	32	Identifier	dwk_len_1		2	0					
+ANR	33	CastExpression	( int ) sizeof ( dwk_dst_1 )		2	1					
+ANR	34	CastTarget	int		2	0					
+ANR	35	SizeofExpression	sizeof ( dwk_dst_1 )		2	1					
+ANR	36	Sizeof	sizeof		2	0					
+ANR	37	SizeofOperand	dwk_dst_1		2	1					
+ANR	38	IfStatement	if ( dwk_len_1 > 0 )		2	3					
+ANR	39	Condition	dwk_len_1 > 0	9:12:216:228	2	0	True				
+ANR	40	RelationalExpression	dwk_len_1 > 0		2	0		>			
+ANR	41	Identifier	dwk_len_1		2	0					
+ANR	42	PrimaryExpression	0		2	1					
+ANR	43	CompoundStatement		7:27:156:156	2	1					
+ANR	44	ExpressionStatement	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]	10:12:245:284	2	0	True				
+ANR	45	AssignmentExpression	dwk_dst_1 [ dwk_len_1 - 1 ] = dwk_src_1 [ 0 ]		2	0		=			
+ANR	46	ArrayIndexing	dwk_dst_1 [ dwk_len_1 - 1 ]		2	0					
+ANR	47	Identifier	dwk_dst_1		2	0					
+ANR	48	AdditiveExpression	dwk_len_1 - 1		2	1		-			
+ANR	49	Identifier	dwk_len_1		2	0					
+ANR	50	PrimaryExpression	1		2	1					
+ANR	51	ArrayIndexing	dwk_src_1 [ 0 ]		2	1					
+ANR	52	Identifier	dwk_src_1		2	0					
+ANR	53	PrimaryExpression	0		2	1					
+ANR	54	IdentifierDeclStatement	MXGContext * mxg = s -> priv_data ;	13:4:306:336	2	1	True				
+ANR	55	IdentifierDecl	* mxg = s -> priv_data		2	0					
+ANR	56	IdentifierDeclType	MXGContext *		2	0					
+ANR	57	Identifier	mxg		2	1					
+ANR	58	AssignmentExpression	* mxg = s -> priv_data		2	2		=			
+ANR	59	Identifier	mxg		2	0					
+ANR	60	PtrMemberAccess	s -> priv_data		2	1					
+ANR	61	Identifier	s		2	0					
+ANR	62	Identifier	priv_data		2	1					
+ANR	63	IdentifierDeclStatement	unsigned int current_pos = mxg -> buffer_ptr - mxg -> buffer ;	15:4:343:399	2	2	True				
+ANR	64	IdentifierDecl	current_pos = mxg -> buffer_ptr - mxg -> buffer		2	0					
+ANR	65	IdentifierDeclType	unsigned int		2	0					
+ANR	66	Identifier	current_pos		2	1					
+ANR	67	AssignmentExpression	current_pos = mxg -> buffer_ptr - mxg -> buffer		2	2		=			
+ANR	68	Identifier	current_pos		2	0					
+ANR	69	AdditiveExpression	mxg -> buffer_ptr - mxg -> buffer		2	1		-			
+ANR	70	PtrMemberAccess	mxg -> buffer_ptr		2	0					
+ANR	71	Identifier	mxg		2	0					
+ANR	72	Identifier	buffer_ptr		2	1					
+ANR	73	PtrMemberAccess	mxg -> buffer		2	1					
+ANR	74	Identifier	mxg		2	0					
+ANR	75	Identifier	buffer		2	1					
+ANR	76	IdentifierDeclStatement	unsigned int soi_pos ;	17:4:406:426	2	3	True				
+ANR	77	IdentifierDecl	soi_pos		2	0					
+ANR	78	IdentifierDeclType	unsigned int		2	0					
+ANR	79	Identifier	soi_pos		2	1					
+ANR	80	IdentifierDeclStatement	int ret ;	19:4:433:440	2	4	True				
+ANR	81	IdentifierDecl	ret		2	0					
+ANR	82	IdentifierDeclType	int		2	0					
+ANR	83	Identifier	ret		2	1					
+ANR	84	IfStatement	if ( current_pos > current_pos + cache_size )		2	5					
+ANR	85	Condition	current_pos > current_pos + cache_size	25:8:491:528	2	0	True				
+ANR	86	RelationalExpression	current_pos > current_pos + cache_size		2	0		>			
+ANR	87	Identifier	current_pos		2	0					
+ANR	88	AdditiveExpression	current_pos + cache_size		2	1		+			
+ANR	89	Identifier	current_pos		2	0					
+ANR	90	Identifier	cache_size		2	1					
+ANR	91	ReturnStatement	return AVERROR ( ENOMEM ) ;	27:8:540:562	2	1	True				
+ANR	92	CallExpression	AVERROR ( ENOMEM )		2	0					
+ANR	93	Callee	AVERROR		2	0					
+ANR	94	Identifier	AVERROR		2	0					
+ANR	95	ArgumentList	ENOMEM		2	1					
+ANR	96	Argument	ENOMEM		2	0					
+ANR	97	Identifier	ENOMEM		2	0					
+ANR	98	ExpressionStatement	soi_pos = mxg -> soi_ptr - mxg -> buffer	29:4:569:605	2	6	True				
+ANR	99	AssignmentExpression	soi_pos = mxg -> soi_ptr - mxg -> buffer		2	0		=			
+ANR	100	Identifier	soi_pos		2	0					
+ANR	101	AdditiveExpression	mxg -> soi_ptr - mxg -> buffer		2	1		-			
+ANR	102	PtrMemberAccess	mxg -> soi_ptr		2	0					
+ANR	103	Identifier	mxg		2	0					
+ANR	104	Identifier	soi_ptr		2	1					
+ANR	105	PtrMemberAccess	mxg -> buffer		2	1					
+ANR	106	Identifier	mxg		2	0					
+ANR	107	Identifier	buffer		2	1					
+ANR	108	ExpressionStatement	"mxg -> buffer = av_fast_realloc ( mxg -> buffer , & mxg -> buffer_size , current_pos + cache_size + FF_INPUT_BUFFER_PADDING_SIZE )"	31:4:612:800	2	7	True				
+ANR	109	AssignmentExpression	"mxg -> buffer = av_fast_realloc ( mxg -> buffer , & mxg -> buffer_size , current_pos + cache_size + FF_INPUT_BUFFER_PADDING_SIZE )"		2	0		=			
+ANR	110	PtrMemberAccess	mxg -> buffer		2	0					
+ANR	111	Identifier	mxg		2	0					
+ANR	112	Identifier	buffer		2	1					
+ANR	113	CallExpression	"av_fast_realloc ( mxg -> buffer , & mxg -> buffer_size , current_pos + cache_size + FF_INPUT_BUFFER_PADDING_SIZE )"		2	1					
+ANR	114	Callee	av_fast_realloc		2	0					
+ANR	115	Identifier	av_fast_realloc		2	0					
+ANR	116	ArgumentList	mxg -> buffer		2	1					
+ANR	117	Argument	mxg -> buffer		2	0					
+ANR	118	PtrMemberAccess	mxg -> buffer		2	0					
+ANR	119	Identifier	mxg		2	0					
+ANR	120	Identifier	buffer		2	1					
+ANR	121	Argument	& mxg -> buffer_size		2	1					
+ANR	122	UnaryOperationExpression	& mxg -> buffer_size		2	0					
+ANR	123	UnaryOperator	&		2	0					
+ANR	124	PtrMemberAccess	mxg -> buffer_size		2	1					
+ANR	125	Identifier	mxg		2	0					
+ANR	126	Identifier	buffer_size		2	1					
+ANR	127	Argument	current_pos + cache_size + FF_INPUT_BUFFER_PADDING_SIZE		2	2					
+ANR	128	AdditiveExpression	current_pos + cache_size + FF_INPUT_BUFFER_PADDING_SIZE		2	0		+			
+ANR	129	Identifier	current_pos		2	0					
+ANR	130	AdditiveExpression	cache_size + FF_INPUT_BUFFER_PADDING_SIZE		2	1		+			
+ANR	131	Identifier	cache_size		2	0					
+ANR	132	Identifier	FF_INPUT_BUFFER_PADDING_SIZE		2	1					
+ANR	133	IfStatement	if ( ! mxg -> buffer )		2	8					
+ANR	134	Condition	! mxg -> buffer	37:8:811:822	2	0	True				
+ANR	135	UnaryOperationExpression	! mxg -> buffer		2	0					
+ANR	136	UnaryOperator	!		2	0					
+ANR	137	PtrMemberAccess	mxg -> buffer		2	1					
+ANR	138	Identifier	mxg		2	0					
+ANR	139	Identifier	buffer		2	1					
+ANR	140	ReturnStatement	return AVERROR ( ENOMEM ) ;	39:8:834:856	2	1	True				
+ANR	141	CallExpression	AVERROR ( ENOMEM )		2	0					
+ANR	142	Callee	AVERROR		2	0					
+ANR	143	Identifier	AVERROR		2	0					
+ANR	144	ArgumentList	ENOMEM		2	1					
+ANR	145	Argument	ENOMEM		2	0					
+ANR	146	Identifier	ENOMEM		2	0					
+ANR	147	ExpressionStatement	mxg -> buffer_ptr = mxg -> buffer + current_pos	41:4:863:906	2	9	True				
+ANR	148	AssignmentExpression	mxg -> buffer_ptr = mxg -> buffer + current_pos		2	0		=			
+ANR	149	PtrMemberAccess	mxg -> buffer_ptr		2	0					
+ANR	150	Identifier	mxg		2	0					
+ANR	151	Identifier	buffer_ptr		2	1					
+ANR	152	AdditiveExpression	mxg -> buffer + current_pos		2	1		+			
+ANR	153	PtrMemberAccess	mxg -> buffer		2	0					
+ANR	154	Identifier	mxg		2	0					
+ANR	155	Identifier	buffer		2	1					
+ANR	156	Identifier	current_pos		2	1					
+ANR	157	IfStatement	if ( mxg -> soi_ptr )		2	10					
+ANR	158	Condition	mxg -> soi_ptr	43:8:917:928	2	0	True				
+ANR	159	PtrMemberAccess	mxg -> soi_ptr		2	0					
+ANR	160	Identifier	mxg		2	0					
+ANR	161	Identifier	soi_ptr		2	1					
+ANR	162	ExpressionStatement	mxg -> soi_ptr = mxg -> buffer + soi_pos	43:22:931:967	2	1	True				
+ANR	163	AssignmentExpression	mxg -> soi_ptr = mxg -> buffer + soi_pos		2	0		=			
+ANR	164	PtrMemberAccess	mxg -> soi_ptr		2	0					
+ANR	165	Identifier	mxg		2	0					
+ANR	166	Identifier	soi_ptr		2	1					
+ANR	167	AdditiveExpression	mxg -> buffer + soi_pos		2	1		+			
+ANR	168	PtrMemberAccess	mxg -> buffer		2	0					
+ANR	169	Identifier	mxg		2	0					
+ANR	170	Identifier	buffer		2	1					
+ANR	171	Identifier	soi_pos		2	1					
+ANR	172	ExpressionStatement	"ret = avio_read ( s -> pb , mxg -> buffer_ptr + mxg -> cache_size , cache_size - mxg -> cache_size )"	49:4:996:1105	2	11	True				
+ANR	173	AssignmentExpression	"ret = avio_read ( s -> pb , mxg -> buffer_ptr + mxg -> cache_size , cache_size - mxg -> cache_size )"		2	0		=			
+ANR	174	Identifier	ret		2	0					
+ANR	175	CallExpression	"avio_read ( s -> pb , mxg -> buffer_ptr + mxg -> cache_size , cache_size - mxg -> cache_size )"		2	1					
+ANR	176	Callee	avio_read		2	0					
+ANR	177	Identifier	avio_read		2	0					
+ANR	178	ArgumentList	s -> pb		2	1					
+ANR	179	Argument	s -> pb		2	0					
+ANR	180	PtrMemberAccess	s -> pb		2	0					
+ANR	181	Identifier	s		2	0					
+ANR	182	Identifier	pb		2	1					
+ANR	183	Argument	mxg -> buffer_ptr + mxg -> cache_size		2	1					
+ANR	184	AdditiveExpression	mxg -> buffer_ptr + mxg -> cache_size		2	0		+			
+ANR	185	PtrMemberAccess	mxg -> buffer_ptr		2	0					
+ANR	186	Identifier	mxg		2	0					
+ANR	187	Identifier	buffer_ptr		2	1					
+ANR	188	PtrMemberAccess	mxg -> cache_size		2	1					
+ANR	189	Identifier	mxg		2	0					
+ANR	190	Identifier	cache_size		2	1					
+ANR	191	Argument	cache_size - mxg -> cache_size		2	2					
+ANR	192	AdditiveExpression	cache_size - mxg -> cache_size		2	0		-			
+ANR	193	Identifier	cache_size		2	0					
+ANR	194	PtrMemberAccess	mxg -> cache_size		2	1					
+ANR	195	Identifier	mxg		2	0					
+ANR	196	Identifier	cache_size		2	1					
+ANR	197	IfStatement	if ( ret < 0 )		2	12					
+ANR	198	Condition	ret < 0	53:8:1116:1122	2	0	True				
+ANR	199	RelationalExpression	ret < 0		2	0		<			
+ANR	200	Identifier	ret		2	0					
+ANR	201	PrimaryExpression	0		2	1					
+ANR	202	ReturnStatement	return ret ;	55:8:1134:1144	2	1	True				
+ANR	203	Identifier	ret		2	0					
+ANR	204	ExpressionStatement	mxg -> cache_size += ret	59:4:1153:1175	2	13	True				
+ANR	205	AssignmentExpression	mxg -> cache_size += ret		2	0		+=			
+ANR	206	PtrMemberAccess	mxg -> cache_size		2	0					
+ANR	207	Identifier	mxg		2	0					
+ANR	208	Identifier	cache_size		2	1					
+ANR	209	Identifier	ret		2	1					
+ANR	210	ReturnStatement	return ret ;	63:4:1184:1194	2	14	True				
+ANR	211	Identifier	ret		2	0					
+ANR	212	ReturnType	static int		2	1					
+ANR	213	Identifier	mxg_update_cache		2	2					
+ANR	214	ParameterList	"AVFormatContext * s , unsigned int cache_size"		2	3					
+ANR	215	Parameter	AVFormatContext * s	1:28:28:45	2	0	True				
+ANR	216	ParameterType	AVFormatContext *		2	0					
+ANR	217	Identifier	s		2	1					
+ANR	218	Parameter	unsigned int cache_size	1:48:48:70	2	1	True				
+ANR	219	ParameterType	unsigned int		2	0					
+ANR	220	Identifier	cache_size		2	1					
+ANR	221	CFGEntryNode	ENTRY		2		True				
+ANR	222	CFGExitNode	EXIT		2		True				
+ANR	223	Symbol	ENOMEM		2						
+ANR	224	Symbol	dwk_dst_1		2						
+ANR	225	Symbol	* mxg		2						
+ANR	226	Symbol	dwk_src_1		2						
+ANR	227	Symbol	mxg -> buffer_ptr		2						
+ANR	228	Symbol	mxg -> soi_ptr		2						
+ANR	229	Symbol	s -> pb		2						
+ANR	230	Symbol	FF_INPUT_BUFFER_PADDING_SIZE		2						
+ANR	231	Symbol	* dwk_dst_1		2						
+ANR	232	Symbol	current_pos		2						
+ANR	233	Symbol	* dwk_len_1		2						
+ANR	234	Symbol	mxg		2						
+ANR	235	Symbol	dwk_len_1		2						
+ANR	236	Symbol	s -> priv_data		2						
+ANR	237	Symbol	ret		2						
+ANR	238	Symbol	* dwk_src_1		2						
+ANR	239	Symbol	cache_size		2						
+ANR	240	Symbol	soi_pos		2						
+ANR	241	Symbol	& mxg -> buffer_size		2						
+ANR	242	Symbol	av_fast_realloc		2						
+ANR	243	Symbol	s		2						
+ANR	244	Symbol	AVERROR		2						
+ANR	245	Symbol	avio_read		2						
+ANR	246	Symbol	* s		2						
+ANR	247	Symbol	mxg -> cache_size		2						
+ANR	248	Symbol	mxg -> buffer		2						

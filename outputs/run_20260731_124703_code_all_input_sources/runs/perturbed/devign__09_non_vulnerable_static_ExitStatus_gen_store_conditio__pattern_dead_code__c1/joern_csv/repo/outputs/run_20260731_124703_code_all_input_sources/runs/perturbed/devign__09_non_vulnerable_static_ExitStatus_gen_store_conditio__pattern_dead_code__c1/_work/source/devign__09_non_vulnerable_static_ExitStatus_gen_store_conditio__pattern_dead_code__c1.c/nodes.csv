@@ -1,0 +1,86 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__09_non_vulnerable_static_ExitStatus_gen_store_conditio__pattern_dead_code__c1/_work/source/devign__09_non_vulnerable_static_ExitStatus_gen_store_conditio__pattern_dead_code__c1.c								
+ANR	2	Function	gen_store_conditional	1:0:0:2035							
+ANR	3	FunctionDef	"gen_store_conditional (DisasContext * ctx , int ra , int rb , int32_t disp16 , int quad)"		2	0					
+ANR	4	CompoundStatement		5:0:143:2035	2	0					
+ANR	5	IdentifierDeclStatement	TCGv addr ;	7:4:150:159	2	0	True				
+ANR	6	IdentifierDecl	addr		2	0					
+ANR	7	IdentifierDeclType	TCGv		2	0					
+ANR	8	Identifier	addr		2	1					
+ANR	9	IfStatement	if ( ra == 31 )		2	1					
+ANR	10	Condition	ra == 31	11:8:172:179	2	0	True				
+ANR	11	EqualityExpression	ra == 31		2	0		==			
+ANR	12	Identifier	ra		2	0					
+ANR	13	PrimaryExpression	31		2	1					
+ANR	14	CompoundStatement		7:18:38:38	2	1					
+ANR	15	ReturnStatement	return NO_EXIT ;	17:8:336:350	2	0	True				
+ANR	16	Identifier	NO_EXIT		2	0					
+ANR	17	ExpressionStatement	addr = cpu_lock_st_addr	25:4:397:420	2	2	True				
+ANR	18	AssignmentExpression	addr = cpu_lock_st_addr		2	0		=			
+ANR	19	Identifier	addr		2	0					
+ANR	20	Identifier	cpu_lock_st_addr		2	1					
+ANR	21	ExpressionStatement	"tcg_gen_addi_i64 ( addr , load_gpr ( ctx , rb ) , disp16 )"	35:4:478:527	2	3	True				
+ANR	22	CallExpression	"tcg_gen_addi_i64 ( addr , load_gpr ( ctx , rb ) , disp16 )"		2	0					
+ANR	23	Callee	tcg_gen_addi_i64		2	0					
+ANR	24	Identifier	tcg_gen_addi_i64		2	0					
+ANR	25	ArgumentList	addr		2	1					
+ANR	26	Argument	addr		2	0					
+ANR	27	Identifier	addr		2	0					
+ANR	28	Argument	"load_gpr ( ctx , rb )"		2	1					
+ANR	29	CallExpression	"load_gpr ( ctx , rb )"		2	0					
+ANR	30	Callee	load_gpr		2	0					
+ANR	31	Identifier	load_gpr		2	0					
+ANR	32	ArgumentList	ctx		2	1					
+ANR	33	Argument	ctx		2	0					
+ANR	34	Identifier	ctx		2	0					
+ANR	35	Argument	rb		2	1					
+ANR	36	Identifier	rb		2	0					
+ANR	37	Argument	disp16		2	2					
+ANR	38	Identifier	disp16		2	0					
+ANR	39	ReturnStatement	"return gen_excp ( ctx , quad ? EXCP_STQ_C : EXCP_STL_C , ra ) ;"	47:4:763:819	2	4	True				
+ANR	40	CallExpression	"gen_excp ( ctx , quad ? EXCP_STQ_C : EXCP_STL_C , ra )"		2	0					
+ANR	41	Callee	gen_excp		2	0					
+ANR	42	Identifier	gen_excp		2	0					
+ANR	43	ArgumentList	ctx		2	1					
+ANR	44	Argument	ctx		2	0					
+ANR	45	Identifier	ctx		2	0					
+ANR	46	Argument	quad ? EXCP_STQ_C : EXCP_STL_C		2	1					
+ANR	47	ConditionalExpression	quad ? EXCP_STQ_C : EXCP_STL_C		2	0					
+ANR	48	Condition	quad		2	0					
+ANR	49	Identifier	quad		2	0					
+ANR	50	Identifier	EXCP_STQ_C		2	1					
+ANR	51	Identifier	EXCP_STL_C		2	2					
+ANR	52	Argument	ra		2	2					
+ANR	53	Identifier	ra		2	0					
+ANR	54	ReturnType	static ExitStatus		2	1					
+ANR	55	Identifier	gen_store_conditional		2	2					
+ANR	56	ParameterList	"DisasContext * ctx , int ra , int rb , int32_t disp16 , int quad"		2	3					
+ANR	57	Parameter	DisasContext * ctx	1:40:40:56	2	0	True				
+ANR	58	ParameterType	DisasContext *		2	0					
+ANR	59	Identifier	ctx		2	1					
+ANR	60	Parameter	int ra	1:59:59:64	2	1	True				
+ANR	61	ParameterType	int		2	0					
+ANR	62	Identifier	ra		2	1					
+ANR	63	Parameter	int rb	1:67:67:72	2	2	True				
+ANR	64	ParameterType	int		2	0					
+ANR	65	Identifier	rb		2	1					
+ANR	66	Parameter	int32_t disp16	3:40:116:129	2	3	True				
+ANR	67	ParameterType	int32_t		2	0					
+ANR	68	Identifier	disp16		2	1					
+ANR	69	Parameter	int quad	3:56:132:139	2	4	True				
+ANR	70	ParameterType	int		2	0					
+ANR	71	Identifier	quad		2	1					
+ANR	72	CFGEntryNode	ENTRY		2		True				
+ANR	73	CFGExitNode	EXIT		2		True				
+ANR	74	Symbol	rb		2						
+ANR	75	Symbol	quad		2						
+ANR	76	Symbol	gen_excp		2						
+ANR	77	Symbol	disp16		2						
+ANR	78	Symbol	cpu_lock_st_addr		2						
+ANR	79	Symbol	ctx		2						
+ANR	80	Symbol	load_gpr		2						
+ANR	81	Symbol	EXCP_STL_C		2						
+ANR	82	Symbol	addr		2						
+ANR	83	Symbol	NO_EXIT		2						
+ANR	84	Symbol	EXCP_STQ_C		2						
+ANR	85	Symbol	ra		2						

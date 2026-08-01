@@ -1,0 +1,100 @@
+{
+  "prediction": {
+    "sample": "devign__05_non_vulnerable_static_int_slb_lookup",
+    "function": "slb_lookup",
+    "true_label": 0,
+    "status": "ok",
+    "label": 1,
+    "correct": 0,
+    "prob": 0.9999996423721313,
+    "nodes": 26,
+    "edges": 29,
+    "xfg_count": 4,
+    "winner_category": "array",
+    "winner_key_line": 23,
+    "winner_raw_nodes": 4,
+    "winner_nodes": 4,
+    "winner_fallback": "winner_xfg"
+  },
+  "details": {
+    "status": "ok",
+    "probability": 0.9999996423721313,
+    "predicted_label": 1,
+    "xfg_count": 4,
+    "xfg_predictions": [
+      {
+        "category": "array",
+        "key_line": 23,
+        "nodes": [
+          1,
+          43,
+          45,
+          23
+        ],
+        "vulnerability_probability": 0.9999996423721313,
+        "predicted_label": 1
+      },
+      {
+        "category": "ptr",
+        "key_line": 39,
+        "nodes": [
+          41,
+          43,
+          45,
+          49,
+          59,
+          63,
+          65,
+          69,
+          71,
+          51,
+          53,
+          39,
+          1
+        ],
+        "vulnerability_probability": 0.018435748293995857,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 23,
+        "nodes": [
+          1,
+          43,
+          45,
+          23
+        ],
+        "vulnerability_probability": 0.9999996423721313,
+        "predicted_label": 1
+      },
+      {
+        "category": "arith",
+        "key_line": 45,
+        "nodes": [
+          1,
+          39,
+          41,
+          45,
+          109,
+          23,
+          91
+        ],
+        "vulnerability_probability": 0.25073185563087463,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "array",
+      "key_line": 23,
+      "nodes": [
+        1,
+        43,
+        45,
+        23
+      ],
+      "probability": 0.9999996423721313
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 20.00140900054248
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+  "prediction": {
+    "sample_id": "cvefixes__14_vulnerable_pango_glyph_string_set_size__node_delete__b9__s17",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/graph_inputs/sources/cvefixes__14_vulnerable_pango_glyph_string_set_size.c",
+    "function_name": "unknown",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 9,
+    "num_edges": 24,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.003222034079954028,
+    "threshold": 0.5,
+    "confidence": 0.996777965920046,
+    "graph_score": 0.003222034079954028,
+    "final_score": 0.003222034079954028,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        20,
+        25
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 34800,
+      "perturbations_completed": 34800,
+      "perturbations_scored": 31404,
+      "perturbations_unscored_no_xfg": 3396,
+      "perturbation_errors": 0,
+      "label_flips": 1936,
+      "attack_eligible_variants": 16307,
+      "attack_successes": 789,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 1758.59281821,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "cvefixes__14_vulnerable_pango_glyph_string_set_size",
+    "graph_action": {
+      "action": "node_delete",
+      "strategy": "random",
+      "seed": 17,
+      "budget": 9,
+      "requested_count": 9,
+      "applied_count": 3,
+      "budget_fully_applied": false,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "node_delete",
+          "target_nodes": [
+            3
+          ],
+          "removed_edges": [
+            [
+              1,
+              3,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 3 and its incident edges"
+        },
+        {
+          "step": 2,
+          "action": "node_delete",
+          "target_nodes": [
+            1
+          ],
+          "removed_edges": [
+            [
+              1,
+              5,
+              "d"
+            ],
+            [
+              1,
+              7,
+              "d"
+            ],
+            [
+              1,
+              8,
+              "d"
+            ],
+            [
+              1,
+              10,
+              "d"
+            ],
+            [
+              1,
+              12,
+              "d"
+            ],
+            [
+              1,
+              15,
+              "d"
+            ],
+            [
+              1,
+              19,
+              "d"
+            ],
+            [
+              1,
+              20,
+              "d"
+            ],
+            [
+              1,
+              21,
+              "d"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 1 and its incident edges"
+        },
+        {
+          "step": 3,
+          "action": "node_delete",
+          "target_nodes": [
+            14
+          ],
+          "removed_edges": [
+            [
+              12,
+              14,
+              "c"
+            ]
+          ],
+          "added_edges": [],
+          "details": "deleted non-key node 14 and its incident edges"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 12,
+      "baseline_pdg_edges": 35,
+      "perturbed_pdg_nodes": 9,
+      "perturbed_pdg_edges": 24
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.003222034079954028,
+      "predicted_label": 0,
+      "xfg_count": 12,
+      "skipped_empty_xfg": 0,
+      "runtime_ms": 45.410396000079345,
+      "xfg_predictions": [
+        {
+          "category": "ptr",
+          "key_line": 5,
+          "vulnerability_probability": 0.0004327143542468548,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 7,
+          "vulnerability_probability": 0.00043271397589705884,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 8,
+          "vulnerability_probability": 0.0004327143542468548,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 10,
+          "vulnerability_probability": 0.00043271479080431163,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 12,
+          "vulnerability_probability": 0.0004327143542468548,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 15,
+          "vulnerability_probability": 0.00043271397589705884,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 19,
+          "vulnerability_probability": 0.00014229501539375633,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 20,
+          "vulnerability_probability": 0.00014229501539375633,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 21,
+          "vulnerability_probability": 0.003222034079954028,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 19,
+          "vulnerability_probability": 0.00014229514636099339,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 20,
+          "vulnerability_probability": 0.00014229501539375633,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 15,
+          "vulnerability_probability": 0.0004327143542468548,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 45.96277100017687
+  }
+}

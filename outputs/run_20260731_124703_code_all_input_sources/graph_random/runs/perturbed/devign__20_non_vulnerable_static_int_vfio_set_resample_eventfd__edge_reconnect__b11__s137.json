@@ -1,0 +1,425 @@
+{
+  "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+  "prediction": {
+    "sample_id": "devign__20_non_vulnerable_static_int_vfio_set_resample_eventfd__edge_reconnect__b11__s137",
+    "input_file": "/repo/outputs/run_20260731_124703_code_all_input_sources/graph_inputs/sources/devign__20_non_vulnerable_static_int_vfio_set_resample_eventfd.c",
+    "function_name": "vfio_set_resample_eventfd",
+    "joern_status": "reused_archived_csv",
+    "graph_level": "perturbed_line_pdg",
+    "num_nodes": 19,
+    "num_edges": 22,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.04812251031398773,
+    "threshold": 0.5,
+    "confidence": 0.9518774896860123,
+    "graph_score": 0.04812251031398773,
+    "final_score": 0.04812251031398773,
+    "status": "success",
+    "error": ""
+  },
+  "details": {
+    "experiment": {
+      "generated_at_utc": "2026-07-31T13:47:06.440624+00:00",
+      "experiment": "full_test_random_graph",
+      "dataset": "all_input_sources",
+      "strategy": "random",
+      "seeds": [
+        7,
+        17,
+        29,
+        42,
+        61,
+        73,
+        89,
+        101,
+        137,
+        2026
+      ],
+      "seed_count": 10,
+      "budgets": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        20,
+        25
+      ],
+      "threshold": 0.5,
+      "device": "cuda:0",
+      "samples_discovered": 60,
+      "baselines_completed": 58,
+      "perturbations_attempted": 34800,
+      "perturbations_completed": 34800,
+      "perturbations_scored": 31404,
+      "perturbations_unscored_no_xfg": 3396,
+      "perturbation_errors": 0,
+      "label_flips": 1936,
+      "attack_eligible_variants": 16307,
+      "attack_successes": 789,
+      "nested_prefix_failures": 0,
+      "elapsed_seconds": 1758.59281821,
+      "actions": [
+        "node_add",
+        "node_delete",
+        "node_attribute_modify",
+        "edge_add",
+        "edge_delete",
+        "edge_reconnect"
+      ]
+    },
+    "baseline_sample_id": "devign__20_non_vulnerable_static_int_vfio_set_resample_eventfd",
+    "graph_action": {
+      "action": "edge_reconnect",
+      "strategy": "random",
+      "seed": 137,
+      "budget": 11,
+      "requested_count": 11,
+      "applied_count": 11,
+      "budget_fully_applied": true,
+      "nested_prefix_verified": true,
+      "valid": true,
+      "operations": [
+        {
+          "step": 1,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            1,
+            23,
+            19
+          ],
+          "removed_edges": [
+            [
+              1,
+              23,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              1,
+              19,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 1->23 to 1->19"
+        },
+        {
+          "step": 2,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            31,
+            33,
+            35
+          ],
+          "removed_edges": [
+            [
+              31,
+              33,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              31,
+              35,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 31->33 to 31->35"
+        },
+        {
+          "step": 3,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            17,
+            35,
+            31
+          ],
+          "removed_edges": [
+            [
+              17,
+              35,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              17,
+              31,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 17->35 to 17->31"
+        },
+        {
+          "step": 4,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            17,
+            23,
+            41
+          ],
+          "removed_edges": [
+            [
+              17,
+              23,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              17,
+              41,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 17->23 to 17->41"
+        },
+        {
+          "step": 5,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            7,
+            15,
+            1
+          ],
+          "removed_edges": [
+            [
+              7,
+              15,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              7,
+              1,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 7->15 to 7->1"
+        },
+        {
+          "step": 6,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            15,
+            17,
+            31
+          ],
+          "removed_edges": [
+            [
+              15,
+              17,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              15,
+              31,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 15->17 to 15->31"
+        },
+        {
+          "step": 7,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            29,
+            33,
+            21
+          ],
+          "removed_edges": [
+            [
+              29,
+              33,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              29,
+              21,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 29->33 to 29->21"
+        },
+        {
+          "step": 8,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            17,
+            27,
+            23
+          ],
+          "removed_edges": [
+            [
+              17,
+              27,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              17,
+              23,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 17->27 to 17->23"
+        },
+        {
+          "step": 9,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            39,
+            41,
+            15
+          ],
+          "removed_edges": [
+            [
+              39,
+              41,
+              "c"
+            ]
+          ],
+          "added_edges": [
+            [
+              39,
+              15,
+              "c"
+            ]
+          ],
+          "details": "reconnected c edge 39->41 to 39->15"
+        },
+        {
+          "step": 10,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            17,
+            41,
+            5
+          ],
+          "removed_edges": [
+            [
+              17,
+              41,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              17,
+              5,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 17->41 to 17->5"
+        },
+        {
+          "step": 11,
+          "action": "edge_reconnect",
+          "target_nodes": [
+            35,
+            39,
+            15
+          ],
+          "removed_edges": [
+            [
+              35,
+              39,
+              "d"
+            ]
+          ],
+          "added_edges": [
+            [
+              35,
+              15,
+              "d"
+            ]
+          ],
+          "details": "reconnected d edge 35->39 to 35->15"
+        }
+      ],
+      "validation_errors": []
+    },
+    "graph_counts": {
+      "baseline_pdg_nodes": 19,
+      "baseline_pdg_edges": 22,
+      "perturbed_pdg_nodes": 19,
+      "perturbed_pdg_edges": 22
+    },
+    "xfg": {
+      "status": "ok",
+      "probability": 0.04812251031398773,
+      "predicted_label": 0,
+      "xfg_count": 9,
+      "skipped_empty_xfg": 1,
+      "runtime_ms": 36.85152600019137,
+      "xfg_predictions": [
+        {
+          "category": "ptr",
+          "key_line": 35,
+          "vulnerability_probability": 1.8928805900486623e-07,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 5,
+          "vulnerability_probability": 1.1868215551658068e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 19,
+          "vulnerability_probability": 3.7205239777904353e-07,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 21,
+          "vulnerability_probability": 0.00011357587936799973,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 23,
+          "vulnerability_probability": 0.04812251031398773,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 25,
+          "vulnerability_probability": 0.0037029809318482876,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 29,
+          "vulnerability_probability": 3.532982736942358e-05,
+          "predicted_label": 0
+        },
+        {
+          "category": "ptr",
+          "key_line": 31,
+          "vulnerability_probability": 1.8928805900486623e-07,
+          "predicted_label": 0
+        },
+        {
+          "category": "arith",
+          "key_line": 15,
+          "vulnerability_probability": 1.8928786005290021e-07,
+          "predicted_label": 0
+        }
+      ]
+    },
+    "runtime_ms": 38.84203100005834
+  }
+}

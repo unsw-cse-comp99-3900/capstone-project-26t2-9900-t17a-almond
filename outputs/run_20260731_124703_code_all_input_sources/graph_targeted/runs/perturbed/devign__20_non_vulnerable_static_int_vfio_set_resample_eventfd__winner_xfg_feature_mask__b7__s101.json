@@ -1,0 +1,292 @@
+{
+  "comparison": {
+    "sample": "devign__20_non_vulnerable_static_int_vfio_set_resample_eventfd",
+    "action": "winner_xfg_feature_mask",
+    "method_family": "winner_xfg",
+    "budget": 7,
+    "seed": 101,
+    "function": "vfio_set_resample_eventfd",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 1,
+    "flipped": true,
+    "attack_success": true,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 0.11510657519102097,
+    "variant_prob": 0.9030773639678955,
+    "delta_probability": 0.7879707887768745,
+    "base_nodes": 19,
+    "variant_nodes": 19,
+    "delta_nodes": 0,
+    "base_edges": 22,
+    "variant_edges": 22,
+    "delta_edges": 0,
+    "base_xfg_count": 10,
+    "variant_xfg_count": 10,
+    "winner_category": "ptr",
+    "winner_key_line": 27,
+    "winner_raw_nodes": 5,
+    "winner_nodes": 5,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 7,
+    "applied_count": 7,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 37.39127600056236,
+    "operations": [
+      {
+        "step": 1,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          17
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 17 from source line 17 to key-line line 27"
+      },
+      {
+        "step": 2,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          7
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 7 from source line 7 to key-line line 27"
+      },
+      {
+        "step": 3,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 11 from source line 11 to key-line line 27"
+      },
+      {
+        "step": 4,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          37
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 37 from source line 37 to key-line line 27"
+      },
+      {
+        "step": 5,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          1
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 1 from source line 1 to key-line line 27"
+      },
+      {
+        "step": 6,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          33
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 33 from source line 33 to key-line line 27"
+      },
+      {
+        "step": 7,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          39
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 39 from source line 39 to key-line line 27"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 0.9030773639678955,
+    "predicted_label": 1,
+    "xfg_count": 10,
+    "xfg_predictions": [
+      {
+        "category": "ptr",
+        "key_line": 35,
+        "nodes": [
+          39,
+          41,
+          1,
+          5,
+          7,
+          15,
+          17,
+          35,
+          45,
+          11
+        ],
+        "vulnerability_probability": 0.5319909453392029,
+        "predicted_label": 1
+      },
+      {
+        "category": "ptr",
+        "key_line": 5,
+        "nodes": [
+          1,
+          35,
+          5,
+          39,
+          41,
+          45
+        ],
+        "vulnerability_probability": 0.9030773639678955,
+        "predicted_label": 1
+      },
+      {
+        "category": "ptr",
+        "key_line": 19,
+        "nodes": [
+          7,
+          11,
+          15,
+          17,
+          19
+        ],
+        "vulnerability_probability": 0.45224934816360474,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 21,
+        "nodes": [
+          7,
+          11,
+          15,
+          17,
+          21
+        ],
+        "vulnerability_probability": 0.45919355750083923,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 23,
+        "nodes": [
+          1,
+          7,
+          11,
+          15,
+          17,
+          23
+        ],
+        "vulnerability_probability": 0.4761417806148529,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 25,
+        "nodes": [
+          7,
+          11,
+          15,
+          17,
+          25
+        ],
+        "vulnerability_probability": 0.45224931836128235,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 27,
+        "nodes": [
+          7,
+          11,
+          15,
+          17,
+          27
+        ],
+        "vulnerability_probability": 0.46176543831825256,
+        "predicted_label": 0
+      },
+      {
+        "category": "ptr",
+        "key_line": 29,
+        "nodes": [
+          33,
+          7,
+          11,
+          15,
+          17,
+          29,
+          31
+        ],
+        "vulnerability_probability": 0.5501141548156738,
+        "predicted_label": 1
+      },
+      {
+        "category": "ptr",
+        "key_line": 31,
+        "nodes": [
+          1,
+          33,
+          7,
+          11,
+          15,
+          17,
+          29,
+          31
+        ],
+        "vulnerability_probability": 0.477226585149765,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 15,
+        "nodes": [
+          39,
+          41,
+          23,
+          31,
+          7,
+          15,
+          17,
+          19,
+          21,
+          25,
+          27,
+          29,
+          35,
+          37,
+          33,
+          45,
+          11
+        ],
+        "vulnerability_probability": 0.7000359892845154,
+        "predicted_label": 1
+      }
+    ],
+    "winner": {
+      "category": "ptr",
+      "key_line": 5,
+      "nodes": [
+        1,
+        35,
+        5,
+        39,
+        41,
+        45
+      ],
+      "probability": 0.9030773639678955
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 36.570030000802944
+  }
+}

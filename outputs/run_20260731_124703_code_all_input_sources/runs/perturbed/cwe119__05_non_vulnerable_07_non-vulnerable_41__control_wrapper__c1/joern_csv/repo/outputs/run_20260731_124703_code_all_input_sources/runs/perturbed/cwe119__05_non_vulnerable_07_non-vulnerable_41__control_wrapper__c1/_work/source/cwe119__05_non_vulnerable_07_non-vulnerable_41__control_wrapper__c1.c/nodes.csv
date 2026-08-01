@@ -1,0 +1,305 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cwe119__05_non_vulnerable_07_non-vulnerable_41__control_wrapper__c1/_work/source/cwe119__05_non_vulnerable_07_non-vulnerable_41__control_wrapper__c1.c								
+ANR	2	DeclStmt									
+ANR	3	Decl							void	void ( list < wchar_t * > dataList )	badSink
+ANR	4	Function	bad	37:0:1021:1602							
+ANR	5	FunctionDef	bad ()		4	0					
+ANR	6	CompoundStatement		38:0:1032:1602	4	0					
+ANR	7	IdentifierDeclStatement	wchar_t * data ;	39:4:1038:1052	4	0	True				
+ANR	8	IdentifierDecl	* data		4	0					
+ANR	9	IdentifierDeclType	wchar_t *		4	0					
+ANR	10	Identifier	data		4	1					
+ANR	11	IdentifierDeclStatement	list < wchar_t * > dataList ;	40:4:1058:1082	4	1	True				
+ANR	12	IdentifierDecl	dataList		4	0					
+ANR	13	IdentifierDeclType	list < wchar_t * >		4	0					
+ANR	14	Identifier	dataList		4	1					
+ANR	15	IdentifierDeclStatement	wchar_t * dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) ) ;	41:4:1088:1153	4	2	True				
+ANR	16	IdentifierDecl	* dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		4	0					
+ANR	17	IdentifierDeclType	wchar_t *		4	0					
+ANR	18	Identifier	dataBadBuffer		4	1					
+ANR	19	AssignmentExpression	* dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		4	2		=			
+ANR	20	Identifier	dataBadBuffer		4	0					
+ANR	21	CastExpression	( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		4	1					
+ANR	22	CastTarget	wchar_t *		4	0					
+ANR	23	CallExpression	ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		4	1					
+ANR	24	Callee	ALLOCA		4	0					
+ANR	25	Identifier	ALLOCA		4	0					
+ANR	26	ArgumentList	( 10 ) * sizeof ( wchar_t )		4	1					
+ANR	27	Argument	( 10 ) * sizeof ( wchar_t )		4	0					
+ANR	28	MultiplicativeExpression	( 10 ) * sizeof ( wchar_t )		4	0		*			
+ANR	29	PrimaryExpression	10		4	0					
+ANR	30	SizeofExpression	sizeof ( wchar_t )		4	1					
+ANR	31	Sizeof	sizeof		4	0					
+ANR	32	SizeofOperand	wchar_t		4	1					
+ANR	33	IdentifierDeclStatement	wchar_t * dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) ) ;	42:4:1159:1227	4	3	True				
+ANR	34	IdentifierDecl	* dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		4	0					
+ANR	35	IdentifierDeclType	wchar_t *		4	0					
+ANR	36	Identifier	dataGoodBuffer		4	1					
+ANR	37	AssignmentExpression	* dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		4	2		=			
+ANR	38	Identifier	dataGoodBuffer		4	0					
+ANR	39	CastExpression	( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		4	1					
+ANR	40	CastTarget	wchar_t *		4	0					
+ANR	41	CallExpression	ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		4	1					
+ANR	42	Callee	ALLOCA		4	0					
+ANR	43	Identifier	ALLOCA		4	0					
+ANR	44	ArgumentList	( 10 + 1 ) * sizeof ( wchar_t )		4	1					
+ANR	45	Argument	( 10 + 1 ) * sizeof ( wchar_t )		4	0					
+ANR	46	MultiplicativeExpression	( 10 + 1 ) * sizeof ( wchar_t )		4	0		*			
+ANR	47	AdditiveExpression	10 + 1		4	0		+			
+ANR	48	PrimaryExpression	10		4	0					
+ANR	49	PrimaryExpression	1		4	1					
+ANR	50	SizeofExpression	sizeof ( wchar_t )		4	1					
+ANR	51	Sizeof	sizeof		4	0					
+ANR	52	SizeofOperand	wchar_t		4	1					
+ANR	53	IfStatement	if ( 1 )		4	4					
+ANR	54	Condition	1	45:8:1377:1377	4	0	True				
+ANR	55	PrimaryExpression	1		4	0					
+ANR	56	CompoundStatement		8:11:347:347	4	1					
+ANR	57	ExpressionStatement	data = dataBadBuffer	46:8:1390:1410	4	0	True				
+ANR	58	AssignmentExpression	data = dataBadBuffer		4	0		=			
+ANR	59	Identifier	data		4	0					
+ANR	60	Identifier	dataBadBuffer		4	1					
+ANR	61	Statement	data	48:4:1422:1425	4	5	True				
+ANR	62	Statement	[	48:8:1426:1426	4	6	True				
+ANR	63	Statement	0	48:9:1427:1427	4	7	True				
+ANR	64	Statement	]	48:10:1428:1428	4	8	True				
+ANR	65	Statement	=	48:12:1430:1430	4	9	True				
+ANR	66	Statement	L	48:14:1432:1432	4	10	True				
+ANR	67	ExpressionStatement	'\\0'	48:15:1433:1437	4	11	True				
+ANR	68	PrimaryExpression	'\\0'		4	0					
+ANR	69	ExpressionStatement	dataList . push_back ( data )	50:4:1493:1517	4	12	True				
+ANR	70	CallExpression	dataList . push_back ( data )		4	0					
+ANR	71	Callee	dataList . push_back		4	0					
+ANR	72	MemberAccess	dataList . push_back		4	0					
+ANR	73	Identifier	dataList		4	0					
+ANR	74	Identifier	push_back		4	1					
+ANR	75	ArgumentList	data		4	1					
+ANR	76	Argument	data		4	0					
+ANR	77	Identifier	data		4	0					
+ANR	78	ExpressionStatement	dataList . push_back ( data )	51:4:1523:1547	4	13	True				
+ANR	79	CallExpression	dataList . push_back ( data )		4	0					
+ANR	80	Callee	dataList . push_back		4	0					
+ANR	81	MemberAccess	dataList . push_back		4	0					
+ANR	82	Identifier	dataList		4	0					
+ANR	83	Identifier	push_back		4	1					
+ANR	84	ArgumentList	data		4	1					
+ANR	85	Argument	data		4	0					
+ANR	86	Identifier	data		4	0					
+ANR	87	ExpressionStatement	dataList . push_back ( data )	52:4:1553:1577	4	14	True				
+ANR	88	CallExpression	dataList . push_back ( data )		4	0					
+ANR	89	Callee	dataList . push_back		4	0					
+ANR	90	MemberAccess	dataList . push_back		4	0					
+ANR	91	Identifier	dataList		4	0					
+ANR	92	Identifier	push_back		4	1					
+ANR	93	ArgumentList	data		4	1					
+ANR	94	Argument	data		4	0					
+ANR	95	Identifier	data		4	0					
+ANR	96	ExpressionStatement	badSink ( dataList )	53:4:1583:1600	4	15	True				
+ANR	97	CallExpression	badSink ( dataList )		4	0					
+ANR	98	Callee	badSink		4	0					
+ANR	99	Identifier	badSink		4	0					
+ANR	100	ArgumentList	dataList		4	1					
+ANR	101	Argument	dataList		4	0					
+ANR	102	Identifier	dataList		4	0					
+ANR	103	ReturnType	void		4	1					
+ANR	104	Identifier	bad		4	2					
+ANR	105	ParameterList			4	3					
+ANR	106	CFGEntryNode	ENTRY		4		True				
+ANR	107	CFGExitNode	EXIT		4		True				
+ANR	108	Symbol	ALLOCA		4						
+ANR	109	Symbol	dataBadBuffer		4						
+ANR	110	Symbol	data		4						
+ANR	111	Symbol	dataList		4						
+ANR	112	Symbol	dataGoodBuffer		4						
+ANR	113	DeclStmt									
+ANR	114	Decl							void	void ( list < wchar_t * > dataList )	goodG2BSink
+ANR	115	Function	goodG2B	65:0:1775:2340							
+ANR	116	FunctionDef	goodG2B ()		115	0					
+ANR	117	CompoundStatement		66:0:1797:2340	115	0					
+ANR	118	IdentifierDeclStatement	wchar_t * data ;	67:4:1803:1817	115	0	True				
+ANR	119	IdentifierDecl	* data		115	0					
+ANR	120	IdentifierDeclType	wchar_t *		115	0					
+ANR	121	Identifier	data		115	1					
+ANR	122	IdentifierDeclStatement	list < wchar_t * > dataList ;	68:4:1823:1847	115	1	True				
+ANR	123	IdentifierDecl	dataList		115	0					
+ANR	124	IdentifierDeclType	list < wchar_t * >		115	0					
+ANR	125	Identifier	dataList		115	1					
+ANR	126	IdentifierDeclStatement	wchar_t * dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) ) ;	69:4:1853:1918	115	2	True				
+ANR	127	IdentifierDecl	* dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		115	0					
+ANR	128	IdentifierDeclType	wchar_t *		115	0					
+ANR	129	Identifier	dataBadBuffer		115	1					
+ANR	130	AssignmentExpression	* dataBadBuffer = ( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		115	2		=			
+ANR	131	Identifier	dataBadBuffer		115	0					
+ANR	132	CastExpression	( wchar_t * ) ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		115	1					
+ANR	133	CastTarget	wchar_t *		115	0					
+ANR	134	CallExpression	ALLOCA ( ( 10 ) * sizeof ( wchar_t ) )		115	1					
+ANR	135	Callee	ALLOCA		115	0					
+ANR	136	Identifier	ALLOCA		115	0					
+ANR	137	ArgumentList	( 10 ) * sizeof ( wchar_t )		115	1					
+ANR	138	Argument	( 10 ) * sizeof ( wchar_t )		115	0					
+ANR	139	MultiplicativeExpression	( 10 ) * sizeof ( wchar_t )		115	0		*			
+ANR	140	PrimaryExpression	10		115	0					
+ANR	141	SizeofExpression	sizeof ( wchar_t )		115	1					
+ANR	142	Sizeof	sizeof		115	0					
+ANR	143	SizeofOperand	wchar_t		115	1					
+ANR	144	IdentifierDeclStatement	wchar_t * dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) ) ;	70:4:1924:1992	115	3	True				
+ANR	145	IdentifierDecl	* dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		115	0					
+ANR	146	IdentifierDeclType	wchar_t *		115	0					
+ANR	147	Identifier	dataGoodBuffer		115	1					
+ANR	148	AssignmentExpression	* dataGoodBuffer = ( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		115	2		=			
+ANR	149	Identifier	dataGoodBuffer		115	0					
+ANR	150	CastExpression	( wchar_t * ) ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		115	1					
+ANR	151	CastTarget	wchar_t *		115	0					
+ANR	152	CallExpression	ALLOCA ( ( 10 + 1 ) * sizeof ( wchar_t ) )		115	1					
+ANR	153	Callee	ALLOCA		115	0					
+ANR	154	Identifier	ALLOCA		115	0					
+ANR	155	ArgumentList	( 10 + 1 ) * sizeof ( wchar_t )		115	1					
+ANR	156	Argument	( 10 + 1 ) * sizeof ( wchar_t )		115	0					
+ANR	157	MultiplicativeExpression	( 10 + 1 ) * sizeof ( wchar_t )		115	0		*			
+ANR	158	AdditiveExpression	10 + 1		115	0		+			
+ANR	159	PrimaryExpression	10		115	0					
+ANR	160	PrimaryExpression	1		115	1					
+ANR	161	SizeofExpression	sizeof ( wchar_t )		115	1					
+ANR	162	Sizeof	sizeof		115	0					
+ANR	163	SizeofOperand	wchar_t		115	1					
+ANR	164	ExpressionStatement	data = dataGoodBuffer	73:4:2129:2150	115	4	True				
+ANR	165	AssignmentExpression	data = dataGoodBuffer		115	0		=			
+ANR	166	Identifier	data		115	0					
+ANR	167	Identifier	dataGoodBuffer		115	1					
+ANR	168	Statement	data	74:4:2156:2159	115	5	True				
+ANR	169	Statement	[	74:8:2160:2160	115	6	True				
+ANR	170	Statement	0	74:9:2161:2161	115	7	True				
+ANR	171	Statement	]	74:10:2162:2162	115	8	True				
+ANR	172	Statement	=	74:12:2164:2164	115	9	True				
+ANR	173	Statement	L	74:14:2166:2166	115	10	True				
+ANR	174	ExpressionStatement	'\\0'	74:15:2167:2171	115	11	True				
+ANR	175	PrimaryExpression	'\\0'		115	0					
+ANR	176	ExpressionStatement	dataList . push_back ( data )	76:4:2227:2251	115	12	True				
+ANR	177	CallExpression	dataList . push_back ( data )		115	0					
+ANR	178	Callee	dataList . push_back		115	0					
+ANR	179	MemberAccess	dataList . push_back		115	0					
+ANR	180	Identifier	dataList		115	0					
+ANR	181	Identifier	push_back		115	1					
+ANR	182	ArgumentList	data		115	1					
+ANR	183	Argument	data		115	0					
+ANR	184	Identifier	data		115	0					
+ANR	185	ExpressionStatement	dataList . push_back ( data )	77:4:2257:2281	115	13	True				
+ANR	186	CallExpression	dataList . push_back ( data )		115	0					
+ANR	187	Callee	dataList . push_back		115	0					
+ANR	188	MemberAccess	dataList . push_back		115	0					
+ANR	189	Identifier	dataList		115	0					
+ANR	190	Identifier	push_back		115	1					
+ANR	191	ArgumentList	data		115	1					
+ANR	192	Argument	data		115	0					
+ANR	193	Identifier	data		115	0					
+ANR	194	ExpressionStatement	dataList . push_back ( data )	78:4:2287:2311	115	14	True				
+ANR	195	CallExpression	dataList . push_back ( data )		115	0					
+ANR	196	Callee	dataList . push_back		115	0					
+ANR	197	MemberAccess	dataList . push_back		115	0					
+ANR	198	Identifier	dataList		115	0					
+ANR	199	Identifier	push_back		115	1					
+ANR	200	ArgumentList	data		115	1					
+ANR	201	Argument	data		115	0					
+ANR	202	Identifier	data		115	0					
+ANR	203	ExpressionStatement	goodG2BSink ( dataList )	79:4:2317:2338	115	15	True				
+ANR	204	CallExpression	goodG2BSink ( dataList )		115	0					
+ANR	205	Callee	goodG2BSink		115	0					
+ANR	206	Identifier	goodG2BSink		115	0					
+ANR	207	ArgumentList	dataList		115	1					
+ANR	208	Argument	dataList		115	0					
+ANR	209	Identifier	dataList		115	0					
+ANR	210	ReturnType	static void		115	1					
+ANR	211	Identifier	goodG2B		115	2					
+ANR	212	ParameterList			115	3					
+ANR	213	CFGEntryNode	ENTRY		115		True				
+ANR	214	CFGExitNode	EXIT		115		True				
+ANR	215	Symbol	ALLOCA		115						
+ANR	216	Symbol	dataBadBuffer		115						
+ANR	217	Symbol	data		115						
+ANR	218	Symbol	dataList		115						
+ANR	219	Symbol	dataGoodBuffer		115						
+ANR	220	Function	good	82:0:2343:2372							
+ANR	221	FunctionDef	good ()		220	0					
+ANR	222	CompoundStatement		83:0:2355:2372	220	0					
+ANR	223	ExpressionStatement	goodG2B ( )	84:4:2361:2370	220	0	True				
+ANR	224	CallExpression	goodG2B ( )		220	0					
+ANR	225	Callee	goodG2B		220	0					
+ANR	226	Identifier	goodG2B		220	0					
+ANR	227	ArgumentList			220	1					
+ANR	228	ReturnType	void		220	1					
+ANR	229	Identifier	good		220	2					
+ANR	230	ParameterList			220	3					
+ANR	231	CFGEntryNode	ENTRY		220		True				
+ANR	232	CFGExitNode	EXIT		220		True				
+ANR	233	Function	main	101:0:2863:3211							
+ANR	234	FunctionDef	"main (int argc , char * argv [ ])"		233	0					
+ANR	235	CompoundStatement		102:0:2897:3211	233	0					
+ANR	236	ExpressionStatement	srand ( ( unsigned ) time ( NULL ) )	104:4:2929:2958	233	0	True				
+ANR	237	CallExpression	srand ( ( unsigned ) time ( NULL ) )		233	0					
+ANR	238	Callee	srand		233	0					
+ANR	239	Identifier	srand		233	0					
+ANR	240	ArgumentList	( unsigned ) time ( NULL )		233	1					
+ANR	241	Argument	( unsigned ) time ( NULL )		233	0					
+ANR	242	CastExpression	( unsigned ) time ( NULL )		233	0					
+ANR	243	CastTarget	unsigned		233	0					
+ANR	244	CallExpression	time ( NULL )		233	1					
+ANR	245	Callee	time		233	0					
+ANR	246	Identifier	time		233	0					
+ANR	247	ArgumentList	NULL		233	1					
+ANR	248	Argument	NULL		233	0					
+ANR	249	Identifier	NULL		233	0					
+ANR	250	ExpressionStatement	"printLine ( ""Calling good()..."" )"	106:4:2981:3011	233	1	True				
+ANR	251	CallExpression	"printLine ( ""Calling good()..."" )"		233	0					
+ANR	252	Callee	printLine		233	0					
+ANR	253	Identifier	printLine		233	0					
+ANR	254	ArgumentList	"""Calling good()..."""		233	1					
+ANR	255	Argument	"""Calling good()..."""		233	0					
+ANR	256	PrimaryExpression	"""Calling good()..."""		233	0					
+ANR	257	ExpressionStatement	good ( )	107:4:3017:3023	233	2	True				
+ANR	258	CallExpression	good ( )		233	0					
+ANR	259	Callee	good		233	0					
+ANR	260	Identifier	good		233	0					
+ANR	261	ArgumentList			233	1					
+ANR	262	ExpressionStatement	"printLine ( ""Finished good()"" )"	108:4:3029:3057	233	3	True				
+ANR	263	CallExpression	"printLine ( ""Finished good()"" )"		233	0					
+ANR	264	Callee	printLine		233	0					
+ANR	265	Identifier	printLine		233	0					
+ANR	266	ArgumentList	"""Finished good()"""		233	1					
+ANR	267	Argument	"""Finished good()"""		233	0					
+ANR	268	PrimaryExpression	"""Finished good()"""		233	0					
+ANR	269	ExpressionStatement	"printLine ( ""Calling bad()..."" )"	111:4:3101:3130	233	4	True				
+ANR	270	CallExpression	"printLine ( ""Calling bad()..."" )"		233	0					
+ANR	271	Callee	printLine		233	0					
+ANR	272	Identifier	printLine		233	0					
+ANR	273	ArgumentList	"""Calling bad()..."""		233	1					
+ANR	274	Argument	"""Calling bad()..."""		233	0					
+ANR	275	PrimaryExpression	"""Calling bad()..."""		233	0					
+ANR	276	ExpressionStatement	bad ( )	112:4:3136:3141	233	5	True				
+ANR	277	CallExpression	bad ( )		233	0					
+ANR	278	Callee	bad		233	0					
+ANR	279	Identifier	bad		233	0					
+ANR	280	ArgumentList			233	1					
+ANR	281	ExpressionStatement	"printLine ( ""Finished bad()"" )"	113:4:3147:3174	233	6	True				
+ANR	282	CallExpression	"printLine ( ""Finished bad()"" )"		233	0					
+ANR	283	Callee	printLine		233	0					
+ANR	284	Identifier	printLine		233	0					
+ANR	285	ArgumentList	"""Finished bad()"""		233	1					
+ANR	286	Argument	"""Finished bad()"""		233	0					
+ANR	287	PrimaryExpression	"""Finished bad()"""		233	0					
+ANR	288	ReturnStatement	return 0 ;	115:4:3201:3209	233	7	True				
+ANR	289	PrimaryExpression	0		233	0					
+ANR	290	ReturnType	int		233	1					
+ANR	291	Identifier	main		233	2					
+ANR	292	ParameterList	"int argc , char * argv [ ]"		233	3					
+ANR	293	Parameter	int argc	101:9:2872:2879	233	0	True				
+ANR	294	ParameterType	int		233	0					
+ANR	295	Identifier	argc		233	1					
+ANR	296	Parameter	char * argv [ ]	101:19:2882:2894	233	1	True				
+ANR	297	ParameterType	char * [ ]		233	0					
+ANR	298	Identifier	argv		233	1					
+ANR	299	CFGEntryNode	ENTRY		233		True				
+ANR	300	CFGExitNode	EXIT		233		True				
+ANR	301	Symbol	argc		233						
+ANR	302	Symbol	NULL		233						
+ANR	303	Symbol	time		233						
+ANR	304	Symbol	argv		233						

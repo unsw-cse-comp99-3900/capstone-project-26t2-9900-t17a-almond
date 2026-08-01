@@ -1,0 +1,272 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__03_vulnerable_void_ff_insert_pad__range_clamp__c1/_work/source/devign__03_vulnerable_void_ff_insert_pad__range_clamp__c1.c								
+ANR	2	Function	ff_insert_pad	1:0:0:990							
+ANR	3	FunctionDef	"ff_insert_pad (unsigned idx , unsigned * count , size_t padidx_off , AVFilterPad * * pads , AVFilterLink * * * links , AVFilterPad * newpad)"		2	0					
+ANR	4	CompoundStatement		7:0:174:990	2	0					
+ANR	5	IdentifierDeclStatement	unsigned i ;	9:4:181:191	2	0	True				
+ANR	6	IdentifierDecl	i		2	0					
+ANR	7	IdentifierDeclType	unsigned		2	0					
+ANR	8	Identifier	i		2	1					
+ANR	9	ExpressionStatement	"idx = FFMIN ( idx , * count )"	13:4:200:224	2	1	True				
+ANR	10	AssignmentExpression	"idx = FFMIN ( idx , * count )"		2	0		=			
+ANR	11	Identifier	idx		2	0					
+ANR	12	CallExpression	"FFMIN ( idx , * count )"		2	1					
+ANR	13	Callee	FFMIN		2	0					
+ANR	14	Identifier	FFMIN		2	0					
+ANR	15	ArgumentList	idx		2	1					
+ANR	16	Argument	idx		2	0					
+ANR	17	Identifier	idx		2	0					
+ANR	18	Argument	* count		2	1					
+ANR	19	UnaryOperationExpression	* count		2	0					
+ANR	20	UnaryOperator	*		2	0					
+ANR	21	Identifier	count		2	1					
+ANR	22	ExpressionStatement	"* pads = av_realloc ( * pads , sizeof ( AVFilterPad ) * ( * count + 1 ) )"	17:4:233:298	2	2	True				
+ANR	23	AssignmentExpression	"* pads = av_realloc ( * pads , sizeof ( AVFilterPad ) * ( * count + 1 ) )"		2	0		=			
+ANR	24	UnaryOperationExpression	* pads		2	0					
+ANR	25	UnaryOperator	*		2	0					
+ANR	26	Identifier	pads		2	1					
+ANR	27	CallExpression	"av_realloc ( * pads , sizeof ( AVFilterPad ) * ( * count + 1 ) )"		2	1					
+ANR	28	Callee	av_realloc		2	0					
+ANR	29	Identifier	av_realloc		2	0					
+ANR	30	ArgumentList	* pads		2	1					
+ANR	31	Argument	* pads		2	0					
+ANR	32	UnaryOperationExpression	* pads		2	0					
+ANR	33	UnaryOperator	*		2	0					
+ANR	34	Identifier	pads		2	1					
+ANR	35	Argument	sizeof ( AVFilterPad ) * ( * count + 1 )		2	1					
+ANR	36	MultiplicativeExpression	sizeof ( AVFilterPad ) * ( * count + 1 )		2	0		*			
+ANR	37	SizeofExpression	sizeof ( AVFilterPad )		2	0					
+ANR	38	Sizeof	sizeof		2	0					
+ANR	39	SizeofOperand	AVFilterPad		2	1					
+ANR	40	AdditiveExpression	* count + 1		2	1		+			
+ANR	41	UnaryOperationExpression	* count		2	0					
+ANR	42	UnaryOperator	*		2	0					
+ANR	43	Identifier	count		2	1					
+ANR	44	PrimaryExpression	1		2	1					
+ANR	45	ExpressionStatement	"* links = av_realloc ( * links , sizeof ( AVFilterLink * ) * ( * count + 1 ) )"	19:4:305:370	2	3	True				
+ANR	46	AssignmentExpression	"* links = av_realloc ( * links , sizeof ( AVFilterLink * ) * ( * count + 1 ) )"		2	0		=			
+ANR	47	UnaryOperationExpression	* links		2	0					
+ANR	48	UnaryOperator	*		2	0					
+ANR	49	Identifier	links		2	1					
+ANR	50	CallExpression	"av_realloc ( * links , sizeof ( AVFilterLink * ) * ( * count + 1 ) )"		2	1					
+ANR	51	Callee	av_realloc		2	0					
+ANR	52	Identifier	av_realloc		2	0					
+ANR	53	ArgumentList	* links		2	1					
+ANR	54	Argument	* links		2	0					
+ANR	55	UnaryOperationExpression	* links		2	0					
+ANR	56	UnaryOperator	*		2	0					
+ANR	57	Identifier	links		2	1					
+ANR	58	Argument	sizeof ( AVFilterLink * ) * ( * count + 1 )		2	1					
+ANR	59	MultiplicativeExpression	sizeof ( AVFilterLink * ) * ( * count + 1 )		2	0		*			
+ANR	60	SizeofExpression	sizeof ( AVFilterLink * )		2	0					
+ANR	61	Sizeof	sizeof		2	0					
+ANR	62	SizeofOperand	AVFilterLink *		2	1					
+ANR	63	AdditiveExpression	* count + 1		2	1		+			
+ANR	64	UnaryOperationExpression	* count		2	0					
+ANR	65	UnaryOperator	*		2	0					
+ANR	66	Identifier	count		2	1					
+ANR	67	PrimaryExpression	1		2	1					
+ANR	68	IdentifierDeclStatement	int dwk_clamped_value_1 = ( int ) ( sizeof ( AVFilterPad ) * ( * count - idx ) ) ;	21:4:377:448	2	4	True				
+ANR	69	IdentifierDecl	dwk_clamped_value_1 = ( int ) ( sizeof ( AVFilterPad ) * ( * count - idx ) )		2	0					
+ANR	70	IdentifierDeclType	int		2	0					
+ANR	71	Identifier	dwk_clamped_value_1		2	1					
+ANR	72	AssignmentExpression	dwk_clamped_value_1 = ( int ) ( sizeof ( AVFilterPad ) * ( * count - idx ) )		2	2		=			
+ANR	73	Identifier	dwk_clamped_value_1		2	0					
+ANR	74	CastExpression	( int ) ( sizeof ( AVFilterPad ) * ( * count - idx ) )		2	1					
+ANR	75	CastTarget	int		2	0					
+ANR	76	MultiplicativeExpression	sizeof ( AVFilterPad ) * ( * count - idx )		2	1		*			
+ANR	77	SizeofExpression	sizeof ( AVFilterPad )		2	0					
+ANR	78	Sizeof	sizeof		2	0					
+ANR	79	SizeofOperand	AVFilterPad		2	1					
+ANR	80	AdditiveExpression	* count - idx		2	1		-			
+ANR	81	UnaryOperationExpression	* count		2	0					
+ANR	82	UnaryOperator	*		2	0					
+ANR	83	Identifier	count		2	1					
+ANR	84	Identifier	idx		2	1					
+ANR	85	IfStatement	if ( dwk_clamped_value_1 < 0 )		2	5					
+ANR	86	Condition	dwk_clamped_value_1 < 0	22:8:458:480	2	0	True				
+ANR	87	RelationalExpression	dwk_clamped_value_1 < 0		2	0		<			
+ANR	88	Identifier	dwk_clamped_value_1		2	0					
+ANR	89	PrimaryExpression	0		2	1					
+ANR	90	CompoundStatement		16:33:308:308	2	1					
+ANR	91	ExpressionStatement	dwk_clamped_value_1 = 0	23:8:493:516	2	0	True				
+ANR	92	AssignmentExpression	dwk_clamped_value_1 = 0		2	0		=			
+ANR	93	Identifier	dwk_clamped_value_1		2	0					
+ANR	94	PrimaryExpression	0		2	1					
+ANR	95	IfStatement	if ( dwk_clamped_value_1 > 4096 )		2	6					
+ANR	96	Condition	dwk_clamped_value_1 > 4096	25:8:532:557	2	0	True				
+ANR	97	RelationalExpression	dwk_clamped_value_1 > 4096		2	0		>			
+ANR	98	Identifier	dwk_clamped_value_1		2	0					
+ANR	99	PrimaryExpression	4096		2	1					
+ANR	100	CompoundStatement		19:36:385:385	2	1					
+ANR	101	ExpressionStatement	dwk_clamped_value_1 = 4096	26:8:570:596	2	0	True				
+ANR	102	AssignmentExpression	dwk_clamped_value_1 = 4096		2	0		=			
+ANR	103	Identifier	dwk_clamped_value_1		2	0					
+ANR	104	PrimaryExpression	4096		2	1					
+ANR	105	ExpressionStatement	"memmove ( * pads + idx + 1 , * pads + idx , dwk_clamped_value_1 )"	28:4:608:668	2	7	True				
+ANR	106	CallExpression	"memmove ( * pads + idx + 1 , * pads + idx , dwk_clamped_value_1 )"		2	0					
+ANR	107	Callee	memmove		2	0					
+ANR	108	Identifier	memmove		2	0					
+ANR	109	ArgumentList	* pads + idx + 1		2	1					
+ANR	110	Argument	* pads + idx + 1		2	0					
+ANR	111	AdditiveExpression	* pads + idx + 1		2	0		+			
+ANR	112	UnaryOperationExpression	* pads		2	0					
+ANR	113	UnaryOperator	*		2	0					
+ANR	114	Identifier	pads		2	1					
+ANR	115	AdditiveExpression	idx + 1		2	1		+			
+ANR	116	Identifier	idx		2	0					
+ANR	117	PrimaryExpression	1		2	1					
+ANR	118	Argument	* pads + idx		2	1					
+ANR	119	AdditiveExpression	* pads + idx		2	0		+			
+ANR	120	UnaryOperationExpression	* pads		2	0					
+ANR	121	UnaryOperator	*		2	0					
+ANR	122	Identifier	pads		2	1					
+ANR	123	Identifier	idx		2	1					
+ANR	124	Argument	dwk_clamped_value_1		2	2					
+ANR	125	Identifier	dwk_clamped_value_1		2	0					
+ANR	126	ExpressionStatement	"memmove ( * links + idx + 1 , * links + idx , sizeof ( AVFilterLink * ) * ( * count - idx ) )"	30:4:675:754	2	8	True				
+ANR	127	CallExpression	"memmove ( * links + idx + 1 , * links + idx , sizeof ( AVFilterLink * ) * ( * count - idx ) )"		2	0					
+ANR	128	Callee	memmove		2	0					
+ANR	129	Identifier	memmove		2	0					
+ANR	130	ArgumentList	* links + idx + 1		2	1					
+ANR	131	Argument	* links + idx + 1		2	0					
+ANR	132	AdditiveExpression	* links + idx + 1		2	0		+			
+ANR	133	UnaryOperationExpression	* links		2	0					
+ANR	134	UnaryOperator	*		2	0					
+ANR	135	Identifier	links		2	1					
+ANR	136	AdditiveExpression	idx + 1		2	1		+			
+ANR	137	Identifier	idx		2	0					
+ANR	138	PrimaryExpression	1		2	1					
+ANR	139	Argument	* links + idx		2	1					
+ANR	140	AdditiveExpression	* links + idx		2	0		+			
+ANR	141	UnaryOperationExpression	* links		2	0					
+ANR	142	UnaryOperator	*		2	0					
+ANR	143	Identifier	links		2	1					
+ANR	144	Identifier	idx		2	1					
+ANR	145	Argument	sizeof ( AVFilterLink * ) * ( * count - idx )		2	2					
+ANR	146	MultiplicativeExpression	sizeof ( AVFilterLink * ) * ( * count - idx )		2	0		*			
+ANR	147	SizeofExpression	sizeof ( AVFilterLink * )		2	0					
+ANR	148	Sizeof	sizeof		2	0					
+ANR	149	SizeofOperand	AVFilterLink *		2	1					
+ANR	150	AdditiveExpression	* count - idx		2	1		-			
+ANR	151	UnaryOperationExpression	* count		2	0					
+ANR	152	UnaryOperator	*		2	0					
+ANR	153	Identifier	count		2	1					
+ANR	154	Identifier	idx		2	1					
+ANR	155	ExpressionStatement	"memcpy ( * pads + idx , newpad , sizeof ( AVFilterPad ) )"	32:4:761:809	2	9	True				
+ANR	156	CallExpression	"memcpy ( * pads + idx , newpad , sizeof ( AVFilterPad ) )"		2	0					
+ANR	157	Callee	memcpy		2	0					
+ANR	158	Identifier	memcpy		2	0					
+ANR	159	ArgumentList	* pads + idx		2	1					
+ANR	160	Argument	* pads + idx		2	0					
+ANR	161	AdditiveExpression	* pads + idx		2	0		+			
+ANR	162	UnaryOperationExpression	* pads		2	0					
+ANR	163	UnaryOperator	*		2	0					
+ANR	164	Identifier	pads		2	1					
+ANR	165	Identifier	idx		2	1					
+ANR	166	Argument	newpad		2	1					
+ANR	167	Identifier	newpad		2	0					
+ANR	168	Argument	sizeof ( AVFilterPad )		2	2					
+ANR	169	SizeofExpression	sizeof ( AVFilterPad )		2	0					
+ANR	170	Sizeof	sizeof		2	0					
+ANR	171	SizeofOperand	AVFilterPad		2	1					
+ANR	172	ExpressionStatement	( * links ) [ idx ] = NULL	34:4:816:836	2	10	True				
+ANR	173	AssignmentExpression	( * links ) [ idx ] = NULL		2	0		=			
+ANR	174	ArrayIndexing	( * links ) [ idx ]		2	0					
+ANR	175	UnaryOperationExpression	* links		2	0					
+ANR	176	UnaryOperator	*		2	0					
+ANR	177	Identifier	links		2	1					
+ANR	178	Identifier	idx		2	1					
+ANR	179	Identifier	NULL		2	1					
+ANR	180	ExpressionStatement	( * count ) ++	38:4:845:855	2	11	True				
+ANR	181	PostIncDecOperationExpression	( * count ) ++		2	0					
+ANR	182	UnaryOperationExpression	* count		2	0					
+ANR	183	UnaryOperator	*		2	0					
+ANR	184	Identifier	count		2	1					
+ANR	185	IncDec	++		2	1					
+ANR	186	ForStatement	for ( i = idx + 1 ; i < * count ; i ++ )		2	12					
+ANR	187	ForInit	i = idx + 1 ;	40:9:867:878	2	0	True				
+ANR	188	AssignmentExpression	i = idx + 1		2	0		=			
+ANR	189	Identifier	i		2	0					
+ANR	190	AdditiveExpression	idx + 1		2	1		+			
+ANR	191	Identifier	idx		2	0					
+ANR	192	PrimaryExpression	1		2	1					
+ANR	193	Condition	i < * count	40:22:880:889	2	1	True				
+ANR	194	RelationalExpression	i < * count		2	0		<			
+ANR	195	Identifier	i		2	0					
+ANR	196	UnaryOperationExpression	* count		2	1					
+ANR	197	UnaryOperator	*		2	0					
+ANR	198	Identifier	count		2	1					
+ANR	199	PostIncDecOperationExpression	i ++	40:34:892:894	2	2	True				
+ANR	200	Identifier	i		2	0					
+ANR	201	IncDec	++		2	1					
+ANR	202	IfStatement	if ( * links [ i ] )		2	3					
+ANR	203	Condition	* links [ i ]	42:12:910:918	2	0	True				
+ANR	204	UnaryOperationExpression	* links [ i ]		2	0					
+ANR	205	UnaryOperator	*		2	0					
+ANR	206	ArrayIndexing	links [ i ]		2	1					
+ANR	207	Identifier	links		2	0					
+ANR	208	Identifier	i		2	1					
+ANR	209	ExpressionStatement	( * ( unsigned * ) ( ( uint8_t * ) * links [ i ] + padidx_off ) ) ++	44:12:934:987	2	1	True				
+ANR	210	PostIncDecOperationExpression	( * ( unsigned * ) ( ( uint8_t * ) * links [ i ] + padidx_off ) ) ++		2	0					
+ANR	211	UnaryOperationExpression	* ( unsigned * ) ( ( uint8_t * ) * links [ i ] + padidx_off )		2	0					
+ANR	212	UnaryOperator	*		2	0					
+ANR	213	CastExpression	( unsigned * ) ( ( uint8_t * ) * links [ i ] + padidx_off )		2	1					
+ANR	214	CastTarget	unsigned *		2	0					
+ANR	215	AdditiveExpression	( uint8_t * ) * links [ i ] + padidx_off		2	1		+			
+ANR	216	CastExpression	( uint8_t * ) * links [ i ]		2	0					
+ANR	217	CastTarget	uint8_t *		2	0					
+ANR	218	UnaryOperationExpression	* links [ i ]		2	1					
+ANR	219	UnaryOperator	*		2	0					
+ANR	220	ArrayIndexing	links [ i ]		2	1					
+ANR	221	Identifier	links		2	0					
+ANR	222	Identifier	i		2	1					
+ANR	223	Identifier	padidx_off		2	1					
+ANR	224	IncDec	++		2	1					
+ANR	225	ReturnType	void		2	1					
+ANR	226	Identifier	ff_insert_pad		2	2					
+ANR	227	ParameterList	"unsigned idx , unsigned * count , size_t padidx_off , AVFilterPad * * pads , AVFilterLink * * * links , AVFilterPad * newpad"		2	3					
+ANR	228	Parameter	unsigned idx	1:19:19:30	2	0	True				
+ANR	229	ParameterType	unsigned		2	0					
+ANR	230	Identifier	idx		2	1					
+ANR	231	Parameter	unsigned * count	1:33:33:47	2	1	True				
+ANR	232	ParameterType	unsigned *		2	0					
+ANR	233	Identifier	count		2	1					
+ANR	234	Parameter	size_t padidx_off	1:50:50:66	2	2	True				
+ANR	235	ParameterType	size_t		2	0					
+ANR	236	Identifier	padidx_off		2	1					
+ANR	237	Parameter	AVFilterPad * * pads	3:19:89:106	2	3	True				
+ANR	238	ParameterType	AVFilterPad * *		2	0					
+ANR	239	Identifier	pads		2	1					
+ANR	240	Parameter	AVFilterLink * * * links	3:39:109:129	2	4	True				
+ANR	241	ParameterType	AVFilterLink * * *		2	0					
+ANR	242	Identifier	links		2	1					
+ANR	243	Parameter	AVFilterPad * newpad	5:19:152:170	2	5	True				
+ANR	244	ParameterType	AVFilterPad *		2	0					
+ANR	245	Identifier	newpad		2	1					
+ANR	246	CFGEntryNode	ENTRY		2		True				
+ANR	247	CFGExitNode	EXIT		2		True				
+ANR	248	Symbol	av_realloc		2						
+ANR	249	Symbol	* * * links		2						
+ANR	250	Symbol	* * i		2						
+ANR	251	Symbol	dwk_clamped_value_1		2						
+ANR	252	Symbol	NULL		2						
+ANR	253	Symbol	padidx_off		2						
+ANR	254	Symbol	* links		2						
+ANR	255	Symbol	count		2						
+ANR	256	Symbol	* * links [ i ]		2						
+ANR	257	Symbol	i		2						
+ANR	258	Symbol	FFMIN		2						
+ANR	259	Symbol	* ( unsigned * ) ( ( uint8_t * ) * links [ i ] + padidx_off )		2						
+ANR	260	Symbol	* links [ i ]		2						
+ANR	261	Symbol	* padidx_off		2						
+ANR	262	Symbol	* * links		2						
+ANR	263	Symbol	newpad		2						
+ANR	264	Symbol	* count		2						
+ANR	265	Symbol	* i		2						
+ANR	266	Symbol	pads		2						
+ANR	267	Symbol	* pads		2						
+ANR	268	Symbol	* idx		2						
+ANR	269	Symbol	* * * i		2						
+ANR	270	Symbol	links		2						
+ANR	271	Symbol	idx		2						

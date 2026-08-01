@@ -1,0 +1,762 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/devign__04_non_vulnerable_static_av_always_inline_int_dnxhd_de__safe_source_substitution__c1/_work/source/devign__04_non_vulnerable_static_av_always_inline_int_dnxhd_de__safe_source_substitution__c1.c								
+ANR	2	Function	dnxhd_decode_dct_block	1:0:0:3300							
+ANR	3	FunctionDef	"dnxhd_decode_dct_block (const DNXHDContext * ctx , RowContext * row , int n , int index_bits , int level_bias , int level_shift)"		2	0					
+ANR	4	CompoundStatement		13:0:410:3300	2	0					
+ANR	5	IdentifierDeclStatement	"int i , j , index1 , index2 , len , flags ;"	15:4:417:453	2	0	True				
+ANR	6	IdentifierDecl	i		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	i		2	1					
+ANR	9	IdentifierDecl	j		2	1					
+ANR	10	IdentifierDeclType	int		2	0					
+ANR	11	Identifier	j		2	1					
+ANR	12	IdentifierDecl	index1		2	2					
+ANR	13	IdentifierDeclType	int		2	0					
+ANR	14	Identifier	index1		2	1					
+ANR	15	IdentifierDecl	index2		2	3					
+ANR	16	IdentifierDeclType	int		2	0					
+ANR	17	Identifier	index2		2	1					
+ANR	18	IdentifierDecl	len		2	4					
+ANR	19	IdentifierDeclType	int		2	0					
+ANR	20	Identifier	len		2	1					
+ANR	21	IdentifierDecl	flags		2	5					
+ANR	22	IdentifierDeclType	int		2	0					
+ANR	23	Identifier	flags		2	1					
+ANR	24	IdentifierDeclStatement	"int level , component , sign ;"	17:4:460:486	2	1	True				
+ANR	25	IdentifierDecl	level		2	0					
+ANR	26	IdentifierDeclType	int		2	0					
+ANR	27	Identifier	level		2	1					
+ANR	28	IdentifierDecl	component		2	1					
+ANR	29	IdentifierDeclType	int		2	0					
+ANR	30	Identifier	component		2	1					
+ANR	31	IdentifierDecl	sign		2	2					
+ANR	32	IdentifierDeclType	int		2	0					
+ANR	33	Identifier	sign		2	1					
+ANR	34	IdentifierDeclStatement	const int * scale ;	19:4:493:509	2	2	True				
+ANR	35	IdentifierDecl	* scale		2	0					
+ANR	36	IdentifierDeclType	const int *		2	0					
+ANR	37	Identifier	scale		2	1					
+ANR	38	IdentifierDeclStatement	const uint8_t * weight_matrix ;	21:4:516:544	2	3	True				
+ANR	39	IdentifierDecl	* weight_matrix		2	0					
+ANR	40	IdentifierDeclType	const uint8_t *		2	0					
+ANR	41	Identifier	weight_matrix		2	1					
+ANR	42	IdentifierDeclStatement	const uint8_t * ac_level = ( ( ctx && ctx -> cid_table ) ? ctx -> cid_table -> ac_level : 0 ) ;	23:4:551:633	2	4	True				
+ANR	43	IdentifierDecl	* ac_level = ( ( ctx && ctx -> cid_table ) ? ctx -> cid_table -> ac_level : 0 )		2	0					
+ANR	44	IdentifierDeclType	const uint8_t *		2	0					
+ANR	45	Identifier	ac_level		2	1					
+ANR	46	AssignmentExpression	* ac_level = ( ( ctx && ctx -> cid_table ) ? ctx -> cid_table -> ac_level : 0 )		2	2		=			
+ANR	47	Identifier	ac_level		2	0					
+ANR	48	ConditionalExpression	( ctx && ctx -> cid_table ) ? ctx -> cid_table -> ac_level : 0		2	1					
+ANR	49	Condition	ctx && ctx -> cid_table		2	0					
+ANR	50	AndExpression	ctx && ctx -> cid_table		2	0		&&			
+ANR	51	Identifier	ctx		2	0					
+ANR	52	PtrMemberAccess	ctx -> cid_table		2	1					
+ANR	53	Identifier	ctx		2	0					
+ANR	54	Identifier	cid_table		2	1					
+ANR	55	PtrMemberAccess	ctx -> cid_table -> ac_level		2	1					
+ANR	56	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	57	Identifier	ctx		2	0					
+ANR	58	Identifier	cid_table		2	1					
+ANR	59	Identifier	ac_level		2	1					
+ANR	60	PrimaryExpression	0		2	2					
+ANR	61	IdentifierDeclStatement	const uint8_t * ac_flags = ctx -> cid_table -> ac_flags ;	25:4:640:690	2	5	True				
+ANR	62	IdentifierDecl	* ac_flags = ctx -> cid_table -> ac_flags		2	0					
+ANR	63	IdentifierDeclType	const uint8_t *		2	0					
+ANR	64	Identifier	ac_flags		2	1					
+ANR	65	AssignmentExpression	* ac_flags = ctx -> cid_table -> ac_flags		2	2		=			
+ANR	66	Identifier	ac_flags		2	0					
+ANR	67	PtrMemberAccess	ctx -> cid_table -> ac_flags		2	1					
+ANR	68	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	69	Identifier	ctx		2	0					
+ANR	70	Identifier	cid_table		2	1					
+ANR	71	Identifier	ac_flags		2	1					
+ANR	72	IdentifierDeclStatement	int16_t * block = row -> blocks [ n ] ;	27:4:697:728	2	6	True				
+ANR	73	IdentifierDecl	* block = row -> blocks [ n ]		2	0					
+ANR	74	IdentifierDeclType	int16_t *		2	0					
+ANR	75	Identifier	block		2	1					
+ANR	76	AssignmentExpression	* block = row -> blocks [ n ]		2	2		=			
+ANR	77	Identifier	block		2	0					
+ANR	78	ArrayIndexing	row -> blocks [ n ]		2	1					
+ANR	79	PtrMemberAccess	row -> blocks		2	0					
+ANR	80	Identifier	row		2	0					
+ANR	81	Identifier	blocks		2	1					
+ANR	82	Identifier	n		2	1					
+ANR	83	IdentifierDeclStatement	const int eob_index = ctx -> cid_table -> eob_index ;	29:4:735:786	2	7	True				
+ANR	84	IdentifierDecl	eob_index = ctx -> cid_table -> eob_index		2	0					
+ANR	85	IdentifierDeclType	const int		2	0					
+ANR	86	Identifier	eob_index		2	1					
+ANR	87	AssignmentExpression	eob_index = ctx -> cid_table -> eob_index		2	2		=			
+ANR	88	Identifier	eob_index		2	0					
+ANR	89	PtrMemberAccess	ctx -> cid_table -> eob_index		2	1					
+ANR	90	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	91	Identifier	ctx		2	0					
+ANR	92	Identifier	cid_table		2	1					
+ANR	93	Identifier	eob_index		2	1					
+ANR	94	IdentifierDeclStatement	int ret = 0 ;	31:4:793:804	2	8	True				
+ANR	95	IdentifierDecl	ret = 0		2	0					
+ANR	96	IdentifierDeclType	int		2	0					
+ANR	97	Identifier	ret		2	1					
+ANR	98	AssignmentExpression	ret = 0		2	2		=			
+ANR	99	Identifier	ret		2	0					
+ANR	100	PrimaryExpression	0		2	1					
+ANR	101	ExpressionStatement	"OPEN_READER ( bs , & row -> gb )"	33:4:811:836	2	9	True				
+ANR	102	CallExpression	"OPEN_READER ( bs , & row -> gb )"		2	0					
+ANR	103	Callee	OPEN_READER		2	0					
+ANR	104	Identifier	OPEN_READER		2	0					
+ANR	105	ArgumentList	bs		2	1					
+ANR	106	Argument	bs		2	0					
+ANR	107	Identifier	bs		2	0					
+ANR	108	Argument	& row -> gb		2	1					
+ANR	109	UnaryOperationExpression	& row -> gb		2	0					
+ANR	110	UnaryOperator	&		2	0					
+ANR	111	PtrMemberAccess	row -> gb		2	1					
+ANR	112	Identifier	row		2	0					
+ANR	113	Identifier	gb		2	1					
+ANR	114	ExpressionStatement	ctx -> bdsp . clear_block ( block )	37:4:845:873	2	10	True				
+ANR	115	CallExpression	ctx -> bdsp . clear_block ( block )		2	0					
+ANR	116	Callee	ctx -> bdsp . clear_block		2	0					
+ANR	117	MemberAccess	ctx -> bdsp . clear_block		2	0					
+ANR	118	PtrMemberAccess	ctx -> bdsp		2	0					
+ANR	119	Identifier	ctx		2	0					
+ANR	120	Identifier	bdsp		2	1					
+ANR	121	Identifier	clear_block		2	1					
+ANR	122	ArgumentList	block		2	1					
+ANR	123	Argument	block		2	0					
+ANR	124	Identifier	block		2	0					
+ANR	125	IfStatement	if ( ! ctx -> is_444 )		2	11					
+ANR	126	Condition	! ctx -> is_444	41:8:886:897	2	0	True				
+ANR	127	UnaryOperationExpression	! ctx -> is_444		2	0					
+ANR	128	UnaryOperator	!		2	0					
+ANR	129	PtrMemberAccess	ctx -> is_444		2	1					
+ANR	130	Identifier	ctx		2	0					
+ANR	131	Identifier	is_444		2	1					
+ANR	132	CompoundStatement		29:22:489:489	2	1					
+ANR	133	IfStatement	if ( n & 2 )		2	0					
+ANR	134	Condition	n & 2	43:12:915:919	2	0	True				
+ANR	135	BitAndExpression	n & 2		2	0		&			
+ANR	136	Identifier	n		2	0					
+ANR	137	PrimaryExpression	2		2	1					
+ANR	138	CompoundStatement		31:19:511:511	2	1					
+ANR	139	ExpressionStatement	component = 1 + ( n & 1 )	45:12:937:964	2	0	True				
+ANR	140	AssignmentExpression	component = 1 + ( n & 1 )		2	0		=			
+ANR	141	Identifier	component		2	0					
+ANR	142	AdditiveExpression	1 + ( n & 1 )		2	1		+			
+ANR	143	PrimaryExpression	1		2	0					
+ANR	144	BitAndExpression	n & 1		2	1		&			
+ANR	145	Identifier	n		2	0					
+ANR	146	PrimaryExpression	1		2	1					
+ANR	147	ExpressionStatement	scale = row -> chroma_scale	47:12:979:1004	2	1	True				
+ANR	148	AssignmentExpression	scale = row -> chroma_scale		2	0		=			
+ANR	149	Identifier	scale		2	0					
+ANR	150	PtrMemberAccess	row -> chroma_scale		2	1					
+ANR	151	Identifier	row		2	0					
+ANR	152	Identifier	chroma_scale		2	1					
+ANR	153	ExpressionStatement	weight_matrix = ctx -> cid_table -> chroma_weight	49:12:1019:1064	2	2	True				
+ANR	154	AssignmentExpression	weight_matrix = ctx -> cid_table -> chroma_weight		2	0		=			
+ANR	155	Identifier	weight_matrix		2	0					
+ANR	156	PtrMemberAccess	ctx -> cid_table -> chroma_weight		2	1					
+ANR	157	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	158	Identifier	ctx		2	0					
+ANR	159	Identifier	cid_table		2	1					
+ANR	160	Identifier	chroma_weight		2	1					
+ANR	161	ElseStatement	else		2	0					
+ANR	162	CompoundStatement		39:15:671:671	2	0					
+ANR	163	ExpressionStatement	component = 0	53:12:1097:1114	2	0	True				
+ANR	164	AssignmentExpression	component = 0		2	0		=			
+ANR	165	Identifier	component		2	0					
+ANR	166	PrimaryExpression	0		2	1					
+ANR	167	ExpressionStatement	scale = row -> luma_scale	55:12:1129:1152	2	1	True				
+ANR	168	AssignmentExpression	scale = row -> luma_scale		2	0		=			
+ANR	169	Identifier	scale		2	0					
+ANR	170	PtrMemberAccess	row -> luma_scale		2	1					
+ANR	171	Identifier	row		2	0					
+ANR	172	Identifier	luma_scale		2	1					
+ANR	173	ExpressionStatement	weight_matrix = ctx -> cid_table -> luma_weight	57:12:1167:1210	2	2	True				
+ANR	174	AssignmentExpression	weight_matrix = ctx -> cid_table -> luma_weight		2	0		=			
+ANR	175	Identifier	weight_matrix		2	0					
+ANR	176	PtrMemberAccess	ctx -> cid_table -> luma_weight		2	1					
+ANR	177	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	178	Identifier	ctx		2	0					
+ANR	179	Identifier	cid_table		2	1					
+ANR	180	Identifier	luma_weight		2	1					
+ANR	181	ElseStatement	else		2	0					
+ANR	182	CompoundStatement		49:11:824:824	2	0					
+ANR	183	ExpressionStatement	component = ( n >> 1 ) % 3	63:8:1246:1270	2	0	True				
+ANR	184	AssignmentExpression	component = ( n >> 1 ) % 3		2	0		=			
+ANR	185	Identifier	component		2	0					
+ANR	186	MultiplicativeExpression	( n >> 1 ) % 3		2	1		%			
+ANR	187	ShiftExpression	n >> 1		2	0		>>			
+ANR	188	Identifier	n		2	0					
+ANR	189	PrimaryExpression	1		2	1					
+ANR	190	PrimaryExpression	3		2	1					
+ANR	191	IfStatement	if ( component )		2	1					
+ANR	192	Condition	component	65:12:1285:1293	2	0	True				
+ANR	193	Identifier	component		2	0					
+ANR	194	CompoundStatement		53:23:885:885	2	1					
+ANR	195	ExpressionStatement	scale = row -> chroma_scale	67:12:1311:1336	2	0	True				
+ANR	196	AssignmentExpression	scale = row -> chroma_scale		2	0		=			
+ANR	197	Identifier	scale		2	0					
+ANR	198	PtrMemberAccess	row -> chroma_scale		2	1					
+ANR	199	Identifier	row		2	0					
+ANR	200	Identifier	chroma_scale		2	1					
+ANR	201	ExpressionStatement	weight_matrix = ctx -> cid_table -> chroma_weight	69:12:1351:1396	2	1	True				
+ANR	202	AssignmentExpression	weight_matrix = ctx -> cid_table -> chroma_weight		2	0		=			
+ANR	203	Identifier	weight_matrix		2	0					
+ANR	204	PtrMemberAccess	ctx -> cid_table -> chroma_weight		2	1					
+ANR	205	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	206	Identifier	ctx		2	0					
+ANR	207	Identifier	cid_table		2	1					
+ANR	208	Identifier	chroma_weight		2	1					
+ANR	209	ElseStatement	else		2	0					
+ANR	210	CompoundStatement		59:15:1003:1003	2	0					
+ANR	211	ExpressionStatement	scale = row -> luma_scale	73:12:1429:1452	2	0	True				
+ANR	212	AssignmentExpression	scale = row -> luma_scale		2	0		=			
+ANR	213	Identifier	scale		2	0					
+ANR	214	PtrMemberAccess	row -> luma_scale		2	1					
+ANR	215	Identifier	row		2	0					
+ANR	216	Identifier	luma_scale		2	1					
+ANR	217	ExpressionStatement	weight_matrix = ctx -> cid_table -> luma_weight	75:12:1467:1510	2	1	True				
+ANR	218	AssignmentExpression	weight_matrix = ctx -> cid_table -> luma_weight		2	0		=			
+ANR	219	Identifier	weight_matrix		2	0					
+ANR	220	PtrMemberAccess	ctx -> cid_table -> luma_weight		2	1					
+ANR	221	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	222	Identifier	ctx		2	0					
+ANR	223	Identifier	cid_table		2	1					
+ANR	224	Identifier	luma_weight		2	1					
+ANR	225	ExpressionStatement	"UPDATE_CACHE ( bs , & row -> gb )"	83:4:1537:1563	2	12	True				
+ANR	226	CallExpression	"UPDATE_CACHE ( bs , & row -> gb )"		2	0					
+ANR	227	Callee	UPDATE_CACHE		2	0					
+ANR	228	Identifier	UPDATE_CACHE		2	0					
+ANR	229	ArgumentList	bs		2	1					
+ANR	230	Argument	bs		2	0					
+ANR	231	Identifier	bs		2	0					
+ANR	232	Argument	& row -> gb		2	1					
+ANR	233	UnaryOperationExpression	& row -> gb		2	0					
+ANR	234	UnaryOperator	&		2	0					
+ANR	235	PtrMemberAccess	row -> gb		2	1					
+ANR	236	Identifier	row		2	0					
+ANR	237	Identifier	gb		2	1					
+ANR	238	ExpressionStatement	"GET_VLC ( len , bs , & row -> gb , ctx -> dc_vlc . table , DNXHD_DC_VLC_BITS , 1 )"	85:4:1570:1637	2	13	True				
+ANR	239	CallExpression	"GET_VLC ( len , bs , & row -> gb , ctx -> dc_vlc . table , DNXHD_DC_VLC_BITS , 1 )"		2	0					
+ANR	240	Callee	GET_VLC		2	0					
+ANR	241	Identifier	GET_VLC		2	0					
+ANR	242	ArgumentList	len		2	1					
+ANR	243	Argument	len		2	0					
+ANR	244	Identifier	len		2	0					
+ANR	245	Argument	bs		2	1					
+ANR	246	Identifier	bs		2	0					
+ANR	247	Argument	& row -> gb		2	2					
+ANR	248	UnaryOperationExpression	& row -> gb		2	0					
+ANR	249	UnaryOperator	&		2	0					
+ANR	250	PtrMemberAccess	row -> gb		2	1					
+ANR	251	Identifier	row		2	0					
+ANR	252	Identifier	gb		2	1					
+ANR	253	Argument	ctx -> dc_vlc . table		2	3					
+ANR	254	MemberAccess	ctx -> dc_vlc . table		2	0					
+ANR	255	PtrMemberAccess	ctx -> dc_vlc		2	0					
+ANR	256	Identifier	ctx		2	0					
+ANR	257	Identifier	dc_vlc		2	1					
+ANR	258	Identifier	table		2	1					
+ANR	259	Argument	DNXHD_DC_VLC_BITS		2	4					
+ANR	260	Identifier	DNXHD_DC_VLC_BITS		2	0					
+ANR	261	Argument	1		2	5					
+ANR	262	PrimaryExpression	1		2	0					
+ANR	263	IfStatement	if ( len )		2	14					
+ANR	264	Condition	len	87:8:1648:1650	2	0	True				
+ANR	265	Identifier	len		2	0					
+ANR	266	CompoundStatement		75:13:1242:1242	2	1					
+ANR	267	ExpressionStatement	"level = GET_CACHE ( bs , & row -> gb )"	89:8:1664:1695	2	0	True				
+ANR	268	AssignmentExpression	"level = GET_CACHE ( bs , & row -> gb )"		2	0		=			
+ANR	269	Identifier	level		2	0					
+ANR	270	CallExpression	"GET_CACHE ( bs , & row -> gb )"		2	1					
+ANR	271	Callee	GET_CACHE		2	0					
+ANR	272	Identifier	GET_CACHE		2	0					
+ANR	273	ArgumentList	bs		2	1					
+ANR	274	Argument	bs		2	0					
+ANR	275	Identifier	bs		2	0					
+ANR	276	Argument	& row -> gb		2	1					
+ANR	277	UnaryOperationExpression	& row -> gb		2	0					
+ANR	278	UnaryOperator	&		2	0					
+ANR	279	PtrMemberAccess	row -> gb		2	1					
+ANR	280	Identifier	row		2	0					
+ANR	281	Identifier	gb		2	1					
+ANR	282	ExpressionStatement	"LAST_SKIP_BITS ( bs , & row -> gb , len )"	91:8:1706:1739	2	1	True				
+ANR	283	CallExpression	"LAST_SKIP_BITS ( bs , & row -> gb , len )"		2	0					
+ANR	284	Callee	LAST_SKIP_BITS		2	0					
+ANR	285	Identifier	LAST_SKIP_BITS		2	0					
+ANR	286	ArgumentList	bs		2	1					
+ANR	287	Argument	bs		2	0					
+ANR	288	Identifier	bs		2	0					
+ANR	289	Argument	& row -> gb		2	1					
+ANR	290	UnaryOperationExpression	& row -> gb		2	0					
+ANR	291	UnaryOperator	&		2	0					
+ANR	292	PtrMemberAccess	row -> gb		2	1					
+ANR	293	Identifier	row		2	0					
+ANR	294	Identifier	gb		2	1					
+ANR	295	Argument	len		2	2					
+ANR	296	Identifier	len		2	0					
+ANR	297	ExpressionStatement	sign = ~level >> 31	93:8:1750:1770	2	2	True				
+ANR	298	AssignmentExpression	sign = ~level >> 31		2	0		=			
+ANR	299	Identifier	sign		2	0					
+ANR	300	ShiftExpression	~level >> 31		2	1		>>			
+ANR	301	Identifier	~level		2	0					
+ANR	302	PrimaryExpression	31		2	1					
+ANR	303	ExpressionStatement	"level = ( NEG_USR32 ( sign ^ level , len ) ^ sign ) - sign"	95:8:1781:1833	2	3	True				
+ANR	304	AssignmentExpression	"level = ( NEG_USR32 ( sign ^ level , len ) ^ sign ) - sign"		2	0		=			
+ANR	305	Identifier	level		2	0					
+ANR	306	AdditiveExpression	"( NEG_USR32 ( sign ^ level , len ) ^ sign ) - sign"		2	1		-			
+ANR	307	ExclusiveOrExpression	"NEG_USR32 ( sign ^ level , len ) ^ sign"		2	0		^			
+ANR	308	CallExpression	"NEG_USR32 ( sign ^ level , len )"		2	0					
+ANR	309	Callee	NEG_USR32		2	0					
+ANR	310	Identifier	NEG_USR32		2	0					
+ANR	311	ArgumentList	sign ^ level		2	1					
+ANR	312	Argument	sign ^ level		2	0					
+ANR	313	ExclusiveOrExpression	sign ^ level		2	0		^			
+ANR	314	Identifier	sign		2	0					
+ANR	315	Identifier	level		2	1					
+ANR	316	Argument	len		2	1					
+ANR	317	Identifier	len		2	0					
+ANR	318	Identifier	sign		2	1					
+ANR	319	Identifier	sign		2	1					
+ANR	320	ExpressionStatement	row -> last_dc [ component ] += level	97:8:1844:1876	2	4	True				
+ANR	321	AssignmentExpression	row -> last_dc [ component ] += level		2	0		+=			
+ANR	322	ArrayIndexing	row -> last_dc [ component ]		2	0					
+ANR	323	PtrMemberAccess	row -> last_dc		2	0					
+ANR	324	Identifier	row		2	0					
+ANR	325	Identifier	last_dc		2	1					
+ANR	326	Identifier	component		2	1					
+ANR	327	Identifier	level		2	1					
+ANR	328	ExpressionStatement	block [ 0 ] = row -> last_dc [ component ]	101:4:1890:1924	2	15	True				
+ANR	329	AssignmentExpression	block [ 0 ] = row -> last_dc [ component ]		2	0		=			
+ANR	330	ArrayIndexing	block [ 0 ]		2	0					
+ANR	331	Identifier	block		2	0					
+ANR	332	PrimaryExpression	0		2	1					
+ANR	333	ArrayIndexing	row -> last_dc [ component ]		2	1					
+ANR	334	PtrMemberAccess	row -> last_dc		2	0					
+ANR	335	Identifier	row		2	0					
+ANR	336	Identifier	last_dc		2	1					
+ANR	337	Identifier	component		2	1					
+ANR	338	ExpressionStatement	i = 0	105:4:1933:1938	2	16	True				
+ANR	339	AssignmentExpression	i = 0		2	0		=			
+ANR	340	Identifier	i		2	0					
+ANR	341	PrimaryExpression	0		2	1					
+ANR	342	ExpressionStatement	"UPDATE_CACHE ( bs , & row -> gb )"	109:4:1947:1973	2	17	True				
+ANR	343	CallExpression	"UPDATE_CACHE ( bs , & row -> gb )"		2	0					
+ANR	344	Callee	UPDATE_CACHE		2	0					
+ANR	345	Identifier	UPDATE_CACHE		2	0					
+ANR	346	ArgumentList	bs		2	1					
+ANR	347	Argument	bs		2	0					
+ANR	348	Identifier	bs		2	0					
+ANR	349	Argument	& row -> gb		2	1					
+ANR	350	UnaryOperationExpression	& row -> gb		2	0					
+ANR	351	UnaryOperator	&		2	0					
+ANR	352	PtrMemberAccess	row -> gb		2	1					
+ANR	353	Identifier	row		2	0					
+ANR	354	Identifier	gb		2	1					
+ANR	355	ExpressionStatement	"GET_VLC ( index1 , bs , & row -> gb , ctx -> ac_vlc . table , DNXHD_VLC_BITS , 2 )"	111:4:1980:2060	2	18	True				
+ANR	356	CallExpression	"GET_VLC ( index1 , bs , & row -> gb , ctx -> ac_vlc . table , DNXHD_VLC_BITS , 2 )"		2	0					
+ANR	357	Callee	GET_VLC		2	0					
+ANR	358	Identifier	GET_VLC		2	0					
+ANR	359	ArgumentList	index1		2	1					
+ANR	360	Argument	index1		2	0					
+ANR	361	Identifier	index1		2	0					
+ANR	362	Argument	bs		2	1					
+ANR	363	Identifier	bs		2	0					
+ANR	364	Argument	& row -> gb		2	2					
+ANR	365	UnaryOperationExpression	& row -> gb		2	0					
+ANR	366	UnaryOperator	&		2	0					
+ANR	367	PtrMemberAccess	row -> gb		2	1					
+ANR	368	Identifier	row		2	0					
+ANR	369	Identifier	gb		2	1					
+ANR	370	Argument	ctx -> ac_vlc . table		2	3					
+ANR	371	MemberAccess	ctx -> ac_vlc . table		2	0					
+ANR	372	PtrMemberAccess	ctx -> ac_vlc		2	0					
+ANR	373	Identifier	ctx		2	0					
+ANR	374	Identifier	ac_vlc		2	1					
+ANR	375	Identifier	table		2	1					
+ANR	376	Argument	DNXHD_VLC_BITS		2	4					
+ANR	377	Identifier	DNXHD_VLC_BITS		2	0					
+ANR	378	Argument	2		2	5					
+ANR	379	PrimaryExpression	2		2	0					
+ANR	380	WhileStatement	while ( index1 != eob_index )		2	19					
+ANR	381	Condition	index1 != eob_index	117:11:2076:2094	2	0	True				
+ANR	382	EqualityExpression	index1 != eob_index		2	0		!=			
+ANR	383	Identifier	index1		2	0					
+ANR	384	Identifier	eob_index		2	1					
+ANR	385	CompoundStatement		105:32:1686:1686	2	1					
+ANR	386	ExpressionStatement	level = ac_level [ index1 ]	119:8:2108:2132	2	0	True				
+ANR	387	AssignmentExpression	level = ac_level [ index1 ]		2	0		=			
+ANR	388	Identifier	level		2	0					
+ANR	389	ArrayIndexing	ac_level [ index1 ]		2	1					
+ANR	390	Identifier	ac_level		2	0					
+ANR	391	Identifier	index1		2	1					
+ANR	392	ExpressionStatement	flags = ac_flags [ index1 ]	121:8:2143:2167	2	1	True				
+ANR	393	AssignmentExpression	flags = ac_flags [ index1 ]		2	0		=			
+ANR	394	Identifier	flags		2	0					
+ANR	395	ArrayIndexing	ac_flags [ index1 ]		2	1					
+ANR	396	Identifier	ac_flags		2	0					
+ANR	397	Identifier	index1		2	1					
+ANR	398	ExpressionStatement	"sign = SHOW_SBITS ( bs , & row -> gb , 1 )"	125:8:2180:2214	2	2	True				
+ANR	399	AssignmentExpression	"sign = SHOW_SBITS ( bs , & row -> gb , 1 )"		2	0		=			
+ANR	400	Identifier	sign		2	0					
+ANR	401	CallExpression	"SHOW_SBITS ( bs , & row -> gb , 1 )"		2	1					
+ANR	402	Callee	SHOW_SBITS		2	0					
+ANR	403	Identifier	SHOW_SBITS		2	0					
+ANR	404	ArgumentList	bs		2	1					
+ANR	405	Argument	bs		2	0					
+ANR	406	Identifier	bs		2	0					
+ANR	407	Argument	& row -> gb		2	1					
+ANR	408	UnaryOperationExpression	& row -> gb		2	0					
+ANR	409	UnaryOperator	&		2	0					
+ANR	410	PtrMemberAccess	row -> gb		2	1					
+ANR	411	Identifier	row		2	0					
+ANR	412	Identifier	gb		2	1					
+ANR	413	Argument	1		2	2					
+ANR	414	PrimaryExpression	1		2	0					
+ANR	415	ExpressionStatement	"SKIP_BITS ( bs , & row -> gb , 1 )"	127:8:2225:2251	2	3	True				
+ANR	416	CallExpression	"SKIP_BITS ( bs , & row -> gb , 1 )"		2	0					
+ANR	417	Callee	SKIP_BITS		2	0					
+ANR	418	Identifier	SKIP_BITS		2	0					
+ANR	419	ArgumentList	bs		2	1					
+ANR	420	Argument	bs		2	0					
+ANR	421	Identifier	bs		2	0					
+ANR	422	Argument	& row -> gb		2	1					
+ANR	423	UnaryOperationExpression	& row -> gb		2	0					
+ANR	424	UnaryOperator	&		2	0					
+ANR	425	PtrMemberAccess	row -> gb		2	1					
+ANR	426	Identifier	row		2	0					
+ANR	427	Identifier	gb		2	1					
+ANR	428	Argument	1		2	2					
+ANR	429	PrimaryExpression	1		2	0					
+ANR	430	IfStatement	if ( flags & 1 )		2	4					
+ANR	431	Condition	flags & 1	131:12:2268:2276	2	0	True				
+ANR	432	BitAndExpression	flags & 1		2	0		&			
+ANR	433	Identifier	flags		2	0					
+ANR	434	PrimaryExpression	1		2	1					
+ANR	435	CompoundStatement		119:23:1868:1868	2	1					
+ANR	436	ExpressionStatement	"level += SHOW_UBITS ( bs , & row -> gb , index_bits ) << 7"	133:12:2294:2344	2	0	True				
+ANR	437	AssignmentExpression	"level += SHOW_UBITS ( bs , & row -> gb , index_bits ) << 7"		2	0		+=			
+ANR	438	Identifier	level		2	0					
+ANR	439	ShiftExpression	"SHOW_UBITS ( bs , & row -> gb , index_bits ) << 7"		2	1		<<			
+ANR	440	CallExpression	"SHOW_UBITS ( bs , & row -> gb , index_bits )"		2	0					
+ANR	441	Callee	SHOW_UBITS		2	0					
+ANR	442	Identifier	SHOW_UBITS		2	0					
+ANR	443	ArgumentList	bs		2	1					
+ANR	444	Argument	bs		2	0					
+ANR	445	Identifier	bs		2	0					
+ANR	446	Argument	& row -> gb		2	1					
+ANR	447	UnaryOperationExpression	& row -> gb		2	0					
+ANR	448	UnaryOperator	&		2	0					
+ANR	449	PtrMemberAccess	row -> gb		2	1					
+ANR	450	Identifier	row		2	0					
+ANR	451	Identifier	gb		2	1					
+ANR	452	Argument	index_bits		2	2					
+ANR	453	Identifier	index_bits		2	0					
+ANR	454	PrimaryExpression	7		2	1					
+ANR	455	ExpressionStatement	"SKIP_BITS ( bs , & row -> gb , index_bits )"	135:12:2359:2394	2	1	True				
+ANR	456	CallExpression	"SKIP_BITS ( bs , & row -> gb , index_bits )"		2	0					
+ANR	457	Callee	SKIP_BITS		2	0					
+ANR	458	Identifier	SKIP_BITS		2	0					
+ANR	459	ArgumentList	bs		2	1					
+ANR	460	Argument	bs		2	0					
+ANR	461	Identifier	bs		2	0					
+ANR	462	Argument	& row -> gb		2	1					
+ANR	463	UnaryOperationExpression	& row -> gb		2	0					
+ANR	464	UnaryOperator	&		2	0					
+ANR	465	PtrMemberAccess	row -> gb		2	1					
+ANR	466	Identifier	row		2	0					
+ANR	467	Identifier	gb		2	1					
+ANR	468	Argument	index_bits		2	2					
+ANR	469	Identifier	index_bits		2	0					
+ANR	470	IfStatement	if ( flags & 2 )		2	5					
+ANR	471	Condition	flags & 2	141:12:2422:2430	2	0	True				
+ANR	472	BitAndExpression	flags & 2		2	0		&			
+ANR	473	Identifier	flags		2	0					
+ANR	474	PrimaryExpression	2		2	1					
+ANR	475	CompoundStatement		129:23:2022:2022	2	1					
+ANR	476	ExpressionStatement	"UPDATE_CACHE ( bs , & row -> gb )"	143:12:2448:2474	2	0	True				
+ANR	477	CallExpression	"UPDATE_CACHE ( bs , & row -> gb )"		2	0					
+ANR	478	Callee	UPDATE_CACHE		2	0					
+ANR	479	Identifier	UPDATE_CACHE		2	0					
+ANR	480	ArgumentList	bs		2	1					
+ANR	481	Argument	bs		2	0					
+ANR	482	Identifier	bs		2	0					
+ANR	483	Argument	& row -> gb		2	1					
+ANR	484	UnaryOperationExpression	& row -> gb		2	0					
+ANR	485	UnaryOperator	&		2	0					
+ANR	486	PtrMemberAccess	row -> gb		2	1					
+ANR	487	Identifier	row		2	0					
+ANR	488	Identifier	gb		2	1					
+ANR	489	ExpressionStatement	"GET_VLC ( index2 , bs , & row -> gb , ctx -> run_vlc . table , DNXHD_VLC_BITS , 2 )"	145:12:2489:2578	2	1	True				
+ANR	490	CallExpression	"GET_VLC ( index2 , bs , & row -> gb , ctx -> run_vlc . table , DNXHD_VLC_BITS , 2 )"		2	0					
+ANR	491	Callee	GET_VLC		2	0					
+ANR	492	Identifier	GET_VLC		2	0					
+ANR	493	ArgumentList	index2		2	1					
+ANR	494	Argument	index2		2	0					
+ANR	495	Identifier	index2		2	0					
+ANR	496	Argument	bs		2	1					
+ANR	497	Identifier	bs		2	0					
+ANR	498	Argument	& row -> gb		2	2					
+ANR	499	UnaryOperationExpression	& row -> gb		2	0					
+ANR	500	UnaryOperator	&		2	0					
+ANR	501	PtrMemberAccess	row -> gb		2	1					
+ANR	502	Identifier	row		2	0					
+ANR	503	Identifier	gb		2	1					
+ANR	504	Argument	ctx -> run_vlc . table		2	3					
+ANR	505	MemberAccess	ctx -> run_vlc . table		2	0					
+ANR	506	PtrMemberAccess	ctx -> run_vlc		2	0					
+ANR	507	Identifier	ctx		2	0					
+ANR	508	Identifier	run_vlc		2	1					
+ANR	509	Identifier	table		2	1					
+ANR	510	Argument	DNXHD_VLC_BITS		2	4					
+ANR	511	Identifier	DNXHD_VLC_BITS		2	0					
+ANR	512	Argument	2		2	5					
+ANR	513	PrimaryExpression	2		2	0					
+ANR	514	ExpressionStatement	i += ctx -> cid_table -> run [ index2 ]	149:12:2593:2625	2	2	True				
+ANR	515	AssignmentExpression	i += ctx -> cid_table -> run [ index2 ]		2	0		+=			
+ANR	516	Identifier	i		2	0					
+ANR	517	ArrayIndexing	ctx -> cid_table -> run [ index2 ]		2	1					
+ANR	518	PtrMemberAccess	ctx -> cid_table -> run		2	0					
+ANR	519	PtrMemberAccess	ctx -> cid_table		2	0					
+ANR	520	Identifier	ctx		2	0					
+ANR	521	Identifier	cid_table		2	1					
+ANR	522	Identifier	run		2	1					
+ANR	523	Identifier	index2		2	1					
+ANR	524	IfStatement	if ( ++ i > 63 )		2	6					
+ANR	525	Condition	++ i > 63	155:12:2653:2660	2	0	True				
+ANR	526	RelationalExpression	++ i > 63		2	0		>			
+ANR	527	UnaryExpression	++ i		2	0					
+ANR	528	IncDec	++		2	0					
+ANR	529	Identifier	i		2	1					
+ANR	530	PrimaryExpression	63		2	1					
+ANR	531	CompoundStatement		143:22:2252:2252	2	1					
+ANR	532	ExpressionStatement	"av_log ( ctx -> avctx , AV_LOG_ERROR , ""ac tex damaged %d, %d\\n"" , n , i )"	157:12:2678:2743	2	0	True				
+ANR	533	CallExpression	"av_log ( ctx -> avctx , AV_LOG_ERROR , ""ac tex damaged %d, %d\\n"" , n , i )"		2	0					
+ANR	534	Callee	av_log		2	0					
+ANR	535	Identifier	av_log		2	0					
+ANR	536	ArgumentList	ctx -> avctx		2	1					
+ANR	537	Argument	ctx -> avctx		2	0					
+ANR	538	PtrMemberAccess	ctx -> avctx		2	0					
+ANR	539	Identifier	ctx		2	0					
+ANR	540	Identifier	avctx		2	1					
+ANR	541	Argument	AV_LOG_ERROR		2	1					
+ANR	542	Identifier	AV_LOG_ERROR		2	0					
+ANR	543	Argument	"""ac tex damaged %d, %d\\n"""		2	2					
+ANR	544	PrimaryExpression	"""ac tex damaged %d, %d\\n"""		2	0					
+ANR	545	Argument	n		2	3					
+ANR	546	Identifier	n		2	0					
+ANR	547	Argument	i		2	4					
+ANR	548	Identifier	i		2	0					
+ANR	549	ExpressionStatement	ret = - 1	159:12:2758:2766	2	1	True				
+ANR	550	AssignmentExpression	ret = - 1		2	0		=			
+ANR	551	Identifier	ret		2	0					
+ANR	552	UnaryOperationExpression	- 1		2	1					
+ANR	553	UnaryOperator	-		2	0					
+ANR	554	PrimaryExpression	1		2	1					
+ANR	555	BreakStatement	break ;	161:12:2781:2786	2	2	True				
+ANR	556	ExpressionStatement	j = ctx -> scantable . permutated [ i ]	167:8:2810:2846	2	7	True				
+ANR	557	AssignmentExpression	j = ctx -> scantable . permutated [ i ]		2	0		=			
+ANR	558	Identifier	j		2	0					
+ANR	559	ArrayIndexing	ctx -> scantable . permutated [ i ]		2	1					
+ANR	560	MemberAccess	ctx -> scantable . permutated		2	0					
+ANR	561	PtrMemberAccess	ctx -> scantable		2	0					
+ANR	562	Identifier	ctx		2	0					
+ANR	563	Identifier	scantable		2	1					
+ANR	564	Identifier	permutated		2	1					
+ANR	565	Identifier	i		2	1					
+ANR	566	ExpressionStatement	level *= scale [ i ]	169:8:2857:2874	2	8	True				
+ANR	567	AssignmentExpression	level *= scale [ i ]		2	0		*=			
+ANR	568	Identifier	level		2	0					
+ANR	569	ArrayIndexing	scale [ i ]		2	1					
+ANR	570	Identifier	scale		2	0					
+ANR	571	Identifier	i		2	1					
+ANR	572	ExpressionStatement	level += scale [ i ] >> 1	171:8:2885:2907	2	9	True				
+ANR	573	AssignmentExpression	level += scale [ i ] >> 1		2	0		+=			
+ANR	574	Identifier	level		2	0					
+ANR	575	ShiftExpression	scale [ i ] >> 1		2	1		>>			
+ANR	576	ArrayIndexing	scale [ i ]		2	0					
+ANR	577	Identifier	scale		2	0					
+ANR	578	Identifier	i		2	1					
+ANR	579	PrimaryExpression	1		2	1					
+ANR	580	IfStatement	if ( level_bias < 32 || weight_matrix [ i ] != level_bias )		2	10					
+ANR	581	Condition	level_bias < 32 || weight_matrix [ i ] != level_bias	173:12:2922:2970	2	0	True				
+ANR	582	OrExpression	level_bias < 32 || weight_matrix [ i ] != level_bias		2	0		||			
+ANR	583	RelationalExpression	level_bias < 32		2	0		<			
+ANR	584	Identifier	level_bias		2	0					
+ANR	585	PrimaryExpression	32		2	1					
+ANR	586	EqualityExpression	weight_matrix [ i ] != level_bias		2	1		!=			
+ANR	587	ArrayIndexing	weight_matrix [ i ]		2	0					
+ANR	588	Identifier	weight_matrix		2	0					
+ANR	589	Identifier	i		2	1					
+ANR	590	Identifier	level_bias		2	1					
+ANR	591	ExpressionStatement	level += level_bias	175:12:2986:3005	2	1	True				
+ANR	592	AssignmentExpression	level += level_bias		2	0		+=			
+ANR	593	Identifier	level		2	0					
+ANR	594	Identifier	level_bias		2	1					
+ANR	595	ExpressionStatement	level >>= level_shift	177:8:3038:3059	2	11	True				
+ANR	596	AssignmentExpression	level >>= level_shift		2	0		>>=			
+ANR	597	Identifier	level		2	0					
+ANR	598	Identifier	level_shift		2	1					
+ANR	599	ExpressionStatement	block [ j ] = ( level ^ sign ) - sign	181:8:3072:3104	2	12	True				
+ANR	600	AssignmentExpression	block [ j ] = ( level ^ sign ) - sign		2	0		=			
+ANR	601	ArrayIndexing	block [ j ]		2	0					
+ANR	602	Identifier	block		2	0					
+ANR	603	Identifier	j		2	1					
+ANR	604	AdditiveExpression	( level ^ sign ) - sign		2	1		-			
+ANR	605	ExclusiveOrExpression	level ^ sign		2	0		^			
+ANR	606	Identifier	level		2	0					
+ANR	607	Identifier	sign		2	1					
+ANR	608	Identifier	sign		2	1					
+ANR	609	ExpressionStatement	"UPDATE_CACHE ( bs , & row -> gb )"	185:8:3117:3143	2	13	True				
+ANR	610	CallExpression	"UPDATE_CACHE ( bs , & row -> gb )"		2	0					
+ANR	611	Callee	UPDATE_CACHE		2	0					
+ANR	612	Identifier	UPDATE_CACHE		2	0					
+ANR	613	ArgumentList	bs		2	1					
+ANR	614	Argument	bs		2	0					
+ANR	615	Identifier	bs		2	0					
+ANR	616	Argument	& row -> gb		2	1					
+ANR	617	UnaryOperationExpression	& row -> gb		2	0					
+ANR	618	UnaryOperator	&		2	0					
+ANR	619	PtrMemberAccess	row -> gb		2	1					
+ANR	620	Identifier	row		2	0					
+ANR	621	Identifier	gb		2	1					
+ANR	622	ExpressionStatement	"GET_VLC ( index1 , bs , & row -> gb , ctx -> ac_vlc . table , DNXHD_VLC_BITS , 2 )"	187:8:3154:3238	2	14	True				
+ANR	623	CallExpression	"GET_VLC ( index1 , bs , & row -> gb , ctx -> ac_vlc . table , DNXHD_VLC_BITS , 2 )"		2	0					
+ANR	624	Callee	GET_VLC		2	0					
+ANR	625	Identifier	GET_VLC		2	0					
+ANR	626	ArgumentList	index1		2	1					
+ANR	627	Argument	index1		2	0					
+ANR	628	Identifier	index1		2	0					
+ANR	629	Argument	bs		2	1					
+ANR	630	Identifier	bs		2	0					
+ANR	631	Argument	& row -> gb		2	2					
+ANR	632	UnaryOperationExpression	& row -> gb		2	0					
+ANR	633	UnaryOperator	&		2	0					
+ANR	634	PtrMemberAccess	row -> gb		2	1					
+ANR	635	Identifier	row		2	0					
+ANR	636	Identifier	gb		2	1					
+ANR	637	Argument	ctx -> ac_vlc . table		2	3					
+ANR	638	MemberAccess	ctx -> ac_vlc . table		2	0					
+ANR	639	PtrMemberAccess	ctx -> ac_vlc		2	0					
+ANR	640	Identifier	ctx		2	0					
+ANR	641	Identifier	ac_vlc		2	1					
+ANR	642	Identifier	table		2	1					
+ANR	643	Argument	DNXHD_VLC_BITS		2	4					
+ANR	644	Identifier	DNXHD_VLC_BITS		2	0					
+ANR	645	Argument	2		2	5					
+ANR	646	PrimaryExpression	2		2	0					
+ANR	647	ExpressionStatement	"CLOSE_READER ( bs , & row -> gb )"	195:4:3254:3280	2	20	True				
+ANR	648	CallExpression	"CLOSE_READER ( bs , & row -> gb )"		2	0					
+ANR	649	Callee	CLOSE_READER		2	0					
+ANR	650	Identifier	CLOSE_READER		2	0					
+ANR	651	ArgumentList	bs		2	1					
+ANR	652	Argument	bs		2	0					
+ANR	653	Identifier	bs		2	0					
+ANR	654	Argument	& row -> gb		2	1					
+ANR	655	UnaryOperationExpression	& row -> gb		2	0					
+ANR	656	UnaryOperator	&		2	0					
+ANR	657	PtrMemberAccess	row -> gb		2	1					
+ANR	658	Identifier	row		2	0					
+ANR	659	Identifier	gb		2	1					
+ANR	660	ReturnStatement	return ret ;	197:4:3287:3297	2	21	True				
+ANR	661	Identifier	ret		2	0					
+ANR	662	ReturnType	static av_always_inline int		2	1					
+ANR	663	Identifier	dnxhd_decode_dct_block		2	2					
+ANR	664	ParameterList	"const DNXHDContext * ctx , RowContext * row , int n , int index_bits , int level_bias , int level_shift"		2	3					
+ANR	665	Parameter	const DNXHDContext * ctx	1:51:51:73	2	0	True				
+ANR	666	ParameterType	const DNXHDContext *		2	0					
+ANR	667	Identifier	ctx		2	1					
+ANR	668	Parameter	RowContext * row	3:51:128:142	2	1	True				
+ANR	669	ParameterType	RowContext *		2	0					
+ANR	670	Identifier	row		2	1					
+ANR	671	Parameter	int n	5:51:197:201	2	2	True				
+ANR	672	ParameterType	int		2	0					
+ANR	673	Identifier	n		2	1					
+ANR	674	Parameter	int index_bits	7:51:256:269	2	3	True				
+ANR	675	ParameterType	int		2	0					
+ANR	676	Identifier	index_bits		2	1					
+ANR	677	Parameter	int level_bias	9:51:324:337	2	4	True				
+ANR	678	ParameterType	int		2	0					
+ANR	679	Identifier	level_bias		2	1					
+ANR	680	Parameter	int level_shift	11:51:392:406	2	5	True				
+ANR	681	ParameterType	int		2	0					
+ANR	682	Identifier	level_shift		2	1					
+ANR	683	CFGEntryNode	ENTRY		2		True				
+ANR	684	CFGExitNode	EXIT		2		True				
+ANR	685	Symbol	DNXHD_VLC_BITS		2						
+ANR	686	Symbol	SHOW_SBITS		2						
+ANR	687	Symbol	* ac_flags		2						
+ANR	688	Symbol	* row		2						
+ANR	689	Symbol	ctx -> dc_vlc . table		2						
+ANR	690	Symbol	sign		2						
+ANR	691	Symbol	* ctx -> scantable . permutated		2						
+ANR	692	Symbol	* weight_matrix		2						
+ANR	693	Symbol	ctx -> bdsp		2						
+ANR	694	Symbol	NEG_USR32		2						
+ANR	695	Symbol	len		2						
+ANR	696	Symbol	ctx -> run_vlc . table		2						
+ANR	697	Symbol	eob_index		2						
+ANR	698	Symbol	block		2						
+ANR	699	Symbol	row -> blocks		2						
+ANR	700	Symbol	level_shift		2						
+ANR	701	Symbol	& row -> gb		2						
+ANR	702	Symbol	ret		2						
+ANR	703	Symbol	ctx -> is_444		2						
+ANR	704	Symbol	level		2						
+ANR	705	Symbol	ctx		2						
+ANR	706	Symbol	* ctx -> scantable		2						
+ANR	707	Symbol	SHOW_UBITS		2						
+ANR	708	Symbol	* ctx -> cid_table -> run		2						
+ANR	709	Symbol	* * row		2						
+ANR	710	Symbol	ctx -> avctx		2						
+ANR	711	Symbol	* scale		2						
+ANR	712	Symbol	row -> chroma_scale		2						
+ANR	713	Symbol	GET_CACHE		2						
+ANR	714	Symbol	ctx -> scantable . permutated		2						
+ANR	715	Symbol	ac_level		2						
+ANR	716	Symbol	weight_matrix		2						
+ANR	717	Symbol	ctx -> cid_table -> eob_index		2						
+ANR	718	Symbol	ctx -> ac_vlc . table		2						
+ANR	719	Symbol	ctx -> cid_table -> run		2						
+ANR	720	Symbol	* component		2						
+ANR	721	Symbol	ctx -> cid_table -> ac_level		2						
+ANR	722	Symbol	flags		2						
+ANR	723	Symbol	index2		2						
+ANR	724	Symbol	scale		2						
+ANR	725	Symbol	* * ctx -> cid_table		2						
+ANR	726	Symbol	row -> last_dc		2						
+ANR	727	Symbol	row -> luma_scale		2						
+ANR	728	Symbol	ctx -> scantable		2						
+ANR	729	Symbol	bs		2						
+ANR	730	Symbol	ctx -> cid_table		2						
+ANR	731	Symbol	index_bits		2						
+ANR	732	Symbol	* row -> blocks		2						
+ANR	733	Symbol	row		2						
+ANR	734	Symbol	level_bias		2						
+ANR	735	Symbol	DNXHD_DC_VLC_BITS		2						
+ANR	736	Symbol	~level		2						
+ANR	737	Symbol	AV_LOG_ERROR		2						
+ANR	738	Symbol	* * * ctx		2						
+ANR	739	Symbol	i		2						
+ANR	740	Symbol	ctx -> cid_table -> ac_flags		2						
+ANR	741	Symbol	j		2						
+ANR	742	Symbol	ctx -> run_vlc		2						
+ANR	743	Symbol	ctx -> dc_vlc		2						
+ANR	744	Symbol	ctx -> ac_vlc		2						
+ANR	745	Symbol	ac_flags		2						
+ANR	746	Symbol	n		2						
+ANR	747	Symbol	* ctx		2						
+ANR	748	Symbol	* ac_level		2						
+ANR	749	Symbol	ctx -> cid_table -> chroma_weight		2						
+ANR	750	Symbol	* block		2						
+ANR	751	Symbol	ctx -> cid_table -> luma_weight		2						
+ANR	752	Symbol	component		2						
+ANR	753	Symbol	* i		2						
+ANR	754	Symbol	* index2		2						
+ANR	755	Symbol	* j		2						
+ANR	756	Symbol	index1		2						
+ANR	757	Symbol	* index1		2						
+ANR	758	Symbol	* n		2						
+ANR	759	Symbol	* row -> last_dc		2						
+ANR	760	Symbol	* * ctx		2						
+ANR	761	Symbol	* ctx -> cid_table		2						

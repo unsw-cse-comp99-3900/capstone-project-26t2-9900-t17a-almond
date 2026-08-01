@@ -1,0 +1,223 @@
+{
+  "comparison": {
+    "sample": "devign__06_non_vulnerable_static_void_test_qemu_strtosz_units",
+    "action": "winner_xfg_feature_mask",
+    "method_family": "winner_xfg",
+    "budget": 7,
+    "seed": 2026,
+    "function": "test_qemu_strtosz_units",
+    "true_label": 0,
+    "target_label": 1,
+    "baseline_correct": true,
+    "baseline_eligible": true,
+    "status": "success",
+    "base_label": 0,
+    "variant_label": 0,
+    "flipped": false,
+    "attack_success": false,
+    "prediction_status": "ok",
+    "skipped_empty_xfg": 0,
+    "base_prob": 0.001614067587070167,
+    "variant_prob": 0.02876017615199089,
+    "delta_probability": 0.027146108564920723,
+    "base_nodes": 25,
+    "variant_nodes": 25,
+    "delta_nodes": 0,
+    "base_edges": 24,
+    "variant_edges": 24,
+    "delta_edges": 0,
+    "base_xfg_count": 8,
+    "variant_xfg_count": 8,
+    "winner_category": "arith",
+    "winner_key_line": 89,
+    "winner_raw_nodes": 3,
+    "winner_nodes": 3,
+    "winner_fallback": "winner_xfg",
+    "requested_count": 7,
+    "applied_count": 7,
+    "budget_fully_applied": true,
+    "nested_prefix_verified": true,
+    "runtime_ms": 27.35194899923954,
+    "operations": [
+      {
+        "step": 1,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          21
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 21 from source line 21 to key-line line 89"
+      },
+      {
+        "step": 2,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          19
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 19 from source line 19 to key-line line 89"
+      },
+      {
+        "step": 3,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          85
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 85 from source line 85 to key-line line 89"
+      },
+      {
+        "step": 4,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          5
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 5 from source line 5 to key-line line 89"
+      },
+      {
+        "step": 5,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          7
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 7 from source line 7 to key-line line 89"
+      },
+      {
+        "step": 6,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          9
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 9 from source line 9 to key-line line 89"
+      },
+      {
+        "step": 7,
+        "action": "winner_xfg_feature_mask",
+        "target_nodes": [
+          11
+        ],
+        "removed_edges": [],
+        "added_edges": [],
+        "details": "remapped winner-XFG node 11 from source line 11 to key-line line 89"
+      }
+    ],
+    "error": ""
+  },
+  "prediction": {
+    "status": "ok",
+    "probability": 0.02876017615199089,
+    "predicted_label": 0,
+    "xfg_count": 8,
+    "xfg_predictions": [
+      {
+        "category": "arith",
+        "key_line": 89,
+        "nodes": [
+          89,
+          19,
+          21
+        ],
+        "vulnerability_probability": 1.822036392695736e-05,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 65,
+        "nodes": [
+          65,
+          21,
+          13
+        ],
+        "vulnerability_probability": 0.0024605083744972944,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 33,
+        "nodes": [
+          33,
+          5,
+          21
+        ],
+        "vulnerability_probability": 0.028270762413740158,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 41,
+        "nodes": [
+          41,
+          21,
+          7
+        ],
+        "vulnerability_probability": 0.028760161250829697,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 73,
+        "nodes": [
+          73,
+          21,
+          15
+        ],
+        "vulnerability_probability": 0.0024605083744972944,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 49,
+        "nodes": [
+          49,
+          21,
+          9
+        ],
+        "vulnerability_probability": 0.028760146349668503,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 81,
+        "nodes": [
+          81,
+          21,
+          17
+        ],
+        "vulnerability_probability": 0.0024605083744972944,
+        "predicted_label": 0
+      },
+      {
+        "category": "arith",
+        "key_line": 57,
+        "nodes": [
+          57,
+          11,
+          21
+        ],
+        "vulnerability_probability": 0.02876017615199089,
+        "predicted_label": 0
+      }
+    ],
+    "winner": {
+      "category": "arith",
+      "key_line": 57,
+      "nodes": [
+        57,
+        11,
+        21
+      ],
+      "probability": 0.02876017615199089
+    },
+    "skipped_empty_xfg": 0,
+    "runtime_ms": 26.564798000435985
+  }
+}

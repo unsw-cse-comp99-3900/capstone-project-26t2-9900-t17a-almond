@@ -1,0 +1,108 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260731_124703_code_all_input_sources/runs/perturbed/cvefixes__04_fixed_ia64_patch_rse__dead_statement__c1/_work/source/cvefixes__04_fixed_ia64_patch_rse__dead_statement__c1.c								
+ANR	2	Function	ia64_patch_rse	1:0:0:322							
+ANR	3	FunctionDef	"ia64_patch_rse (unsigned long start , unsigned long end)"		2	0					
+ANR	4	CompoundStatement		2:0:56:322	2	0					
+ANR	5	IdentifierDeclStatement	int dwk_dummy_1 = 0 ;	3:4:62:81	2	0	True				
+ANR	6	IdentifierDecl	dwk_dummy_1 = 0		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	dwk_dummy_1		2	1					
+ANR	9	AssignmentExpression	dwk_dummy_1 = 0		2	2		=			
+ANR	10	Identifier	dwk_dummy_1		2	0					
+ANR	11	PrimaryExpression	0		2	1					
+ANR	12	ExpressionStatement	dwk_dummy_1 += 0	4:4:87:103	2	1	True				
+ANR	13	AssignmentExpression	dwk_dummy_1 += 0		2	0		+=			
+ANR	14	Identifier	dwk_dummy_1		2	0					
+ANR	15	PrimaryExpression	0		2	1					
+ANR	16	IdentifierDeclStatement	s32 * offp = ( s32 * ) start ;	5:1:106:131	2	2	True				
+ANR	17	IdentifierDecl	* offp = ( s32 * ) start		2	0					
+ANR	18	IdentifierDeclType	s32 *		2	0					
+ANR	19	Identifier	offp		2	1					
+ANR	20	AssignmentExpression	* offp = ( s32 * ) start		2	2		=			
+ANR	21	Identifier	offp		2	0					
+ANR	22	CastExpression	( s32 * ) start		2	1					
+ANR	23	CastTarget	s32 *		2	0					
+ANR	24	Identifier	start		2	1					
+ANR	25	IdentifierDeclStatement	"u64 ip , * b ;"	6:1:134:144	2	3	True				
+ANR	26	IdentifierDecl	ip		2	0					
+ANR	27	IdentifierDeclType	u64		2	0					
+ANR	28	Identifier	ip		2	1					
+ANR	29	IdentifierDecl	* b		2	1					
+ANR	30	IdentifierDeclType	u64 *		2	0					
+ANR	31	Identifier	b		2	1					
+ANR	32	WhileStatement	while ( offp < ( s32 * ) end )		2	4					
+ANR	33	Condition	offp < ( s32 * ) end	8:8:155:172	2	0	True				
+ANR	34	RelationalExpression	offp < ( s32 * ) end		2	0		<			
+ANR	35	Identifier	offp		2	0					
+ANR	36	CastExpression	( s32 * ) end		2	1					
+ANR	37	CastTarget	s32 *		2	0					
+ANR	38	Identifier	end		2	1					
+ANR	39	CompoundStatement		7:28:118:118	2	1					
+ANR	40	ExpressionStatement	ip = ( u64 ) offp + * offp	9:2:179:202	2	0	True				
+ANR	41	AssignmentExpression	ip = ( u64 ) offp + * offp		2	0		=			
+ANR	42	Identifier	ip		2	0					
+ANR	43	AdditiveExpression	( u64 ) offp + * offp		2	1		+			
+ANR	44	CastExpression	( u64 ) offp		2	0					
+ANR	45	CastTarget	u64		2	0					
+ANR	46	Identifier	offp		2	1					
+ANR	47	UnaryOperationExpression	* offp		2	1					
+ANR	48	UnaryOperator	*		2	0					
+ANR	49	Identifier	offp		2	1					
+ANR	50	ExpressionStatement	b = ( u64 * ) ( ip & - 16 )	11:2:207:228	2	1	True				
+ANR	51	AssignmentExpression	b = ( u64 * ) ( ip & - 16 )		2	0		=			
+ANR	52	Identifier	b		2	0					
+ANR	53	CastExpression	( u64 * ) ( ip & - 16 )		2	1					
+ANR	54	CastTarget	u64 *		2	0					
+ANR	55	BitAndExpression	ip & - 16		2	1		&			
+ANR	56	Identifier	ip		2	0					
+ANR	57	UnaryOperationExpression	- 16		2	1					
+ANR	58	UnaryOperator	-		2	0					
+ANR	59	PrimaryExpression	16		2	1					
+ANR	60	ExpressionStatement	b [ 1 ] &= ~0xf800000L	12:2:232:251	2	2	True				
+ANR	61	AssignmentExpression	b [ 1 ] &= ~0xf800000L		2	0		&=			
+ANR	62	ArrayIndexing	b [ 1 ]		2	0					
+ANR	63	Identifier	b		2	0					
+ANR	64	PrimaryExpression	1		2	1					
+ANR	65	Identifier	~0xf800000L		2	1					
+ANR	66	ExpressionStatement	ia64_fc ( ( void * ) ip )	13:2:255:275	2	3	True				
+ANR	67	CallExpression	ia64_fc ( ( void * ) ip )		2	0					
+ANR	68	Callee	ia64_fc		2	0					
+ANR	69	Identifier	ia64_fc		2	0					
+ANR	70	ArgumentList	( void * ) ip		2	1					
+ANR	71	Argument	( void * ) ip		2	0					
+ANR	72	CastExpression	( void * ) ip		2	0					
+ANR	73	CastTarget	void *		2	0					
+ANR	74	Identifier	ip		2	1					
+ANR	75	ExpressionStatement	++ offp	14:2:279:285	2	4	True				
+ANR	76	UnaryExpression	++ offp		2	0					
+ANR	77	IncDec	++		2	0					
+ANR	78	Identifier	offp		2	1					
+ANR	79	ExpressionStatement	ia64_sync_i ( )	16:1:291:304	2	5	True				
+ANR	80	CallExpression	ia64_sync_i ( )		2	0					
+ANR	81	Callee	ia64_sync_i		2	0					
+ANR	82	Identifier	ia64_sync_i		2	0					
+ANR	83	ArgumentList			2	1					
+ANR	84	ExpressionStatement	ia64_srlz_i ( )	17:1:307:320	2	6	True				
+ANR	85	CallExpression	ia64_srlz_i ( )		2	0					
+ANR	86	Callee	ia64_srlz_i		2	0					
+ANR	87	Identifier	ia64_srlz_i		2	0					
+ANR	88	ArgumentList			2	1					
+ANR	89	Identifier	ia64_patch_rse		2	1					
+ANR	90	ParameterList	"unsigned long start , unsigned long end"		2	2					
+ANR	91	Parameter	unsigned long start	1:16:16:34	2	0	True				
+ANR	92	ParameterType	unsigned long		2	0					
+ANR	93	Identifier	start		2	1					
+ANR	94	Parameter	unsigned long end	1:37:37:53	2	1	True				
+ANR	95	ParameterType	unsigned long		2	0					
+ANR	96	Identifier	end		2	1					
+ANR	97	CFGEntryNode	ENTRY		2		True				
+ANR	98	CFGExitNode	EXIT		2		True				
+ANR	99	Symbol	b		2						
+ANR	100	Symbol	offp		2						
+ANR	101	Symbol	* offp		2						
+ANR	102	Symbol	~0xf800000L		2						
+ANR	103	Symbol	ip		2						
+ANR	104	Symbol	start		2						
+ANR	105	Symbol	end		2						
+ANR	106	Symbol	* b		2						
+ANR	107	Symbol	dwk_dummy_1		2						
