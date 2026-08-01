@@ -443,19 +443,79 @@ def group_setting_label(group: dict[str, object]) -> str:
     return str(group["budget"]) if strength.startswith("budget ") else strength
 
 
-METRIC_INTERVALS = {
-    "success_rate": ("success_low", "success_high"),
-    "coverage_rate": ("coverage_low", "coverage_high"),
-    "mean_delta": ("delta_low", "delta_high"),
-    "mean_abs_delta": ("abs_low", "abs_high"),
-    "mean_abs_nodes": ("nodes_low", "nodes_high"),
-    "mean_abs_edges": ("edges_low", "edges_high"),
+CHART_TERM_DETAILS = {
+    "key-series-line": (
+        "The same colour connects estimates from the same perturbation method at measured budgets; the segment is a visual guide, not an unmeasured result. "
+        "/ 同一种颜色连接同一扰动方法在已测Budget上的估计值；线段只帮助观察趋势，不代表中间未测试Budget也有结果。"
+    ),
+    "key-point": (
+        "A circle is the aggregate point estimate at one exact method-budget setting, calculated from valid scored observations; it is not an individual sample or a confidence interval. "
+        "/ 圆点是某个确定方法与Budget组合下、由有效评分记录汇总得到的点估计；它不是单个样本，也不是置信区间。"
+    ),
+    "key-bar-vertical": (
+        "Bar height encodes the aggregate point estimate from the zero baseline. Bar width and area have no statistical meaning. "
+        "/ 柱高从零基线开始表示汇总点估计；柱宽和柱面积没有额外统计含义。"
+    ),
+    "key-diverging-bar-vertical": (
+        "Distance from zero shows the magnitude of the mean signed change; the side of zero shows whether predicted vulnerability probability rose or fell. "
+        "/ 柱子离零线的距离表示平均带符号变化的大小；位于零线上方或下方表示漏洞预测概率上升或下降。"
+    ),
+    "key-zero": (
+        "The zero line means no probability change relative to the baseline prediction; it is not the model's classification threshold. "
+        "/ 零线表示相对基线预测概率没有变化；它不是模型将样本判为漏洞的分类阈值。"
+    ),
+    "key-n": (
+        "n is the number of valid scoreable observations used for that estimate after filtering. It may include repeated seeds and is not automatically the number of independent source programs. "
+        "/ n是过滤后真正参与该估计的有效可评分记录数；它可能包含重复Seed，不能自动当成独立源代码数量。"
+    ),
+    "key-box": (
+        "The box spans Q1 to Q3—the 25th to 75th percentiles—so it contains the middle 50% of observed sample-level changes. It is not a confidence interval or standard deviation. "
+        "/ 箱体从第25百分位数Q1延伸到第75百分位数Q3，包含中间50%的样本级变化；它不是置信区间，也不是标准差。"
+    ),
+    "key-median": (
+        "The median is the 50th percentile: half the observed changes are no greater and half are no smaller. It is less sensitive to extreme values than the mean. "
+        "/ 中位数是第50百分位数：一半观测变化不大于它，另一半不小于它；它比均值更不容易被极端值拉动。"
+    ),
+    "key-range": (
+        "Whiskers connect the smallest and largest values actually observed in this run. They are sensitive to extremes and are not 95% confidence intervals. "
+        "/ 须线连接本次run实际观测到的最小值和最大值，容易受极端样本影响，而且不是95%置信区间。"
+    ),
+    "key-paired-bars": (
+        "The two bars at one budget are calculated from the same sample-budget-seed keys scoreable by both families, so the input cohort is controlled. "
+        "/ 同一Budget下的两根柱只使用Random与Winner-XFG双方都能评分的相同sample-budget-seed键，因此输入队列保持一致。"
+    ),
+    "key-bar": (
+        "The paired-chart bar height is successful action variants divided by all scored action variants in the shared cohort. "
+        "/ 配对图柱高等于共同队列中的成功攻击变体数除以全部有效攻击变体数。"
+    ),
+    "key-label": (
+        "The percentage printed above a bar is the observed rate from this run, rounded for display; exact counts remain available in the evidence tables. "
+        "/ 柱顶百分比是本次run的观测比率，显示时经过四舍五入；精确计数仍保留在证据表中。"
+    ),
 }
 
 
-def metric_interval(group: dict[str, object], metric: str) -> tuple[float, float]:
-    low_key, high_key = METRIC_INTERVALS[metric]
-    return float(group[low_key]), float(group[high_key])
+def chart_key(*items: tuple[str, str], explanation: str | None = None) -> str:
+    """Render a visible, reusable legend for statistical chart marks."""
+    body = "".join(
+        f'<span class="chart-key-item"><span class="chart-key-symbol {html.escape(symbol)}" '
+        f'aria-hidden="true"></span><span class="chart-key-copy">'
+        f'<strong class="chart-key-term">{html.escape(label)}</strong>'
+        f'<span class="chart-key-detail">{html.escape(CHART_TERM_DETAILS.get(symbol, ""))}</span>'
+        '</span></span>'
+        for symbol, label in items
+    )
+    explanation_html = (
+        '<p class="chart-explanation"><strong>Chart explanation / 图表讲解:</strong> '
+        f'{html.escape(explanation)}</p>'
+        if explanation else ""
+    )
+    return (
+        '<div class="chart-key" role="note" aria-label="How to read this chart">'
+        '<strong>Terminology / 名词解释:</strong>'
+        f'<div class="chart-key-items">{body}</div>'
+        f'{explanation_html}</div>'
+    )
 
 
 def spread_label_positions(
@@ -488,8 +548,7 @@ def svg_budget_lines(groups: list[dict[str, object]], metric: str, label: str, p
     width, height = 1080, 500
     left, right, top, bottom = 84, 260, 34, 72
     plot_width, plot_height = width - left - right, height - top - bottom
-    _, upper_key = METRIC_INTERVALS[metric]
-    maximum = max((float(group[upper_key]) for group in groups), default=1.0)
+    maximum = max((float(group[metric]) for group in groups), default=1.0) * 1.15
     if percent:
         y_max = min(1.0, max(0.1, math.ceil(maximum * 10) / 10))
     else:
@@ -535,13 +594,9 @@ def svg_budget_lines(groups: list[dict[str, object]], metric: str, label: str, p
         marks.append(f'<path d="{path}" fill="none" stroke="{colour}" stroke-width="3"/>')
         for point in points:
             x, value = x_for(int(point["budget"])), float(point[metric])
-            low, high = metric_interval(point, metric)
             value_text = f"{value:.0%}" if percent else f"{value:.3f}"
             label_y = label_positions[(method, int(point["budget"]))] + 5
             marks.append(
-                f'<line x1="{x:.1f}" y1="{y_for(low):.1f}" x2="{x:.1f}" y2="{y_for(high):.1f}" stroke="{colour}" stroke-width="1.5"/>'
-                f'<line x1="{x - 5:.1f}" y1="{y_for(low):.1f}" x2="{x + 5:.1f}" y2="{y_for(low):.1f}" stroke="{colour}"/>'
-                f'<line x1="{x - 5:.1f}" y1="{y_for(high):.1f}" x2="{x + 5:.1f}" y2="{y_for(high):.1f}" stroke="{colour}"/>'
                 f'<circle cx="{x:.1f}" cy="{y_for(value):.1f}" r="6" fill="{colour}" stroke="white" stroke-width="2"/>'
                 f'<text class="point-label" x="{x + 8:.1f}" y="{label_y:.1f}">{value_text}</text>'
             )
@@ -553,68 +608,97 @@ def svg_budget_lines(groups: list[dict[str, object]], metric: str, label: str, p
         )
     return (
         '<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 1080 500" role="img" '
-        f'aria-label="{html.escape(label)} by budget with 95 percent confidence intervals">'
-        f'<title>{html.escape(label)} by budget</title><desc>Each line is one method. Budget is the only changing variable along the x axis. Error bars are 95 percent confidence intervals.</desc>'
+        f'aria-label="{html.escape(label)} observed estimates by budget">'
+        f'<title>{html.escape(label)} by budget</title><desc>Each line is one method. Budget is the only changing variable along the x axis. The chart shows observed estimates; uncertainty intervals remain in the Statistical evidence table.</desc>'
         f'{"".join(marks)}{"".join(legend)}'
         f'<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 18}" text-anchor="middle">Budget</text>'
         f'<text class="axis-title" transform="translate(20 {top + plot_height / 2:.1f}) rotate(-90)" text-anchor="middle">{html.escape(label)}</text>'
         '</svg></div>'
+        + chart_key(
+            ("key-series-line", "Coloured line = one fixed method across budgets"),
+            ("key-point", "Circle = observed estimate"),
+            explanation=(
+                "Control: each coloured line keeps the perturbation method fixed; only budget changes from left to right. "
+                "Use the slope to judge budget response, and compare points at the same budget to compare methods fairly. "
+                "The graph shows observed values; exact 95% intervals remain in Statistical evidence."
+            ),
+        )
     )
 
 
-def svg_fixed_comparison(groups: list[dict[str, object]], metric: str, label: str, percent: bool = False) -> str:
-    """Compare methods at one fixed setting using point estimates and 95% intervals."""
+def svg_fixed_comparison(
+    groups: list[dict[str, object]],
+    metric: str,
+    label: str,
+    percent: bool = False,
+    maximum: float | None = None,
+) -> str:
+    """Compare methods at one fixed setting using vertical observed-value bars."""
     shown = sorted(groups, key=lambda group: float(group[metric]), reverse=True)
-    width, left, right = 1080, 320, 150
-    row_height, top, bottom = 48, 48, 64
-    height = top + len(shown) * row_height + bottom
-    _, upper_key = METRIC_INTERVALS[metric]
-    maximum = max((float(group[upper_key]) for group in shown), default=1.0)
-    x_max = 1.0 if percent else max(0.01, math.ceil(maximum * 20) / 20)
-    plot_width = width - left - right
-
-    def x_for(value: float) -> float:
-        return left + max(0.0, min(value, x_max)) / x_max * plot_width
+    width = max(1080, 150 + len(shown) * 125)
+    height, left, right, top, bottom = 620, 90, 42, 42, 180
+    plot_width, plot_height = width - left - right, height - top - bottom
+    observed_maximum = max((float(group[metric]) for group in shown), default=1.0) * 1.15
+    if maximum is not None:
+        x_max = maximum
+    elif percent:
+        x_max = min(1.0, max(0.1, math.ceil(observed_maximum * 10) / 10))
+    else:
+        x_max = max(0.01, math.ceil(observed_maximum * 20) / 20)
+    def y_for(value: float) -> float:
+        return top + plot_height - max(0.0, min(value, x_max)) / x_max * plot_height
 
     marks: list[str] = []
     for tick in range(6):
         value = x_max * tick / 5
-        x = x_for(value)
+        y = y_for(value)
         tick_text = f"{value:.0%}" if percent else f"{value:.3f}"
-        marks.append(f'<line class="grid" x1="{x:.1f}" y1="{top - 15}" x2="{x:.1f}" y2="{height - bottom}"/>')
-        marks.append(f'<text class="axis-label" x="{x:.1f}" y="{height - 25}" text-anchor="middle">{tick_text}</text>')
+        marks.append(f'<line class="grid" x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}"/>')
+        marks.append(f'<text class="axis-label" x="{left - 12}" y="{y + 5:.1f}" text-anchor="end">{tick_text}</text>')
+    group_width = plot_width / max(1, len(shown))
+    bar_width = min(76.0, group_width * 0.58)
     for index, group in enumerate(shown):
-        y = top + index * row_height + 12
+        x = left + (index + 0.5) * group_width
         value = float(group[metric])
-        low, high = metric_interval(group, metric)
-        colour = SERIES_COLOURS[index % len(SERIES_COLOURS)]
+        colour = SERIES_COLOURS[0]
         value_text = f"{value:.1%}" if percent else f"{value:.4f}"
         evidence_count = (
             int(group["outcome_scored"])
             if metric == "success_rate"
             else int(group["scored"])
         )
+        bar_y = y_for(value)
+        bar_height = max(1.0, y_for(0.0) - bar_y)
+        label_y = max(top + 12, bar_y - 9)
+        method_y = top + plot_height + 28
         marks.append(
-            f'<text class="method-label" x="{left - 16}" y="{y + 5}" text-anchor="end">{html.escape(friendly_method(str(group["method"])))}</text>'
-            f'<line x1="{x_for(low):.1f}" y1="{y}" x2="{x_for(high):.1f}" y2="{y}" stroke="{colour}" stroke-width="3"/>'
-            f'<line x1="{x_for(low):.1f}" y1="{y - 6}" x2="{x_for(low):.1f}" y2="{y + 6}" stroke="{colour}"/>'
-            f'<line x1="{x_for(high):.1f}" y1="{y - 6}" x2="{x_for(high):.1f}" y2="{y + 6}" stroke="{colour}"/>'
-            f'<circle cx="{x_for(value):.1f}" cy="{y}" r="6" fill="{colour}" stroke="white" stroke-width="2"/>'
-            f'<text class="point-label" x="{x_for(high) + 10:.1f}" y="{y + 5}">{value_text} (n={evidence_count})</text>'
+            f'<rect class="estimate-bar vertical-estimate-bar" x="{x - bar_width / 2:.1f}" y="{bar_y:.1f}" width="{bar_width:.1f}" height="{bar_height:.1f}" fill="{colour}" fill-opacity="0.72" rx="2"/>'
+            f'<text class="point-label" x="{x:.1f}" y="{label_y:.1f}" text-anchor="middle">{value_text} (n={evidence_count})</text>'
+            f'<text class="method-label rotated-method-label" x="{x:.1f}" y="{method_y:.1f}" text-anchor="end" transform="rotate(-38 {x:.1f} {method_y:.1f})">{html.escape(friendly_method(str(group["method"])))}</text>'
         )
     return (
-        f'<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 {width} {height}" role="img" '
-        f'aria-label="{html.escape(label)} by method at a fixed setting with 95 percent confidence intervals">'
-        f'<title>{html.escape(label)} at a fixed setting</title><desc>Methods are compared at the same configured perturbation setting. Points are estimates and horizontal bars are 95 percent confidence intervals.</desc>'
-        f'{"".join(marks)}<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 4}" text-anchor="middle">{html.escape(label)}</text>'
+        f'<div class="chart-wrap"><svg class="comparison-chart vertical-bar-chart" style="min-width:{width}px" viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label="{html.escape(label)} observed-value vertical bar chart by method at a fixed setting">'
+        f'<title>{html.escape(label)} at a fixed setting</title><desc>Methods are compared at the same configured perturbation setting. Bar heights show observed estimates; uncertainty intervals remain in the Statistical evidence table.</desc>'
+        f'{"".join(marks)}<text class="axis-title" transform="translate(20 {top + plot_height / 2:.1f}) rotate(-90)" text-anchor="middle">{html.escape(label)}</text>'
+        f'<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 8}" text-anchor="middle">Perturbation method</text>'
         '</svg></div>'
+        + chart_key(
+            ("key-bar-vertical", "Bar height = observed estimate"),
+            ("key-n", "n = eligible scored variants used for this estimate"),
+            explanation=(
+                "Control: the configured perturbation setting is fixed; only the perturbation method changes between bars. "
+                "A taller bar means a larger observed value under the same setting. Read n before treating small differences as meaningful, "
+                "and consult Statistical evidence for the exact 95% intervals."
+            ),
+        )
     )
 
 
 def signed_domain(groups: list[dict[str, object]], metric: str) -> tuple[float, float]:
     """Create a zero-inclusive domain for directional effects."""
-    lows, highs = zip(*(metric_interval(group, metric) for group in groups))
-    minimum, maximum = min(0.0, min(lows)), max(0.0, max(highs))
+    values = [float(group[metric]) for group in groups]
+    minimum, maximum = min(0.0, min(values)), max(0.0, max(values))
     if minimum == maximum:
         return -0.05, 0.05
     padding = (maximum - minimum) * 0.08
@@ -672,12 +756,8 @@ def svg_budget_signed_lines(groups: list[dict[str, object]], metric: str, label:
         marks.append(f'<path d="{path}" fill="none" stroke="{colour}" stroke-width="3"/>')
         for point in points:
             x, value = x_for(int(point["budget"])), float(point[metric])
-            low, high = metric_interval(point, metric)
             label_y = label_positions[(method, int(point["budget"]))] + 5
             marks.append(
-                f'<line x1="{x:.1f}" y1="{y_for(low):.1f}" x2="{x:.1f}" y2="{y_for(high):.1f}" stroke="{colour}" stroke-width="1.5"/>'
-                f'<line x1="{x - 5:.1f}" y1="{y_for(low):.1f}" x2="{x + 5:.1f}" y2="{y_for(low):.1f}" stroke="{colour}"/>'
-                f'<line x1="{x - 5:.1f}" y1="{y_for(high):.1f}" x2="{x + 5:.1f}" y2="{y_for(high):.1f}" stroke="{colour}"/>'
                 f'<circle cx="{x:.1f}" cy="{y_for(value):.1f}" r="6" fill="{colour}" stroke="white" stroke-width="2"/>'
                 f'<text class="point-label" x="{x + 8:.1f}" y="{label_y:.1f}">{value:+.3f}</text>'
             )
@@ -689,55 +769,75 @@ def svg_budget_signed_lines(groups: list[dict[str, object]], metric: str, label:
         )
     return (
         '<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 1080 500" role="img" '
-        f'aria-label="{html.escape(label)} by budget with 95 percent confidence intervals">'
-        f'<title>{html.escape(label)} by budget</title><desc>Each line fixes the method and changes only budget. Values above zero increase the predicted vulnerability probability; values below zero decrease it.</desc>'
+        f'aria-label="{html.escape(label)} observed estimates by budget">'
+        f'<title>{html.escape(label)} by budget</title><desc>Each line fixes the method and changes only budget. Values above zero increase the predicted vulnerability probability; values below zero decrease it. Uncertainty intervals remain in the Statistical evidence table.</desc>'
         f'{"".join(marks)}{"".join(legend)}'
         f'<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 18}" text-anchor="middle">Budget</text>'
         f'<text class="axis-title" transform="translate(20 {top + plot_height / 2:.1f}) rotate(-90)" text-anchor="middle">{html.escape(label)}</text>'
         '</svg></div>'
+        + chart_key(
+            ("key-series-line", "Coloured line = one fixed method across budgets"),
+            ("key-point", "Circle = mean signed probability change"),
+            ("key-zero", "Dark reference line = no average change"),
+            explanation=(
+                "Control: each line fixes one perturbation method and changes only budget. Values above zero raise the model's predicted "
+                "vulnerability probability on average; values below zero lower it. A line moving farther from zero shows a stronger directional budget response."
+            ),
+        )
     )
 
 
 def svg_fixed_signed_comparison(groups: list[dict[str, object]], metric: str, label: str) -> str:
-    """Compare signed method effects at one fixed setting around a zero reference."""
+    """Compare signed method effects as vertical diverging bars around zero."""
     shown = sorted(groups, key=lambda group: float(group[metric]))
-    width, left, right = 1080, 320, 150
-    row_height, top, bottom = 48, 48, 64
-    height = top + len(shown) * row_height + bottom
+    width = max(1080, 150 + len(shown) * 125)
+    height, left, right, top, bottom = 650, 90, 42, 42, 180
+    plot_width, plot_height = width - left - right, height - top - bottom
     x_min, x_max = signed_domain(shown, metric)
-    plot_width = width - left - right
 
-    def x_for(value: float) -> float:
-        return left + (value - x_min) / (x_max - x_min) * plot_width
+    def y_for(value: float) -> float:
+        return top + (x_max - value) / (x_max - x_min) * plot_height
 
     marks: list[str] = []
     for tick in range(6):
         value = x_min + (x_max - x_min) * tick / 5
-        x = x_for(value)
-        marks.append(f'<line class="grid" x1="{x:.1f}" y1="{top - 15}" x2="{x:.1f}" y2="{height - bottom}"/>')
-        marks.append(f'<text class="axis-label" x="{x:.1f}" y="{height - 25}" text-anchor="middle">{value:+.3f}</text>')
+        y = y_for(value)
+        marks.append(f'<line class="grid" x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}"/>')
+        marks.append(f'<text class="axis-label" x="{left - 12}" y="{y + 5:.1f}" text-anchor="end">{value:+.3f}</text>')
     marks.append(
-        f'<line class="zero-line" x1="{x_for(0):.1f}" y1="{top - 15}" x2="{x_for(0):.1f}" y2="{height - bottom}"/>'
+        f'<line class="zero-line" x1="{left}" y1="{y_for(0):.1f}" x2="{left + plot_width}" y2="{y_for(0):.1f}"/>'
     )
+    group_width = plot_width / max(1, len(shown))
+    bar_width = min(76.0, group_width * 0.58)
     for index, group in enumerate(shown):
-        y = top + index * row_height + 12
+        x = left + (index + 0.5) * group_width
         value = float(group[metric])
-        low, high = metric_interval(group, metric)
-        colour = SERIES_COLOURS[index % len(SERIES_COLOURS)]
+        colour = "#2563eb" if value < 0 else "#d97706"
+        zero_y, value_y = y_for(0.0), y_for(value)
+        bar_y, bar_height = min(zero_y, value_y), max(1.0, abs(value_y - zero_y))
+        label_y = value_y - 10 if value >= 0 else value_y + 20
+        method_y = top + plot_height + 28
         marks.append(
-            f'<text class="method-label" x="{left - 16}" y="{y + 5}" text-anchor="end">{html.escape(friendly_method(str(group["method"])))}</text>'
-            f'<line x1="{x_for(low):.1f}" y1="{y}" x2="{x_for(high):.1f}" y2="{y}" stroke="{colour}" stroke-width="3"/>'
-            f'<line x1="{x_for(low):.1f}" y1="{y - 6}" x2="{x_for(low):.1f}" y2="{y + 6}" stroke="{colour}"/>'
-            f'<line x1="{x_for(high):.1f}" y1="{y - 6}" x2="{x_for(high):.1f}" y2="{y + 6}" stroke="{colour}"/>'
-            f'<circle cx="{x_for(value):.1f}" cy="{y}" r="6" fill="{colour}" stroke="white" stroke-width="2"/>'
-            f'<text class="point-label" x="{x_for(high) + 10:.1f}" y="{y + 5}">{value:+.4f} (n={int(group["scored"])})</text>'
+            f'<rect class="estimate-bar signed-estimate-bar vertical-estimate-bar" x="{x - bar_width / 2:.1f}" y="{bar_y:.1f}" width="{bar_width:.1f}" height="{bar_height:.1f}" fill="{colour}" fill-opacity="0.72" rx="2"/>'
+            f'<text class="point-label" x="{x:.1f}" y="{label_y:.1f}" text-anchor="middle">{value:+.4f} (n={int(group["scored"])})</text>'
+            f'<text class="method-label rotated-method-label" x="{x:.1f}" y="{method_y:.1f}" text-anchor="end" transform="rotate(-38 {x:.1f} {method_y:.1f})">{html.escape(friendly_method(str(group["method"])))}</text>'
         )
     return (
-        f'<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 {width} {height}" role="img" '
-        f'aria-label="{html.escape(label)} by method at a fixed setting">'
-        f'<title>{html.escape(label)} at a fixed setting</title><desc>Methods are compared at one fixed configured setting. The darker reference line is zero; estimates to either side show effect direction.</desc>'
-        f'{"".join(marks)}<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 4}" text-anchor="middle">{html.escape(label)}</text>'
+        f'<div class="chart-wrap"><svg class="comparison-chart vertical-bar-chart" style="min-width:{width}px" viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label="{html.escape(label)} vertical diverging bar chart by method at a fixed setting">'
+        f'<title>{html.escape(label)} at a fixed setting</title><desc>Methods are compared at one fixed configured setting. Vertical bars encode observed mean signed change and the darker horizontal reference line is zero. Uncertainty intervals remain in the Statistical evidence table.</desc>'
+        f'{"".join(marks)}<text class="axis-title" transform="translate(20 {top + plot_height / 2:.1f}) rotate(-90)" text-anchor="middle">{html.escape(label)}</text>'
+        f'<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 8}" text-anchor="middle">Perturbation method</text>'
         '</svg></div>'
+        + chart_key(
+            ("key-diverging-bar-vertical", "Bar height and direction = mean signed change"),
+            ("key-zero", "Dark horizontal line = no average change"),
+            ("key-n", "n = scored variants used for the mean"),
+            explanation=(
+                "Control: all bars use the same configured perturbation setting; only method changes. Bars above zero increase predicted "
+                "vulnerability probability on average, while bars below zero decrease it. Compare distance from zero for effect strength and n for evidence size."
+            ),
+        )
     )
 
 
@@ -802,6 +902,16 @@ def svg_fixed_delta_boxplots(rows: list[dict[str, str]]) -> str:
         f'<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 {width} {height}" role="img" aria-label="Sample probability change distributions by method">'
         '<title>Sample-level probability change distributions</title><desc>Methods are compared at the same configured setting. Boxes span the interquartile range, the inner line is the median, and whiskers show the observed range.</desc>'
         f'{"".join(marks)}<text class="axis-title" x="{left + plot_width / 2:.1f}" y="{height - 4}" text-anchor="middle">Signed probability change</text></svg></div>'
+        + chart_key(
+            ("key-box", "Box = middle 50% of sample changes (Q1 to Q3)"),
+            ("key-median", "Thick line inside box = median"),
+            ("key-range", "Whiskers = observed minimum to maximum"),
+            ("key-zero", "Dark reference line = no probability change"),
+            explanation=(
+                "Control: the configured setting is fixed and only perturbation method changes between rows. The box describes typical sample-level effects, "
+                "while the whiskers show the actual extremes in this run, not a confidence interval. A box crossing zero means samples did not all change in one direction."
+            ),
+        )
     )
 
 
@@ -821,45 +931,75 @@ def svg_budget_delta_small_multiples(rows: list[dict[str, str]]) -> str:
         minimum, maximum = -0.05, 0.05
     padding = (maximum - minimum) * 0.08
     minimum, maximum = minimum - padding, maximum + padding
-    width, height = 1080, 430
-    left, right, top, bottom, panel_gap = 72, 24, 52, 68, 32
-    plot_height = height - top - bottom
-    panel_width = (width - left - right - panel_gap * (len(methods) - 1)) / max(1, len(methods))
+    columns = min(3, max(1, len(methods)))
+    rows_count = math.ceil(len(methods) / columns)
+    width, left, right = 1200, 82, 24
+    top, bottom, column_gap, row_gap = 28, 38, 42, 52
+    panel_width = (width - left - right - column_gap * (columns - 1)) / columns
+    panel_plot_height, title_space, label_space = 250, 32, 62
+    panel_height = title_space + panel_plot_height + label_space
+    height = top + rows_count * panel_height + (rows_count - 1) * row_gap + bottom
+    slot_width = panel_width / max(1, len(budgets))
+    box_half_width = min(11.0, slot_width * 0.32)
+    cap_half_width = min(7.0, slot_width * 0.22)
 
-    def y_for(value: float) -> float:
-        return top + (maximum - value) / (maximum - minimum) * plot_height
+    def y_for(value: float, plot_top: float) -> float:
+        return plot_top + (maximum - value) / (maximum - minimum) * panel_plot_height
 
     marks: list[str] = []
-    for tick in range(6):
-        value = minimum + (maximum - minimum) * tick / 5
-        y = y_for(value)
-        marks.append(f'<line class="grid" x1="{left}" y1="{y:.1f}" x2="{width - right}" y2="{y:.1f}"/>')
-        marks.append(f'<text class="axis-label" x="{left - 10}" y="{y + 5:.1f}" text-anchor="end">{value:+.2f}</text>')
-    marks.append(f'<line class="zero-line" x1="{left}" y1="{y_for(0):.1f}" x2="{width - right}" y2="{y_for(0):.1f}"/>')
     for method_index, method in enumerate(methods):
-        panel_left = left + method_index * (panel_width + panel_gap)
+        row_index, column_index = divmod(method_index, columns)
+        panel_left = left + column_index * (panel_width + column_gap)
+        panel_top = top + row_index * (panel_height + row_gap)
+        plot_top = panel_top + title_space
+        plot_bottom = plot_top + panel_plot_height
         marks.append(
-            f'<text class="method-label" x="{panel_left + panel_width / 2:.1f}" y="22" text-anchor="middle">{html.escape(friendly_method(method))}</text>'
+            f'<text class="method-label panel-title" x="{panel_left + panel_width / 2:.1f}" y="{panel_top + 17:.1f}" text-anchor="middle">{html.escape(friendly_method(method))}</text>'
+        )
+        for tick in range(6):
+            value = minimum + (maximum - minimum) * tick / 5
+            y = y_for(value, plot_top)
+            marks.append(
+                f'<line class="grid" x1="{panel_left:.1f}" y1="{y:.1f}" x2="{panel_left + panel_width:.1f}" y2="{y:.1f}"/>'
+            )
+            if column_index == 0:
+                marks.append(
+                    f'<text class="axis-label" x="{panel_left - 10:.1f}" y="{y + 5:.1f}" text-anchor="end">{value:+.2f}</text>'
+                )
+        marks.append(
+            f'<line class="zero-line" x1="{panel_left:.1f}" y1="{y_for(0, plot_top):.1f}" x2="{panel_left + panel_width:.1f}" y2="{y_for(0, plot_top):.1f}"/>'
         )
         for budget_index, budget in enumerate(budgets):
             values = grouped.get((method, budget), [])
             if not values:
                 continue
             low, q1, median, q3, high = distribution_summary(values)
-            x = panel_left + (budget_index + 0.5) * panel_width / len(budgets)
+            x = panel_left + (budget_index + 0.5) * slot_width
             colour = SERIES_COLOURS[method_index % len(SERIES_COLOURS)]
+            label_y = plot_bottom + 19
             marks.append(
-                f'<line x1="{x:.1f}" y1="{y_for(low):.1f}" x2="{x:.1f}" y2="{y_for(high):.1f}" stroke="{colour}"/>'
-                f'<line x1="{x - 6:.1f}" y1="{y_for(low):.1f}" x2="{x + 6:.1f}" y2="{y_for(low):.1f}" stroke="{colour}"/>'
-                f'<line x1="{x - 6:.1f}" y1="{y_for(high):.1f}" x2="{x + 6:.1f}" y2="{y_for(high):.1f}" stroke="{colour}"/>'
-                f'<rect x="{x - 12:.1f}" y="{y_for(q3):.1f}" width="24" height="{max(1.0, y_for(q1) - y_for(q3)):.1f}" fill="{colour}" fill-opacity="0.22" stroke="{colour}"/>'
-                f'<line x1="{x - 12:.1f}" y1="{y_for(median):.1f}" x2="{x + 12:.1f}" y2="{y_for(median):.1f}" stroke="{colour}" stroke-width="3"/>'
-                f'<text class="axis-label" x="{x:.1f}" y="{height - 34}" text-anchor="middle">B{budget}</text>'
+                f'<line x1="{x:.1f}" y1="{y_for(low, plot_top):.1f}" x2="{x:.1f}" y2="{y_for(high, plot_top):.1f}" stroke="{colour}"/>'
+                f'<line x1="{x - cap_half_width:.1f}" y1="{y_for(low, plot_top):.1f}" x2="{x + cap_half_width:.1f}" y2="{y_for(low, plot_top):.1f}" stroke="{colour}"/>'
+                f'<line x1="{x - cap_half_width:.1f}" y1="{y_for(high, plot_top):.1f}" x2="{x + cap_half_width:.1f}" y2="{y_for(high, plot_top):.1f}" stroke="{colour}"/>'
+                f'<rect x="{x - box_half_width:.1f}" y="{y_for(q3, plot_top):.1f}" width="{2 * box_half_width:.1f}" height="{max(1.0, y_for(q1, plot_top) - y_for(q3, plot_top)):.1f}" fill="{colour}" fill-opacity="0.22" stroke="{colour}"/>'
+                f'<line x1="{x - box_half_width:.1f}" y1="{y_for(median, plot_top):.1f}" x2="{x + box_half_width:.1f}" y2="{y_for(median, plot_top):.1f}" stroke="{colour}" stroke-width="3"/>'
+                f'<text class="axis-label budget-label" x="{x:.1f}" y="{label_y:.1f}" text-anchor="end" transform="rotate(-45 {x:.1f} {label_y:.1f})">B{budget}</text>'
             )
     return (
-        '<div class="chart-wrap"><svg class="comparison-chart" viewBox="0 0 1080 430" role="img" aria-label="Sample probability change distributions by budget, faceted by method">'
-        '<title>Sample-level probability change distributions by budget</title><desc>Each panel fixes one method and changes only budget. Every panel shares the same probability-change scale.</desc>'
-        f'{"".join(marks)}<text class="axis-title" transform="translate(18 {top + plot_height / 2:.1f}) rotate(-90)" text-anchor="middle">Signed probability change</text></svg></div>'
+        f'<div class="chart-wrap"><svg class="comparison-chart distribution-facets" viewBox="0 0 {width} {height}" role="img" aria-label="Sample probability change distributions by budget, faceted by method">'
+        '<title>Sample-level probability change distributions by budget</title><desc>Each panel fixes one method and changes only budget. Methods are arranged in a grid so budget labels and distributions do not overlap. Every panel shares the same probability-change scale.</desc>'
+        f'{"".join(marks)}<text class="axis-title" transform="translate(18 {height / 2:.1f}) rotate(-90)" text-anchor="middle">Signed probability change</text></svg></div>'
+        + chart_key(
+            ("key-box", "Box = middle 50% of sample changes (Q1 to Q3)"),
+            ("key-median", "Thick line inside box = median"),
+            ("key-range", "Whiskers = observed minimum to maximum"),
+            ("key-zero", "Dark reference line = no probability change"),
+            explanation=(
+                "Control: each panel keeps one perturbation method fixed; only budget changes from B1 to B25 inside that panel. "
+                "The box shows the typical middle half of sample-level probability changes, the thick line is the median, and whiskers are the observed minimum and maximum—not a 95% confidence interval. "
+                "Values above zero raise predicted vulnerability probability and values below zero lower it. Look for the whole box moving away from zero as evidence of a systematic budget effect; longer whiskers alone mainly indicate more extreme individual samples."
+            ),
+        )
     )
 
 
@@ -872,11 +1012,15 @@ def horizontal_budget_comparisons(
 ) -> str:
     """Compare all methods side by side while holding one budget fixed."""
     panels = []
+    maximum = None
+    if percent:
+        observed_maximum = max((float(group[metric]) for group in groups), default=1.0) * 1.15
+        maximum = min(1.0, max(0.1, math.ceil(observed_maximum * 10) / 10))
     for budget in sorted({int(group["budget"]) for group in groups}):
         peers = [group for group in groups if int(group["budget"]) == budget]
         panels.append(
             f'<div class="chart-block"><h3>Budget {budget}</h3>'
-            f'{svg_fixed_comparison(peers, metric, f"{label} at budget {budget}", percent=percent)}</div>'
+            f'{svg_fixed_comparison(peers, metric, f"{label} at budget {budget}", percent=percent, maximum=maximum)}</div>'
         )
     return "".join(panels)
 
@@ -1092,6 +1236,250 @@ def bilingual_findings(
     return findings
 
 
+def bilingual_chart_guide_markdown() -> str:
+    """Return the shared bilingual chart-reading reference for every run."""
+    return """## Chart Reading Guide / 图表理解对照表
+
+| 中文术语 | English term | 中文理解 | English interpretation |
+|---|---|---|---|
+| 点估计 | Point estimate | 根据本次有效数据算出的单个比率或均值。它是当前最佳估计，但不是没有误差的真实值。 | The single rate or mean calculated from scored data. It is the best estimate from this run, not an error-free population truth. |
+| 竖向柱状图 | Vertical bar chart | 每根柱代表一种方法，柱高表示观测比率或均值。只有在Budget、样本和模型等条件相同时才适合直接比较。 | Each bar represents one method and its height is the observed rate or mean. Heights are directly comparable only when budget, samples, model, and other controlled conditions are the same. |
+| 95%置信区间 | 95% confidence interval | 如果反复进行许多次可比实验并每次按同样方式构造区间，大约95%的区间会覆盖总体真实比率或均值。它不是“95%的样本位于区间中”，也不是“真实值有95%概率在当前区间内”。 | If many comparable experiments were repeated and intervals were constructed the same way, about 95% of those intervals would contain the underlying population rate or mean. It is not the range containing 95% of samples, nor a statement that the fixed true value has a 95% probability of lying in this particular interval. |
+| 误差线/端帽线 | Error bar / capped interval | 为提高可读性，当前Dashboard不再把95%置信区间画成柱子或圆点旁的误差线；精确上下界仍保留在“Statistical evidence”统计证据表中。 | For readability, the current dashboard does not draw 95% confidence intervals as error bars beside bars or points; the exact bounds remain in the Statistical evidence table. |
+| 有效样本数n | Effective count (n) | `n`是计算点估计时真正使用的有效评分次数。n小通常使区间更宽；多Seed重复不能自动当成更多独立源代码。 | `n` is the number of scoreable observations used for the estimate. Small n usually produces wider intervals; repeated seeds must not automatically be treated as additional independent source programs. |
+| 攻击成功率 | Attack Success Rate (ASR) | 在基线预测正确且攻击合格的结果中，扰动实现攻击目标的比例。 | Among baseline-correct, attack-eligible results, the proportion for which the perturbation achieved the attack objective. |
+| 预测翻转率 | Prediction Flip Rate | 扰动前后最终分类标签发生变化的比例。翻转可能朝任意方向，因此不一定全部等于攻击成功。 | The proportion whose final class label changed after perturbation. A flip may occur in either direction and is not always equivalent to a successful attack. |
+| 效应幅度 | Effect magnitude | 概率变化的绝对值，回答“模型被推动了多远”，不考虑方向，也不要求最终标签翻转。 | The absolute probability change. It answers how far the model moved, regardless of direction or whether the final label flipped. |
+| 效应方向 | Effect direction | 带符号的平均概率变化。负值表示模型预测漏洞的概率下降，正值表示上升。 | The signed mean probability change. Negative values lower predicted vulnerability probability; positive values raise it. |
+| 零参考线 | Zero reference line | 表示平均没有变化。柱或点位于零线上方或下方，分别代表正向或负向变化。 | Represents no average change. Marks above or below it indicate positive or negative movement. |
+| Budget响应折线 | Budget-response line | 固定同一种方法，只改变Budget。连接线用于观察趋势，不表示两个Budget之间所有中间值都被测量。 | Holds the method fixed and changes only budget. The connecting line shows the observed trend and does not imply that every intermediate budget was measured. |
+| 箱体Q1–Q3 | Box, Q1 to Q3 | 箱体覆盖中间50%的样本变化，从第25百分位数到第75百分位数。箱体越大，说明样本反应差异越大。 | The box covers the middle 50% of sample changes, from the 25th to the 75th percentile. A larger box indicates greater variation across samples. |
+| 中位数 | Median | 箱体内部的粗线；一半样本小于它，另一半大于它，比均值更不容易被极端值拉动。 | The thick line inside the box. Half the observations are below it and half above it; it is less sensitive to extreme values than the mean. |
+| 须线 | Whiskers | 当前Dashboard中的须线连接实际观测到的最小值和最大值，不是95%置信区间。 | In this dashboard the whiskers span the observed minimum and maximum; they are not 95% confidence intervals. |
+| 覆盖率 | Coverage / applicability | 成功产生完整、可评分结果的尝试比例。高ASR但覆盖率很低的方法可能只对少量特殊样本有效。 | The proportion of attempts producing a complete, scoreable comparison. A method with high ASR but low coverage may work only on a small special subset. |
+| 配对共同队列 | Paired common cohort | 只比较Random与Winner-XFG双方都能评分的相同样本、Budget和Seed，减少输入组成不同造成的不公平。 | Compares only sample, budget, and seed keys scoreable by both Random and Winner-XFG, reducing unfairness caused by different input composition. |
+"""
+
+
+def bilingual_chart_conclusions_markdown(
+    groups: list[dict[str, object]], rows: list[dict[str, str]]
+) -> str:
+    """Generate chart-by-chart, data-dependent conclusions in paired Chinese and English."""
+    if not groups:
+        return ""
+    budgets = sorted({int(group["budget"]) for group in groups})
+    multi_budget = len(budgets) > 1
+    outcome_zh = "攻击成功率" if explicit_attack_success(rows) else "预测翻转率"
+    outcome_en = "attack success rate" if explicit_attack_success(rows) else "prediction flip rate"
+    conclusions: list[tuple[str, str, str]] = []
+
+    def condition_name(group: dict[str, object], language: str) -> str:
+        method = friendly_method(str(group["method"]))
+        if not multi_budget:
+            return method
+        return (
+            f'{method}（Budget {int(group["budget"])}）'
+            if language == "zh"
+            else f'{method} at budget {int(group["budget"])}'
+        )
+
+    top_rate = max(groups, key=lambda group: float(group["success_rate"]))
+    rate_scope_zh = "在所有已观测的方法–Budget组合中" if multi_budget else "在固定设置的方法比较中"
+    rate_scope_en = "Across all observed method–budget combinations" if multi_budget else "In the fixed-setting method comparison"
+    conclusions.append(
+        (
+            "有效性 / Effectiveness",
+            f'{rate_scope_zh}，{condition_name(top_rate, "zh")} 的观测{outcome_zh}最高，为'
+            f'{float(top_rate["success_rate"]):.1%}（{int(top_rate["successes"])}/{int(top_rate["outcome_scored"])}）。'
+            "这是本次run的描述性最高值；跨Budget的最高值不能被解释为只由方法差异造成，也不等于已证明总体显著更优。",
+            f'{rate_scope_en}, {condition_name(top_rate, "en")} has the highest observed '
+            f'{outcome_en}: {float(top_rate["success_rate"]):.1%} ({int(top_rate["successes"])}/{int(top_rate["outcome_scored"])}). '
+            "This is the descriptive maximum in this run; a maximum across budgets cannot be attributed to method alone and does not prove population-level superiority.",
+        )
+    )
+
+    if multi_budget:
+        endpoint_changes: list[tuple[float, str, dict[str, object], dict[str, object]]] = []
+        for method in sorted({str(group["method"]) for group in groups}):
+            series = sorted(
+                (group for group in groups if str(group["method"]) == method),
+                key=lambda group: int(group["budget"]),
+            )
+            if len(series) >= 2:
+                change = float(series[-1]["success_rate"]) - float(series[0]["success_rate"])
+                endpoint_changes.append((abs(change), method, series[0], series[-1]))
+        if endpoint_changes:
+            _, method, first, last = max(endpoint_changes, key=lambda item: item[0])
+            change = float(last["success_rate"]) - float(first["success_rate"])
+            direction_zh = "上升" if change > 0 else "下降" if change < 0 else "不变"
+            direction_en = "increase" if change > 0 else "decrease" if change < 0 else "no change"
+            conclusions.append(
+                (
+                    "Budget响应 / Budget response",
+                    f'{friendly_method(method)} 从Budget {int(first["budget"])}到{int(last["budget"])}的端点变化幅度最大：'
+                    f'{float(first["success_rate"]):.1%} → {float(last["success_rate"]):.1%}，即{direction_zh}{abs(change):.1%}。'
+                    "端点差异概括总体变化，但不能替代对中间Budget是否单调的逐点检查。",
+                    f'{friendly_method(method)} has the largest endpoint change from budget {int(first["budget"])} to {int(last["budget"])}: '
+                    f'{float(first["success_rate"]):.1%} → {float(last["success_rate"]):.1%}, an absolute {direction_en} of {abs(change):.1%}. '
+                    "The endpoint contrast summarizes the overall shift but does not replace checking whether intermediate budgets are monotonic.",
+                )
+            )
+
+    largest_magnitude = max(groups, key=lambda group: float(group["mean_abs_delta"]))
+    conclusions.append(
+        (
+            "效应幅度 / Effect magnitude",
+            f'{condition_name(largest_magnitude, "zh")} 的平均绝对概率变化最大，为'
+            f'{float(largest_magnitude["mean_abs_delta"]):.4f}。这表示模型分数平均被推动得最远，但不说明推动方向，也不保证最终分类翻转。',
+            f'{condition_name(largest_magnitude, "en")} has the largest mean absolute probability change, '
+            f'{float(largest_magnitude["mean_abs_delta"]):.4f}. This means it moves model scores farthest on average, but says neither the direction nor that the final class flips.',
+        )
+    )
+
+    upward = max(groups, key=lambda group: float(group["mean_delta"]))
+    downward = min(groups, key=lambda group: float(group["mean_delta"]))
+    conclusions.append(
+        (
+            "效应方向 / Effect direction",
+            f'{condition_name(upward, "zh")} 的平均向上变化最大（{float(upward["mean_delta"]):+.4f}）；'
+            f'{condition_name(downward, "zh")} 的平均向下变化最大（{float(downward["mean_delta"]):+.4f}）。'
+            "方向表示漏洞预测概率相对基线升降，不直接等同于攻击是否成功。",
+            f'{condition_name(upward, "en")} has the largest upward mean shift ({float(upward["mean_delta"]):+.4f}); '
+            f'{condition_name(downward, "en")} has the largest downward mean shift ({float(downward["mean_delta"]):+.4f}). '
+            "Direction describes movement in predicted vulnerability probability relative to baseline and is not itself attack success.",
+        )
+    )
+
+    distributions: list[dict[str, object]] = []
+    grouped_deltas: dict[tuple[str, int], list[float]] = defaultdict(list)
+    for row in rows:
+        if is_scored(row):
+            method, strength = perturbation_configuration(row)
+            budget_match = re.search(r"(\d+)$", row.get("budget", "") or strength or "1")
+            budget = int(budget_match.group(1)) if budget_match else 1
+            grouped_deltas[(method, budget)].append(number(row, "delta_prob"))
+    for (method, budget), values in grouped_deltas.items():
+        low, q1, median, q3, high = distribution_summary(values)
+        distributions.append(
+            {
+                "method": method,
+                "budget": budget,
+                "median": median,
+                "iqr": q3 - q1,
+                "low": low,
+                "high": high,
+            }
+        )
+    if distributions:
+        strongest_median = max(distributions, key=lambda item: abs(float(item["median"])))
+        widest_iqr = max(distributions, key=lambda item: float(item["iqr"]))
+
+        def distribution_name(item: dict[str, object], language: str) -> str:
+            method = friendly_method(str(item["method"]))
+            if not multi_budget:
+                return method
+            return (
+                f'{method}（Budget {int(item["budget"])}）'
+                if language == "zh"
+                else f'{method} at budget {int(item["budget"])}'
+            )
+
+        median_value = float(strongest_median["median"])
+        if abs(median_value) < 0.00005:
+            median_zh = "所有方法–Budget箱体的中位数在四位小数精度下都接近零，未显示典型样本稳定地向某一方向移动"
+            median_en = "All method–budget boxplot medians are near zero at four-decimal precision, so the typical sample does not show a stable directional shift"
+        else:
+            median_zh = (
+                f'{distribution_name(strongest_median, "zh")} 的中位数离零最远'
+                f'（{median_value:+.4f}）'
+            )
+            median_en = (
+                f'{distribution_name(strongest_median, "en")} has the median farthest from zero '
+                f'({median_value:+.4f})'
+            )
+        conclusions.append(
+            (
+                "样本级分布 / Sample-level distribution",
+                f'{median_zh}；'
+                f'{distribution_name(widest_iqr, "zh")} 的箱体IQR最宽（{float(widest_iqr["iqr"]):.4f}）。'
+                "中位数描述典型样本的方向和幅度，IQR表示中间50%样本的反应一致性；须线极值不能单独证明稳定攻击效果。",
+                f'{median_en}; '
+                f'{distribution_name(widest_iqr, "en")} has the widest box IQR ({float(widest_iqr["iqr"]):.4f}). '
+                "The median describes the direction and magnitude of a typical sample, while IQR describes consistency in the middle 50%. Whisker extremes alone do not establish a stable attack effect.",
+            )
+        )
+
+    lowest_coverage = min(groups, key=lambda group: float(group["coverage_rate"]))
+    conclusions.append(
+        (
+            "适用性 / Applicability",
+            f'{condition_name(lowest_coverage, "zh")} 的覆盖率最低，为{float(lowest_coverage["coverage_rate"]):.1%}'
+            f'（{int(lowest_coverage["scored"])}/{int(lowest_coverage["attempted"])}）。覆盖率低意味着效果估计只来自较小的可成功运行子集。',
+            f'{condition_name(lowest_coverage, "en")} has the lowest coverage, {float(lowest_coverage["coverage_rate"]):.1%} '
+            f'({int(lowest_coverage["scored"])}/{int(lowest_coverage["attempted"])}). Low coverage means the effect estimate comes from a smaller successfully executed subset.',
+        )
+    )
+
+    largest_nodes = max(groups, key=lambda group: float(group["mean_abs_nodes"]))
+    largest_edges = max(groups, key=lambda group: float(group["mean_abs_edges"]))
+    conclusions.append(
+        (
+            "结构变化 / Realised structural change",
+            f'{condition_name(largest_nodes, "zh")} 的平均绝对节点变化最大（{float(largest_nodes["mean_abs_nodes"]):.2f}）；'
+            f'{condition_name(largest_edges, "zh")} 的平均绝对边变化最大（{float(largest_edges["mean_abs_edges"]):.2f}）。'
+            "它们说明扰动实际改了多少结构，不等于模型受影响程度。",
+            f'{condition_name(largest_nodes, "en")} has the largest mean absolute node change ({float(largest_nodes["mean_abs_nodes"]):.2f}); '
+            f'{condition_name(largest_edges, "en")} has the largest mean absolute edge change ({float(largest_edges["mean_abs_edges"]):.2f}). '
+            "These values quantify realised structural change, not how strongly the model was affected.",
+        )
+    )
+
+    paired = paired_common_summaries(rows)
+    if paired:
+        paired_lookup = {
+            (str(summary["family"]), int(summary["budget"])): summary
+            for summary in paired
+        }
+        paired_differences = []
+        for budget in sorted({int(summary["budget"]) for summary in paired}):
+            random_summary = paired_lookup.get(("random_graph", budget))
+            winner_summary = paired_lookup.get(("winner_xfg", budget))
+            if random_summary and winner_summary:
+                difference = float(winner_summary["variant_attack_success_rate"]) - float(random_summary["variant_attack_success_rate"])
+                paired_differences.append((abs(difference), difference, budget, random_summary, winner_summary))
+        if paired_differences:
+            _, difference, budget, random_summary, winner_summary = max(paired_differences, key=lambda item: item[0])
+            higher_zh = "Winner-XFG" if difference > 0 else "Random" if difference < 0 else "两者相同"
+            higher_en = "Winner-XFG" if difference > 0 else "Random" if difference < 0 else "neither family"
+            conclusions.append(
+                (
+                    "Random与Winner-XFG配对比较 / Paired family comparison",
+                    f'在共同可评分队列中，两类方法差距最大的Budget是{budget}：Random为'
+                    f'{float(random_summary["variant_attack_success_rate"]):.1%}，Winner-XFG为'
+                    f'{float(winner_summary["variant_attack_success_rate"]):.1%}，{higher_zh}高出{abs(difference):.1%}。'
+                    "该比较控制了sample、Budget和Seed，但仍是变体级描述性差异。",
+                    f'Within the shared scoreable cohort, the largest family gap occurs at budget {budget}: Random is '
+                    f'{float(random_summary["variant_attack_success_rate"]):.1%} and Winner-XFG is '
+                    f'{float(winner_summary["variant_attack_success_rate"]):.1%}; {higher_en} is higher by {abs(difference):.1%}. '
+                    "This controls sample, budget, and seed, but remains a descriptive variant-level contrast.",
+                )
+            )
+
+    rows_markdown = "\n".join(
+        f'| {markdown_cell(chart)} | {markdown_cell(zh)} | {markdown_cell(en)} |'
+        for chart, zh, en in conclusions
+    )
+    return f"""## Chart-by-chart Conclusions / 各图表推论
+
+以下推论由当前run的数据自动生成，并与Dashboard中的控制变量图一一对应；它们保留描述性边界，不替代显著性检验。
+The conclusions below are generated from this run and correspond to the controlled-variable charts in the dashboard; they remain descriptive and do not replace significance tests.
+
+| 图表 / Chart | 中文推论 | English inference |
+|---|---|---|
+{rows_markdown}
+"""
+
+
 def render_analysis_document(rows: list[dict[str, str]], output: Path, title: str) -> None:
     """Write a reproducible bilingual Markdown companion beside a run dashboard."""
     scored = [row for row in rows if is_scored(row)]
@@ -1137,6 +1525,8 @@ def render_analysis_document(rows: list[dict[str, str]], output: Path, title: st
     en_findings = "\n".join(f"- {item}" for item in bilingual_findings(chart_groups, scored, "en"))
     zh_findings = "\n".join(f"- {item}" for item in bilingual_findings(chart_groups, scored, "zh"))
     table_text = "\n".join(table_rows)
+    chart_guide = bilingual_chart_guide_markdown()
+    chart_conclusions = bilingual_chart_conclusions_markdown(chart_groups, scored)
     document = f"""# Experiment Analysis / 实验分析
 
 **Run / 实验：** {title}<br>
@@ -1181,6 +1571,10 @@ def render_analysis_document(rows: list[dict[str, str]], output: Path, title: st
 - Rates use 95% Wilson intervals; mean probability changes use normal-approximation 95% intervals.
 - Small samples, low coverage, a single random seed, dataset shift, and model-retraining uncertainty can affect the conclusions.
 - Compare scored counts and confidence intervals rather than ranking methods only by point estimates.
+
+{chart_conclusions}
+
+{chart_guide}
 
 ## Statistical Evidence / 统计证据
 
@@ -1493,6 +1887,15 @@ def svg_paired_family_budget_bars(summaries: list[dict[str, object]]) -> str:
         f'<text class="axis-title" transform="translate(22 {top + plot_height / 2:.1f}) '
         'rotate(-90)" text-anchor="middle">Variant attack success rate</text>'
         '</svg></div>'
+        + chart_key(
+            ("key-paired-bars", "Paired bars = Random and Winner-XFG on the same cohort"),
+            ("key-bar", "Bar height = variant attack success rate"),
+            ("key-label", "Label above bar = observed percentage"),
+            explanation=(
+                "Control: both bars at one budget use the same scoreable sample-budget-seed cohort; only graph perturbation family changes. "
+                "Compare the paired bar heights within a budget, then compare pairs across budgets. This separates family differences from changes in sample availability."
+            ),
+        )
     )
 
 
@@ -1813,10 +2216,10 @@ def render_report(
     if has_budget_response:
         comparison_section = (
             '<section><h2>Effectiveness under controlled budget changes</h2>'
-            '<p class="explain">Horizontal panels hold budget fixed and compare methods. Vertical response panels hold the method fixed and change only perturbation budget.</p>'
-            '<h3>Horizontal method comparison at each fixed budget</h3>'
+            '<p class="explain">Fixed-budget vertical bar panels hold budget fixed and compare methods. Budget-response line panels hold the method fixed and change only perturbation budget. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in Statistical evidence and the bilingual companion notes.</p>'
+            '<h3>Method comparison at each fixed budget</h3>'
             f'{horizontal_budget_comparisons(chart_groups, "success_rate", success_term(scored), percent=True)}'
-            '<h3>Vertical budget response for each fixed method</h3>'
+            '<h3>Budget response for each fixed method</h3>'
             f'<div class="chart-block"><h3>{html.escape(success_term(scored))}</h3>{svg_budget_lines(chart_groups, "success_rate", success_term(scored), percent=True)}</div>'
             f'<div class="chart-block"><h3>Effect magnitude</h3>{svg_budget_lines(chart_groups, "mean_abs_delta", "Mean absolute probability change")}</div>'
             f'<div class="chart-block"><h3>Effect direction</h3><p class="explain">Positive values raise predicted vulnerability probability; negative values lower it.</p>{svg_budget_signed_lines(chart_groups, "mean_delta", "Mean signed probability change")}</div>'
@@ -1834,7 +2237,7 @@ def render_report(
         fixed_setting = f'budget {explicit_budgets[0]}' if explicit_budgets else 'one configured application'
         comparison_section = (
             '<section><h2>Effectiveness at a controlled fixed setting</h2>'
-            f'<p class="explain">Every panel holds the experiment at {fixed_setting}; only perturbation method changes. Realised structural change is reported separately.</p>'
+            f'<p class="explain">Every panel holds the experiment at {fixed_setting}; only perturbation method changes. Realised structural change is reported separately. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in Statistical evidence and the bilingual companion notes.</p>'
             f'<div class="chart-block"><h3>{html.escape(success_term(scored))}</h3>{svg_fixed_comparison(chart_groups, "success_rate", success_term(scored), percent=True)}</div>'
             f'<div class="chart-block"><h3>Effect magnitude</h3>{svg_fixed_comparison(chart_groups, "mean_abs_delta", "Mean absolute probability change")}</div>'
             f'<div class="chart-block"><h3>Effect direction</h3><p class="explain">Positive values raise predicted vulnerability probability; negative values lower it.</p>{svg_fixed_signed_comparison(chart_groups, "mean_delta", "Mean signed probability change")}</div>'
@@ -1850,7 +2253,7 @@ def render_report(
 
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>
-*{{box-sizing:border-box}}body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f4f6fa;color:#172033}}main{{max-width:1480px;margin:0 auto;padding:28px}}h1{{font-size:clamp(1.7rem,2.4vw,2.5rem);margin:0 0 6px}}h2{{font-size:1.35rem;margin:0 0 8px}}h3{{font-size:1.08rem;margin:28px 0 4px}}.sub,.explain{{color:#5d687c;max-width:92ch}}.dashboard-controls{{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:18px 0 10px}}.selector-field{{display:grid;gap:6px;font-weight:600;color:#334155}}.selector-field select{{min-width:min(360px,80vw);padding:9px 34px 9px 11px;border:1px solid #b8c2d1;border-radius:7px;background:#fff;color:#172033}}.all-runs-link{{padding:9px 2px}}.summary-strip{{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}}.summary-item{{min-width:170px;padding:12px 16px;border-left:4px solid #2563eb;background:#eef4ff}}.summary-item strong{{display:block;font-size:1.7rem}}section{{background:#fff;border:1px solid #dce2ec;border-radius:10px;padding:22px;margin:18px 0}}.chart-block+ .chart-block{{border-top:1px solid #e5e7eb;margin-top:30px;padding-top:4px}}.chart-wrap{{overflow-x:auto;margin-top:16px}}.comparison-chart{{display:block;width:100%;min-width:820px;height:auto}}.comparison-chart .grid{{stroke:#dce2ec;stroke-width:1}}.comparison-chart .zero-line{{stroke:#64748b;stroke-width:2}}.axis-label,.point-label,.legend-label,.method-label{{font-size:13px;fill:#334155}}.axis-title{{font-size:14px;font-weight:600;fill:#172033}}.point-label{{font-weight:600}}.insights{{margin:12px 0 0;padding-left:22px}}.insights li{{margin:9px 0;max-width:105ch}}.method-picker{{margin:14px 0;border:1px solid #dce2ec;border-radius:8px;background:#f8fafc}}.method-picker summary{{cursor:pointer;padding:12px 14px;font-weight:600}}.picker-actions{{padding:10px 14px;border-top:1px solid #dce2ec}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:7px;padding:6px 14px 14px}}#action-checks label{{overflow-wrap:anywhere}}input,select{{font:inherit}}.table-scroll{{overflow:auto;max-height:620px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{padding:9px 10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{position:sticky;top:0;background:#eef4ff;z-index:1}}.num{{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}}.summary-table{{min-width:980px}}.variant-table{{min-width:1160px}}.method-note{{font-size:13px;color:#5d687c;margin-top:10px}}@media(max-width:700px){{main{{padding:16px}}section{{padding:16px}}.summary-item{{flex:1 1 140px}}.selector-field{{width:100%}}.selector-field select{{width:100%;min-width:0}}}}
+*{{box-sizing:border-box}}body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f4f6fa;color:#172033}}main{{max-width:1480px;margin:0 auto;padding:28px}}h1{{font-size:clamp(1.7rem,2.4vw,2.5rem);margin:0 0 6px}}h2{{font-size:1.35rem;margin:0 0 8px}}h3{{font-size:1.08rem;margin:28px 0 4px}}.sub,.explain{{color:#5d687c;max-width:92ch}}.dashboard-controls{{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:18px 0 10px}}.selector-field{{display:grid;gap:6px;font-weight:600;color:#334155}}.selector-field select{{min-width:min(360px,80vw);padding:9px 34px 9px 11px;border:1px solid #b8c2d1;border-radius:7px;background:#fff;color:#172033}}.all-runs-link{{padding:9px 2px}}.summary-strip{{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}}.summary-item{{min-width:170px;padding:12px 16px;border-left:4px solid #2563eb;background:#eef4ff}}.summary-item strong{{display:block;font-size:1.7rem}}section{{background:#fff;border:1px solid #dce2ec;border-radius:10px;padding:22px;margin:18px 0}}.chart-block+ .chart-block{{border-top:1px solid #e5e7eb;margin-top:30px;padding-top:4px}}.chart-wrap{{overflow-x:auto;margin-top:16px}}.comparison-chart{{display:block;width:100%;min-width:820px;height:auto}}.comparison-chart .grid{{stroke:#dce2ec;stroke-width:1}}.comparison-chart .zero-line{{stroke:#64748b;stroke-width:2}}.axis-label,.point-label,.legend-label,.method-label{{font-size:13px;fill:#334155}}.axis-title{{font-size:14px;font-weight:600;fill:#172033}}.point-label{{font-weight:600}}.chart-key{{margin:10px 0 0;padding:13px 15px;border:1px solid #dce2ec;border-radius:7px;background:#f8fafc;color:#475569;font-size:13px}}.chart-key strong{{color:#172033}}.chart-key-items{{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start;gap:12px 20px;margin-top:10px}}.chart-key-item{{display:flex;align-items:flex-start;gap:9px;min-width:0}}.chart-key-copy{{display:grid;gap:3px;line-height:1.42}}.chart-key-term{{font-size:13px}}.chart-key-detail{{color:#5d687c}}.chart-key-symbol{{position:relative;display:inline-block;flex:0 0 auto;width:28px;height:14px;margin-top:3px}}.key-bar,.key-paired-bars,.key-diverging-bar{{height:10px;background:#2563eb;border-radius:2px}}.key-bar-vertical,.key-diverging-bar-vertical{{width:14px;height:14px;margin-left:7px;background:#2563eb;border-radius:2px}}.key-diverging-bar-vertical{{background:linear-gradient(0deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-paired-bars{{background:linear-gradient(90deg,#2563eb 0 45%,transparent 45% 55%,#d97706 55% 100%)}}.key-diverging-bar{{background:linear-gradient(90deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-series-line{{height:0;border-top:3px solid #2563eb}}.key-series-line::after,.key-point::after{{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#2563eb;left:10px;top:-5px;border:1px solid #fff}}.key-point{{height:0;border-top:1px solid transparent}}.key-zero{{height:0;border-top:3px solid #64748b;top:7px}}.key-box{{height:12px;background:#2563eb38;border:1px solid #2563eb}}.key-median{{height:14px;border-left:3px solid #2563eb;margin-left:13px}}.key-range{{height:0;border-top:1px solid #2563eb;top:7px}}.key-range::before,.key-range::after{{content:"";position:absolute;top:-5px;height:10px;border-left:1px solid #2563eb}}.key-range::before{{left:0}}.key-range::after{{right:0}}.key-n::after{{content:"n";position:absolute;inset:0;text-align:center;font-weight:700;color:#172033}}.key-label::after{{content:"12.3%";position:absolute;inset:0;font-size:10px;font-weight:700;color:#172033}}.chart-explanation{{max-width:120ch;margin:12px 0 0;padding-top:10px;border-top:1px solid #dce2ec;line-height:1.55;color:#334155}}.distribution-facets .panel-title{{font-size:15px;font-weight:700;fill:#172033}}.distribution-facets .budget-label{{font-size:12px}}.insights{{margin:12px 0 0;padding-left:22px}}.insights li{{margin:9px 0;max-width:105ch}}.method-picker{{margin:14px 0;border:1px solid #dce2ec;border-radius:8px;background:#f8fafc}}.method-picker summary{{cursor:pointer;padding:12px 14px;font-weight:600}}.picker-actions{{padding:10px 14px;border-top:1px solid #dce2ec}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:7px;padding:6px 14px 14px}}#action-checks label{{overflow-wrap:anywhere}}input,select{{font:inherit}}.table-scroll{{overflow:auto;max-height:620px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{padding:9px 10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{position:sticky;top:0;background:#eef4ff;z-index:1}}.num{{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}}.summary-table{{min-width:980px}}.variant-table{{min-width:1160px}}.method-note{{font-size:13px;color:#5d687c;margin-top:10px}}@media(max-width:700px){{main{{padding:16px}}section{{padding:16px}}.summary-item{{flex:1 1 140px}}.selector-field{{width:100%}}.selector-field select{{width:100%;min-width:0}}.chart-key-items{{grid-template-columns:1fr}}}}
 </style></head><body><main>
 <h1>{html.escape(title)}</h1>
 <p class="sub">Controlled comparison of DeepWuKong predictions under one changing experimental variable at a time.</p>
