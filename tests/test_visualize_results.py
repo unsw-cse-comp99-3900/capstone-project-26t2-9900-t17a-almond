@@ -3,7 +3,6 @@ import unittest
 from pathlib import Path
 
 from robustness_experiments.visualize_results import (
-    ANALYSIS_FILENAME,
     build_graph_comparison_rows,
     comparison_groups,
     paired_common_summaries,
@@ -67,22 +66,23 @@ class VisualizationTests(unittest.TestCase):
             report = Path(directory) / "report.html"
             render_report(rows, report, "Code report")
             content = report.read_text(encoding="utf-8")
-            analysis = (report.parent / ANALYSIS_FILENAME).read_text(encoding="utf-8")
         self.assertIn("Effectiveness at a controlled fixed setting", content)
         self.assertIn("only perturbation method changes", content)
         self.assertIn("95% Wilson intervals", content)
         self.assertIn("Evidence-backed observations", content)
         self.assertEqual(content.count('class="comparison-chart'), 7)
         self.assertEqual(content.count('class="chart-explanation"'), 7)
-        self.assertIn("Terminology / 名词解释", content)
         self.assertIn('class="chart-key-detail"', content)
-        self.assertIn("它不是置信区间，也不是标准差", content)
+        self.assertIn('Terminology:', content)
+        self.assertNotRegex(content, r'[\u3400-\u9fff]')
+        self.assertNotIn('Bilingual analysis notes', content)
         self.assertIn("Effect direction", content)
         self.assertIn("Sample-level effect distribution", content)
         self.assertIn('class="estimate-bar', content)
         self.assertIn('class="comparison-chart vertical-bar-chart"', content)
         self.assertIn("Bar height = observed estimate", content)
         self.assertIn("Charts show observed estimates without confidence-interval error bars", content)
+        self.assertFalse(list(report.parent.glob("*.md")))
         self.assertNotIn('<line class="ci-whisker"', content)
         self.assertNotIn('<p class="confidence-note"', content)
         self.assertIn("Box = middle 50% of sample changes", content)
@@ -90,16 +90,6 @@ class VisualizationTests(unittest.TestCase):
         self.assertIn("Applicability at the fixed setting", content)
         self.assertIn("Realised structural perturbation", content)
         self.assertNotIn("Sample robustness matrix", content)
-        self.assertIn("Bilingual analysis notes / 中英文分析说明", content)
-        self.assertIn("## 中文说明", analysis)
-        self.assertIn("## English Notes", analysis)
-        self.assertIn("## Chart-by-chart Conclusions / 各图表推论", analysis)
-        self.assertIn("| 有效性 / Effectiveness |", analysis)
-        self.assertIn("| 样本级分布 / Sample-level distribution |", analysis)
-        self.assertIn("### 数据规律", analysis)
-        self.assertIn("### Observed patterns", analysis)
-        self.assertIn("95% Wilson CI", analysis)
-        self.assertNotEqual(ANALYSIS_FILENAME.lower(), "readme.md")
 
     def test_budget_report_has_one_line_per_method_and_shared_budgets(self):
         rows = []
@@ -120,7 +110,6 @@ class VisualizationTests(unittest.TestCase):
             report = Path(directory) / "targeted.html"
             render_report(rows, report, "Targeted report")
             content = report.read_text(encoding="utf-8")
-            analysis = (report.parent / ANALYSIS_FILENAME).read_text(encoding="utf-8")
         self.assertEqual(success_term(rows), "Attack Success Rate (ASR)")
         self.assertIn("Effectiveness under controlled budget changes", content)
         self.assertIn("Fixed-budget vertical bar panels hold budget fixed", content)
@@ -128,8 +117,6 @@ class VisualizationTests(unittest.TestCase):
         self.assertIn("non-decreasing budget-response pattern", content)
         self.assertEqual(content.count('class="comparison-chart'), 10)
         self.assertEqual(content.count('class="chart-explanation"'), 10)
-        self.assertIn("Terminology / 名词解释", content)
-        self.assertIn("线段只帮助观察趋势", content)
         self.assertIn("Scored coverage rate", content)
         self.assertIn("Mean absolute node change", content)
         self.assertIn("Sample probability change distributions by budget", content)
@@ -140,6 +127,10 @@ class VisualizationTests(unittest.TestCase):
         self.assertIn("not a 95% confidence interval", content)
         self.assertIn("Circle = observed estimate", content)
         self.assertIn("Charts show observed estimates without confidence-interval error bars", content)
+        self.assertIn("Terminology:", content)
+        self.assertNotRegex(content, r"[\u3400-\u9fff]")
+        self.assertNotIn("Bilingual analysis notes", content)
+        self.assertFalse(list(report.parent.glob("*.md")))
         self.assertNotIn('<line class="ci-whisker"', content)
         self.assertNotIn("Vertical capped line = 95% confidence interval", content)
         self.assertIn("Dark reference line = no average change", content)
@@ -148,16 +139,6 @@ class VisualizationTests(unittest.TestCase):
             self.assertIn(budget, content)
         for method in ("XFG edge attack", "XFG feature mask", "targeted subgraph injection"):
             self.assertIn(method, content)
-        self.assertIn("预算响应", analysis)
-        self.assertIn("budget response", analysis)
-        self.assertIn("B1=", analysis)
-        self.assertIn("## Chart Reading Guide / 图表理解对照表", analysis)
-        self.assertIn("## Chart-by-chart Conclusions / 各图表推论", analysis)
-        self.assertIn("| Budget响应 / Budget response |", analysis)
-        self.assertIn("| 结构变化 / Realised structural change |", analysis)
-        self.assertIn("| 95%置信区间 | 95% confidence interval |", analysis)
-        self.assertIn("does not draw 95% confidence intervals as error bars", analysis)
-        self.assertIn("| 须线 | Whiskers |", analysis)
 
     def test_group_statistics_keep_attempted_and_scored_counts_separate(self):
         rows = [row("range_clamp", sample="a", flipped=False)]

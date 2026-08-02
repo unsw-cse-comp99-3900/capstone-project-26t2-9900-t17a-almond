@@ -294,7 +294,7 @@ Average vulnerability probability: `{score_text(summary.get("average_vulnerabili
 |---:|---|---|---:|---:|---|---|---|
 {chr(10).join(table_lines)}
 """
-    (output_dir / "summary_report.md").write_text(report, encoding="utf-8")
+    (output_dir / "summary_report.txt").write_text(report, encoding="utf-8")
 
 
 def run_batch(input_path: Path, output_dir: Path, config_path: Path, pattern: str, recursive: bool) -> dict[str, Any]:

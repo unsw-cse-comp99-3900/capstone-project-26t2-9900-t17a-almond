@@ -565,8 +565,8 @@ def main() -> int:
     summary["status"] = "completed_with_graph_errors" if graph_failed else "completed"
     summary["html_reports"] = generate_html_reports(run_dir, graph_results)
     write_json(run_dir / "summary.json", summary)
-    (run_dir / "README.md").write_text(
-        "# Live DeepWuKong Full Test\n\n"
+    (run_dir / "run_summary.txt").write_text(
+        "Live DeepWuKong Full Test\n\n"
         "This run scores every C/C++ source file under `input_sources` using a baseline prediction and "
         "the configured source-level perturbations, then runs random and Winner-XFG-targeted graph perturbations "
         "from the resulting baseline PDG/XFG inputs. Both graph families use nested budgets "

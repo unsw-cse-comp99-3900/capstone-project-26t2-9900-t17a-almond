@@ -135,7 +135,7 @@ def main() -> None:
     perturbed = aggregate_xfgs(read_predictions(args.perturbed), args.reducer)
     rows = compare(original, perturbed, args.threshold)
     write_csv(args.output_dir / "baseline_comparison.csv", rows)
-    write_summary(args.output_dir / "baseline_comparison.md", rows, args.reducer, args.threshold)
+    write_summary(args.output_dir / "baseline_comparison.txt", rows, args.reducer, args.threshold)
 
 
 if __name__ == "__main__":

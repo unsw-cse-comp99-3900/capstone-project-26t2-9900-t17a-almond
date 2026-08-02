@@ -13,7 +13,6 @@ from collections import defaultdict
 from pathlib import Path
 
 NUMERIC_FIELDS = ("base_prob", "variant_prob", "delta_prob", "delta_nodes", "delta_edges")
-ANALYSIS_FILENAME = "EXPERIMENT_ANALYSIS_ZH_EN.md"
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:
@@ -445,52 +444,52 @@ def group_setting_label(group: dict[str, object]) -> str:
 
 CHART_TERM_DETAILS = {
     "key-series-line": (
-        "The same colour connects estimates from the same perturbation method at measured budgets; the segment is a visual guide, not an unmeasured result. "
-        "/ 同一种颜色连接同一扰动方法在已测Budget上的估计值；线段只帮助观察趋势，不代表中间未测试Budget也有结果。"
+        "The same colour connects estimates from the same perturbation method at measured budgets; "
+        "the segment is a visual guide, not an unmeasured result."
     ),
     "key-point": (
-        "A circle is the aggregate point estimate at one exact method-budget setting, calculated from valid scored observations; it is not an individual sample or a confidence interval. "
-        "/ 圆点是某个确定方法与Budget组合下、由有效评分记录汇总得到的点估计；它不是单个样本，也不是置信区间。"
+        "A circle is the aggregate point estimate at one exact method-budget setting, calculated from "
+        "valid scored observations; it is not an individual sample or a confidence interval."
     ),
     "key-bar-vertical": (
-        "Bar height encodes the aggregate point estimate from the zero baseline. Bar width and area have no statistical meaning. "
-        "/ 柱高从零基线开始表示汇总点估计；柱宽和柱面积没有额外统计含义。"
+        "Bar height encodes the aggregate point estimate from the zero baseline. Bar width and area "
+        "have no statistical meaning."
     ),
     "key-diverging-bar-vertical": (
-        "Distance from zero shows the magnitude of the mean signed change; the side of zero shows whether predicted vulnerability probability rose or fell. "
-        "/ 柱子离零线的距离表示平均带符号变化的大小；位于零线上方或下方表示漏洞预测概率上升或下降。"
+        "Distance from zero shows the magnitude of the mean signed change; the side of zero shows "
+        "whether predicted vulnerability probability rose or fell."
     ),
     "key-zero": (
-        "The zero line means no probability change relative to the baseline prediction; it is not the model's classification threshold. "
-        "/ 零线表示相对基线预测概率没有变化；它不是模型将样本判为漏洞的分类阈值。"
+        "The zero line means no probability change relative to the baseline prediction; it is not the "
+        "model's classification threshold."
     ),
     "key-n": (
-        "n is the number of valid scoreable observations used for that estimate after filtering. It may include repeated seeds and is not automatically the number of independent source programs. "
-        "/ n是过滤后真正参与该估计的有效可评分记录数；它可能包含重复Seed，不能自动当成独立源代码数量。"
+        "n is the number of valid scoreable observations used for that estimate after filtering. It may "
+        "include repeated seeds and is not automatically the number of independent source programs."
     ),
     "key-box": (
-        "The box spans Q1 to Q3—the 25th to 75th percentiles—so it contains the middle 50% of observed sample-level changes. It is not a confidence interval or standard deviation. "
-        "/ 箱体从第25百分位数Q1延伸到第75百分位数Q3，包含中间50%的样本级变化；它不是置信区间，也不是标准差。"
+        "The box spans Q1 to Q3, the 25th to 75th percentiles, and contains the middle 50% of observed "
+        "sample-level changes. It is not a confidence interval or standard deviation."
     ),
     "key-median": (
-        "The median is the 50th percentile: half the observed changes are no greater and half are no smaller. It is less sensitive to extreme values than the mean. "
-        "/ 中位数是第50百分位数：一半观测变化不大于它，另一半不小于它；它比均值更不容易被极端值拉动。"
+        "The median is the 50th percentile: half the observed changes are no greater and half are no "
+        "smaller. It is less sensitive to extreme values than the mean."
     ),
     "key-range": (
-        "Whiskers connect the smallest and largest values actually observed in this run. They are sensitive to extremes and are not 95% confidence intervals. "
-        "/ 须线连接本次run实际观测到的最小值和最大值，容易受极端样本影响，而且不是95%置信区间。"
+        "Whiskers connect the smallest and largest values actually observed in this run. They are "
+        "sensitive to extremes and are not 95% confidence intervals."
     ),
     "key-paired-bars": (
-        "The two bars at one budget are calculated from the same sample-budget-seed keys scoreable by both families, so the input cohort is controlled. "
-        "/ 同一Budget下的两根柱只使用Random与Winner-XFG双方都能评分的相同sample-budget-seed键，因此输入队列保持一致。"
+        "The two bars at one budget use the same sample-budget-seed keys scoreable by both families, "
+        "so the input cohort is controlled."
     ),
     "key-bar": (
-        "The paired-chart bar height is successful action variants divided by all scored action variants in the shared cohort. "
-        "/ 配对图柱高等于共同队列中的成功攻击变体数除以全部有效攻击变体数。"
+        "The paired-chart bar height is successful action variants divided by all scored action variants "
+        "in the shared cohort."
     ),
     "key-label": (
-        "The percentage printed above a bar is the observed rate from this run, rounded for display; exact counts remain available in the evidence tables. "
-        "/ 柱顶百分比是本次run的观测比率，显示时经过四舍五入；精确计数仍保留在证据表中。"
+        "The percentage above a bar is the observed rate from this run, rounded for display; exact counts "
+        "remain available in the evidence tables."
     ),
 }
 
@@ -506,13 +505,13 @@ def chart_key(*items: tuple[str, str], explanation: str | None = None) -> str:
         for symbol, label in items
     )
     explanation_html = (
-        '<p class="chart-explanation"><strong>Chart explanation / 图表讲解:</strong> '
+        '<p class="chart-explanation"><strong>Chart explanation:</strong> '
         f'{html.escape(explanation)}</p>'
         if explanation else ""
     )
     return (
         '<div class="chart-key" role="note" aria-label="How to read this chart">'
-        '<strong>Terminology / 名词解释:</strong>'
+        '<strong>Terminology:</strong>'
         f'<div class="chart-key-items">{body}</div>'
         f'{explanation_html}</div>'
     )
@@ -1118,472 +1117,6 @@ def budget_response_pattern(rates: list[float]) -> str:
     if all(right <= left for left, right in zip(rates, rates[1:])):
         return "non-increasing"
     return "non-monotonic"
-
-
-def markdown_cell(value: object) -> str:
-    return str(value).replace("|", "\\|").replace("\n", " ")
-
-
-def bilingual_findings(
-    groups: list[dict[str, object]], rows: list[dict[str, str]], language: str
-) -> list[str]:
-    """Generate parallel English or Chinese observations from the same aggregates."""
-    if not groups:
-        return ["No scored comparisons are available." if language == "en" else "没有可用于统计的有效对比结果。"]
-    targeted = explicit_attack_success(rows)
-    outcome = "ASR" if targeted else ("prediction flip rate" if language == "en" else "预测翻转率")
-    budgets = sorted({int(group["budget"]) for group in groups})
-    findings: list[str] = []
-    if len(budgets) > 1:
-        for budget in budgets:
-            peers = [group for group in groups if int(group["budget"]) == budget]
-            top_rate = max(float(group["success_rate"]) for group in peers)
-            leaders = [group for group in peers if float(group["success_rate"]) == top_rate]
-            details = "; ".join(
-                f'{friendly_method(str(group["method"]))}: {float(group["success_rate"]):.1%} '
-                f'({int(group["successes"])}/{int(group["outcome_scored"])}, 95% CI '
-                f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}])'
-                for group in leaders
-            )
-            if language == "en":
-                findings.append(f"At budget {budget}, the highest observed {outcome} is: {details}.")
-            else:
-                findings.append(f"在预算 {budget} 下，观测到的最高{outcome}为：{details}。")
-        pattern_zh = {
-            "constant": "保持不变",
-            "non-decreasing": "非递减",
-            "non-increasing": "非递增",
-            "non-monotonic": "非单调",
-        }
-        for method in sorted({str(group["method"]) for group in groups}):
-            series = sorted(
-                (group for group in groups if group["method"] == method),
-                key=lambda group: int(group["budget"]),
-            )
-            rates = [float(group["success_rate"]) for group in series]
-            sequence = " -> ".join(
-                f'B{int(group["budget"])}={float(group["success_rate"]):.1%}' for group in series
-            )
-            pattern = budget_response_pattern(rates)
-            if language == "en":
-                findings.append(
-                    f'{friendly_method(method)} has an observed {pattern} budget response ({sequence}).'
-                )
-            else:
-                findings.append(
-                    f'{friendly_method(method)} 的预算响应呈{pattern_zh[pattern]}模式（{sequence}）。'
-                )
-    else:
-        top_rate = max(float(group["success_rate"]) for group in groups)
-        leaders = [group for group in groups if float(group["success_rate"]) == top_rate]
-        leader_details = "; ".join(
-            f'{friendly_method(str(group["method"]))}: {float(group["success_rate"]):.1%} '
-            f'({int(group["successes"])}/{int(group["outcome_scored"])}, 95% CI '
-            f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}])'
-            for group in leaders
-        )
-        top_effect = max(groups, key=lambda group: float(group["mean_abs_delta"]))
-        if language == "en":
-            findings.append(f"At the fixed setting, the highest observed {outcome} is: {leader_details}.")
-            findings.append(
-                f'{friendly_method(str(top_effect["method"]))} has the largest mean absolute probability change '
-                f'({float(top_effect["mean_abs_delta"]):.4f}, n={int(top_effect["scored"])}).'
-            )
-        else:
-            findings.append(f"在固定设置下，观测到的最高{outcome}为：{leader_details}。")
-            findings.append(
-                f'{friendly_method(str(top_effect["method"]))} 的平均绝对概率变化最大'
-                f'（{float(top_effect["mean_abs_delta"]):.4f}，n={int(top_effect["scored"])}）。'
-            )
-    low_coverage = [group for group in groups if int(group["scored"]) < int(group["attempted"]) / 2]
-    if low_coverage:
-        names = ", ".join(friendly_method(str(group["method"])) for group in low_coverage)
-        if language == "en":
-            findings.append(
-                f"Coverage warning: {names} were scored on fewer than half of attempted cases; their estimates are less representative of the full input set."
-            )
-        else:
-            findings.append(
-                f"覆盖率提示：{names} 的有效评分样本少于尝试样本的一半，其估计值对完整输入集的代表性较弱。"
-            )
-    upward = max(groups, key=lambda group: float(group["mean_delta"]))
-    downward = min(groups, key=lambda group: float(group["mean_delta"]))
-    largest_nodes = max(groups, key=lambda group: float(group["mean_abs_nodes"]))
-    largest_edges = max(groups, key=lambda group: float(group["mean_abs_edges"]))
-
-    def named(group: dict[str, object]) -> str:
-        suffix = f' at budget {group["budget"]}' if language == "en" else f'（预算 {group["budget"]}）'
-        return friendly_method(str(group["method"])) + (suffix if len(budgets) > 1 else "")
-
-    if language == "en":
-        findings.append(
-            f'{named(upward)} has the largest upward mean probability shift ({float(upward["mean_delta"]):+.4f}); '
-            f'{named(downward)} has the largest downward shift ({float(downward["mean_delta"]):+.4f}).'
-        )
-        findings.append(
-            f'{named(largest_nodes)} has the largest mean absolute node change ({float(largest_nodes["mean_abs_nodes"]):.2f}); '
-            f'{named(largest_edges)} has the largest mean absolute edge change ({float(largest_edges["mean_abs_edges"]):.2f}).'
-        )
-    else:
-        findings.append(
-            f'{named(upward)} 的平均预测概率向上变化最大（{float(upward["mean_delta"]):+.4f}）；'
-            f'{named(downward)} 的平均预测概率向下变化最大（{float(downward["mean_delta"]):+.4f}）。'
-        )
-        findings.append(
-            f'{named(largest_nodes)} 的平均绝对节点变化最大（{float(largest_nodes["mean_abs_nodes"]):.2f}）；'
-            f'{named(largest_edges)} 的平均绝对边变化最大（{float(largest_edges["mean_abs_edges"]):.2f}）。'
-        )
-    return findings
-
-
-def bilingual_chart_guide_markdown() -> str:
-    """Return the shared bilingual chart-reading reference for every run."""
-    return """## Chart Reading Guide / 图表理解对照表
-
-| 中文术语 | English term | 中文理解 | English interpretation |
-|---|---|---|---|
-| 点估计 | Point estimate | 根据本次有效数据算出的单个比率或均值。它是当前最佳估计，但不是没有误差的真实值。 | The single rate or mean calculated from scored data. It is the best estimate from this run, not an error-free population truth. |
-| 竖向柱状图 | Vertical bar chart | 每根柱代表一种方法，柱高表示观测比率或均值。只有在Budget、样本和模型等条件相同时才适合直接比较。 | Each bar represents one method and its height is the observed rate or mean. Heights are directly comparable only when budget, samples, model, and other controlled conditions are the same. |
-| 95%置信区间 | 95% confidence interval | 如果反复进行许多次可比实验并每次按同样方式构造区间，大约95%的区间会覆盖总体真实比率或均值。它不是“95%的样本位于区间中”，也不是“真实值有95%概率在当前区间内”。 | If many comparable experiments were repeated and intervals were constructed the same way, about 95% of those intervals would contain the underlying population rate or mean. It is not the range containing 95% of samples, nor a statement that the fixed true value has a 95% probability of lying in this particular interval. |
-| 误差线/端帽线 | Error bar / capped interval | 为提高可读性，当前Dashboard不再把95%置信区间画成柱子或圆点旁的误差线；精确上下界仍保留在“Statistical evidence”统计证据表中。 | For readability, the current dashboard does not draw 95% confidence intervals as error bars beside bars or points; the exact bounds remain in the Statistical evidence table. |
-| 有效样本数n | Effective count (n) | `n`是计算点估计时真正使用的有效评分次数。n小通常使区间更宽；多Seed重复不能自动当成更多独立源代码。 | `n` is the number of scoreable observations used for the estimate. Small n usually produces wider intervals; repeated seeds must not automatically be treated as additional independent source programs. |
-| 攻击成功率 | Attack Success Rate (ASR) | 在基线预测正确且攻击合格的结果中，扰动实现攻击目标的比例。 | Among baseline-correct, attack-eligible results, the proportion for which the perturbation achieved the attack objective. |
-| 预测翻转率 | Prediction Flip Rate | 扰动前后最终分类标签发生变化的比例。翻转可能朝任意方向，因此不一定全部等于攻击成功。 | The proportion whose final class label changed after perturbation. A flip may occur in either direction and is not always equivalent to a successful attack. |
-| 效应幅度 | Effect magnitude | 概率变化的绝对值，回答“模型被推动了多远”，不考虑方向，也不要求最终标签翻转。 | The absolute probability change. It answers how far the model moved, regardless of direction or whether the final label flipped. |
-| 效应方向 | Effect direction | 带符号的平均概率变化。负值表示模型预测漏洞的概率下降，正值表示上升。 | The signed mean probability change. Negative values lower predicted vulnerability probability; positive values raise it. |
-| 零参考线 | Zero reference line | 表示平均没有变化。柱或点位于零线上方或下方，分别代表正向或负向变化。 | Represents no average change. Marks above or below it indicate positive or negative movement. |
-| Budget响应折线 | Budget-response line | 固定同一种方法，只改变Budget。连接线用于观察趋势，不表示两个Budget之间所有中间值都被测量。 | Holds the method fixed and changes only budget. The connecting line shows the observed trend and does not imply that every intermediate budget was measured. |
-| 箱体Q1–Q3 | Box, Q1 to Q3 | 箱体覆盖中间50%的样本变化，从第25百分位数到第75百分位数。箱体越大，说明样本反应差异越大。 | The box covers the middle 50% of sample changes, from the 25th to the 75th percentile. A larger box indicates greater variation across samples. |
-| 中位数 | Median | 箱体内部的粗线；一半样本小于它，另一半大于它，比均值更不容易被极端值拉动。 | The thick line inside the box. Half the observations are below it and half above it; it is less sensitive to extreme values than the mean. |
-| 须线 | Whiskers | 当前Dashboard中的须线连接实际观测到的最小值和最大值，不是95%置信区间。 | In this dashboard the whiskers span the observed minimum and maximum; they are not 95% confidence intervals. |
-| 覆盖率 | Coverage / applicability | 成功产生完整、可评分结果的尝试比例。高ASR但覆盖率很低的方法可能只对少量特殊样本有效。 | The proportion of attempts producing a complete, scoreable comparison. A method with high ASR but low coverage may work only on a small special subset. |
-| 配对共同队列 | Paired common cohort | 只比较Random与Winner-XFG双方都能评分的相同样本、Budget和Seed，减少输入组成不同造成的不公平。 | Compares only sample, budget, and seed keys scoreable by both Random and Winner-XFG, reducing unfairness caused by different input composition. |
-"""
-
-
-def bilingual_chart_conclusions_markdown(
-    groups: list[dict[str, object]], rows: list[dict[str, str]]
-) -> str:
-    """Generate chart-by-chart, data-dependent conclusions in paired Chinese and English."""
-    if not groups:
-        return ""
-    budgets = sorted({int(group["budget"]) for group in groups})
-    multi_budget = len(budgets) > 1
-    outcome_zh = "攻击成功率" if explicit_attack_success(rows) else "预测翻转率"
-    outcome_en = "attack success rate" if explicit_attack_success(rows) else "prediction flip rate"
-    conclusions: list[tuple[str, str, str]] = []
-
-    def condition_name(group: dict[str, object], language: str) -> str:
-        method = friendly_method(str(group["method"]))
-        if not multi_budget:
-            return method
-        return (
-            f'{method}（Budget {int(group["budget"])}）'
-            if language == "zh"
-            else f'{method} at budget {int(group["budget"])}'
-        )
-
-    top_rate = max(groups, key=lambda group: float(group["success_rate"]))
-    rate_scope_zh = "在所有已观测的方法–Budget组合中" if multi_budget else "在固定设置的方法比较中"
-    rate_scope_en = "Across all observed method–budget combinations" if multi_budget else "In the fixed-setting method comparison"
-    conclusions.append(
-        (
-            "有效性 / Effectiveness",
-            f'{rate_scope_zh}，{condition_name(top_rate, "zh")} 的观测{outcome_zh}最高，为'
-            f'{float(top_rate["success_rate"]):.1%}（{int(top_rate["successes"])}/{int(top_rate["outcome_scored"])}）。'
-            "这是本次run的描述性最高值；跨Budget的最高值不能被解释为只由方法差异造成，也不等于已证明总体显著更优。",
-            f'{rate_scope_en}, {condition_name(top_rate, "en")} has the highest observed '
-            f'{outcome_en}: {float(top_rate["success_rate"]):.1%} ({int(top_rate["successes"])}/{int(top_rate["outcome_scored"])}). '
-            "This is the descriptive maximum in this run; a maximum across budgets cannot be attributed to method alone and does not prove population-level superiority.",
-        )
-    )
-
-    if multi_budget:
-        endpoint_changes: list[tuple[float, str, dict[str, object], dict[str, object]]] = []
-        for method in sorted({str(group["method"]) for group in groups}):
-            series = sorted(
-                (group for group in groups if str(group["method"]) == method),
-                key=lambda group: int(group["budget"]),
-            )
-            if len(series) >= 2:
-                change = float(series[-1]["success_rate"]) - float(series[0]["success_rate"])
-                endpoint_changes.append((abs(change), method, series[0], series[-1]))
-        if endpoint_changes:
-            _, method, first, last = max(endpoint_changes, key=lambda item: item[0])
-            change = float(last["success_rate"]) - float(first["success_rate"])
-            direction_zh = "上升" if change > 0 else "下降" if change < 0 else "不变"
-            direction_en = "increase" if change > 0 else "decrease" if change < 0 else "no change"
-            conclusions.append(
-                (
-                    "Budget响应 / Budget response",
-                    f'{friendly_method(method)} 从Budget {int(first["budget"])}到{int(last["budget"])}的端点变化幅度最大：'
-                    f'{float(first["success_rate"]):.1%} → {float(last["success_rate"]):.1%}，即{direction_zh}{abs(change):.1%}。'
-                    "端点差异概括总体变化，但不能替代对中间Budget是否单调的逐点检查。",
-                    f'{friendly_method(method)} has the largest endpoint change from budget {int(first["budget"])} to {int(last["budget"])}: '
-                    f'{float(first["success_rate"]):.1%} → {float(last["success_rate"]):.1%}, an absolute {direction_en} of {abs(change):.1%}. '
-                    "The endpoint contrast summarizes the overall shift but does not replace checking whether intermediate budgets are monotonic.",
-                )
-            )
-
-    largest_magnitude = max(groups, key=lambda group: float(group["mean_abs_delta"]))
-    conclusions.append(
-        (
-            "效应幅度 / Effect magnitude",
-            f'{condition_name(largest_magnitude, "zh")} 的平均绝对概率变化最大，为'
-            f'{float(largest_magnitude["mean_abs_delta"]):.4f}。这表示模型分数平均被推动得最远，但不说明推动方向，也不保证最终分类翻转。',
-            f'{condition_name(largest_magnitude, "en")} has the largest mean absolute probability change, '
-            f'{float(largest_magnitude["mean_abs_delta"]):.4f}. This means it moves model scores farthest on average, but says neither the direction nor that the final class flips.',
-        )
-    )
-
-    upward = max(groups, key=lambda group: float(group["mean_delta"]))
-    downward = min(groups, key=lambda group: float(group["mean_delta"]))
-    conclusions.append(
-        (
-            "效应方向 / Effect direction",
-            f'{condition_name(upward, "zh")} 的平均向上变化最大（{float(upward["mean_delta"]):+.4f}）；'
-            f'{condition_name(downward, "zh")} 的平均向下变化最大（{float(downward["mean_delta"]):+.4f}）。'
-            "方向表示漏洞预测概率相对基线升降，不直接等同于攻击是否成功。",
-            f'{condition_name(upward, "en")} has the largest upward mean shift ({float(upward["mean_delta"]):+.4f}); '
-            f'{condition_name(downward, "en")} has the largest downward mean shift ({float(downward["mean_delta"]):+.4f}). '
-            "Direction describes movement in predicted vulnerability probability relative to baseline and is not itself attack success.",
-        )
-    )
-
-    distributions: list[dict[str, object]] = []
-    grouped_deltas: dict[tuple[str, int], list[float]] = defaultdict(list)
-    for row in rows:
-        if is_scored(row):
-            method, strength = perturbation_configuration(row)
-            budget_match = re.search(r"(\d+)$", row.get("budget", "") or strength or "1")
-            budget = int(budget_match.group(1)) if budget_match else 1
-            grouped_deltas[(method, budget)].append(number(row, "delta_prob"))
-    for (method, budget), values in grouped_deltas.items():
-        low, q1, median, q3, high = distribution_summary(values)
-        distributions.append(
-            {
-                "method": method,
-                "budget": budget,
-                "median": median,
-                "iqr": q3 - q1,
-                "low": low,
-                "high": high,
-            }
-        )
-    if distributions:
-        strongest_median = max(distributions, key=lambda item: abs(float(item["median"])))
-        widest_iqr = max(distributions, key=lambda item: float(item["iqr"]))
-
-        def distribution_name(item: dict[str, object], language: str) -> str:
-            method = friendly_method(str(item["method"]))
-            if not multi_budget:
-                return method
-            return (
-                f'{method}（Budget {int(item["budget"])}）'
-                if language == "zh"
-                else f'{method} at budget {int(item["budget"])}'
-            )
-
-        median_value = float(strongest_median["median"])
-        if abs(median_value) < 0.00005:
-            median_zh = "所有方法–Budget箱体的中位数在四位小数精度下都接近零，未显示典型样本稳定地向某一方向移动"
-            median_en = "All method–budget boxplot medians are near zero at four-decimal precision, so the typical sample does not show a stable directional shift"
-        else:
-            median_zh = (
-                f'{distribution_name(strongest_median, "zh")} 的中位数离零最远'
-                f'（{median_value:+.4f}）'
-            )
-            median_en = (
-                f'{distribution_name(strongest_median, "en")} has the median farthest from zero '
-                f'({median_value:+.4f})'
-            )
-        conclusions.append(
-            (
-                "样本级分布 / Sample-level distribution",
-                f'{median_zh}；'
-                f'{distribution_name(widest_iqr, "zh")} 的箱体IQR最宽（{float(widest_iqr["iqr"]):.4f}）。'
-                "中位数描述典型样本的方向和幅度，IQR表示中间50%样本的反应一致性；须线极值不能单独证明稳定攻击效果。",
-                f'{median_en}; '
-                f'{distribution_name(widest_iqr, "en")} has the widest box IQR ({float(widest_iqr["iqr"]):.4f}). '
-                "The median describes the direction and magnitude of a typical sample, while IQR describes consistency in the middle 50%. Whisker extremes alone do not establish a stable attack effect.",
-            )
-        )
-
-    lowest_coverage = min(groups, key=lambda group: float(group["coverage_rate"]))
-    conclusions.append(
-        (
-            "适用性 / Applicability",
-            f'{condition_name(lowest_coverage, "zh")} 的覆盖率最低，为{float(lowest_coverage["coverage_rate"]):.1%}'
-            f'（{int(lowest_coverage["scored"])}/{int(lowest_coverage["attempted"])}）。覆盖率低意味着效果估计只来自较小的可成功运行子集。',
-            f'{condition_name(lowest_coverage, "en")} has the lowest coverage, {float(lowest_coverage["coverage_rate"]):.1%} '
-            f'({int(lowest_coverage["scored"])}/{int(lowest_coverage["attempted"])}). Low coverage means the effect estimate comes from a smaller successfully executed subset.',
-        )
-    )
-
-    largest_nodes = max(groups, key=lambda group: float(group["mean_abs_nodes"]))
-    largest_edges = max(groups, key=lambda group: float(group["mean_abs_edges"]))
-    conclusions.append(
-        (
-            "结构变化 / Realised structural change",
-            f'{condition_name(largest_nodes, "zh")} 的平均绝对节点变化最大（{float(largest_nodes["mean_abs_nodes"]):.2f}）；'
-            f'{condition_name(largest_edges, "zh")} 的平均绝对边变化最大（{float(largest_edges["mean_abs_edges"]):.2f}）。'
-            "它们说明扰动实际改了多少结构，不等于模型受影响程度。",
-            f'{condition_name(largest_nodes, "en")} has the largest mean absolute node change ({float(largest_nodes["mean_abs_nodes"]):.2f}); '
-            f'{condition_name(largest_edges, "en")} has the largest mean absolute edge change ({float(largest_edges["mean_abs_edges"]):.2f}). '
-            "These values quantify realised structural change, not how strongly the model was affected.",
-        )
-    )
-
-    paired = paired_common_summaries(rows)
-    if paired:
-        paired_lookup = {
-            (str(summary["family"]), int(summary["budget"])): summary
-            for summary in paired
-        }
-        paired_differences = []
-        for budget in sorted({int(summary["budget"]) for summary in paired}):
-            random_summary = paired_lookup.get(("random_graph", budget))
-            winner_summary = paired_lookup.get(("winner_xfg", budget))
-            if random_summary and winner_summary:
-                difference = float(winner_summary["variant_attack_success_rate"]) - float(random_summary["variant_attack_success_rate"])
-                paired_differences.append((abs(difference), difference, budget, random_summary, winner_summary))
-        if paired_differences:
-            _, difference, budget, random_summary, winner_summary = max(paired_differences, key=lambda item: item[0])
-            higher_zh = "Winner-XFG" if difference > 0 else "Random" if difference < 0 else "两者相同"
-            higher_en = "Winner-XFG" if difference > 0 else "Random" if difference < 0 else "neither family"
-            conclusions.append(
-                (
-                    "Random与Winner-XFG配对比较 / Paired family comparison",
-                    f'在共同可评分队列中，两类方法差距最大的Budget是{budget}：Random为'
-                    f'{float(random_summary["variant_attack_success_rate"]):.1%}，Winner-XFG为'
-                    f'{float(winner_summary["variant_attack_success_rate"]):.1%}，{higher_zh}高出{abs(difference):.1%}。'
-                    "该比较控制了sample、Budget和Seed，但仍是变体级描述性差异。",
-                    f'Within the shared scoreable cohort, the largest family gap occurs at budget {budget}: Random is '
-                    f'{float(random_summary["variant_attack_success_rate"]):.1%} and Winner-XFG is '
-                    f'{float(winner_summary["variant_attack_success_rate"]):.1%}; {higher_en} is higher by {abs(difference):.1%}. '
-                    "This controls sample, budget, and seed, but remains a descriptive variant-level contrast.",
-                )
-            )
-
-    rows_markdown = "\n".join(
-        f'| {markdown_cell(chart)} | {markdown_cell(zh)} | {markdown_cell(en)} |'
-        for chart, zh, en in conclusions
-    )
-    return f"""## Chart-by-chart Conclusions / 各图表推论
-
-以下推论由当前run的数据自动生成，并与Dashboard中的控制变量图一一对应；它们保留描述性边界，不替代显著性检验。
-The conclusions below are generated from this run and correspond to the controlled-variable charts in the dashboard; they remain descriptive and do not replace significance tests.
-
-| 图表 / Chart | 中文推论 | English inference |
-|---|---|---|
-{rows_markdown}
-"""
-
-
-def render_analysis_document(rows: list[dict[str, str]], output: Path, title: str) -> None:
-    """Write a reproducible bilingual Markdown companion beside a run dashboard."""
-    scored = [row for row in rows if is_scored(row)]
-    if not scored:
-        raise ValueError("the comparison CSV has no successful rows with complete numeric prediction data")
-    groups = comparison_groups(rows)
-    chart_groups = [group for group in groups if int(group["scored"]) > 0]
-    outcome_rows = (
-        [row for row in scored if attack_eligible(row)]
-        if explicit_attack_success(scored)
-        else scored
-    )
-    successes = sum(attack_succeeded(row) for row in outcome_rows)
-    sample_label, sample_count = input_sample_count(output.parent, scored)
-    targeted = explicit_attack_success(scored)
-    outcome_en = "successful attacks" if targeted else "prediction flips"
-    outcome_zh = "成功攻击" if targeted else "预测翻转"
-
-    table_rows: list[str] = []
-    for group in sorted(groups, key=lambda item: (int(item["budget"]), str(item["method"]))):
-        if int(group["scored"]) > 0:
-            rate = f'{float(group["success_rate"]):.1%}'
-            interval = f'[{float(group["success_low"]):.1%}, {float(group["success_high"]):.1%}]'
-            mean_delta = f'{float(group["mean_delta"]):+.4f}'
-            mean_absolute = (
-                f'{float(group["mean_abs_delta"]):.4f} '
-                f'[{float(group["abs_low"]):.4f}, {float(group["abs_high"]):.4f}]'
-            )
-            coverage = f'{float(group["coverage_rate"]):.1%}'
-            nodes = f'{float(group["mean_abs_nodes"]):.2f}'
-            edges = f'{float(group["mean_abs_edges"]):.2f}'
-        else:
-            rate = interval = mean_delta = mean_absolute = coverage = nodes = edges = "N/A"
-        table_rows.append(
-            "| {method} | {budget} | {scored}/{attempted} | {coverage} | {successes} | {rate} | {interval} | {delta} | {absolute} | {nodes} | {edges} |".format(
-                method=markdown_cell(friendly_method(str(group["method"]))),
-                budget=markdown_cell(group_setting_label(group)), scored=group["scored"], attempted=group["attempted"],
-                coverage=coverage, successes=group["successes"], rate=rate, interval=interval,
-                delta=mean_delta, absolute=mean_absolute, nodes=nodes, edges=edges,
-            )
-        )
-
-    en_findings = "\n".join(f"- {item}" for item in bilingual_findings(chart_groups, scored, "en"))
-    zh_findings = "\n".join(f"- {item}" for item in bilingual_findings(chart_groups, scored, "zh"))
-    table_text = "\n".join(table_rows)
-    chart_guide = bilingual_chart_guide_markdown()
-    chart_conclusions = bilingual_chart_conclusions_markdown(chart_groups, scored)
-    document = f"""# Experiment Analysis / 实验分析
-
-**Run / 实验：** {title}<br>
-**Source / 数据源：** `prediction_comparison.csv`
-
-## 中文说明
-
-### 范围与总体结果
-
-- 输入规模：{sample_count}（{sample_label}）。
-- 尝试生成的变体：{len(rows)}；有效评分对比：{len(scored)}；不可应用或不完整：{len(rows) - len(scored)}。
-- 观测到的{outcome_zh}：{successes}。
-- 所有图表和结论都坚持一次只比较一个变量：多预算实验只改变预算，固定设置实验只改变扰动方法。
-
-### 数据规律
-
-{zh_findings}
-
-### 解释边界
-
-- 这些结论描述本次 run 中的关联和趋势，不代表因果关系。
-- 比率使用 95% Wilson 置信区间；平均概率变化使用正态近似 95% 置信区间。
-- 小样本、低覆盖率、单次随机种子、数据集偏移和模型重训练不确定性均可能影响结论。
-- 应结合下方有效评分数与置信区间判断差异，而不应仅按点估计排序。
-
-## English Notes
-
-### Scope and overall result
-
-- Input size: {sample_count} ({sample_label}).
-- Attempted variants: {len(rows)}; scored comparisons: {len(scored)}; not applicable or incomplete: {len(rows) - len(scored)}.
-- Observed {outcome_en}: {successes}.
-- Every comparison changes one variable at a time: budget only for multi-budget experiments, and method only for fixed-setting experiments.
-
-### Observed patterns
-
-{en_findings}
-
-### Interpretation limits
-
-- These findings describe associations and trends within this run; they are not causal claims.
-- Rates use 95% Wilson intervals; mean probability changes use normal-approximation 95% intervals.
-- Small samples, low coverage, a single random seed, dataset shift, and model-retraining uncertainty can affect the conclusions.
-- Compare scored counts and confidence intervals rather than ranking methods only by point estimates.
-
-{chart_conclusions}
-
-{chart_guide}
-
-## Statistical Evidence / 统计证据
-
-| Method / 方法 | Budget or setting / 预算或设置 | Scored/attempted / 有效/尝试 | Coverage / 覆盖率 | Events / 事件数 | Rate / 比率 | 95% Wilson CI | Mean delta / 平均概率变化 | Mean absolute delta [95% CI] / 平均绝对变化 [95% CI] | Mean \\|Δ nodes\\| / 平均节点变化 | Mean \\|Δ edges\\| / 平均边变化 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-{table_text}
-"""
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(document, encoding="utf-8")
 
 
 def statistical_table(groups: list[dict[str, object]], rows: list[dict[str, str]]) -> str:
@@ -2208,15 +1741,10 @@ def render_report(
         if control_fields else ""
     )
 
-    analysis_link = (
-        f'<p class="analysis-link"><a href="{ANALYSIS_FILENAME}">'
-        'Bilingual analysis notes / 中英文分析说明</a></p>'
-    )
-
     if has_budget_response:
         comparison_section = (
             '<section><h2>Effectiveness under controlled budget changes</h2>'
-            '<p class="explain">Fixed-budget vertical bar panels hold budget fixed and compare methods. Budget-response line panels hold the method fixed and change only perturbation budget. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in Statistical evidence and the bilingual companion notes.</p>'
+            '<p class="explain">Fixed-budget vertical bar panels hold budget fixed and compare methods. Budget-response line panels hold the method fixed and change only perturbation budget. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in the Statistical evidence table.</p>'
             '<h3>Method comparison at each fixed budget</h3>'
             f'{horizontal_budget_comparisons(chart_groups, "success_rate", success_term(scored), percent=True)}'
             '<h3>Budget response for each fixed method</h3>'
@@ -2237,7 +1765,7 @@ def render_report(
         fixed_setting = f'budget {explicit_budgets[0]}' if explicit_budgets else 'one configured application'
         comparison_section = (
             '<section><h2>Effectiveness at a controlled fixed setting</h2>'
-            f'<p class="explain">Every panel holds the experiment at {fixed_setting}; only perturbation method changes. Realised structural change is reported separately. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in Statistical evidence and the bilingual companion notes.</p>'
+            f'<p class="explain">Every panel holds the experiment at {fixed_setting}; only perturbation method changes. Realised structural change is reported separately. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in the Statistical evidence table.</p>'
             f'<div class="chart-block"><h3>{html.escape(success_term(scored))}</h3>{svg_fixed_comparison(chart_groups, "success_rate", success_term(scored), percent=True)}</div>'
             f'<div class="chart-block"><h3>Effect magnitude</h3>{svg_fixed_comparison(chart_groups, "mean_abs_delta", "Mean absolute probability change")}</div>'
             f'<div class="chart-block"><h3>Effect direction</h3><p class="explain">Positive values raise predicted vulnerability probability; negative values lower it.</p>{svg_fixed_signed_comparison(chart_groups, "mean_delta", "Mean signed probability change")}</div>'
@@ -2257,7 +1785,7 @@ def render_report(
 </style></head><body><main>
 <h1>{html.escape(title)}</h1>
 <p class="sub">Controlled comparison of DeepWuKong predictions under one changing experimental variable at a time.</p>
-{dashboard_controls}{analysis_link}
+{dashboard_controls}
 <div class="summary-strip">
   <div class="summary-item"><strong>{input_count}</strong>{html.escape(input_label.lower())}</div>
   <div class="summary-item"><strong>{len(scored)}</strong>scored comparisons</div>
@@ -2285,7 +1813,6 @@ def render_report(
     paired_summaries = paired_common_summaries(rows)
     if paired_summaries:
         write_rows(output.parent / "paired_common_summary.csv", paired_summaries)
-    render_analysis_document(rows, output.parent / ANALYSIS_FILENAME, title)
 
 
 def main() -> None:

@@ -192,7 +192,7 @@ python -m http.server 8000
 Then open:
 
 - `http://localhost:8000/outputs/index.html`
-- `http://localhost:8000/demo_b/showcase/deepwukong_pdg_showcase.html`
+- `http://localhost:8000/robustness_experiments/showcase/deepwukong_pdg_showcase.html`
 
 ## Code-Level Perturbations
 
@@ -249,7 +249,7 @@ variant, and it does not combine different actions automatically.
 ### Generate Variants Without Inference
 
 ```powershell
-python demo_b\code\code_perturbations.py `
+python robustness_experiments\code\code_perturbations.py `
   --input input_sources\devign `
   --dataset devign `
   --actions data_flow_alias dead_statement xfg_targeted_dead_code `
@@ -260,7 +260,7 @@ python demo_b\code\code_perturbations.py `
 ### Run a Global Budget Search
 
 ```powershell
-python demo_b\code\run_budget_search.py `
+python robustness_experiments\code\run_budget_search.py `
   --input input_sources\devign `
   --target-mode global `
   --actions data_flow_alias dead_statement xfg_targeted_dead_code `
@@ -271,7 +271,7 @@ python demo_b\code\run_budget_search.py `
 ### Run a Winner-XFG Budget Search
 
 ```powershell
-python demo_b\code\run_budget_search.py `
+python robustness_experiments\code\run_budget_search.py `
   --input input_sources\cwe119\vulnerable `
   --target-mode winner-xfg `
   --winner-xfg-top-k 3 `
@@ -318,7 +318,7 @@ Primitive actions support:
 Apply one action and export its validated graph audit:
 
 ```powershell
-python demo_b\graph\graph_perturbations.py `
+python robustness_experiments\graph\graph_perturbations.py `
   --csv-root artifacts\joern_csv\run_20260710\baseline\00_codexglue_devign_9763 `
   --action edge_delete `
   --strategy random `
@@ -522,18 +522,17 @@ combined into one overall robustness score.
 
 | Path | Purpose |
 |---|---|
-| `baselines/deepwukong/` | DeepWuKong wrapper, configuration, checkpoint, model card, and inference scripts. |
-| `demo_b/code/` | Source actions, dataset adapters, variant generation, and budget search. |
-| `demo_b/graph/` | Primitive PDG actions and winner-XFG-targeted graph experiments. |
-| `demo_b/showcase/` | Interactive function/source PDG atlas generation. |
-| `demo_b/compare_deepwukong.py` | Paired baseline and perturbation comparison. |
-| `demo_b/visualize_results.py` | Run dashboard and shared index generation. |
+| `baselines/deepwukong/` | DeepWuKong wrapper, configuration, checkpoint, and inference scripts. |
+| `robustness_experiments/code/` | Source actions, dataset adapters, variant generation, and budget search. |
+| `robustness_experiments/graph/` | Primitive PDG actions and winner-XFG-targeted graph experiments. |
+| `robustness_experiments/showcase/` | Interactive function/source PDG atlas generation. |
+| `robustness_experiments/compare_deepwukong.py` | Paired baseline and perturbation comparison. |
+| `robustness_experiments/visualize_results.py` | Run dashboard and shared index generation. |
 | `input_sources/` | Dataset-separated C/C++ samples and metadata. |
 | `artifacts/` | Generated sources, Joern tables, CPG validation data, and XFG references. |
 | `outputs/` | Archived predictions, comparisons, summaries, and dashboards. |
 | `scripts/docker/` | Dockerfile, Compose configuration, and container entrypoint. |
 | `tests/` | Unit and integration-oriented tests. |
-| `legacy/` | Superseded scripts and perturbation references retained for provenance. |
 
 ## Testing
 
@@ -551,11 +550,11 @@ Check the main experiment scripts without running inference:
 
 ```powershell
 python -m py_compile `
-  demo_b\code\code_perturbations.py `
-  demo_b\code\run_budget_search.py `
-  demo_b\graph\graph_perturbations.py `
-  demo_b\graph\run_xfg_targeted_experiment.py `
-  demo_b\visualize_results.py
+  robustness_experiments\code\code_perturbations.py `
+  robustness_experiments\code\run_budget_search.py `
+  robustness_experiments\graph\graph_perturbations.py `
+  robustness_experiments\graph\run_xfg_targeted_experiment.py `
+  robustness_experiments\visualize_results.py
 ```
 
 ## Limitations

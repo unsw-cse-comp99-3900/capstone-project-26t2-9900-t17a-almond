@@ -705,7 +705,7 @@ the same report layout as the archived `run_20260717_code_*_round1` experiments.
 - `runs/baseline/*.json` and `runs/perturbed/*.json`: flattened DeepWuKong predictions.
 - `budget_search.csv` and `budget_search.json`: original minimal-flip-search records.
 """
-    (output_root / "README.md").write_text(report, encoding="utf-8")
+    (output_root / "run_summary.txt").write_text(report, encoding="utf-8")
 
 
 def write_standard_report(
