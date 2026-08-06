@@ -438,8 +438,9 @@ definition.
 
 The console and HTML dashboards normalize table columns and show attempts,
 scored runs, failures, flips, ground-truth-aware ASR, probability movement,
-graph deltas, horizontal fixed-budget comparisons, vertical budget responses,
-and per-seed stability. They remain reporting interfaces rather than a single
+graph deltas, budget-response comparisons, coverage, and per-seed stability.
+Graph dashboards keep full variant evidence in linked CSV files so large runs
+remain responsive. They remain reporting interfaces rather than a single
 weighted robustness rating.
 
 ## Datasets

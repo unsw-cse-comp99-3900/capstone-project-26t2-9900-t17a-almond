@@ -112,12 +112,14 @@ class VisualizationTests(unittest.TestCase):
             content = report.read_text(encoding="utf-8")
         self.assertEqual(success_term(rows), "Attack Success Rate (ASR)")
         self.assertIn("Effectiveness under controlled budget changes", content)
-        self.assertIn("Fixed-budget vertical bar panels hold budget fixed", content)
-        self.assertIn("Budget-response line panels hold the method fixed", content)
+        self.assertIn("Each budget-response line keeps the perturbation method fixed", content)
+        self.assertNotIn("Method comparison at each fixed budget", content)
         self.assertIn("non-decreasing budget-response pattern", content)
-        self.assertEqual(content.count('class="comparison-chart'), 10)
-        self.assertEqual(content.count('class="chart-explanation"'), 10)
-        self.assertIn("Scored coverage rate", content)
+        self.assertEqual(content.count('class="comparison-chart'), 6)
+        self.assertEqual(content.count('class="chart-explanation"'), 6)
+        self.assertIn("100% scored coverage", content)
+        self.assertIn("The flat 100% line is omitted", content)
+        self.assertNotIn('aria-label="Scored coverage rate', content)
         self.assertIn("Mean absolute node change", content)
         self.assertIn("Sample probability change distributions by budget", content)
         self.assertIn('class="comparison-chart distribution-facets"', content)
@@ -134,11 +136,26 @@ class VisualizationTests(unittest.TestCase):
         self.assertNotIn('<line class="ci-whisker"', content)
         self.assertNotIn("Vertical capped line = 95% confidence interval", content)
         self.assertIn("Dark reference line = no average change", content)
-        self.assertIn('class="estimate-bar', content)
+        self.assertIn('href="prediction_comparison.csv"', content)
+        self.assertNotIn('class="variant-table"', content)
         for budget in (">1<", ">3<", ">5<"):
             self.assertIn(budget, content)
         for method in ("XFG edge attack", "XFG feature mask", "targeted subgraph injection"):
             self.assertIn(method, content)
+
+    def test_budget_report_keeps_coverage_chart_when_coverage_varies(self):
+        rows = [
+            row("node_add", sample="a", budget="1", status="success"),
+            row("node_add", sample="b", budget="1", status="failed"),
+            row("node_add", sample="a", budget="3", status="success"),
+            row("node_add", sample="b", budget="3", status="success"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            report = Path(directory) / "random.html"
+            render_report(rows, report, "Random report")
+            content = report.read_text(encoding="utf-8")
+        self.assertIn('aria-label="Scored coverage rate observed estimates by budget"', content)
+        self.assertNotIn("The flat 100% line is omitted", content)
 
     def test_group_statistics_keep_attempted_and_scored_counts_separate(self):
         rows = [row("range_clamp", sample="a", flipped=False)]
@@ -261,7 +278,7 @@ class VisualizationTests(unittest.TestCase):
             {"random_graph": 1, "winner_xfg": 1},
         )
 
-    def test_multi_budget_seed_report_has_horizontal_vertical_and_seed_filters(self):
+    def test_multi_budget_seed_report_uses_csv_evidence_without_redundant_bars(self):
         rows = [
             row(
                 action,
@@ -283,10 +300,11 @@ class VisualizationTests(unittest.TestCase):
             sample_summary_exists = (report.parent / "sample_level_summary.csv").is_file()
             seed_summary_exists = (report.parent / "seed_level_summary.csv").is_file()
 
-        self.assertIn("Method comparison at each fixed budget", content)
+        self.assertNotIn("Method comparison at each fixed budget", content)
         self.assertIn("Budget response for each fixed method", content)
-        self.assertIn('id="seed-selector"', content)
-        self.assertIn("<th>Seed</th>", content)
+        self.assertNotIn('id="seed-selector"', content)
+        self.assertIn('href="prediction_comparison.csv"', content)
+        self.assertNotIn('class="variant-table"', content)
         self.assertIn("Independent-sample outcomes", content)
         self.assertIn("Seed rate mean ± SD [range]", content)
         self.assertTrue(sample_summary_exists)
