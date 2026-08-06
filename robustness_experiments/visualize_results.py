@@ -1657,6 +1657,10 @@ def render_report(
     seeds = sorted({row["seed"] for row in scored if row["seed"]}, key=lambda value: int(value))
     budgets = sorted({int(group["budget"]) for group in chart_groups})
     has_budget_response = len(budgets) > 1
+    all_coverage_complete = bool(groups) and all(
+        math.isclose(float(group["coverage_rate"]), 1.0, abs_tol=1e-12)
+        for group in groups
+    )
     selection_name = "configurations" if has_budget_response else "methods"
     outcome_rows = (
         [row for row in scored if attack_eligible(row)]
@@ -1673,26 +1677,29 @@ def render_report(
     )
     input_label, input_count = input_sample_count(run_root, scored)
     insight_items = "".join(f'<li>{html.escape(item)}</li>' for item in evidence_insights(chart_groups, scored))
-    table_rows = "".join(
-        "<tr data-selection=\"{selection}\" data-seed=\"{seed}\"><td>{sample}</td><td>{action}</td><td class=\"num\">{budget}</td><td class=\"num\">{seed}</td>"
-        "<td class=\"num\">{base:.6f}</td><td class=\"num\">{variant:.6f}</td><td class=\"num\">{delta:+.6f}</td>"
-        "<td class=\"num\">{nodes:+.0f}</td><td class=\"num\">{edges:+.0f}</td><td>{outcome}</td></tr>".format(
-            selection=html.escape(selection_key(row)), action=html.escape(row["action"]), sample=html.escape(row["sample"]),
-            budget=html.escape(row["budget"] or "fixed"),
-            seed=html.escape(row["seed"] or "fixed"),
-            base=number(row, "base_prob"), variant=number(row, "variant_prob"),
-            delta=number(row, "delta_prob"), nodes=number(row, "delta_nodes"), edges=number(row, "delta_edges"),
-            outcome=(
-                "baseline ineligible"
-                if explicit_attack_success(scored) and not attack_eligible(row)
-                else ("success" if attack_succeeded(row) else "no change")
-            ),
-        ) for row in scored
-    )
-    controls = "".join(
-        f'<label><input type="checkbox" value="{html.escape(selection)}" checked> {html.escape(selection)}</label>'
-        for selection in selections
-    )
+    table_rows = ""
+    controls = ""
+    if not has_budget_response:
+        table_rows = "".join(
+            "<tr data-selection=\"{selection}\" data-seed=\"{seed}\"><td>{sample}</td><td>{action}</td><td class=\"num\">{budget}</td><td class=\"num\">{seed}</td>"
+            "<td class=\"num\">{base:.6f}</td><td class=\"num\">{variant:.6f}</td><td class=\"num\">{delta:+.6f}</td>"
+            "<td class=\"num\">{nodes:+.0f}</td><td class=\"num\">{edges:+.0f}</td><td>{outcome}</td></tr>".format(
+                selection=html.escape(selection_key(row)), action=html.escape(row["action"]), sample=html.escape(row["sample"]),
+                budget=html.escape(row["budget"] or "fixed"),
+                seed=html.escape(row["seed"] or "fixed"),
+                base=number(row, "base_prob"), variant=number(row, "variant_prob"),
+                delta=number(row, "delta_prob"), nodes=number(row, "delta_nodes"), edges=number(row, "delta_edges"),
+                outcome=(
+                    "baseline ineligible"
+                    if explicit_attack_success(scored) and not attack_eligible(row)
+                    else ("success" if attack_succeeded(row) else "no change")
+                ),
+            ) for row in scored
+        )
+        controls = "".join(
+            f'<label><input type="checkbox" value="{html.escape(selection)}" checked> {html.escape(selection)}</label>'
+            for selection in selections
+        )
     control_fields: list[str] = []
     if run_options:
         run_selector_options = "".join(
@@ -1703,7 +1710,7 @@ def render_report(
             '<label class="selector-field" for="run-selector"><span>Experiment run</span>'
             f'<select id="run-selector">{run_selector_options}</select></label>'
         )
-    if len(seeds) > 1:
+    if len(seeds) > 1 and not has_budget_response:
         seed_options = '<option value="all">All seeds</option>' + "".join(
             f'<option value="{html.escape(seed)}">Seed {html.escape(seed)}</option>'
             for seed in seeds
@@ -1742,11 +1749,28 @@ def render_report(
     )
 
     if has_budget_response:
+        variant_evidence_section = (
+            '<section><h2>Variant evidence</h2>'
+            '<p class="explain">The complete variant-level evidence is kept in the CSV file instead of being embedded as thousands of HTML table rows. This keeps the dashboard responsive without removing any experiment data.</p>'
+            f'<p><a class="evidence-link" href="prediction_comparison.csv">Open full variant evidence CSV ({len(rows):,} total rows; {len(scored):,} scored)</a></p></section>'
+        )
+    else:
+        variant_evidence_section = (
+            '<section><h2>Variant evidence</h2><p class="explain">Use this table to trace every aggregate back to individual samples. Filtering changes only the evidence table, not the fixed comparison charts above.</p>'
+            f'<p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name}</summary><div class="picker-actions"><label><input id="select-all" type="checkbox" checked> All</label></div><div id="action-checks">{controls}</div></details>'
+            f'<div class="table-scroll"><table class="variant-table"><thead><tr><th>Sample</th><th>Method</th><th>Budget / setting</th><th>Seed</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Outcome</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>'
+        )
+
+    if has_budget_response:
+        coverage_content = (
+            '<div class="status-note"><strong>100% scored coverage</strong>'
+            '<span>Every attempted variant produced a complete, scoreable comparison. The flat 100% line is omitted because it contains no method or budget trend.</span></div>'
+            if all_coverage_complete
+            else svg_budget_lines(chart_groups, "coverage_rate", "Scored coverage rate", percent=True)
+        )
         comparison_section = (
             '<section><h2>Effectiveness under controlled budget changes</h2>'
-            '<p class="explain">Fixed-budget vertical bar panels hold budget fixed and compare methods. Budget-response line panels hold the method fixed and change only perturbation budget. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in the Statistical evidence table.</p>'
-            '<h3>Method comparison at each fixed budget</h3>'
-            f'{horizontal_budget_comparisons(chart_groups, "success_rate", success_term(scored), percent=True)}'
+            '<p class="explain">Each budget-response line keeps the perturbation method fixed and changes only perturbation budget. Compare methods vertically at the same budget. Charts show observed estimates without confidence-interval error bars for readability; exact 95% intervals remain in the Statistical evidence table.</p>'
             '<h3>Budget response for each fixed method</h3>'
             f'<div class="chart-block"><h3>{html.escape(success_term(scored))}</h3>{svg_budget_lines(chart_groups, "success_rate", success_term(scored), percent=True)}</div>'
             f'<div class="chart-block"><h3>Effect magnitude</h3>{svg_budget_lines(chart_groups, "mean_abs_delta", "Mean absolute probability change")}</div>'
@@ -1754,7 +1778,7 @@ def render_report(
             f'<div class="chart-block"><h3>Sample-level effect distribution</h3>{svg_budget_delta_small_multiples(scored)}</div></section>'
             '<section><h2>Applicability under controlled budget changes</h2>'
             '<p class="explain">Coverage is the proportion of attempted variants that produced a complete, scoreable model comparison.</p>'
-            f'{svg_budget_lines(chart_groups, "coverage_rate", "Scored coverage rate", percent=True)}</section>'
+            f'{coverage_content}</section>'
             '<section><h2>Realised structural perturbation</h2>'
             '<p class="explain">Requested budget is separated from the structure actually changed. Each response still varies budget only.</p>'
             f'<div class="chart-block"><h3>Node changes</h3>{svg_budget_lines(chart_groups, "mean_abs_nodes", "Mean absolute node change")}</div>'
@@ -1781,7 +1805,7 @@ def render_report(
 
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><style>
-*{{box-sizing:border-box}}body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f4f6fa;color:#172033}}main{{max-width:1480px;margin:0 auto;padding:28px}}h1{{font-size:clamp(1.7rem,2.4vw,2.5rem);margin:0 0 6px}}h2{{font-size:1.35rem;margin:0 0 8px}}h3{{font-size:1.08rem;margin:28px 0 4px}}.sub,.explain{{color:#5d687c;max-width:92ch}}.dashboard-controls{{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:18px 0 10px}}.selector-field{{display:grid;gap:6px;font-weight:600;color:#334155}}.selector-field select{{min-width:min(360px,80vw);padding:9px 34px 9px 11px;border:1px solid #b8c2d1;border-radius:7px;background:#fff;color:#172033}}.all-runs-link{{padding:9px 2px}}.summary-strip{{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}}.summary-item{{min-width:170px;padding:12px 16px;border-left:4px solid #2563eb;background:#eef4ff}}.summary-item strong{{display:block;font-size:1.7rem}}section{{background:#fff;border:1px solid #dce2ec;border-radius:10px;padding:22px;margin:18px 0}}.chart-block+ .chart-block{{border-top:1px solid #e5e7eb;margin-top:30px;padding-top:4px}}.chart-wrap{{overflow-x:auto;margin-top:16px}}.comparison-chart{{display:block;width:100%;min-width:820px;height:auto}}.comparison-chart .grid{{stroke:#dce2ec;stroke-width:1}}.comparison-chart .zero-line{{stroke:#64748b;stroke-width:2}}.axis-label,.point-label,.legend-label,.method-label{{font-size:13px;fill:#334155}}.axis-title{{font-size:14px;font-weight:600;fill:#172033}}.point-label{{font-weight:600}}.chart-key{{margin:10px 0 0;padding:13px 15px;border:1px solid #dce2ec;border-radius:7px;background:#f8fafc;color:#475569;font-size:13px}}.chart-key strong{{color:#172033}}.chart-key-items{{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start;gap:12px 20px;margin-top:10px}}.chart-key-item{{display:flex;align-items:flex-start;gap:9px;min-width:0}}.chart-key-copy{{display:grid;gap:3px;line-height:1.42}}.chart-key-term{{font-size:13px}}.chart-key-detail{{color:#5d687c}}.chart-key-symbol{{position:relative;display:inline-block;flex:0 0 auto;width:28px;height:14px;margin-top:3px}}.key-bar,.key-paired-bars,.key-diverging-bar{{height:10px;background:#2563eb;border-radius:2px}}.key-bar-vertical,.key-diverging-bar-vertical{{width:14px;height:14px;margin-left:7px;background:#2563eb;border-radius:2px}}.key-diverging-bar-vertical{{background:linear-gradient(0deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-paired-bars{{background:linear-gradient(90deg,#2563eb 0 45%,transparent 45% 55%,#d97706 55% 100%)}}.key-diverging-bar{{background:linear-gradient(90deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-series-line{{height:0;border-top:3px solid #2563eb}}.key-series-line::after,.key-point::after{{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#2563eb;left:10px;top:-5px;border:1px solid #fff}}.key-point{{height:0;border-top:1px solid transparent}}.key-zero{{height:0;border-top:3px solid #64748b;top:7px}}.key-box{{height:12px;background:#2563eb38;border:1px solid #2563eb}}.key-median{{height:14px;border-left:3px solid #2563eb;margin-left:13px}}.key-range{{height:0;border-top:1px solid #2563eb;top:7px}}.key-range::before,.key-range::after{{content:"";position:absolute;top:-5px;height:10px;border-left:1px solid #2563eb}}.key-range::before{{left:0}}.key-range::after{{right:0}}.key-n::after{{content:"n";position:absolute;inset:0;text-align:center;font-weight:700;color:#172033}}.key-label::after{{content:"12.3%";position:absolute;inset:0;font-size:10px;font-weight:700;color:#172033}}.chart-explanation{{max-width:120ch;margin:12px 0 0;padding-top:10px;border-top:1px solid #dce2ec;line-height:1.55;color:#334155}}.distribution-facets .panel-title{{font-size:15px;font-weight:700;fill:#172033}}.distribution-facets .budget-label{{font-size:12px}}.insights{{margin:12px 0 0;padding-left:22px}}.insights li{{margin:9px 0;max-width:105ch}}.method-picker{{margin:14px 0;border:1px solid #dce2ec;border-radius:8px;background:#f8fafc}}.method-picker summary{{cursor:pointer;padding:12px 14px;font-weight:600}}.picker-actions{{padding:10px 14px;border-top:1px solid #dce2ec}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:7px;padding:6px 14px 14px}}#action-checks label{{overflow-wrap:anywhere}}input,select{{font:inherit}}.table-scroll{{overflow:auto;max-height:620px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{padding:9px 10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{position:sticky;top:0;background:#eef4ff;z-index:1}}.num{{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}}.summary-table{{min-width:980px}}.variant-table{{min-width:1160px}}.method-note{{font-size:13px;color:#5d687c;margin-top:10px}}@media(max-width:700px){{main{{padding:16px}}section{{padding:16px}}.summary-item{{flex:1 1 140px}}.selector-field{{width:100%}}.selector-field select{{width:100%;min-width:0}}.chart-key-items{{grid-template-columns:1fr}}}}
+*{{box-sizing:border-box}}body{{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;background:#f4f6fa;color:#172033}}main{{max-width:1480px;margin:0 auto;padding:28px}}h1{{font-size:clamp(1.7rem,2.4vw,2.5rem);margin:0 0 6px}}h2{{font-size:1.35rem;margin:0 0 8px}}h3{{font-size:1.08rem;margin:28px 0 4px}}.sub,.explain{{color:#5d687c;max-width:92ch}}.dashboard-controls{{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:18px 0 10px}}.selector-field{{display:grid;gap:6px;font-weight:600;color:#334155}}.selector-field select{{min-width:min(360px,80vw);padding:9px 34px 9px 11px;border:1px solid #b8c2d1;border-radius:7px;background:#fff;color:#172033}}.all-runs-link{{padding:9px 2px}}.summary-strip{{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}}.summary-item{{min-width:170px;padding:12px 16px;border-left:4px solid #2563eb;background:#eef4ff}}.summary-item strong{{display:block;font-size:1.7rem}}section{{background:#fff;border:1px solid #dce2ec;border-radius:10px;padding:22px;margin:18px 0}}.chart-block+ .chart-block{{border-top:1px solid #e5e7eb;margin-top:30px;padding-top:4px}}.chart-wrap{{overflow-x:auto;margin-top:16px}}.comparison-chart{{display:block;width:100%;min-width:820px;height:auto}}.comparison-chart .grid{{stroke:#dce2ec;stroke-width:1}}.comparison-chart .zero-line{{stroke:#64748b;stroke-width:2}}.axis-label,.point-label,.legend-label,.method-label{{font-size:13px;fill:#334155}}.axis-title{{font-size:14px;font-weight:600;fill:#172033}}.point-label{{font-weight:600}}.chart-key{{margin:10px 0 0;padding:13px 15px;border:1px solid #dce2ec;border-radius:7px;background:#f8fafc;color:#475569;font-size:13px}}.chart-key strong{{color:#172033}}.chart-key-items{{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start;gap:12px 20px;margin-top:10px}}.chart-key-item{{display:flex;align-items:flex-start;gap:9px;min-width:0}}.chart-key-copy{{display:grid;gap:3px;line-height:1.42}}.chart-key-term{{font-size:13px}}.chart-key-detail{{color:#5d687c}}.chart-key-symbol{{position:relative;display:inline-block;flex:0 0 auto;width:28px;height:14px;margin-top:3px}}.key-bar,.key-paired-bars,.key-diverging-bar{{height:10px;background:#2563eb;border-radius:2px}}.key-bar-vertical,.key-diverging-bar-vertical{{width:14px;height:14px;margin-left:7px;background:#2563eb;border-radius:2px}}.key-diverging-bar-vertical{{background:linear-gradient(0deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-paired-bars{{background:linear-gradient(90deg,#2563eb 0 45%,transparent 45% 55%,#d97706 55% 100%)}}.key-diverging-bar{{background:linear-gradient(90deg,#2563eb 0 48%,#64748b 48% 52%,#d97706 52% 100%)}}.key-series-line{{height:0;border-top:3px solid #2563eb}}.key-series-line::after,.key-point::after{{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#2563eb;left:10px;top:-5px;border:1px solid #fff}}.key-point{{height:0;border-top:1px solid transparent}}.key-zero{{height:0;border-top:3px solid #64748b;top:7px}}.key-box{{height:12px;background:#2563eb38;border:1px solid #2563eb}}.key-median{{height:14px;border-left:3px solid #2563eb;margin-left:13px}}.key-range{{height:0;border-top:1px solid #2563eb;top:7px}}.key-range::before,.key-range::after{{content:"";position:absolute;top:-5px;height:10px;border-left:1px solid #2563eb}}.key-range::before{{left:0}}.key-range::after{{right:0}}.key-n::after{{content:"n";position:absolute;inset:0;text-align:center;font-weight:700;color:#172033}}.key-label::after{{content:"12.3%";position:absolute;inset:0;font-size:10px;font-weight:700;color:#172033}}.chart-explanation{{max-width:120ch;margin:12px 0 0;padding-top:10px;border-top:1px solid #dce2ec;line-height:1.55;color:#334155}}.distribution-facets .panel-title{{font-size:15px;font-weight:700;fill:#172033}}.distribution-facets .budget-label{{font-size:12px}}.insights{{margin:12px 0 0;padding-left:22px}}.insights li{{margin:9px 0;max-width:105ch}}.status-note{{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-top:16px;padding:14px 16px;border-left:4px solid #059669;background:#ecfdf5;color:#334155}}.status-note strong{{color:#065f46}}.evidence-link{{display:inline-block;padding:10px 14px;border-radius:7px;background:#2457c5;color:#fff;font-weight:600;text-decoration:none}}.evidence-link:hover{{background:#1d4ed8}}.method-picker{{margin:14px 0;border:1px solid #dce2ec;border-radius:8px;background:#f8fafc}}.method-picker summary{{cursor:pointer;padding:12px 14px;font-weight:600}}.picker-actions{{padding:10px 14px;border-top:1px solid #dce2ec}}#action-checks{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:7px;padding:6px 14px 14px}}#action-checks label{{overflow-wrap:anywhere}}input,select{{font:inherit}}.table-scroll{{overflow:auto;max-height:620px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{padding:9px 10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{position:sticky;top:0;background:#eef4ff;z-index:1}}.num{{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}}.summary-table{{min-width:980px}}.variant-table{{min-width:1160px}}.method-note{{font-size:13px;color:#5d687c;margin-top:10px}}@media(max-width:700px){{main{{padding:16px}}section{{padding:16px}}.summary-item{{flex:1 1 140px}}.selector-field{{width:100%}}.selector-field select{{width:100%;min-width:0}}.chart-key-items{{grid-template-columns:1fr}}}}
 </style></head><body><main>
 <h1>{html.escape(title)}</h1>
 <p class="sub">Controlled comparison of DeepWuKong predictions under one changing experimental variable at a time.</p>
@@ -1799,11 +1823,9 @@ def render_report(
 {seed_stability_table(rows)}
 <section><h2>Evidence-backed observations</h2><p class="explain">These statements are generated from the same aggregates shown above. They are descriptive associations, not causal claims.</p><ul class="insights">{insight_items}</ul></section>
 <section><h2>Statistical evidence</h2><p class="explain">Single-seed rates use 95% Wilson intervals. Multi-seed rate intervals are calculated across seed-level rates, so repeated variants are not presented as independent samples. Probability means use scored variant-level intervals.</p>{statistical_table(groups, scored)}</section>
-<section><h2>Variant evidence</h2><p class="explain">Use this table to trace every aggregate back to individual samples. Filtering changes only the evidence table, not the fixed comparison charts above.</p>
-<p id="selection-summary"></p><details class="method-picker"><summary>Choose {selection_name}</summary><div class="picker-actions"><label><input id="select-all" type="checkbox" checked> All</label></div><div id="action-checks">{controls}</div></details>
-<div class="table-scroll"><table class="variant-table"><thead><tr><th>Sample</th><th>Method</th><th>Budget / setting</th><th>Seed</th><th>Baseline</th><th>Variant</th><th>Delta probability</th><th>Delta nodes</th><th>Delta edges</th><th>Outcome</th></tr></thead><tbody>{table_rows}</tbody></table></div></section>
+{variant_evidence_section}
 <p class="method-note">Confidence intervals quantify uncertainty within this run; they do not account for dataset shift or model retraining uncertainty.</p>
-</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');const reportSelector=document.getElementById('report-selector');const seedSelector=document.getElementById('seed-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filterRows(){{const chosen=selected();const chosenSeed=seedSelector?seedSelector.value:'all';allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;let visible=0;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>{{const show=chosen.has(row.dataset.selection)&&(chosenSeed==='all'||row.dataset.seed===chosenSeed);row.hidden=!show;if(show)visible+=1;}});summary.textContent=`Showing ${{visible}} evidence rows across ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filterRows();}});boxes.forEach(box=>box.addEventListener('change',filterRows));if(seedSelector)seedSelector.addEventListener('change',filterRows);if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});if(reportSelector)reportSelector.addEventListener('change',()=>{{window.location.href=reportSelector.value;}});filterRows();</script></body></html>"""
+</main><script>const boxes=[...document.querySelectorAll('#action-checks input')];const allBox=document.getElementById('select-all');const summary=document.getElementById('selection-summary');const runSelector=document.getElementById('run-selector');const reportSelector=document.getElementById('report-selector');const seedSelector=document.getElementById('seed-selector');function selected(){{return new Set(boxes.filter(box=>box.checked).map(box=>box.value));}}function filterRows(){{if(!allBox||!summary)return;const chosen=selected();const chosenSeed=seedSelector?seedSelector.value:'all';allBox.checked=chosen.size===boxes.length;allBox.indeterminate=chosen.size>0&&chosen.size<boxes.length;let visible=0;document.querySelectorAll('tbody tr[data-selection]').forEach(row=>{{const show=chosen.has(row.dataset.selection)&&(chosenSeed==='all'||row.dataset.seed===chosenSeed);row.hidden=!show;if(show)visible+=1;}});summary.textContent=`Showing ${{visible}} evidence rows across ${{chosen.size}} of ${{boxes.length}} {selection_name}.`;}}if(allBox)allBox.addEventListener('change',()=>{{boxes.forEach(box=>box.checked=allBox.checked);filterRows();}});boxes.forEach(box=>box.addEventListener('change',filterRows));if(seedSelector)seedSelector.addEventListener('change',filterRows);if(runSelector)runSelector.addEventListener('change',()=>{{window.location.href=runSelector.value;}});if(reportSelector)reportSelector.addEventListener('change',()=>{{window.location.href=reportSelector.value;}});filterRows();</script></body></html>"""
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(document, encoding="utf-8")
     write_rows(output.parent / "sample_level_summary.csv", sample_level_summaries(rows))
