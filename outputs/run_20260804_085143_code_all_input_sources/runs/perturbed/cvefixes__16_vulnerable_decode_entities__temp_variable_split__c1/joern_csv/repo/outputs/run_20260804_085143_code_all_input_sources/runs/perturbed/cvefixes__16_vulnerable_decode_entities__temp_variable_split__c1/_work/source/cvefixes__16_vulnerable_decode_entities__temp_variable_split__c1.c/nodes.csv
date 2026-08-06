@@ -1,0 +1,1012 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260804_085143_code_all_input_sources/runs/perturbed/cvefixes__16_vulnerable_decode_entities__temp_variable_split__c1/_work/source/cvefixes__16_vulnerable_decode_entities__temp_variable_split__c1.c								
+ANR	2	Function	decode_entities	1:0:0:4354							
+ANR	3	FunctionDef	"decode_entities (pTHX_ SV * sv , HV * entity2char , bool expand_prefix)"		2	0					
+ANR	4	CompoundStatement		2:0:67:4354	2	0					
+ANR	5	IdentifierDeclStatement	STRLEN len ;	3:4:73:83	2	0	True				
+ANR	6	IdentifierDecl	len		2	0					
+ANR	7	IdentifierDeclType	STRLEN		2	0					
+ANR	8	Identifier	len		2	1					
+ANR	9	IdentifierDeclStatement	"char * s = SvPV_force ( sv , len ) ;"	4:4:89:118	2	1	True				
+ANR	10	IdentifierDecl	"* s = SvPV_force ( sv , len )"		2	0					
+ANR	11	IdentifierDeclType	char *		2	0					
+ANR	12	Identifier	s		2	1					
+ANR	13	AssignmentExpression	"* s = SvPV_force ( sv , len )"		2	2		=			
+ANR	14	Identifier	s		2	0					
+ANR	15	CallExpression	"SvPV_force ( sv , len )"		2	1					
+ANR	16	Callee	SvPV_force		2	0					
+ANR	17	Identifier	SvPV_force		2	0					
+ANR	18	ArgumentList	sv		2	1					
+ANR	19	Argument	sv		2	0					
+ANR	20	Identifier	sv		2	0					
+ANR	21	Argument	len		2	1					
+ANR	22	Identifier	len		2	0					
+ANR	23	IdentifierDeclStatement	char * t = s ;	5:4:124:135	2	2	True				
+ANR	24	IdentifierDecl	* t = s		2	0					
+ANR	25	IdentifierDeclType	char *		2	0					
+ANR	26	Identifier	t		2	1					
+ANR	27	AssignmentExpression	* t = s		2	2		=			
+ANR	28	Identifier	s		2	0					
+ANR	29	Identifier	s		2	1					
+ANR	30	IdentifierDeclStatement	char * end = s + len ;	6:4:141:160	2	3	True				
+ANR	31	IdentifierDecl	* end = s + len		2	0					
+ANR	32	IdentifierDeclType	char *		2	0					
+ANR	33	Identifier	end		2	1					
+ANR	34	AssignmentExpression	* end = s + len		2	2		=			
+ANR	35	Identifier	end		2	0					
+ANR	36	AdditiveExpression	s + len		2	1		+			
+ANR	37	Identifier	s		2	0					
+ANR	38	Identifier	len		2	1					
+ANR	39	IdentifierDeclStatement	char * ent_start ;	7:4:166:181	2	4	True				
+ANR	40	IdentifierDecl	* ent_start		2	0					
+ANR	41	IdentifierDeclType	char *		2	0					
+ANR	42	Identifier	ent_start		2	1					
+ANR	43	IdentifierDeclStatement	char * repl ;	9:4:188:198	2	5	True				
+ANR	44	IdentifierDecl	* repl		2	0					
+ANR	45	IdentifierDeclType	char *		2	0					
+ANR	46	Identifier	repl		2	1					
+ANR	47	IdentifierDeclStatement	STRLEN repl_len ;	10:4:204:219	2	6	True				
+ANR	48	IdentifierDecl	repl_len		2	0					
+ANR	49	IdentifierDeclType	STRLEN		2	0					
+ANR	50	Identifier	repl_len		2	1					
+ANR	51	IdentifierDeclStatement	char buf [ UTF8_MAXLEN ] ;	12:4:252:273	2	7	True				
+ANR	52	IdentifierDecl	buf [ UTF8_MAXLEN ]		2	0					
+ANR	53	IdentifierDeclType	char [ UTF8_MAXLEN ]		2	0					
+ANR	54	Identifier	buf		2	1					
+ANR	55	Identifier	UTF8_MAXLEN		2	2					
+ANR	56	IdentifierDeclStatement	int repl_utf8 ;	13:4:279:292	2	8	True				
+ANR	57	IdentifierDecl	repl_utf8		2	0					
+ANR	58	IdentifierDeclType	int		2	0					
+ANR	59	Identifier	repl_utf8		2	1					
+ANR	60	IdentifierDeclStatement	int high_surrogate = 0 ;	14:4:298:320	2	9	True				
+ANR	61	IdentifierDecl	high_surrogate = 0		2	0					
+ANR	62	IdentifierDeclType	int		2	0					
+ANR	63	Identifier	high_surrogate		2	1					
+ANR	64	AssignmentExpression	high_surrogate = 0		2	2		=			
+ANR	65	Identifier	high_surrogate		2	0					
+ANR	66	PrimaryExpression	0		2	1					
+ANR	67	IdentifierDeclStatement	int dwk_tmp_1 = 0 ;	21:4:484:501	2	10	True				
+ANR	68	IdentifierDecl	dwk_tmp_1 = 0		2	0					
+ANR	69	IdentifierDeclType	int		2	0					
+ANR	70	Identifier	dwk_tmp_1		2	1					
+ANR	71	AssignmentExpression	dwk_tmp_1 = 0		2	2		=			
+ANR	72	Identifier	dwk_tmp_1		2	0					
+ANR	73	PrimaryExpression	0		2	1					
+ANR	74	ExpressionStatement	repl_utf8 = dwk_tmp_1	22:4:507:528	2	11	True				
+ANR	75	AssignmentExpression	repl_utf8 = dwk_tmp_1		2	0		=			
+ANR	76	Identifier	repl_utf8		2	0					
+ANR	77	Identifier	dwk_tmp_1		2	1					
+ANR	78	WhileStatement	while ( s < end )		2	12					
+ANR	79	Condition	s < end	25:11:549:555	2	0	True				
+ANR	80	RelationalExpression	s < end		2	0		<			
+ANR	81	Identifier	s		2	0					
+ANR	82	Identifier	end		2	1					
+ANR	83	CompoundStatement		24:20:490:490	2	1					
+ANR	84	ExpressionStatement	assert ( t <= s )	26:1:561:575	2	0	True				
+ANR	85	CallExpression	assert ( t <= s )		2	0					
+ANR	86	Callee	assert		2	0					
+ANR	87	Identifier	assert		2	0					
+ANR	88	ArgumentList	t <= s		2	1					
+ANR	89	Argument	t <= s		2	0					
+ANR	90	RelationalExpression	t <= s		2	0		<=			
+ANR	91	Identifier	t		2	0					
+ANR	92	Identifier	s		2	1					
+ANR	93	IfStatement	if ( ( * t ++ = * s ++ ) != '&' )		2	1					
+ANR	94	Condition	( * t ++ = * s ++ ) != '&'	28:5:583:602	2	0	True				
+ANR	95	EqualityExpression	( * t ++ = * s ++ ) != '&'		2	0		!=			
+ANR	96	AssignmentExpression	* t ++ = * s ++		2	0		=			
+ANR	97	UnaryOperationExpression	* t ++		2	0					
+ANR	98	UnaryOperator	*		2	0					
+ANR	99	PostIncDecOperationExpression	t ++		2	1					
+ANR	100	Identifier	t		2	0					
+ANR	101	IncDec	++		2	1					
+ANR	102	UnaryOperationExpression	* s ++		2	1					
+ANR	103	UnaryOperator	*		2	0					
+ANR	104	PostIncDecOperationExpression	s ++		2	1					
+ANR	105	Identifier	s		2	0					
+ANR	106	IncDec	++		2	1					
+ANR	107	PrimaryExpression	'&'		2	1					
+ANR	108	ContinueStatement	continue ;	29:5:610:618	2	1	True				
+ANR	109	ExpressionStatement	ent_start = s	31:1:622:635	2	2	True				
+ANR	110	AssignmentExpression	ent_start = s		2	0		=			
+ANR	111	Identifier	ent_start		2	0					
+ANR	112	Identifier	s		2	1					
+ANR	113	ExpressionStatement	repl = 0	32:1:638:646	2	3	True				
+ANR	114	AssignmentExpression	repl = 0		2	0		=			
+ANR	115	Identifier	repl		2	0					
+ANR	116	PrimaryExpression	0		2	1					
+ANR	117	IfStatement	if ( * s == '#' )		2	4					
+ANR	118	Condition	* s == '#'	34:5:654:662	2	0	True				
+ANR	119	EqualityExpression	* s == '#'		2	0		==			
+ANR	120	UnaryOperationExpression	* s		2	0					
+ANR	121	UnaryOperator	*		2	0					
+ANR	122	Identifier	s		2	1					
+ANR	123	PrimaryExpression	'#'		2	1					
+ANR	124	CompoundStatement		36:5:639:649	2	1					
+ANR	125	IdentifierDeclStatement	UV num = 0 ;	35:5:672:682	2	0	True				
+ANR	126	IdentifierDecl	num = 0		2	0					
+ANR	127	IdentifierDeclType	UV		2	0					
+ANR	128	Identifier	num		2	1					
+ANR	129	AssignmentExpression	num = 0		2	2		=			
+ANR	130	Identifier	num		2	0					
+ANR	131	PrimaryExpression	0		2	1					
+ANR	132	IdentifierDeclStatement	UV prev = 0 ;	36:5:689:700	2	1	True				
+ANR	133	IdentifierDecl	prev = 0		2	0					
+ANR	134	IdentifierDeclType	UV		2	0					
+ANR	135	Identifier	prev		2	1					
+ANR	136	AssignmentExpression	prev = 0		2	2		=			
+ANR	137	Identifier	prev		2	0					
+ANR	138	PrimaryExpression	0		2	1					
+ANR	139	IdentifierDeclStatement	int ok = 0 ;	37:5:707:717	2	2	True				
+ANR	140	IdentifierDecl	ok = 0		2	0					
+ANR	141	IdentifierDeclType	int		2	0					
+ANR	142	Identifier	ok		2	1					
+ANR	143	AssignmentExpression	ok = 0		2	2		=			
+ANR	144	Identifier	ok		2	0					
+ANR	145	PrimaryExpression	0		2	1					
+ANR	146	ExpressionStatement	s ++	38:5:724:727	2	3	True				
+ANR	147	PostIncDecOperationExpression	s ++		2	0					
+ANR	148	Identifier	s		2	0					
+ANR	149	IncDec	++		2	1					
+ANR	150	IfStatement	if ( * s == 'x' || * s == 'X' )		2	4					
+ANR	151	Condition	* s == 'x' || * s == 'X'	39:9:738:759	2	0	True				
+ANR	152	OrExpression	* s == 'x' || * s == 'X'		2	0		||			
+ANR	153	EqualityExpression	* s == 'x'		2	0		==			
+ANR	154	UnaryOperationExpression	* s		2	0					
+ANR	155	UnaryOperator	*		2	0					
+ANR	156	Identifier	s		2	1					
+ANR	157	PrimaryExpression	'x'		2	1					
+ANR	158	EqualityExpression	* s == 'X'		2	1		==			
+ANR	159	UnaryOperationExpression	* s		2	0					
+ANR	160	UnaryOperator	*		2	0					
+ANR	161	Identifier	s		2	1					
+ANR	162	PrimaryExpression	'X'		2	1					
+ANR	163	CompoundStatement		38:33:694:694	2	1					
+ANR	164	ExpressionStatement	s ++	40:2:766:769	2	0	True				
+ANR	165	PostIncDecOperationExpression	s ++		2	0					
+ANR	166	Identifier	s		2	0					
+ANR	167	IncDec	++		2	1					
+ANR	168	WhileStatement	while ( * s )		2	1					
+ANR	169	Condition	* s	41:9:780:781	2	0	True				
+ANR	170	UnaryOperationExpression	* s		2	0					
+ANR	171	UnaryOperator	*		2	0					
+ANR	172	Identifier	s		2	1					
+ANR	173	CompoundStatement		41:6:724:759	2	1					
+ANR	174	IdentifierDeclStatement	"char * tmp = strchr ( PL_hexdigit , * s ) ;"	42:6:792:827	2	0	True				
+ANR	175	IdentifierDecl	"* tmp = strchr ( PL_hexdigit , * s )"		2	0					
+ANR	176	IdentifierDeclType	char *		2	0					
+ANR	177	Identifier	tmp		2	1					
+ANR	178	AssignmentExpression	"* tmp = strchr ( PL_hexdigit , * s )"		2	2		=			
+ANR	179	Identifier	tmp		2	0					
+ANR	180	CallExpression	"strchr ( PL_hexdigit , * s )"		2	1					
+ANR	181	Callee	strchr		2	0					
+ANR	182	Identifier	strchr		2	0					
+ANR	183	ArgumentList	PL_hexdigit		2	1					
+ANR	184	Argument	PL_hexdigit		2	0					
+ANR	185	Identifier	PL_hexdigit		2	0					
+ANR	186	Argument	* s		2	1					
+ANR	187	UnaryOperationExpression	* s		2	0					
+ANR	188	UnaryOperator	*		2	0					
+ANR	189	Identifier	s		2	1					
+ANR	190	IfStatement	if ( ! tmp )		2	1					
+ANR	191	Condition	! tmp	43:10:839:842	2	0	True				
+ANR	192	UnaryOperationExpression	! tmp		2	0					
+ANR	193	UnaryOperator	!		2	0					
+ANR	194	Identifier	tmp		2	1					
+ANR	195	BreakStatement	break ;	44:3:848:853	2	1	True				
+ANR	196	ExpressionStatement	num = num << 4 | ( ( tmp - PL_hexdigit ) & 15 )	45:6:861:904	2	2	True				
+ANR	197	AssignmentExpression	num = num << 4 | ( ( tmp - PL_hexdigit ) & 15 )		2	0		=			
+ANR	198	Identifier	num		2	0					
+ANR	199	InclusiveOrExpression	num << 4 | ( ( tmp - PL_hexdigit ) & 15 )		2	1		|			
+ANR	200	ShiftExpression	num << 4		2	0		<<			
+ANR	201	Identifier	num		2	0					
+ANR	202	PrimaryExpression	4		2	1					
+ANR	203	BitAndExpression	( tmp - PL_hexdigit ) & 15		2	1		&			
+ANR	204	AdditiveExpression	tmp - PL_hexdigit		2	0		-			
+ANR	205	Identifier	tmp		2	0					
+ANR	206	Identifier	PL_hexdigit		2	1					
+ANR	207	PrimaryExpression	15		2	1					
+ANR	208	IfStatement	if ( prev && num <= prev )		2	3					
+ANR	209	Condition	prev && num <= prev	46:10:916:934	2	0	True				
+ANR	210	AndExpression	prev && num <= prev		2	0		&&			
+ANR	211	Identifier	prev		2	0					
+ANR	212	RelationalExpression	num <= prev		2	1		<=			
+ANR	213	Identifier	num		2	0					
+ANR	214	Identifier	prev		2	1					
+ANR	215	CompoundStatement		45:31:869:869	2	1					
+ANR	216	ExpressionStatement	ok = 0	48:3:960:966	2	0	True				
+ANR	217	AssignmentExpression	ok = 0		2	0		=			
+ANR	218	Identifier	ok		2	0					
+ANR	219	PrimaryExpression	0		2	1					
+ANR	220	BreakStatement	break ;	49:3:971:976	2	1	True				
+ANR	221	ExpressionStatement	prev = num	51:6:992:1002	2	4	True				
+ANR	222	AssignmentExpression	prev = num		2	0		=			
+ANR	223	Identifier	prev		2	0					
+ANR	224	Identifier	num		2	1					
+ANR	225	ExpressionStatement	s ++	52:6:1010:1013	2	5	True				
+ANR	226	PostIncDecOperationExpression	s ++		2	0					
+ANR	227	Identifier	s		2	0					
+ANR	228	IncDec	++		2	1					
+ANR	229	ExpressionStatement	ok = 1	53:6:1021:1027	2	6	True				
+ANR	230	AssignmentExpression	ok = 1		2	0		=			
+ANR	231	Identifier	ok		2	0					
+ANR	232	PrimaryExpression	1		2	1					
+ANR	233	ElseStatement	else		2	0					
+ANR	234	CompoundStatement		55:10:982:982	2	0					
+ANR	235	WhileStatement	while ( isDIGIT ( * s ) )		2	0					
+ANR	236	Condition	isDIGIT ( * s )	57:9:1061:1071	2	0	True				
+ANR	237	CallExpression	isDIGIT ( * s )		2	0					
+ANR	238	Callee	isDIGIT		2	0					
+ANR	239	Identifier	isDIGIT		2	0					
+ANR	240	ArgumentList	* s		2	1					
+ANR	241	Argument	* s		2	0					
+ANR	242	UnaryOperationExpression	* s		2	0					
+ANR	243	UnaryOperator	*		2	0					
+ANR	244	Identifier	s		2	1					
+ANR	245	CompoundStatement		56:22:1006:1006	2	1					
+ANR	246	ExpressionStatement	num = num * 10 + ( * s - '0' )	58:6:1082:1109	2	0	True				
+ANR	247	AssignmentExpression	num = num * 10 + ( * s - '0' )		2	0		=			
+ANR	248	Identifier	num		2	0					
+ANR	249	AdditiveExpression	num * 10 + ( * s - '0' )		2	1		+			
+ANR	250	MultiplicativeExpression	num * 10		2	0		*			
+ANR	251	Identifier	num		2	0					
+ANR	252	PrimaryExpression	10		2	1					
+ANR	253	AdditiveExpression	* s - '0'		2	1		-			
+ANR	254	UnaryOperationExpression	* s		2	0					
+ANR	255	UnaryOperator	*		2	0					
+ANR	256	Identifier	s		2	1					
+ANR	257	PrimaryExpression	'0'		2	1					
+ANR	258	IfStatement	if ( prev && num < prev )		2	1					
+ANR	259	Condition	prev && num < prev	59:10:1121:1138	2	0	True				
+ANR	260	AndExpression	prev && num < prev		2	0		&&			
+ANR	261	Identifier	prev		2	0					
+ANR	262	RelationalExpression	num < prev		2	1		<			
+ANR	263	Identifier	num		2	0					
+ANR	264	Identifier	prev		2	1					
+ANR	265	CompoundStatement		58:30:1073:1073	2	1					
+ANR	266	ExpressionStatement	ok = 0	61:3:1164:1170	2	0	True				
+ANR	267	AssignmentExpression	ok = 0		2	0		=			
+ANR	268	Identifier	ok		2	0					
+ANR	269	PrimaryExpression	0		2	1					
+ANR	270	BreakStatement	break ;	62:3:1175:1180	2	1	True				
+ANR	271	ExpressionStatement	prev = num	64:6:1196:1206	2	2	True				
+ANR	272	AssignmentExpression	prev = num		2	0		=			
+ANR	273	Identifier	prev		2	0					
+ANR	274	Identifier	num		2	1					
+ANR	275	ExpressionStatement	s ++	65:6:1214:1217	2	3	True				
+ANR	276	PostIncDecOperationExpression	s ++		2	0					
+ANR	277	Identifier	s		2	0					
+ANR	278	IncDec	++		2	1					
+ANR	279	ExpressionStatement	ok = 1	66:6:1225:1231	2	4	True				
+ANR	280	AssignmentExpression	ok = 1		2	0		=			
+ANR	281	Identifier	ok		2	0					
+ANR	282	PrimaryExpression	1		2	1					
+ANR	283	IfStatement	if ( ok )		2	5					
+ANR	284	Condition	ok	69:9:1253:1254	2	0	True				
+ANR	285	Identifier	ok		2	0					
+ANR	286	CompoundStatement		68:13:1189:1189	2	1					
+ANR	287	IfStatement	if ( ! SvUTF8 ( sv ) && num <= 255 )		2	0					
+ANR	288	Condition	! SvUTF8 ( sv ) && num <= 255	71:6:1292:1316	2	0	True				
+ANR	289	AndExpression	! SvUTF8 ( sv ) && num <= 255		2	0		&&			
+ANR	290	UnaryOperationExpression	! SvUTF8 ( sv )		2	0					
+ANR	291	UnaryOperator	!		2	0					
+ANR	292	CallExpression	SvUTF8 ( sv )		2	1					
+ANR	293	Callee	SvUTF8		2	0					
+ANR	294	Identifier	SvUTF8		2	0					
+ANR	295	ArgumentList	sv		2	1					
+ANR	296	Argument	sv		2	0					
+ANR	297	Identifier	sv		2	0					
+ANR	298	RelationalExpression	num <= 255		2	1		<=			
+ANR	299	Identifier	num		2	0					
+ANR	300	PrimaryExpression	255		2	1					
+ANR	301	CompoundStatement		70:33:1251:1251	2	1					
+ANR	302	ExpressionStatement	buf [ 0 ] = ( char ) num	72:6:1327:1346	2	0	True				
+ANR	303	AssignmentExpression	buf [ 0 ] = ( char ) num		2	0		=			
+ANR	304	ArrayIndexing	buf [ 0 ]		2	0					
+ANR	305	Identifier	buf		2	0					
+ANR	306	PrimaryExpression	0		2	1					
+ANR	307	CastExpression	( char ) num		2	1					
+ANR	308	CastTarget	char		2	0					
+ANR	309	Identifier	num		2	1					
+ANR	310	ExpressionStatement	repl = buf	73:6:1354:1364	2	1	True				
+ANR	311	AssignmentExpression	repl = buf		2	0		=			
+ANR	312	Identifier	repl		2	0					
+ANR	313	Identifier	buf		2	1					
+ANR	314	ExpressionStatement	repl_len = 1	74:6:1372:1384	2	2	True				
+ANR	315	AssignmentExpression	repl_len = 1		2	0		=			
+ANR	316	Identifier	repl_len		2	0					
+ANR	317	PrimaryExpression	1		2	1					
+ANR	318	ExpressionStatement	repl_utf8 = 0	75:6:1392:1405	2	3	True				
+ANR	319	AssignmentExpression	repl_utf8 = 0		2	0		=			
+ANR	320	Identifier	repl_utf8		2	0					
+ANR	321	PrimaryExpression	0		2	1					
+ANR	322	ElseStatement	else		2	0					
+ANR	323	CompoundStatement		77:6:1358:1367	2	0					
+ANR	324	IdentifierDeclStatement	char * tmp ;	78:6:1426:1435	2	0	True				
+ANR	325	IdentifierDecl	* tmp		2	0					
+ANR	326	IdentifierDeclType	char *		2	0					
+ANR	327	Identifier	tmp		2	1					
+ANR	328	IfStatement	if ( ( num & 0xFFFFFC00 ) == 0xDC00 )		2	1					
+ANR	329	Condition	( num & 0xFFFFFC00 ) == 0xDC00	79:10:1447:1474	2	0	True				
+ANR	330	EqualityExpression	( num & 0xFFFFFC00 ) == 0xDC00		2	0		==			
+ANR	331	BitAndExpression	num & 0xFFFFFC00		2	0		&			
+ANR	332	Identifier	num		2	0					
+ANR	333	PrimaryExpression	0xFFFFFC00		2	1					
+ANR	334	PrimaryExpression	0xDC00		2	1					
+ANR	335	CompoundStatement		78:40:1409:1409	2	1					
+ANR	336	IfStatement	if ( high_surrogate != 0 )		2	0					
+ANR	337	Condition	high_surrogate != 0	80:7:1507:1525	2	0	True				
+ANR	338	EqualityExpression	high_surrogate != 0		2	0		!=			
+ANR	339	Identifier	high_surrogate		2	0					
+ANR	340	PrimaryExpression	0		2	1					
+ANR	341	CompoundStatement		79:28:1460:1460	2	1					
+ANR	342	ExpressionStatement	t -= 3	81:7:1537:1543	2	0	True				
+ANR	343	AssignmentExpression	t -= 3		2	0		-=			
+ANR	344	Identifier	t		2	0					
+ANR	345	PrimaryExpression	3		2	1					
+ANR	346	ExpressionStatement	num = ( ( high_surrogate - 0xD800 ) << 10 ) + ( num - 0xDC00 ) + 0x10000	82:7:1578:1648	2	1	True				
+ANR	347	AssignmentExpression	num = ( ( high_surrogate - 0xD800 ) << 10 ) + ( num - 0xDC00 ) + 0x10000		2	0		=			
+ANR	348	Identifier	num		2	0					
+ANR	349	AdditiveExpression	( ( high_surrogate - 0xD800 ) << 10 ) + ( num - 0xDC00 ) + 0x10000		2	1		+			
+ANR	350	ShiftExpression	( high_surrogate - 0xD800 ) << 10		2	0		<<			
+ANR	351	AdditiveExpression	high_surrogate - 0xD800		2	0		-			
+ANR	352	Identifier	high_surrogate		2	0					
+ANR	353	PrimaryExpression	0xD800		2	1					
+ANR	354	PrimaryExpression	10		2	1					
+ANR	355	AdditiveExpression	( num - 0xDC00 ) + 0x10000		2	1		+			
+ANR	356	AdditiveExpression	num - 0xDC00		2	0		-			
+ANR	357	Identifier	num		2	0					
+ANR	358	PrimaryExpression	0xDC00		2	1					
+ANR	359	PrimaryExpression	0x10000		2	1					
+ANR	360	ExpressionStatement	high_surrogate = 0	84:7:1657:1675	2	2	True				
+ANR	361	AssignmentExpression	high_surrogate = 0		2	0		=			
+ANR	362	Identifier	high_surrogate		2	0					
+ANR	363	PrimaryExpression	0		2	1					
+ANR	364	ElseStatement	else		2	0					
+ANR	365	CompoundStatement		84:10:1619:1619	2	0					
+ANR	366	ExpressionStatement	num = 0xFFFD	86:7:1696:1708	2	0	True				
+ANR	367	AssignmentExpression	num = 0xFFFD		2	0		=			
+ANR	368	Identifier	num		2	0					
+ANR	369	PrimaryExpression	0xFFFD		2	1					
+ANR	370	ElseStatement	else		2	0					
+ANR	371	IfStatement	if ( ( num & 0xFFFFFC00 ) == 0xD800 )		2	0					
+ANR	372	Condition	( num & 0xFFFFFC00 ) == 0xD800	89:15:1738:1765	2	0	True				
+ANR	373	EqualityExpression	( num & 0xFFFFFC00 ) == 0xD800		2	0		==			
+ANR	374	BitAndExpression	num & 0xFFFFFC00		2	0		&			
+ANR	375	Identifier	num		2	0					
+ANR	376	PrimaryExpression	0xFFFFFC00		2	1					
+ANR	377	PrimaryExpression	0xD800		2	1					
+ANR	378	CompoundStatement		88:45:1700:1700	2	1					
+ANR	379	ExpressionStatement	high_surrogate = num	90:3:1794:1814	2	0	True				
+ANR	380	AssignmentExpression	high_surrogate = num		2	0		=			
+ANR	381	Identifier	high_surrogate		2	0					
+ANR	382	Identifier	num		2	1					
+ANR	383	ExpressionStatement	num = 0xFFFD	91:3:1819:1831	2	1	True				
+ANR	384	AssignmentExpression	num = 0xFFFD		2	0		=			
+ANR	385	Identifier	num		2	0					
+ANR	386	PrimaryExpression	0xFFFD		2	1					
+ANR	387	ElseStatement	else		2	0					
+ANR	388	CompoundStatement		92:11:1784:1784	2	0					
+ANR	389	ExpressionStatement	high_surrogate = 0	94:3:1857:1875	2	0	True				
+ANR	390	AssignmentExpression	high_surrogate = 0		2	0		=			
+ANR	391	Identifier	high_surrogate		2	0					
+ANR	392	PrimaryExpression	0		2	1					
+ANR	393	IfStatement	if ( ( num >= 0xFDD0 && num <= 0xFDEF ) || ( ( num & 0xFFFE ) == 0xFFFE ) || num > 0x10FFFF )		2	1					
+ANR	394	Condition	( num >= 0xFDD0 && num <= 0xFDEF ) || ( ( num & 0xFFFE ) == 0xFFFE ) || num > 0x10FFFF	96:7:1912:2005	2	0	True				
+ANR	395	OrExpression	( num >= 0xFDD0 && num <= 0xFDEF ) || ( ( num & 0xFFFE ) == 0xFFFE ) || num > 0x10FFFF		2	0		||			
+ANR	396	AndExpression	num >= 0xFDD0 && num <= 0xFDEF		2	0		&&			
+ANR	397	RelationalExpression	num >= 0xFDD0		2	0		>=			
+ANR	398	Identifier	num		2	0					
+ANR	399	PrimaryExpression	0xFDD0		2	1					
+ANR	400	RelationalExpression	num <= 0xFDEF		2	1		<=			
+ANR	401	Identifier	num		2	0					
+ANR	402	PrimaryExpression	0xFDEF		2	1					
+ANR	403	OrExpression	( ( num & 0xFFFE ) == 0xFFFE ) || num > 0x10FFFF		2	1		||			
+ANR	404	EqualityExpression	( num & 0xFFFE ) == 0xFFFE		2	0		==			
+ANR	405	BitAndExpression	num & 0xFFFE		2	0		&			
+ANR	406	Identifier	num		2	0					
+ANR	407	PrimaryExpression	0xFFFE		2	1					
+ANR	408	PrimaryExpression	0xFFFE		2	1					
+ANR	409	RelationalExpression	num > 0x10FFFF		2	1		>			
+ANR	410	Identifier	num		2	0					
+ANR	411	PrimaryExpression	0x10FFFF		2	1					
+ANR	412	CompoundStatement		98:3:1943:1943	2	1					
+ANR	413	ExpressionStatement	num = 0xFFFD	100:7:2020:2032	2	0	True				
+ANR	414	AssignmentExpression	num = 0xFFFD		2	0		=			
+ANR	415	Identifier	num		2	0					
+ANR	416	PrimaryExpression	0xFFFD		2	1					
+ANR	417	ExpressionStatement	"tmp = ( char * ) uvuni_to_utf8 ( ( U8 * ) buf , num )"	104:6:2054:2095	2	2	True				
+ANR	418	AssignmentExpression	"tmp = ( char * ) uvuni_to_utf8 ( ( U8 * ) buf , num )"		2	0		=			
+ANR	419	Identifier	tmp		2	0					
+ANR	420	CastExpression	"( char * ) uvuni_to_utf8 ( ( U8 * ) buf , num )"		2	1					
+ANR	421	CastTarget	char *		2	0					
+ANR	422	CallExpression	"uvuni_to_utf8 ( ( U8 * ) buf , num )"		2	1					
+ANR	423	Callee	uvuni_to_utf8		2	0					
+ANR	424	Identifier	uvuni_to_utf8		2	0					
+ANR	425	ArgumentList	( U8 * ) buf		2	1					
+ANR	426	Argument	( U8 * ) buf		2	0					
+ANR	427	CastExpression	( U8 * ) buf		2	0					
+ANR	428	CastTarget	U8 *		2	0					
+ANR	429	Identifier	buf		2	1					
+ANR	430	Argument	num		2	1					
+ANR	431	Identifier	num		2	0					
+ANR	432	ExpressionStatement	repl = buf	105:6:2103:2113	2	3	True				
+ANR	433	AssignmentExpression	repl = buf		2	0		=			
+ANR	434	Identifier	repl		2	0					
+ANR	435	Identifier	buf		2	1					
+ANR	436	ExpressionStatement	repl_len = tmp - buf	106:6:2121:2141	2	4	True				
+ANR	437	AssignmentExpression	repl_len = tmp - buf		2	0		=			
+ANR	438	Identifier	repl_len		2	0					
+ANR	439	AdditiveExpression	tmp - buf		2	1		-			
+ANR	440	Identifier	tmp		2	0					
+ANR	441	Identifier	buf		2	1					
+ANR	442	ExpressionStatement	repl_utf8 = 1	107:6:2149:2162	2	5	True				
+ANR	443	AssignmentExpression	repl_utf8 = 1		2	0		=			
+ANR	444	Identifier	repl_utf8		2	0					
+ANR	445	PrimaryExpression	1		2	1					
+ANR	446	ElseStatement	else		2	0					
+ANR	447	CompoundStatement		118:5:2232:2250	2	0					
+ANR	448	IdentifierDeclStatement	char * ent_name = s ;	119:5:2300:2318	2	0	True				
+ANR	449	IdentifierDecl	* ent_name = s		2	0					
+ANR	450	IdentifierDeclType	char *		2	0					
+ANR	451	Identifier	ent_name		2	1					
+ANR	452	AssignmentExpression	* ent_name = s		2	2		=			
+ANR	453	Identifier	s		2	0					
+ANR	454	Identifier	s		2	1					
+ANR	455	WhileStatement	while ( isALNUM ( * s ) )		2	1					
+ANR	456	Condition	isALNUM ( * s )	120:12:2332:2342	2	0	True				
+ANR	457	CallExpression	isALNUM ( * s )		2	0					
+ANR	458	Callee	isALNUM		2	0					
+ANR	459	Identifier	isALNUM		2	0					
+ANR	460	ArgumentList	* s		2	1					
+ANR	461	Argument	* s		2	0					
+ANR	462	UnaryOperationExpression	* s		2	0					
+ANR	463	UnaryOperator	*		2	0					
+ANR	464	Identifier	s		2	1					
+ANR	465	ExpressionStatement	s ++	121:2:2347:2350	2	1	True				
+ANR	466	PostIncDecOperationExpression	s ++		2	0					
+ANR	467	Identifier	s		2	0					
+ANR	468	IncDec	++		2	1					
+ANR	469	IfStatement	if ( ent_name != s && entity2char )		2	2					
+ANR	470	Condition	ent_name != s && entity2char	122:9:2361:2388	2	0	True				
+ANR	471	AndExpression	ent_name != s && entity2char		2	0		&&			
+ANR	472	EqualityExpression	ent_name != s		2	0		!=			
+ANR	473	Identifier	ent_name		2	0					
+ANR	474	Identifier	s		2	1					
+ANR	475	Identifier	entity2char		2	1					
+ANR	476	CompoundStatement		122:2:2327:2335	2	1					
+ANR	477	IdentifierDeclStatement	SV * * svp ;	123:2:2395:2403	2	0	True				
+ANR	478	IdentifierDecl	* * svp		2	0					
+ANR	479	IdentifierDeclType	SV * *		2	0					
+ANR	480	Identifier	svp		2	1					
+ANR	481	IfStatement	"if ( ( svp = hv_fetch ( entity2char , ent_name , s - ent_name , 0 ) ) || ( * s == ';' && ( svp = hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 ) ) ) )"		2	1					
+ANR	482	Condition	"( svp = hv_fetch ( entity2char , ent_name , s - ent_name , 0 ) ) || ( * s == ';' && ( svp = hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 ) ) )"	124:20:2425:2565	2	0	True				
+ANR	483	OrExpression	"( svp = hv_fetch ( entity2char , ent_name , s - ent_name , 0 ) ) || ( * s == ';' && ( svp = hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 ) ) )"		2	0		||			
+ANR	484	AssignmentExpression	"svp = hv_fetch ( entity2char , ent_name , s - ent_name , 0 )"		2	0		=			
+ANR	485	Identifier	svp		2	0					
+ANR	486	CallExpression	"hv_fetch ( entity2char , ent_name , s - ent_name , 0 )"		2	1					
+ANR	487	Callee	hv_fetch		2	0					
+ANR	488	Identifier	hv_fetch		2	0					
+ANR	489	ArgumentList	entity2char		2	1					
+ANR	490	Argument	entity2char		2	0					
+ANR	491	Identifier	entity2char		2	0					
+ANR	492	Argument	ent_name		2	1					
+ANR	493	Identifier	ent_name		2	0					
+ANR	494	Argument	s - ent_name		2	2					
+ANR	495	AdditiveExpression	s - ent_name		2	0		-			
+ANR	496	Identifier	s		2	0					
+ANR	497	Identifier	ent_name		2	1					
+ANR	498	Argument	0		2	3					
+ANR	499	PrimaryExpression	0		2	0					
+ANR	500	AndExpression	"* s == ';' && ( svp = hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 ) )"		2	1		&&			
+ANR	501	EqualityExpression	* s == ';'		2	0		==			
+ANR	502	UnaryOperationExpression	* s		2	0					
+ANR	503	UnaryOperator	*		2	0					
+ANR	504	Identifier	s		2	1					
+ANR	505	PrimaryExpression	';'		2	1					
+ANR	506	AssignmentExpression	"svp = hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 )"		2	1		=			
+ANR	507	Identifier	svp		2	0					
+ANR	508	CallExpression	"hv_fetch ( entity2char , ent_name , s - ent_name + 1 , 0 )"		2	1					
+ANR	509	Callee	hv_fetch		2	0					
+ANR	510	Identifier	hv_fetch		2	0					
+ANR	511	ArgumentList	entity2char		2	1					
+ANR	512	Argument	entity2char		2	0					
+ANR	513	Identifier	entity2char		2	0					
+ANR	514	Argument	ent_name		2	1					
+ANR	515	Identifier	ent_name		2	0					
+ANR	516	Argument	s - ent_name + 1		2	2					
+ANR	517	AdditiveExpression	s - ent_name + 1		2	0		-			
+ANR	518	Identifier	s		2	0					
+ANR	519	AdditiveExpression	ent_name + 1		2	1		+			
+ANR	520	Identifier	ent_name		2	0					
+ANR	521	PrimaryExpression	1		2	1					
+ANR	522	Argument	0		2	3					
+ANR	523	PrimaryExpression	0		2	0					
+ANR	524	CompoundStatement		126:2:2508:2508	2	1					
+ANR	525	ExpressionStatement	"repl = SvPV ( * svp , repl_len )"	128:6:2584:2611	2	0	True				
+ANR	526	AssignmentExpression	"repl = SvPV ( * svp , repl_len )"		2	0		=			
+ANR	527	Identifier	repl		2	0					
+ANR	528	CallExpression	"SvPV ( * svp , repl_len )"		2	1					
+ANR	529	Callee	SvPV		2	0					
+ANR	530	Identifier	SvPV		2	0					
+ANR	531	ArgumentList	* svp		2	1					
+ANR	532	Argument	* svp		2	0					
+ANR	533	UnaryOperationExpression	* svp		2	0					
+ANR	534	UnaryOperator	*		2	0					
+ANR	535	Identifier	svp		2	1					
+ANR	536	Argument	repl_len		2	1					
+ANR	537	Identifier	repl_len		2	0					
+ANR	538	ExpressionStatement	repl_utf8 = SvUTF8 ( * svp )	130:6:2646:2670	2	1	True				
+ANR	539	AssignmentExpression	repl_utf8 = SvUTF8 ( * svp )		2	0		=			
+ANR	540	Identifier	repl_utf8		2	0					
+ANR	541	CallExpression	SvUTF8 ( * svp )		2	1					
+ANR	542	Callee	SvUTF8		2	0					
+ANR	543	Identifier	SvUTF8		2	0					
+ANR	544	ArgumentList	* svp		2	1					
+ANR	545	Argument	* svp		2	0					
+ANR	546	UnaryOperationExpression	* svp		2	0					
+ANR	547	UnaryOperator	*		2	0					
+ANR	548	Identifier	svp		2	1					
+ANR	549	ElseStatement	else		2	0					
+ANR	550	IfStatement	if ( expand_prefix )		2	0					
+ANR	551	Condition	expand_prefix	133:11:2694:2706	2	0	True				
+ANR	552	Identifier	expand_prefix		2	0					
+ANR	553	CompoundStatement		133:6:2649:2665	2	1					
+ANR	554	IdentifierDeclStatement	char * ss = s - 1 ;	134:6:2717:2733	2	0	True				
+ANR	555	IdentifierDecl	* ss = s - 1		2	0					
+ANR	556	IdentifierDeclType	char *		2	0					
+ANR	557	Identifier	ss		2	1					
+ANR	558	AssignmentExpression	* ss = s - 1		2	2		=			
+ANR	559	Identifier	ss		2	0					
+ANR	560	AdditiveExpression	s - 1		2	1		-			
+ANR	561	Identifier	s		2	0					
+ANR	562	PrimaryExpression	1		2	1					
+ANR	563	WhileStatement	while ( ss > ent_name )		2	1					
+ANR	564	Condition	ss > ent_name	135:13:2748:2760	2	0	True				
+ANR	565	RelationalExpression	ss > ent_name		2	0		>			
+ANR	566	Identifier	ss		2	0					
+ANR	567	Identifier	ent_name		2	1					
+ANR	568	CompoundStatement		134:28:2695:2695	2	1					
+ANR	569	ExpressionStatement	"svp = hv_fetch ( entity2char , ent_name , ss - ent_name , 0 )"	136:3:2768:2823	2	0	True				
+ANR	570	AssignmentExpression	"svp = hv_fetch ( entity2char , ent_name , ss - ent_name , 0 )"		2	0		=			
+ANR	571	Identifier	svp		2	0					
+ANR	572	CallExpression	"hv_fetch ( entity2char , ent_name , ss - ent_name , 0 )"		2	1					
+ANR	573	Callee	hv_fetch		2	0					
+ANR	574	Identifier	hv_fetch		2	0					
+ANR	575	ArgumentList	entity2char		2	1					
+ANR	576	Argument	entity2char		2	0					
+ANR	577	Identifier	entity2char		2	0					
+ANR	578	Argument	ent_name		2	1					
+ANR	579	Identifier	ent_name		2	0					
+ANR	580	Argument	ss - ent_name		2	2					
+ANR	581	AdditiveExpression	ss - ent_name		2	0		-			
+ANR	582	Identifier	ss		2	0					
+ANR	583	Identifier	ent_name		2	1					
+ANR	584	Argument	0		2	3					
+ANR	585	PrimaryExpression	0		2	0					
+ANR	586	IfStatement	if ( svp )		2	1					
+ANR	587	Condition	svp	137:7:2832:2834	2	0	True				
+ANR	588	Identifier	svp		2	0					
+ANR	589	CompoundStatement		136:12:2769:2769	2	1					
+ANR	590	ExpressionStatement	"repl = SvPV ( * svp , repl_len )"	138:7:2846:2873	2	0	True				
+ANR	591	AssignmentExpression	"repl = SvPV ( * svp , repl_len )"		2	0		=			
+ANR	592	Identifier	repl		2	0					
+ANR	593	CallExpression	"SvPV ( * svp , repl_len )"		2	1					
+ANR	594	Callee	SvPV		2	0					
+ANR	595	Identifier	SvPV		2	0					
+ANR	596	ArgumentList	* svp		2	1					
+ANR	597	Argument	* svp		2	0					
+ANR	598	UnaryOperationExpression	* svp		2	0					
+ANR	599	UnaryOperator	*		2	0					
+ANR	600	Identifier	svp		2	1					
+ANR	601	Argument	repl_len		2	1					
+ANR	602	Identifier	repl_len		2	0					
+ANR	603	ExpressionStatement	repl_utf8 = SvUTF8 ( * svp )	140:7:2909:2933	2	1	True				
+ANR	604	AssignmentExpression	repl_utf8 = SvUTF8 ( * svp )		2	0		=			
+ANR	605	Identifier	repl_utf8		2	0					
+ANR	606	CallExpression	SvUTF8 ( * svp )		2	1					
+ANR	607	Callee	SvUTF8		2	0					
+ANR	608	Identifier	SvUTF8		2	0					
+ANR	609	ArgumentList	* svp		2	1					
+ANR	610	Argument	* svp		2	0					
+ANR	611	UnaryOperationExpression	* svp		2	0					
+ANR	612	UnaryOperator	*		2	0					
+ANR	613	Identifier	svp		2	1					
+ANR	614	ExpressionStatement	s = ss	142:7:2949:2955	2	2	True				
+ANR	615	AssignmentExpression	s = ss		2	0		=			
+ANR	616	Identifier	s		2	0					
+ANR	617	Identifier	ss		2	1					
+ANR	618	BreakStatement	break ;	143:7:2964:2969	2	3	True				
+ANR	619	ExpressionStatement	ss --	145:3:2979:2983	2	2	True				
+ANR	620	PostIncDecOperationExpression	ss --		2	0					
+ANR	621	Identifier	ss		2	0					
+ANR	622	IncDec	--		2	1					
+ANR	623	ExpressionStatement	high_surrogate = 0	150:5:3036:3054	2	3	True				
+ANR	624	AssignmentExpression	high_surrogate = 0		2	0		=			
+ANR	625	Identifier	high_surrogate		2	0					
+ANR	626	PrimaryExpression	0		2	1					
+ANR	627	IfStatement	if ( repl )		2	5					
+ANR	628	Condition	repl	154:5:3072:3075	2	0	True				
+ANR	629	Identifier	repl		2	0					
+ANR	630	CompoundStatement		154:5:3017:3041	2	1					
+ANR	631	IdentifierDeclStatement	char * repl_allocated = 0 ;	155:5:3085:3109	2	0	True				
+ANR	632	IdentifierDecl	* repl_allocated = 0		2	0					
+ANR	633	IdentifierDeclType	char *		2	0					
+ANR	634	Identifier	repl_allocated		2	1					
+ANR	635	AssignmentExpression	* repl_allocated = 0		2	2		=			
+ANR	636	Identifier	repl_allocated		2	0					
+ANR	637	PrimaryExpression	0		2	1					
+ANR	638	IfStatement	if ( * s == ';' )		2	1					
+ANR	639	Condition	* s == ';'	156:9:3120:3128	2	0	True				
+ANR	640	EqualityExpression	* s == ';'		2	0		==			
+ANR	641	UnaryOperationExpression	* s		2	0					
+ANR	642	UnaryOperator	*		2	0					
+ANR	643	Identifier	s		2	1					
+ANR	644	PrimaryExpression	';'		2	1					
+ANR	645	ExpressionStatement	s ++	157:2:3133:3136	2	1	True				
+ANR	646	PostIncDecOperationExpression	s ++		2	0					
+ANR	647	Identifier	s		2	0					
+ANR	648	IncDec	++		2	1					
+ANR	649	ExpressionStatement	t --	158:5:3143:3146	2	2	True				
+ANR	650	PostIncDecOperationExpression	t --		2	0					
+ANR	651	Identifier	t		2	0					
+ANR	652	IncDec	--		2	1					
+ANR	653	IfStatement	if ( * s != '&' )		2	3					
+ANR	654	Condition	* s != '&'	161:9:3220:3228	2	0	True				
+ANR	655	EqualityExpression	* s != '&'		2	0		!=			
+ANR	656	UnaryOperationExpression	* s		2	0					
+ANR	657	UnaryOperator	*		2	0					
+ANR	658	Identifier	s		2	1					
+ANR	659	PrimaryExpression	'&'		2	1					
+ANR	660	CompoundStatement		160:20:3163:3163	2	1					
+ANR	661	ExpressionStatement	high_surrogate = 0	162:2:3235:3253	2	0	True				
+ANR	662	AssignmentExpression	high_surrogate = 0		2	0		=			
+ANR	663	Identifier	high_surrogate		2	0					
+ANR	664	PrimaryExpression	0		2	1					
+ANR	665	IfStatement	if ( ! SvUTF8 ( sv ) && repl_utf8 )		2	4					
+ANR	666	Condition	! SvUTF8 ( sv ) && repl_utf8	165:9:3272:3295	2	0	True				
+ANR	667	AndExpression	! SvUTF8 ( sv ) && repl_utf8		2	0		&&			
+ANR	668	UnaryOperationExpression	! SvUTF8 ( sv )		2	0					
+ANR	669	UnaryOperator	!		2	0					
+ANR	670	CallExpression	SvUTF8 ( sv )		2	1					
+ANR	671	Callee	SvUTF8		2	0					
+ANR	672	Identifier	SvUTF8		2	0					
+ANR	673	ArgumentList	sv		2	1					
+ANR	674	Argument	sv		2	0					
+ANR	675	Identifier	sv		2	0					
+ANR	676	Identifier	repl_utf8		2	1					
+ANR	677	CompoundStatement		169:2:3431:3493	2	1					
+ANR	678	IdentifierDeclStatement	STRLEN before_gap_len = t - SvPVX ( sv ) ;	167:2:3348:3385	2	0	True				
+ANR	679	IdentifierDecl	before_gap_len = t - SvPVX ( sv )		2	0					
+ANR	680	IdentifierDeclType	STRLEN		2	0					
+ANR	681	Identifier	before_gap_len		2	1					
+ANR	682	AssignmentExpression	before_gap_len = t - SvPVX ( sv )		2	2		=			
+ANR	683	Identifier	before_gap_len		2	0					
+ANR	684	AdditiveExpression	t - SvPVX ( sv )		2	1		-			
+ANR	685	Identifier	t		2	0					
+ANR	686	CallExpression	SvPVX ( sv )		2	1					
+ANR	687	Callee	SvPVX		2	0					
+ANR	688	Identifier	SvPVX		2	0					
+ANR	689	ArgumentList	sv		2	1					
+ANR	690	Argument	sv		2	0					
+ANR	691	Identifier	sv		2	0					
+ANR	692	IdentifierDeclStatement	"char * before_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) SvPVX ( sv ) , & before_gap_len ) ;"	168:2:3389:3461	2	1	True				
+ANR	693	IdentifierDecl	"* before_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) SvPVX ( sv ) , & before_gap_len )"		2	0					
+ANR	694	IdentifierDeclType	char *		2	0					
+ANR	695	Identifier	before_gap		2	1					
+ANR	696	AssignmentExpression	"* before_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) SvPVX ( sv ) , & before_gap_len )"		2	2		=			
+ANR	697	Identifier	before_gap		2	0					
+ANR	698	CastExpression	"( char * ) bytes_to_utf8 ( ( U8 * ) SvPVX ( sv ) , & before_gap_len )"		2	1					
+ANR	699	CastTarget	char *		2	0					
+ANR	700	CallExpression	"bytes_to_utf8 ( ( U8 * ) SvPVX ( sv ) , & before_gap_len )"		2	1					
+ANR	701	Callee	bytes_to_utf8		2	0					
+ANR	702	Identifier	bytes_to_utf8		2	0					
+ANR	703	ArgumentList	( U8 * ) SvPVX ( sv )		2	1					
+ANR	704	Argument	( U8 * ) SvPVX ( sv )		2	0					
+ANR	705	CastExpression	( U8 * ) SvPVX ( sv )		2	0					
+ANR	706	CastTarget	U8 *		2	0					
+ANR	707	CallExpression	SvPVX ( sv )		2	1					
+ANR	708	Callee	SvPVX		2	0					
+ANR	709	Identifier	SvPVX		2	0					
+ANR	710	ArgumentList	sv		2	1					
+ANR	711	Argument	sv		2	0					
+ANR	712	Identifier	sv		2	0					
+ANR	713	Argument	& before_gap_len		2	1					
+ANR	714	UnaryOperationExpression	& before_gap_len		2	0					
+ANR	715	UnaryOperator	&		2	0					
+ANR	716	Identifier	before_gap_len		2	1					
+ANR	717	IdentifierDeclStatement	STRLEN after_gap_len = end - s ;	169:2:3465:3495	2	2	True				
+ANR	718	IdentifierDecl	after_gap_len = end - s		2	0					
+ANR	719	IdentifierDeclType	STRLEN		2	0					
+ANR	720	Identifier	after_gap_len		2	1					
+ANR	721	AssignmentExpression	after_gap_len = end - s		2	2		=			
+ANR	722	Identifier	after_gap_len		2	0					
+ANR	723	AdditiveExpression	end - s		2	1		-			
+ANR	724	Identifier	end		2	0					
+ANR	725	Identifier	s		2	1					
+ANR	726	IdentifierDeclStatement	"char * after_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) s , & after_gap_len ) ;"	170:2:3499:3561	2	3	True				
+ANR	727	IdentifierDecl	"* after_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) s , & after_gap_len )"		2	0					
+ANR	728	IdentifierDeclType	char *		2	0					
+ANR	729	Identifier	after_gap		2	1					
+ANR	730	AssignmentExpression	"* after_gap = ( char * ) bytes_to_utf8 ( ( U8 * ) s , & after_gap_len )"		2	2		=			
+ANR	731	Identifier	after_gap		2	0					
+ANR	732	CastExpression	"( char * ) bytes_to_utf8 ( ( U8 * ) s , & after_gap_len )"		2	1					
+ANR	733	CastTarget	char *		2	0					
+ANR	734	CallExpression	"bytes_to_utf8 ( ( U8 * ) s , & after_gap_len )"		2	1					
+ANR	735	Callee	bytes_to_utf8		2	0					
+ANR	736	Identifier	bytes_to_utf8		2	0					
+ANR	737	ArgumentList	( U8 * ) s		2	1					
+ANR	738	Argument	( U8 * ) s		2	0					
+ANR	739	CastExpression	( U8 * ) s		2	0					
+ANR	740	CastTarget	U8 *		2	0					
+ANR	741	Identifier	s		2	1					
+ANR	742	Argument	& after_gap_len		2	1					
+ANR	743	UnaryOperationExpression	& after_gap_len		2	0					
+ANR	744	UnaryOperator	&		2	0					
+ANR	745	Identifier	after_gap_len		2	1					
+ANR	746	ExpressionStatement	"sv_setpvn ( sv , before_gap , before_gap_len )"	172:2:3566:3607	2	4	True				
+ANR	747	CallExpression	"sv_setpvn ( sv , before_gap , before_gap_len )"		2	0					
+ANR	748	Callee	sv_setpvn		2	0					
+ANR	749	Identifier	sv_setpvn		2	0					
+ANR	750	ArgumentList	sv		2	1					
+ANR	751	Argument	sv		2	0					
+ANR	752	Identifier	sv		2	0					
+ANR	753	Argument	before_gap		2	1					
+ANR	754	Identifier	before_gap		2	0					
+ANR	755	Argument	before_gap_len		2	2					
+ANR	756	Identifier	before_gap_len		2	0					
+ANR	757	ExpressionStatement	"sv_catpvn ( sv , after_gap , after_gap_len )"	173:2:3611:3650	2	5	True				
+ANR	758	CallExpression	"sv_catpvn ( sv , after_gap , after_gap_len )"		2	0					
+ANR	759	Callee	sv_catpvn		2	0					
+ANR	760	Identifier	sv_catpvn		2	0					
+ANR	761	ArgumentList	sv		2	1					
+ANR	762	Argument	sv		2	0					
+ANR	763	Identifier	sv		2	0					
+ANR	764	Argument	after_gap		2	1					
+ANR	765	Identifier	after_gap		2	0					
+ANR	766	Argument	after_gap_len		2	2					
+ANR	767	Identifier	after_gap_len		2	0					
+ANR	768	ExpressionStatement	SvUTF8_on ( sv )	174:2:3654:3667	2	6	True				
+ANR	769	CallExpression	SvUTF8_on ( sv )		2	0					
+ANR	770	Callee	SvUTF8_on		2	0					
+ANR	771	Identifier	SvUTF8_on		2	0					
+ANR	772	ArgumentList	sv		2	1					
+ANR	773	Argument	sv		2	0					
+ANR	774	Identifier	sv		2	0					
+ANR	775	ExpressionStatement	Safefree ( before_gap )	176:2:3672:3692	2	7	True				
+ANR	776	CallExpression	Safefree ( before_gap )		2	0					
+ANR	777	Callee	Safefree		2	0					
+ANR	778	Identifier	Safefree		2	0					
+ANR	779	ArgumentList	before_gap		2	1					
+ANR	780	Argument	before_gap		2	0					
+ANR	781	Identifier	before_gap		2	0					
+ANR	782	ExpressionStatement	Safefree ( after_gap )	177:2:3696:3715	2	8	True				
+ANR	783	CallExpression	Safefree ( after_gap )		2	0					
+ANR	784	Callee	Safefree		2	0					
+ANR	785	Identifier	Safefree		2	0					
+ANR	786	ArgumentList	after_gap		2	1					
+ANR	787	Argument	after_gap		2	0					
+ANR	788	Identifier	after_gap		2	0					
+ANR	789	ExpressionStatement	s = t = SvPVX ( sv ) + before_gap_len	179:2:3720:3754	2	9	True				
+ANR	790	AssignmentExpression	s = t = SvPVX ( sv ) + before_gap_len		2	0		=			
+ANR	791	Identifier	s		2	0					
+ANR	792	AssignmentExpression	t = SvPVX ( sv ) + before_gap_len		2	1		=			
+ANR	793	Identifier	t		2	0					
+ANR	794	AdditiveExpression	SvPVX ( sv ) + before_gap_len		2	1		+			
+ANR	795	CallExpression	SvPVX ( sv )		2	0					
+ANR	796	Callee	SvPVX		2	0					
+ANR	797	Identifier	SvPVX		2	0					
+ANR	798	ArgumentList	sv		2	1					
+ANR	799	Argument	sv		2	0					
+ANR	800	Identifier	sv		2	0					
+ANR	801	Identifier	before_gap_len		2	1					
+ANR	802	ExpressionStatement	end = SvPVX ( sv ) + before_gap_len + after_gap_len	180:2:3758:3806	2	10	True				
+ANR	803	AssignmentExpression	end = SvPVX ( sv ) + before_gap_len + after_gap_len		2	0		=			
+ANR	804	Identifier	end		2	0					
+ANR	805	AdditiveExpression	SvPVX ( sv ) + before_gap_len + after_gap_len		2	1		+			
+ANR	806	CallExpression	SvPVX ( sv )		2	0					
+ANR	807	Callee	SvPVX		2	0					
+ANR	808	Identifier	SvPVX		2	0					
+ANR	809	ArgumentList	sv		2	1					
+ANR	810	Argument	sv		2	0					
+ANR	811	Identifier	sv		2	0					
+ANR	812	AdditiveExpression	before_gap_len + after_gap_len		2	1		+			
+ANR	813	Identifier	before_gap_len		2	0					
+ANR	814	Identifier	after_gap_len		2	1					
+ANR	815	ElseStatement	else		2	0					
+ANR	816	IfStatement	if ( SvUTF8 ( sv ) && ! repl_utf8 )		2	0					
+ANR	817	Condition	SvUTF8 ( sv ) && ! repl_utf8	182:14:3829:3852	2	0	True				
+ANR	818	AndExpression	SvUTF8 ( sv ) && ! repl_utf8		2	0		&&			
+ANR	819	CallExpression	SvUTF8 ( sv )		2	0					
+ANR	820	Callee	SvUTF8		2	0					
+ANR	821	Identifier	SvUTF8		2	0					
+ANR	822	ArgumentList	sv		2	1					
+ANR	823	Argument	sv		2	0					
+ANR	824	Identifier	sv		2	0					
+ANR	825	UnaryOperationExpression	! repl_utf8		2	1					
+ANR	826	UnaryOperator	!		2	0					
+ANR	827	Identifier	repl_utf8		2	1					
+ANR	828	CompoundStatement		181:40:3787:3787	2	1					
+ANR	829	ExpressionStatement	"repl = ( char * ) bytes_to_utf8 ( ( U8 * ) repl , & repl_len )"	183:2:3859:3908	2	0	True				
+ANR	830	AssignmentExpression	"repl = ( char * ) bytes_to_utf8 ( ( U8 * ) repl , & repl_len )"		2	0		=			
+ANR	831	Identifier	repl		2	0					
+ANR	832	CastExpression	"( char * ) bytes_to_utf8 ( ( U8 * ) repl , & repl_len )"		2	1					
+ANR	833	CastTarget	char *		2	0					
+ANR	834	CallExpression	"bytes_to_utf8 ( ( U8 * ) repl , & repl_len )"		2	1					
+ANR	835	Callee	bytes_to_utf8		2	0					
+ANR	836	Identifier	bytes_to_utf8		2	0					
+ANR	837	ArgumentList	( U8 * ) repl		2	1					
+ANR	838	Argument	( U8 * ) repl		2	0					
+ANR	839	CastExpression	( U8 * ) repl		2	0					
+ANR	840	CastTarget	U8 *		2	0					
+ANR	841	Identifier	repl		2	1					
+ANR	842	Argument	& repl_len		2	1					
+ANR	843	UnaryOperationExpression	& repl_len		2	0					
+ANR	844	UnaryOperator	&		2	0					
+ANR	845	Identifier	repl_len		2	1					
+ANR	846	ExpressionStatement	repl_allocated = repl	184:2:3912:3933	2	1	True				
+ANR	847	AssignmentExpression	repl_allocated = repl		2	0		=			
+ANR	848	Identifier	repl_allocated		2	0					
+ANR	849	Identifier	repl		2	1					
+ANR	850	IfStatement	if ( t + repl_len > s )		2	5					
+ANR	851	Condition	t + repl_len > s	188:9:3959:3974	2	0	True				
+ANR	852	RelationalExpression	t + repl_len > s		2	0		>			
+ANR	853	AdditiveExpression	t + repl_len		2	0		+			
+ANR	854	Identifier	t		2	0					
+ANR	855	Identifier	repl_len		2	1					
+ANR	856	Identifier	s		2	1					
+ANR	857	CompoundStatement		187:27:3909:3909	2	1					
+ANR	858	Statement	grow_gap	190:2:4013:4020	2	0	True				
+ANR	859	Statement	(	190:10:4021:4021	2	1	True				
+ANR	860	Statement	aTHX_	190:11:4022:4026	2	2	True				
+ANR	861	Statement	sv	190:17:4028:4029	2	3	True				
+ANR	862	Statement	","	190:19:4030:4030	2	4	True				
+ANR	863	Statement	repl_len	190:21:4032:4039	2	5	True				
+ANR	864	Statement	-	190:30:4041:4041	2	6	True				
+ANR	865	Statement	(	190:32:4043:4043	2	7	True				
+ANR	866	Statement	s	190:33:4044:4044	2	8	True				
+ANR	867	Statement	-	190:35:4046:4046	2	9	True				
+ANR	868	Statement	t	190:37:4048:4048	2	10	True				
+ANR	869	Statement	)	190:38:4049:4049	2	11	True				
+ANR	870	Statement	","	190:39:4050:4050	2	12	True				
+ANR	871	Statement	&	190:41:4052:4052	2	13	True				
+ANR	872	Statement	t	190:42:4053:4053	2	14	True				
+ANR	873	Statement	","	190:43:4054:4054	2	15	True				
+ANR	874	Statement	&	190:45:4056:4056	2	16	True				
+ANR	875	Statement	s	190:46:4057:4057	2	17	True				
+ANR	876	Statement	","	190:47:4058:4058	2	18	True				
+ANR	877	Statement	&	190:49:4060:4060	2	19	True				
+ANR	878	Statement	end	190:50:4061:4063	2	20	True				
+ANR	879	Statement	)	190:53:4064:4064	2	21	True				
+ANR	880	ExpressionStatement		190:54:4065:4065	2	22	True				
+ANR	881	WhileStatement	while ( repl_len -- )		2	6					
+ANR	882	Condition	repl_len --	194:12:4134:4143	2	0	True				
+ANR	883	PostIncDecOperationExpression	repl_len --		2	0					
+ANR	884	Identifier	repl_len		2	0					
+ANR	885	IncDec	--		2	1					
+ANR	886	ExpressionStatement	* t ++ = * repl ++	195:2:4148:4162	2	1	True				
+ANR	887	AssignmentExpression	* t ++ = * repl ++		2	0		=			
+ANR	888	UnaryOperationExpression	* t ++		2	0					
+ANR	889	UnaryOperator	*		2	0					
+ANR	890	PostIncDecOperationExpression	t ++		2	1					
+ANR	891	Identifier	t		2	0					
+ANR	892	IncDec	++		2	1					
+ANR	893	UnaryOperationExpression	* repl ++		2	1					
+ANR	894	UnaryOperator	*		2	0					
+ANR	895	PostIncDecOperationExpression	repl ++		2	1					
+ANR	896	Identifier	repl		2	0					
+ANR	897	IncDec	++		2	1					
+ANR	898	IfStatement	if ( repl_allocated )		2	7					
+ANR	899	Condition	repl_allocated	197:9:4174:4187	2	0	True				
+ANR	900	Identifier	repl_allocated		2	0					
+ANR	901	ExpressionStatement	Safefree ( repl_allocated )	198:2:4192:4216	2	1	True				
+ANR	902	CallExpression	Safefree ( repl_allocated )		2	0					
+ANR	903	Callee	Safefree		2	0					
+ANR	904	Identifier	Safefree		2	0					
+ANR	905	ArgumentList	repl_allocated		2	1					
+ANR	906	Argument	repl_allocated		2	0					
+ANR	907	Identifier	repl_allocated		2	0					
+ANR	908	ElseStatement	else		2	0					
+ANR	909	CompoundStatement		199:6:4159:4159	2	0					
+ANR	910	WhileStatement	while ( ent_start < s )		2	0					
+ANR	911	Condition	ent_start < s	201:12:4241:4253	2	0	True				
+ANR	912	RelationalExpression	ent_start < s		2	0		<			
+ANR	913	Identifier	ent_start		2	0					
+ANR	914	Identifier	s		2	1					
+ANR	915	ExpressionStatement	* t ++ = * ent_start ++	202:2:4258:4277	2	1	True				
+ANR	916	AssignmentExpression	* t ++ = * ent_start ++		2	0		=			
+ANR	917	UnaryOperationExpression	* t ++		2	0					
+ANR	918	UnaryOperator	*		2	0					
+ANR	919	PostIncDecOperationExpression	t ++		2	1					
+ANR	920	Identifier	t		2	0					
+ANR	921	IncDec	++		2	1					
+ANR	922	UnaryOperationExpression	* ent_start ++		2	1					
+ANR	923	UnaryOperator	*		2	0					
+ANR	924	PostIncDecOperationExpression	ent_start ++		2	1					
+ANR	925	Identifier	ent_start		2	0					
+ANR	926	IncDec	++		2	1					
+ANR	927	ExpressionStatement	* t = '\\0'	206:4:4293:4302	2	13	True				
+ANR	928	AssignmentExpression	* t = '\\0'		2	0		=			
+ANR	929	UnaryOperationExpression	* t		2	0					
+ANR	930	UnaryOperator	*		2	0					
+ANR	931	Identifier	t		2	1					
+ANR	932	PrimaryExpression	'\\0'		2	1					
+ANR	933	ExpressionStatement	"SvCUR_set ( sv , t - SvPVX ( sv ) )"	207:4:4308:4336	2	14	True				
+ANR	934	CallExpression	"SvCUR_set ( sv , t - SvPVX ( sv ) )"		2	0					
+ANR	935	Callee	SvCUR_set		2	0					
+ANR	936	Identifier	SvCUR_set		2	0					
+ANR	937	ArgumentList	sv		2	1					
+ANR	938	Argument	sv		2	0					
+ANR	939	Identifier	sv		2	0					
+ANR	940	Argument	t - SvPVX ( sv )		2	1					
+ANR	941	AdditiveExpression	t - SvPVX ( sv )		2	0		-			
+ANR	942	Identifier	t		2	0					
+ANR	943	CallExpression	SvPVX ( sv )		2	1					
+ANR	944	Callee	SvPVX		2	0					
+ANR	945	Identifier	SvPVX		2	0					
+ANR	946	ArgumentList	sv		2	1					
+ANR	947	Argument	sv		2	0					
+ANR	948	Identifier	sv		2	0					
+ANR	949	ReturnStatement	return sv ;	209:4:4343:4352	2	15	True				
+ANR	950	Identifier	sv		2	0					
+ANR	951	Identifier	decode_entities		2	1					
+ANR	952	ParameterList	"pTHX_ SV * sv , HV * entity2char , bool expand_prefix"		2	2					
+ANR	953	Parameter	pTHX_ SV * sv	1:16:16:27	2	0	True				
+ANR	954	ParameterType	pTHX_ SV *		2	0					
+ANR	955	Identifier	sv		2	1					
+ANR	956	Parameter	HV * entity2char	1:30:30:44	2	1	True				
+ANR	957	ParameterType	HV *		2	0					
+ANR	958	Identifier	entity2char		2	1					
+ANR	959	Parameter	bool expand_prefix	1:47:47:64	2	2	True				
+ANR	960	ParameterType	bool		2	0					
+ANR	961	Identifier	expand_prefix		2	1					
+ANR	962	CFGEntryNode	ENTRY		2		True				
+ANR	963	CFGExitNode	EXIT		2		True				
+ANR	964	Symbol	* s ++		2						
+ANR	965	Symbol	repl_utf8		2						
+ANR	966	Symbol	high_surrogate		2						
+ANR	967	Symbol	num		2						
+ANR	968	Symbol	prev		2						
+ANR	969	Symbol	& before_gap_len		2						
+ANR	970	Symbol	strchr		2						
+ANR	971	Symbol	SvPV_force		2						
+ANR	972	Symbol	hv_fetch		2						
+ANR	973	Symbol	uvuni_to_utf8		2						
+ANR	974	Symbol	isALNUM		2						
+ANR	975	Symbol	len		2						
+ANR	976	Symbol	& after_gap_len		2						
+ANR	977	Symbol	dwk_tmp_1		2						
+ANR	978	Symbol	tmp		2						
+ANR	979	Symbol	* svp		2						
+ANR	980	Symbol	bytes_to_utf8		2						
+ANR	981	Symbol	after_gap_len		2						
+ANR	982	Symbol	end		2						
+ANR	983	Symbol	repl		2						
+ANR	984	Symbol	ok		2						
+ANR	985	Symbol	SvUTF8		2						
+ANR	986	Symbol	repl_len		2						
+ANR	987	Symbol	ss		2						
+ANR	988	Symbol	before_gap_len		2						
+ANR	989	Symbol	* repl ++		2						
+ANR	990	Symbol	* t ++		2						
+ANR	991	Symbol	* buf		2						
+ANR	992	Symbol	sv		2						
+ANR	993	Symbol	entity2char		2						
+ANR	994	Symbol	PL_hexdigit		2						
+ANR	995	Symbol	SvPVX		2						
+ANR	996	Symbol	expand_prefix		2						
+ANR	997	Symbol	svp		2						
+ANR	998	Symbol	SvPV		2						
+ANR	999	Symbol	isDIGIT		2						
+ANR	1000	Symbol	* ent_start ++		2						
+ANR	1001	Symbol	buf		2						
+ANR	1002	Symbol	& repl_len		2						
+ANR	1003	Symbol	s		2						
+ANR	1004	Symbol	t		2						
+ANR	1005	Symbol	ent_start		2						
+ANR	1006	Symbol	repl_allocated		2						
+ANR	1007	Symbol	after_gap		2						
+ANR	1008	Symbol	ent_name		2						
+ANR	1009	Symbol	before_gap		2						
+ANR	1010	Symbol	* s		2						
+ANR	1011	Symbol	* t		2						

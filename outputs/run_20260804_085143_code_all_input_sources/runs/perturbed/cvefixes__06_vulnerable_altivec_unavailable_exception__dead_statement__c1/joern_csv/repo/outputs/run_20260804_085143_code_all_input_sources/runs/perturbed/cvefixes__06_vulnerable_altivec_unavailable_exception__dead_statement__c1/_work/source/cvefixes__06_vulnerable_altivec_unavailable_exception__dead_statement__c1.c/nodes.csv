@@ -1,0 +1,83 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260804_085143_code_all_input_sources/runs/perturbed/cvefixes__06_vulnerable_altivec_unavailable_exception__dead_statement__c1/_work/source/cvefixes__06_vulnerable_altivec_unavailable_exception__dead_statement__c1.c								
+ANR	2	Function	altivec_unavailable_exception	1:0:0:521							
+ANR	3	FunctionDef	altivec_unavailable_exception (struct pt_regs * regs)		2	0					
+ANR	4	CompoundStatement		2:0:57:521	2	0					
+ANR	5	IdentifierDeclStatement	int dwk_dummy_1 = 0 ;	3:4:63:82	2	0	True				
+ANR	6	IdentifierDecl	dwk_dummy_1 = 0		2	0					
+ANR	7	IdentifierDeclType	int		2	0					
+ANR	8	Identifier	dwk_dummy_1		2	1					
+ANR	9	AssignmentExpression	dwk_dummy_1 = 0		2	2		=			
+ANR	10	Identifier	dwk_dummy_1		2	0					
+ANR	11	PrimaryExpression	0		2	1					
+ANR	12	ExpressionStatement	dwk_dummy_1 += 0	4:4:88:104	2	1	True				
+ANR	13	AssignmentExpression	dwk_dummy_1 += 0		2	0		+=			
+ANR	14	Identifier	dwk_dummy_1		2	0					
+ANR	15	PrimaryExpression	0		2	1					
+ANR	16	IfStatement	if ( user_mode ( regs ) )		2	2					
+ANR	17	Condition	user_mode ( regs )	6:5:140:154	2	0	True				
+ANR	18	CallExpression	user_mode ( regs )		2	0					
+ANR	19	Callee	user_mode		2	0					
+ANR	20	Identifier	user_mode		2	0					
+ANR	21	ArgumentList	regs		2	1					
+ANR	22	Argument	regs		2	0					
+ANR	23	Identifier	regs		2	0					
+ANR	24	CompoundStatement		5:22:99:99	2	1					
+ANR	25	ExpressionStatement	"_exception ( SIGILL , regs , ILL_ILLOPC , regs -> nip )"	9:2:267:314	2	0	True				
+ANR	26	CallExpression	"_exception ( SIGILL , regs , ILL_ILLOPC , regs -> nip )"		2	0					
+ANR	27	Callee	_exception		2	0					
+ANR	28	Identifier	_exception		2	0					
+ANR	29	ArgumentList	SIGILL		2	1					
+ANR	30	Argument	SIGILL		2	0					
+ANR	31	Identifier	SIGILL		2	0					
+ANR	32	Argument	regs		2	1					
+ANR	33	Identifier	regs		2	0					
+ANR	34	Argument	ILL_ILLOPC		2	2					
+ANR	35	Identifier	ILL_ILLOPC		2	0					
+ANR	36	Argument	regs -> nip		2	3					
+ANR	37	PtrMemberAccess	regs -> nip		2	0					
+ANR	38	Identifier	regs		2	0					
+ANR	39	Identifier	nip		2	1					
+ANR	40	ReturnStatement	return ;	10:2:318:324	2	1	True				
+ANR	41	Statement	printk	13:1:337:342	2	3	True				
+ANR	42	Statement	(	13:7:343:343	2	4	True				
+ANR	43	Statement	KERN_EMERG	13:8:344:353	2	5	True				
+ANR	44	Statement	"""Unrecoverable VMX/Altivec Unavailable Exception """	13:19:355:404	2	6	True				
+ANR	45	Statement	"""%lx at %lx\\n"""	14:3:409:422	2	7	True				
+ANR	46	Statement	","	14:17:423:423	2	8	True				
+ANR	47	Statement	regs	14:19:425:428	2	9	True				
+ANR	48	Statement	->	14:23:429:430	2	10	True				
+ANR	49	Statement	trap	14:25:431:434	2	11	True				
+ANR	50	Statement	","	14:29:435:435	2	12	True				
+ANR	51	Statement	regs	14:31:437:440	2	13	True				
+ANR	52	Statement	->	14:35:441:442	2	14	True				
+ANR	53	Statement	nip	14:37:443:445	2	15	True				
+ANR	54	Statement	)	14:40:446:446	2	16	True				
+ANR	55	ExpressionStatement		14:41:447:447	2	17	True				
+ANR	56	ExpressionStatement	"die ( ""Unrecoverable VMX/Altivec Unavailable Exception"" , regs , SIGABRT )"	15:1:450:519	2	18	True				
+ANR	57	CallExpression	"die ( ""Unrecoverable VMX/Altivec Unavailable Exception"" , regs , SIGABRT )"		2	0					
+ANR	58	Callee	die		2	0					
+ANR	59	Identifier	die		2	0					
+ANR	60	ArgumentList	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	1					
+ANR	61	Argument	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	0					
+ANR	62	PrimaryExpression	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	0					
+ANR	63	Argument	regs		2	1					
+ANR	64	Identifier	regs		2	0					
+ANR	65	Argument	SIGABRT		2	2					
+ANR	66	Identifier	SIGABRT		2	0					
+ANR	67	ReturnType	void		2	1					
+ANR	68	Identifier	altivec_unavailable_exception		2	2					
+ANR	69	ParameterList	struct pt_regs * regs		2	3					
+ANR	70	Parameter	struct pt_regs * regs	1:35:35:54	2	0	True				
+ANR	71	ParameterType	struct pt_regs *		2	0					
+ANR	72	Identifier	regs		2	1					
+ANR	73	CFGEntryNode	ENTRY		2		True				
+ANR	74	CFGExitNode	EXIT		2		True				
+ANR	75	Symbol	SIGILL		2						
+ANR	76	Symbol	* regs		2						
+ANR	77	Symbol	regs		2						
+ANR	78	Symbol	SIGABRT		2						
+ANR	79	Symbol	regs -> nip		2						
+ANR	80	Symbol	user_mode		2						
+ANR	81	Symbol	dwk_dummy_1		2						
+ANR	82	Symbol	ILL_ILLOPC		2						

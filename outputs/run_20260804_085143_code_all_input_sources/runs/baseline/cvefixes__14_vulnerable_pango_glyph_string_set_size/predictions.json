@@ -1,0 +1,228 @@
+{
+  "generated_at_utc": "2026-08-04T09:00:05.887900+00:00",
+  "prediction": {
+    "sample_id": "14_vulnerable_pango_glyph_string_set_size",
+    "input_file": "/repo/input_sources/cvefixes/14_vulnerable_pango_glyph_string_set_size.c",
+    "function_name": "unknown",
+    "joern_status": "success",
+    "num_nodes": 133,
+    "num_edges": 314,
+    "predicted_label": 0,
+    "vulnerability_probability": 0.0005512616480700672,
+    "threshold": 0.5,
+    "confidence": 0.9994487383519299,
+    "lexical_score": null,
+    "graph_score": 0.0005512616480700672,
+    "fusion_status": "deepwukong_xfg_max",
+    "unixcoder_score": null,
+    "codet5_score": null,
+    "graphcodebert_score": null,
+    "final_score": 0.0005512616480700672
+  },
+  "details": {
+    "baseline": "deepwukong_xfg_baseline",
+    "selection": {
+      "model": "DeepWuKong GCN CWE119",
+      "checkpoint": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+      "threshold": 0.5,
+      "source_aggregation": "max_xfg_vulnerability_probability"
+    },
+    "joern_stats": {
+      "parse_status": "success",
+      "error": null,
+      "command": [
+        "bash",
+        "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/_work/joern-parse-lf.sh",
+        "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/joern_csv",
+        "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/_work/source"
+      ],
+      "stdout": "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/_work/source/14_vulnerable_pango_glyph_string_set_size.c\n",
+      "stderr": "",
+      "csv_dir": "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/joern_csv",
+      "selected_csv_dir": "/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/joern_csv/repo/outputs/run_20260804_085143_code_all_input_sources/runs/baseline/cvefixes__14_vulnerable_pango_glyph_string_set_size/_work/source/14_vulnerable_pango_glyph_string_set_size.c",
+      "runtime_ms": 567.9783500002031,
+      "node_count": 133,
+      "edge_count": 314,
+      "summary": {
+        "node_count": 133,
+        "edge_count": 314
+      }
+    },
+    "features": {
+      "source": {
+        "function_name": "unknown",
+        "char_length": 607,
+        "line_count": 22
+      },
+      "graph": {
+        "available": true,
+        "node_count": 133,
+        "edge_count": 314
+      },
+      "xfg": {
+        "xfg_count": 12,
+        "key_line_counts": {
+          "call": 0,
+          "array": 0,
+          "ptr": 9,
+          "arith": 3
+        },
+        "xfg_predictions": [
+          {
+            "category": "ptr",
+            "key_line": 5,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 7,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 8,
+            "vulnerability_probability": 7.416120206471533e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 10,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 12,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 15,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          },
+          {
+            "category": "ptr",
+            "key_line": 19,
+            "vulnerability_probability": 2.552417390688788e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999744892120361
+          },
+          {
+            "category": "ptr",
+            "key_line": 20,
+            "vulnerability_probability": 2.552417390688788e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999744892120361
+          },
+          {
+            "category": "ptr",
+            "key_line": 21,
+            "vulnerability_probability": 0.0005512616480700672,
+            "predicted_label": 0,
+            "confidence": 0.9994487166404724
+          },
+          {
+            "category": "arith",
+            "key_line": 19,
+            "vulnerability_probability": 2.552417390688788e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999744892120361
+          },
+          {
+            "category": "arith",
+            "key_line": 20,
+            "vulnerability_probability": 2.552417390688788e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999744892120361
+          },
+          {
+            "category": "arith",
+            "key_line": 15,
+            "vulnerability_probability": 7.416134030791e-05,
+            "predicted_label": 0,
+            "confidence": 0.9999258518218994
+          }
+        ]
+      }
+    },
+    "branch_results": {
+      "new_graph_prob": {
+        "score": 0.0005512616480700672,
+        "status": "ok",
+        "model": "/repo/baselines/deepwukong/models/deepwukong/deepwukong_cwe119_best.ckpt",
+        "xfg_count": 12
+      },
+      "old_graph_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong single-branch baseline"
+      },
+      "lexical_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use lexical branch"
+      },
+      "unixcoder_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "graphcodebert_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "codet5_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed13_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed42_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      },
+      "unixcoder_seed2025_prob": {
+        "score": null,
+        "status": "skipped",
+        "reason": "DeepWuKong full mode does not use transformer branch"
+      }
+    },
+    "component_scores": {
+      "new_graph_prob": 0.0005512616480700672
+    },
+    "fusion": {
+      "fusion_status": "deepwukong_xfg_max",
+      "available_components": [
+        "new_graph_prob"
+      ],
+      "missing_components": [],
+      "final_score": 0.0005512616480700672,
+      "predicted_label": 0,
+      "confidence": 0.9994487383519299,
+      "threshold": 0.5
+    },
+    "runtime_ms": 4347.361238000076,
+    "limitations": [
+      "DeepWuKong reports function/source-level vulnerability probability by taking the maximum vulnerable probability across generated XFG slices.",
+      "The output is not line-level localization.",
+      "If no sensitive XFG slices are generated, the source is reported as non-vulnerable with probability 0.0 and a warning."
+    ],
+    "warnings": []
+  }
+}

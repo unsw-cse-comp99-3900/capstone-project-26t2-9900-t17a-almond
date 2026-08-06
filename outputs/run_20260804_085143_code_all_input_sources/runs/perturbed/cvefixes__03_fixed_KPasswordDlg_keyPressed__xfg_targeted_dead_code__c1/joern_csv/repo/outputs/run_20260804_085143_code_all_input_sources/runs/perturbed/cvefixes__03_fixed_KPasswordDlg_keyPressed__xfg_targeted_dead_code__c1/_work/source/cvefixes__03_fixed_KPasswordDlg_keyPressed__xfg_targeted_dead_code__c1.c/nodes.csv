@@ -1,0 +1,226 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260804_085143_code_all_input_sources/runs/perturbed/cvefixes__03_fixed_KPasswordDlg_keyPressed__xfg_targeted_dead_code__c1/_work/source/cvefixes__03_fixed_KPasswordDlg_keyPressed__xfg_targeted_dead_code__c1.c								
+ANR	2	Function	KPasswordDlg :: keyPressed	1:0:0:927							
+ANR	3	FunctionDef	KPasswordDlg :: keyPressed (QKeyEvent * e)		2	0					
+ANR	4	CompoundStatement		2:0:46:927	2	0					
+ANR	5	Statement	static	3:2:50:55	2	0	True				
+ANR	6	IdentifierDeclStatement	bool waitForAuthentication = false ;	3:9:57:91	2	1	True				
+ANR	7	IdentifierDecl	waitForAuthentication = false		2	0					
+ANR	8	IdentifierDeclType	bool		2	0					
+ANR	9	Identifier	waitForAuthentication		2	1					
+ANR	10	AssignmentExpression	waitForAuthentication = false		2	2		=			
+ANR	11	Identifier	false		2	0					
+ANR	12	Identifier	false		2	1					
+ANR	13	IfStatement	if ( ! waitForAuthentication )		2	2					
+ANR	14	Condition	! waitForAuthentication	4:6:99:120	2	0	True				
+ANR	15	UnaryOperationExpression	! waitForAuthentication		2	0					
+ANR	16	UnaryOperator	!		2	0					
+ANR	17	Identifier	waitForAuthentication		2	1					
+ANR	18	CompoundStatement		3:30:76:76	2	1					
+ANR	19	IfStatement	if ( 0 )		2	0					
+ANR	20	Condition	0	5:5:130:130	2	0	True				
+ANR	21	PrimaryExpression	0		2	0					
+ANR	22	CompoundStatement		5:5:93:116	2	1					
+ANR	23	IdentifierDeclStatement	int dwk_xfg_guard_1 = 1 ;	6:5:140:163	2	0	True				
+ANR	24	IdentifierDecl	dwk_xfg_guard_1 = 1		2	0					
+ANR	25	IdentifierDeclType	int		2	0					
+ANR	26	Identifier	dwk_xfg_guard_1		2	1					
+ANR	27	AssignmentExpression	dwk_xfg_guard_1 = 1		2	2		=			
+ANR	28	Identifier	dwk_xfg_guard_1		2	0					
+ANR	29	PrimaryExpression	1		2	1					
+ANR	30	ExpressionStatement	dwk_xfg_guard_1 += 0	7:5:170:190	2	1	True				
+ANR	31	AssignmentExpression	dwk_xfg_guard_1 += 0		2	0		+=			
+ANR	32	Identifier	dwk_xfg_guard_1		2	0					
+ANR	33	PrimaryExpression	0		2	1					
+ANR	34	SwitchStatement	switch ( e -> key ( ) )		2	1					
+ANR	35	Condition	e -> key ( )	9:10:205:212	2	0	True				
+ANR	36	CallExpression	e -> key ( )		2	0					
+ANR	37	Callee	e -> key		2	0					
+ANR	38	PtrMemberAccess	e -> key		2	0					
+ANR	39	Identifier	e		2	0					
+ANR	40	Identifier	key		2	1					
+ANR	41	ArgumentList			2	1					
+ANR	42	CompoundStatement		37:3:669:686	2	1					
+ANR	43	Label	case Key_Backspace :	11:2:221:239	2	0	True				
+ANR	44	Identifier	Key_Backspace		2	0					
+ANR	45	CompoundStatement		12:4:203:230	2	1					
+ANR	46	IdentifierDeclStatement	int len = password . length ( ) ;	13:4:250:277	2	0	True				
+ANR	47	IdentifierDecl	len = password . length ( )		2	0					
+ANR	48	IdentifierDeclType	int		2	0					
+ANR	49	Identifier	len		2	1					
+ANR	50	AssignmentExpression	len = password . length ( )		2	2		=			
+ANR	51	Identifier	len		2	0					
+ANR	52	CallExpression	password . length ( )		2	1					
+ANR	53	Callee	password . length		2	0					
+ANR	54	MemberAccess	password . length		2	0					
+ANR	55	Identifier	password		2	0					
+ANR	56	Identifier	length		2	1					
+ANR	57	ArgumentList			2	1					
+ANR	58	IfStatement	if ( len )		2	1					
+ANR	59	Condition	len	14:9:288:290	2	0	True				
+ANR	60	Identifier	len		2	0					
+ANR	61	CompoundStatement		13:15:247:247	2	1					
+ANR	62	ExpressionStatement	password . truncate ( len - 1 )	15:5:301:329	2	0	True				
+ANR	63	CallExpression	password . truncate ( len - 1 )		2	0					
+ANR	64	Callee	password . truncate		2	0					
+ANR	65	MemberAccess	password . truncate		2	0					
+ANR	66	Identifier	password		2	0					
+ANR	67	Identifier	truncate		2	1					
+ANR	68	ArgumentList	len - 1		2	1					
+ANR	69	Argument	len - 1		2	0					
+ANR	70	AdditiveExpression	len - 1		2	0		-			
+ANR	71	Identifier	len		2	0					
+ANR	72	PrimaryExpression	1		2	1					
+ANR	73	IfStatement	if ( stars )		2	1					
+ANR	74	Condition	stars	16:9:340:344	2	0	True				
+ANR	75	Identifier	stars		2	0					
+ANR	76	ExpressionStatement	showStars ( )	17:6:354:365	2	1	True				
+ANR	77	CallExpression	showStars ( )		2	0					
+ANR	78	Callee	showStars		2	0					
+ANR	79	Identifier	showStars		2	0					
+ANR	80	ArgumentList			2	1					
+ANR	81	BreakStatement	break ;	20:3:381:386	2	2	True				
+ANR	82	Label	case Key_Return :	22:2:391:406	2	3	True				
+ANR	83	Identifier	Key_Return		2	0					
+ANR	84	ExpressionStatement	timer . stop ( )	23:12:420:432	2	4	True				
+ANR	85	CallExpression	timer . stop ( )		2	0					
+ANR	86	Callee	timer . stop		2	0					
+ANR	87	MemberAccess	timer . stop		2	0					
+ANR	88	Identifier	timer		2	0					
+ANR	89	Identifier	stop		2	1					
+ANR	90	ArgumentList			2	1					
+ANR	91	ExpressionStatement	waitForAuthentication = true	24:3:437:465	2	5	True				
+ANR	92	AssignmentExpression	waitForAuthentication = true		2	0		=			
+ANR	93	Identifier	waitForAuthentication		2	0					
+ANR	94	Identifier	true		2	1					
+ANR	95	IfStatement	if ( tryPassword ( ) )		2	6					
+ANR	96	Condition	tryPassword ( )	25:8:475:487	2	0	True				
+ANR	97	CallExpression	tryPassword ( )		2	0					
+ANR	98	Callee	tryPassword		2	0					
+ANR	99	Identifier	tryPassword		2	0					
+ANR	100	ArgumentList			2	1					
+ANR	101	IdentifierDeclStatement	emit passOk ( ) ;	26:4:495:508	2	1	True				
+ANR	102	IdentifierDecl	passOk ( )		2	0					
+ANR	103	IdentifierDeclType	emit		2	0					
+ANR	104	Identifier	passOk		2	1					
+ANR	105	ElseStatement	else		2	0					
+ANR	106	CompoundStatement		27:3:474:474	2	0					
+ANR	107	ExpressionStatement	"label -> setText ( glocale -> translate ( ""Failed"" ) )"	29:4:527:573	2	0	True				
+ANR	108	CallExpression	"label -> setText ( glocale -> translate ( ""Failed"" ) )"		2	0					
+ANR	109	Callee	label -> setText		2	0					
+ANR	110	PtrMemberAccess	label -> setText		2	0					
+ANR	111	Identifier	label		2	0					
+ANR	112	Identifier	setText		2	1					
+ANR	113	ArgumentList	"glocale -> translate ( ""Failed"" )"		2	1					
+ANR	114	Argument	"glocale -> translate ( ""Failed"" )"		2	0					
+ANR	115	CallExpression	"glocale -> translate ( ""Failed"" )"		2	0					
+ANR	116	Callee	glocale -> translate		2	0					
+ANR	117	PtrMemberAccess	glocale -> translate		2	0					
+ANR	118	Identifier	glocale		2	0					
+ANR	119	Identifier	translate		2	1					
+ANR	120	ArgumentList	"""Failed"""		2	1					
+ANR	121	Argument	"""Failed"""		2	0					
+ANR	122	PrimaryExpression	"""Failed"""		2	0					
+ANR	123	ExpressionStatement	"password = """""	30:4:579:592	2	1	True				
+ANR	124	AssignmentExpression	"password = """""		2	0		=			
+ANR	125	Identifier	password		2	0					
+ANR	126	PrimaryExpression	""""""		2	1					
+ANR	127	ExpressionStatement	timerMode = 1	31:4:598:611	2	2	True				
+ANR	128	AssignmentExpression	timerMode = 1		2	0		=			
+ANR	129	Identifier	timerMode		2	0					
+ANR	130	PrimaryExpression	1		2	1					
+ANR	131	ExpressionStatement	"timer . start ( 1500 , TRUE )"	32:4:617:642	2	3	True				
+ANR	132	CallExpression	"timer . start ( 1500 , TRUE )"		2	0					
+ANR	133	Callee	timer . start		2	0					
+ANR	134	MemberAccess	timer . start		2	0					
+ANR	135	Identifier	timer		2	0					
+ANR	136	Identifier	start		2	1					
+ANR	137	ArgumentList	1500		2	1					
+ANR	138	Argument	1500		2	0					
+ANR	139	PrimaryExpression	1500		2	0					
+ANR	140	Argument	TRUE		2	1					
+ANR	141	Identifier	TRUE		2	0					
+ANR	142	ExpressionStatement	waitForAuthentication = false	34:3:652:681	2	7	True				
+ANR	143	AssignmentExpression	waitForAuthentication = false		2	0		=			
+ANR	144	Identifier	waitForAuthentication		2	0					
+ANR	145	Identifier	false		2	1					
+ANR	146	BreakStatement	break ;	35:3:686:691	2	8	True				
+ANR	147	Label	case Key_Escape :	37:2:696:711	2	9	True				
+ANR	148	Identifier	Key_Escape		2	0					
+ANR	149	IdentifierDeclStatement	emit passCancel ( ) ;	38:3:716:733	2	10	True				
+ANR	150	IdentifierDecl	passCancel ( )		2	0					
+ANR	151	IdentifierDeclType	emit		2	0					
+ANR	152	Identifier	passCancel		2	1					
+ANR	153	BreakStatement	break ;	39:3:738:743	2	11	True				
+ANR	154	Label	default :	41:2:748:755	2	12	True				
+ANR	155	Identifier	default		2	0					
+ANR	156	IfStatement	if ( password . length ( ) < MAX_PASSWORD_LENGTH )		2	13					
+ANR	157	Condition	password . length ( ) < MAX_PASSWORD_LENGTH	42:8:765:803	2	0	True				
+ANR	158	RelationalExpression	password . length ( ) < MAX_PASSWORD_LENGTH		2	0		<			
+ANR	159	CallExpression	password . length ( )		2	0					
+ANR	160	Callee	password . length		2	0					
+ANR	161	MemberAccess	password . length		2	0					
+ANR	162	Identifier	password		2	0					
+ANR	163	Identifier	length		2	1					
+ANR	164	ArgumentList			2	1					
+ANR	165	Identifier	MAX_PASSWORD_LENGTH		2	1					
+ANR	166	CompoundStatement		42:3:763:763	2	1					
+ANR	167	ExpressionStatement	password += ( char ) e -> ascii ( )	44:4:816:844	2	0	True				
+ANR	168	AssignmentExpression	password += ( char ) e -> ascii ( )		2	0		+=			
+ANR	169	Identifier	password		2	0					
+ANR	170	CastExpression	( char ) e -> ascii ( )		2	1					
+ANR	171	CastTarget	char		2	0					
+ANR	172	CallExpression	e -> ascii ( )		2	1					
+ANR	173	Callee	e -> ascii		2	0					
+ANR	174	PtrMemberAccess	e -> ascii		2	0					
+ANR	175	Identifier	e		2	0					
+ANR	176	Identifier	ascii		2	1					
+ANR	177	ArgumentList			2	1					
+ANR	178	IfStatement	if ( stars )		2	1					
+ANR	179	Condition	stars	45:8:854:858	2	0	True				
+ANR	180	Identifier	stars		2	0					
+ANR	181	ExpressionStatement	showStars ( )	46:5:867:878	2	1	True				
+ANR	182	CallExpression	showStars ( )		2	0					
+ANR	183	Callee	showStars		2	0					
+ANR	184	Identifier	showStars		2	0					
+ANR	185	ArgumentList			2	1					
+ANR	186	ExpressionStatement	timer . changeInterval ( 10000 )	47:4:884:913	2	2	True				
+ANR	187	CallExpression	timer . changeInterval ( 10000 )		2	0					
+ANR	188	Callee	timer . changeInterval		2	0					
+ANR	189	MemberAccess	timer . changeInterval		2	0					
+ANR	190	Identifier	timer		2	0					
+ANR	191	Identifier	changeInterval		2	1					
+ANR	192	ArgumentList	10000		2	1					
+ANR	193	Argument	10000		2	0					
+ANR	194	PrimaryExpression	10000		2	0					
+ANR	195	ReturnType	void		2	1					
+ANR	196	Identifier	KPasswordDlg :: keyPressed		2	2					
+ANR	197	ParameterList	QKeyEvent * e		2	3					
+ANR	198	Parameter	QKeyEvent * e	1:31:31:42	2	0	True				
+ANR	199	ParameterType	QKeyEvent *		2	0					
+ANR	200	Identifier	e		2	1					
+ANR	201	CFGEntryNode	ENTRY		2		True				
+ANR	202	CFGExitNode	EXIT		2		True				
+ANR	203	Symbol	timerMode		2						
+ANR	204	Symbol	e		2						
+ANR	205	Symbol	password . length		2						
+ANR	206	Symbol	passOk		2						
+ANR	207	Symbol	tryPassword		2						
+ANR	208	Symbol	false		2						
+ANR	209	Symbol	dwk_xfg_guard_1		2						
+ANR	210	Symbol	e -> key		2						
+ANR	211	Symbol	TRUE		2						
+ANR	212	Symbol	passCancel		2						
+ANR	213	Symbol	glocale -> translate		2						
+ANR	214	Symbol	stars		2						
+ANR	215	Symbol	label		2						
+ANR	216	Symbol	* e		2						
+ANR	217	Symbol	timer		2						
+ANR	218	Symbol	waitForAuthentication		2						
+ANR	219	Symbol	password		2						
+ANR	220	Symbol	len		2						
+ANR	221	Symbol	glocale		2						
+ANR	222	Symbol	true		2						
+ANR	223	Symbol	e -> ascii		2						
+ANR	224	Symbol	* glocale		2						
+ANR	225	Symbol	MAX_PASSWORD_LENGTH		2						

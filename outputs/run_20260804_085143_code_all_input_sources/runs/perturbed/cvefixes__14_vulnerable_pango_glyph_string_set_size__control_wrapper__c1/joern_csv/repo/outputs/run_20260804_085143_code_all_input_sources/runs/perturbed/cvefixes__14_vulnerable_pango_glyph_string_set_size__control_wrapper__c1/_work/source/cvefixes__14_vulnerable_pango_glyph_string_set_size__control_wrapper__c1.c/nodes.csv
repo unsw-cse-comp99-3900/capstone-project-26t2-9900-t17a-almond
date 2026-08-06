@@ -1,0 +1,138 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260804_085143_code_all_input_sources/runs/perturbed/cvefixes__14_vulnerable_pango_glyph_string_set_size__control_wrapper__c1/_work/source/cvefixes__14_vulnerable_pango_glyph_string_set_size__control_wrapper__c1.c								
+ANR	2	Function	pango_glyph_string_set_size	1:0:0:624							
+ANR	3	FunctionDef	"pango_glyph_string_set_size (PangoGlyphString * string , gint new_len)"		2	0					
+ANR	4	CompoundStatement		2:0:69:624	2	0					
+ANR	5	IfStatement	if ( 1 )		2	0					
+ANR	6	Condition	1	3:6:77:77	2	0	True				
+ANR	7	PrimaryExpression	1		2	0					
+ANR	8	CompoundStatement		2:9:10:10	2	1					
+ANR	9	ExpressionStatement	g_return_if_fail ( new_len >= 0 )	4:6:88:119	2	0	True				
+ANR	10	CallExpression	g_return_if_fail ( new_len >= 0 )		2	0					
+ANR	11	Callee	g_return_if_fail		2	0					
+ANR	12	Identifier	g_return_if_fail		2	0					
+ANR	13	ArgumentList	new_len >= 0		2	1					
+ANR	14	Argument	new_len >= 0		2	0					
+ANR	15	RelationalExpression	new_len >= 0		2	0		>=			
+ANR	16	Identifier	new_len		2	0					
+ANR	17	PrimaryExpression	0		2	1					
+ANR	18	WhileStatement	while ( new_len > string -> space )		2	1					
+ANR	19	Condition	new_len > string -> space	7:9:135:157	2	0	True				
+ANR	20	RelationalExpression	new_len > string -> space		2	0		>			
+ANR	21	Identifier	new_len		2	0					
+ANR	22	PtrMemberAccess	string -> space		2	1					
+ANR	23	Identifier	string		2	0					
+ANR	24	Identifier	space		2	1					
+ANR	25	CompoundStatement		7:4:94:94	2	1					
+ANR	26	IfStatement	if ( string -> space == 0 )		2	0					
+ANR	27	Condition	string -> space == 0	9:10:176:193	2	0	True				
+ANR	28	EqualityExpression	string -> space == 0		2	0		==			
+ANR	29	PtrMemberAccess	string -> space		2	0					
+ANR	30	Identifier	string		2	0					
+ANR	31	Identifier	space		2	1					
+ANR	32	PrimaryExpression	0		2	1					
+ANR	33	ExpressionStatement	string -> space = 1	10:1:197:214	2	1	True				
+ANR	34	AssignmentExpression	string -> space = 1		2	0		=			
+ANR	35	PtrMemberAccess	string -> space		2	0					
+ANR	36	Identifier	string		2	0					
+ANR	37	Identifier	space		2	1					
+ANR	38	PrimaryExpression	1		2	1					
+ANR	39	ElseStatement	else		2	0					
+ANR	40	ExpressionStatement	string -> space *= 2	12:1:228:246	2	0	True				
+ANR	41	AssignmentExpression	string -> space *= 2		2	0		*=			
+ANR	42	PtrMemberAccess	string -> space		2	0					
+ANR	43	Identifier	string		2	0					
+ANR	44	Identifier	space		2	1					
+ANR	45	PrimaryExpression	2		2	1					
+ANR	46	IfStatement	if ( string -> space < 0 )		2	1					
+ANR	47	Condition	string -> space < 0	14:10:259:275	2	0	True				
+ANR	48	RelationalExpression	string -> space < 0		2	0		<			
+ANR	49	PtrMemberAccess	string -> space		2	0					
+ANR	50	Identifier	string		2	0					
+ANR	51	Identifier	space		2	1					
+ANR	52	PrimaryExpression	0		2	1					
+ANR	53	CompoundStatement		14:1:209:209	2	1					
+ANR	54	ExpressionStatement	"g_warning ( ""glyph string length overflows maximum integer size, truncated"" )"	16:3:284:359	2	0	True				
+ANR	55	CallExpression	"g_warning ( ""glyph string length overflows maximum integer size, truncated"" )"		2	0					
+ANR	56	Callee	g_warning		2	0					
+ANR	57	Identifier	g_warning		2	0					
+ANR	58	ArgumentList	"""glyph string length overflows maximum integer size, truncated"""		2	1					
+ANR	59	Argument	"""glyph string length overflows maximum integer size, truncated"""		2	0					
+ANR	60	PrimaryExpression	"""glyph string length overflows maximum integer size, truncated"""		2	0					
+ANR	61	ExpressionStatement	new_len = string -> space = G_MAXINT - 8	17:3:364:402	2	1	True				
+ANR	62	AssignmentExpression	new_len = string -> space = G_MAXINT - 8		2	0		=			
+ANR	63	Identifier	new_len		2	0					
+ANR	64	AssignmentExpression	string -> space = G_MAXINT - 8		2	1		=			
+ANR	65	PtrMemberAccess	string -> space		2	0					
+ANR	66	Identifier	string		2	0					
+ANR	67	Identifier	space		2	1					
+ANR	68	AdditiveExpression	G_MAXINT - 8		2	1		-			
+ANR	69	Identifier	G_MAXINT		2	0					
+ANR	70	PrimaryExpression	8		2	1					
+ANR	71	ExpressionStatement	"string -> glyphs = g_realloc ( string -> glyphs , string -> space * sizeof ( PangoGlyphInfo ) )"	21:2:416:500	2	2	True				
+ANR	72	AssignmentExpression	"string -> glyphs = g_realloc ( string -> glyphs , string -> space * sizeof ( PangoGlyphInfo ) )"		2	0		=			
+ANR	73	PtrMemberAccess	string -> glyphs		2	0					
+ANR	74	Identifier	string		2	0					
+ANR	75	Identifier	glyphs		2	1					
+ANR	76	CallExpression	"g_realloc ( string -> glyphs , string -> space * sizeof ( PangoGlyphInfo ) )"		2	1					
+ANR	77	Callee	g_realloc		2	0					
+ANR	78	Identifier	g_realloc		2	0					
+ANR	79	ArgumentList	string -> glyphs		2	1					
+ANR	80	Argument	string -> glyphs		2	0					
+ANR	81	PtrMemberAccess	string -> glyphs		2	0					
+ANR	82	Identifier	string		2	0					
+ANR	83	Identifier	glyphs		2	1					
+ANR	84	Argument	string -> space * sizeof ( PangoGlyphInfo )		2	1					
+ANR	85	MultiplicativeExpression	string -> space * sizeof ( PangoGlyphInfo )		2	0		*			
+ANR	86	PtrMemberAccess	string -> space		2	0					
+ANR	87	Identifier	string		2	0					
+ANR	88	Identifier	space		2	1					
+ANR	89	SizeofExpression	sizeof ( PangoGlyphInfo )		2	1					
+ANR	90	Sizeof	sizeof		2	0					
+ANR	91	SizeofOperand	PangoGlyphInfo		2	1					
+ANR	92	ExpressionStatement	"string -> log_clusters = g_realloc ( string -> log_clusters , string -> space * sizeof ( gint ) )"	22:2:504:590	2	3	True				
+ANR	93	AssignmentExpression	"string -> log_clusters = g_realloc ( string -> log_clusters , string -> space * sizeof ( gint ) )"		2	0		=			
+ANR	94	PtrMemberAccess	string -> log_clusters		2	0					
+ANR	95	Identifier	string		2	0					
+ANR	96	Identifier	log_clusters		2	1					
+ANR	97	CallExpression	"g_realloc ( string -> log_clusters , string -> space * sizeof ( gint ) )"		2	1					
+ANR	98	Callee	g_realloc		2	0					
+ANR	99	Identifier	g_realloc		2	0					
+ANR	100	ArgumentList	string -> log_clusters		2	1					
+ANR	101	Argument	string -> log_clusters		2	0					
+ANR	102	PtrMemberAccess	string -> log_clusters		2	0					
+ANR	103	Identifier	string		2	0					
+ANR	104	Identifier	log_clusters		2	1					
+ANR	105	Argument	string -> space * sizeof ( gint )		2	1					
+ANR	106	MultiplicativeExpression	string -> space * sizeof ( gint )		2	0		*			
+ANR	107	PtrMemberAccess	string -> space		2	0					
+ANR	108	Identifier	string		2	0					
+ANR	109	Identifier	space		2	1					
+ANR	110	SizeofExpression	sizeof ( gint )		2	1					
+ANR	111	Sizeof	sizeof		2	0					
+ANR	112	SizeofOperand	gint		2	1					
+ANR	113	ExpressionStatement	string -> num_glyphs = new_len	23:2:594:622	2	4	True				
+ANR	114	AssignmentExpression	string -> num_glyphs = new_len		2	0		=			
+ANR	115	PtrMemberAccess	string -> num_glyphs		2	0					
+ANR	116	Identifier	string		2	0					
+ANR	117	Identifier	num_glyphs		2	1					
+ANR	118	Identifier	new_len		2	1					
+ANR	119	Identifier	pango_glyph_string_set_size		2	1					
+ANR	120	ParameterList	"PangoGlyphString * string , gint new_len"		2	2					
+ANR	121	Parameter	PangoGlyphString * string	1:29:29:52	2	0	True				
+ANR	122	ParameterType	PangoGlyphString *		2	0					
+ANR	123	Identifier	string		2	1					
+ANR	124	Parameter	gint new_len	1:55:55:66	2	1	True				
+ANR	125	ParameterType	gint		2	0					
+ANR	126	Identifier	new_len		2	1					
+ANR	127	CFGEntryNode	ENTRY		2		True				
+ANR	128	CFGExitNode	EXIT		2		True				
+ANR	129	Symbol	string -> num_glyphs		2						
+ANR	130	Symbol	string -> log_clusters		2						
+ANR	131	Symbol	string		2						
+ANR	132	Symbol	new_len		2						
+ANR	133	Symbol	string -> space		2						
+ANR	134	Symbol	G_MAXINT		2						
+ANR	135	Symbol	string -> glyphs		2						
+ANR	136	Symbol	* string		2						
+ANR	137	Symbol	g_realloc		2						

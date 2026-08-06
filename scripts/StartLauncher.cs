@@ -22,14 +22,14 @@ internal static class StartLauncher
         }
 
         var projectRoot = AppDomain.CurrentDomain.BaseDirectory;
-        var startScript = Path.Combine(projectRoot, "Start.ps1");
+        var startScript = Path.Combine(projectRoot, "robustness_experiments", "Start.ps1");
         var exitCode = 1;
 
         try
         {
             if (!File.Exists(startScript))
             {
-                throw new FileNotFoundException("Start.ps1 was not found next to Start.exe.", startScript);
+                throw new FileNotFoundException("Start.ps1 was not found in robustness_experiments.", startScript);
             }
 
             Console.Title = "Almond startup";

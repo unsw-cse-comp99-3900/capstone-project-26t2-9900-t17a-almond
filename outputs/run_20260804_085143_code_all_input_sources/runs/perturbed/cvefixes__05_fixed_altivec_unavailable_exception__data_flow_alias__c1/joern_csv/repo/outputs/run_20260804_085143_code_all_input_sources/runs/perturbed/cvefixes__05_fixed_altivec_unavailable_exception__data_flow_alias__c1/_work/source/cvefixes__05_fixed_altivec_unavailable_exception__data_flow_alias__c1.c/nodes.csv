@@ -1,0 +1,91 @@
+command	key	type	code	location	functionId	childNum	isCFGNode	operator	baseType	completeType	identifier
+ANR	1	File	/repo/outputs/run_20260804_085143_code_all_input_sources/runs/perturbed/cvefixes__05_fixed_altivec_unavailable_exception__data_flow_alias__c1/_work/source/cvefixes__05_fixed_altivec_unavailable_exception__data_flow_alias__c1.c								
+ANR	2	Function	altivec_unavailable_exception	1:0:0:526							
+ANR	3	FunctionDef	altivec_unavailable_exception (struct pt_regs * regs)		2	0					
+ANR	4	CompoundStatement		2:0:57:526	2	0					
+ANR	5	IdentifierDeclStatement	void * dwk_alias_1 = ( void * ) ( regs ) ;	3:1:60:94	2	0	True				
+ANR	6	IdentifierDecl	* dwk_alias_1 = ( void * ) ( regs )		2	0					
+ANR	7	IdentifierDeclType	void *		2	0					
+ANR	8	Identifier	dwk_alias_1		2	1					
+ANR	9	AssignmentExpression	* dwk_alias_1 = ( void * ) ( regs )		2	2		=			
+ANR	10	Identifier	dwk_alias_1		2	0					
+ANR	11	CastExpression	( void * ) ( regs )		2	1					
+ANR	12	CastTarget	void *		2	0					
+ANR	13	Identifier	regs		2	1					
+ANR	14	ExpressionStatement	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )	4:1:97:144	2	1	True				
+ANR	15	AssignmentExpression	dwk_alias_1 = ( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	0		=			
+ANR	16	Identifier	dwk_alias_1		2	0					
+ANR	17	CastExpression	( void * ) ( ( char * ) dwk_alias_1 + 0 )		2	1					
+ANR	18	CastTarget	void *		2	0					
+ANR	19	AdditiveExpression	( char * ) dwk_alias_1 + 0		2	1		+			
+ANR	20	CastExpression	( char * ) dwk_alias_1		2	0					
+ANR	21	CastTarget	char *		2	0					
+ANR	22	Identifier	dwk_alias_1		2	1					
+ANR	23	PrimaryExpression	0		2	1					
+ANR	24	IfStatement	if ( user_mode ( regs ) )		2	2					
+ANR	25	Condition	user_mode ( regs )	5:5:151:165	2	0	True				
+ANR	26	CallExpression	user_mode ( regs )		2	0					
+ANR	27	Callee	user_mode		2	0					
+ANR	28	Identifier	user_mode		2	0					
+ANR	29	ArgumentList	regs		2	1					
+ANR	30	Argument	regs		2	0					
+ANR	31	Identifier	regs		2	0					
+ANR	32	CompoundStatement		4:22:110:110	2	1					
+ANR	33	ExpressionStatement	"_exception ( SIGILL , regs , ILL_ILLOPC , regs -> nip )"	8:2:278:325	2	0	True				
+ANR	34	CallExpression	"_exception ( SIGILL , regs , ILL_ILLOPC , regs -> nip )"		2	0					
+ANR	35	Callee	_exception		2	0					
+ANR	36	Identifier	_exception		2	0					
+ANR	37	ArgumentList	SIGILL		2	1					
+ANR	38	Argument	SIGILL		2	0					
+ANR	39	Identifier	SIGILL		2	0					
+ANR	40	Argument	regs		2	1					
+ANR	41	Identifier	regs		2	0					
+ANR	42	Argument	ILL_ILLOPC		2	2					
+ANR	43	Identifier	ILL_ILLOPC		2	0					
+ANR	44	Argument	regs -> nip		2	3					
+ANR	45	PtrMemberAccess	regs -> nip		2	0					
+ANR	46	Identifier	regs		2	0					
+ANR	47	Identifier	nip		2	1					
+ANR	48	ReturnStatement	return ;	9:2:329:335	2	1	True				
+ANR	49	Statement	printk	12:1:342:347	2	3	True				
+ANR	50	Statement	(	12:7:348:348	2	4	True				
+ANR	51	Statement	KERN_EMERG	12:8:349:358	2	5	True				
+ANR	52	Statement	"""Unrecoverable VMX/Altivec Unavailable Exception """	12:19:360:409	2	6	True				
+ANR	53	Statement	"""%lx at %lx\\n"""	13:3:414:427	2	7	True				
+ANR	54	Statement	","	13:17:428:428	2	8	True				
+ANR	55	Statement	regs	13:19:430:433	2	9	True				
+ANR	56	Statement	->	13:23:434:435	2	10	True				
+ANR	57	Statement	trap	13:25:436:439	2	11	True				
+ANR	58	Statement	","	13:29:440:440	2	12	True				
+ANR	59	Statement	regs	13:31:442:445	2	13	True				
+ANR	60	Statement	->	13:35:446:447	2	14	True				
+ANR	61	Statement	nip	13:37:448:450	2	15	True				
+ANR	62	Statement	)	13:40:451:451	2	16	True				
+ANR	63	ExpressionStatement		13:41:452:452	2	17	True				
+ANR	64	ExpressionStatement	"die ( ""Unrecoverable VMX/Altivec Unavailable Exception"" , regs , SIGABRT )"	14:1:455:524	2	18	True				
+ANR	65	CallExpression	"die ( ""Unrecoverable VMX/Altivec Unavailable Exception"" , regs , SIGABRT )"		2	0					
+ANR	66	Callee	die		2	0					
+ANR	67	Identifier	die		2	0					
+ANR	68	ArgumentList	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	1					
+ANR	69	Argument	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	0					
+ANR	70	PrimaryExpression	"""Unrecoverable VMX/Altivec Unavailable Exception"""		2	0					
+ANR	71	Argument	regs		2	1					
+ANR	72	Identifier	regs		2	0					
+ANR	73	Argument	SIGABRT		2	2					
+ANR	74	Identifier	SIGABRT		2	0					
+ANR	75	ReturnType	void		2	1					
+ANR	76	Identifier	altivec_unavailable_exception		2	2					
+ANR	77	ParameterList	struct pt_regs * regs		2	3					
+ANR	78	Parameter	struct pt_regs * regs	1:35:35:54	2	0	True				
+ANR	79	ParameterType	struct pt_regs *		2	0					
+ANR	80	Identifier	regs		2	1					
+ANR	81	CFGEntryNode	ENTRY		2		True				
+ANR	82	CFGExitNode	EXIT		2		True				
+ANR	83	Symbol	SIGILL		2						
+ANR	84	Symbol	* regs		2						
+ANR	85	Symbol	regs		2						
+ANR	86	Symbol	SIGABRT		2						
+ANR	87	Symbol	dwk_alias_1		2						
+ANR	88	Symbol	regs -> nip		2						
+ANR	89	Symbol	user_mode		2						
+ANR	90	Symbol	ILL_ILLOPC		2						
