@@ -1,6 +1,6 @@
 """Compare DeepWuKong predictions for original and semantics-preserving variants.
 
-DeepWuKong emits one score per XFG/program slice, whereas Demo B reports a
+DeepWuKong emits one score per XFG/program slice, whereas ALMOND reports a
 source-level result.  This module deliberately joins versions by ``sample_id``
 and reduces all their XFG scores, so CSV row order and the number of generated
 slices cannot affect the comparison.

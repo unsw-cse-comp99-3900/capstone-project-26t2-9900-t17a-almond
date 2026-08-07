@@ -51,8 +51,8 @@ def serve(host: str, port: int) -> int:
 
 def run_project_command(command: str, extra_args: list[str], host: str, port: int) -> int:
     commands = {
-        "console": ["deepwukong_demo_console_v4.py"],
-        "full-test": ["scripts/run_quick_demo_live.py"],
+        "console": ["deepwukong_console.py"],
+        "full-test": ["scripts/run_full_test.py"],
         "rerun-random-graph": ["scripts/rerun_random_graph.py"],
         "tests": ["-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
         "code-perturbations": ["robustness_experiments/code/code_perturbations.py"],

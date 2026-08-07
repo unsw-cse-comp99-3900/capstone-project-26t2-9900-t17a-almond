@@ -1018,7 +1018,7 @@ def dataset_slug(input_path: Path) -> str:
 def deepwukong_command(deepwukong_root: Path, variant_file: Path, output_root: Path) -> str:
     run_dir = output_root / variant_file.stem
     return (
-        f'python "{deepwukong_root / "scripts" / "run_demo_pipeline.py"}" '
+        f'python "{deepwukong_root / "scripts" / "run_pipeline.py"}" '
         f'--input "{variant_file}" '
         f'--output "{run_dir}" '
         "--no-timestamp-output"

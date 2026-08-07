@@ -282,7 +282,7 @@ def run_deepwukong(
     output_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
         sys.executable,
-        str(deepwukong_root / "scripts" / "run_demo_pipeline.py"),
+        str(deepwukong_root / "scripts" / "run_pipeline.py"),
         "--input",
         str(source_file),
         "--output",
@@ -951,7 +951,7 @@ def write_standard_report(
         "seed": "",
         "count": ",".join(str(count) for count in counts),
         "threshold": 0.5,
-        "device": "configured_by_demo_config",
+        "device": "configured_by_runtime_config",
         "samples_discovered": len(sources),
         "baselines_completed": sum(row["status"] == "success" for row in baseline_rows),
         "baseline_positive_samples": sum(record.get("baseline_eligible") is True for record in baseline_records),
@@ -1027,7 +1027,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--run-round", type=int, default=1)
     parser.add_argument("--deepwukong-root", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong")
-    parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong" / "configs" / "demo_config.json")
+    parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "baselines" / "deepwukong" / "configs" / "runtime_config.json")
     parser.add_argument("--actions", nargs="+", default=list(OPERATORS), choices=sorted(OPERATORS))
     parser.add_argument("--action", dest="actions", nargs="+", choices=sorted(OPERATORS), help=argparse.SUPPRESS)
     parser.add_argument(

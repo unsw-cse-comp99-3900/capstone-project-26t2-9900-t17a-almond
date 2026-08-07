@@ -3,7 +3,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
-import deepwukong_demo_console_v4 as console
+import deepwukong_console as console
 
 
 class DashboardMenuTests(unittest.TestCase):

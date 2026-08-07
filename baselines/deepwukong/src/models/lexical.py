@@ -27,10 +27,10 @@ SAFETY_TERMS = {
 
 
 def predict_lexical(source_code: str, model_paths: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Small compatibility fallback for Demo A's lexical mode.
+    """Small compatibility fallback for the baseline's lexical mode.
 
     The drop-in baseline's primary path is DeepWuKong XFG inference through
-    scripts/run_demo_pipeline.py. Demo A's smoke tests can also request
+    scripts/run_pipeline.py. The baseline smoke tests can also request
     baseline-mode lexical, so this deterministic source heuristic preserves that
     interface without shipping fit-time artifacts from the old hybrid baseline.
     """

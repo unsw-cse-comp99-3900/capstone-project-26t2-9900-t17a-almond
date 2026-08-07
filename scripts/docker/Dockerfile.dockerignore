@@ -22,6 +22,10 @@ output/
 *.7z
 *.bak
 
+# The verified base-image archive is loaded with `docker load` and is mounted
+# read-only only when the smoke test verifies it. It is never part of a build.
+baselines/deepwukong/module_tranning/
+
 # Experiment outputs are mounted from the host by Compose and must not be
 # copied into the application image.
 outputs/

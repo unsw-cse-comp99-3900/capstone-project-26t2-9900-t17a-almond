@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-DeepWuKong Robustness Testing Demo Console v4
+DeepWuKong Robustness Testing Console
 T17A Almond - COMP9900
 
 Main menu:
@@ -12,7 +12,7 @@ Main menu:
 6. Open Web Dashboard
 0. Exit
 
-v4 changes:
+Current capabilities:
 - Option 6 opens the experiment index, function-level PDG atlas, or latest
   random-versus-Winner-XFG comparison when one has been generated.
 - Options 3 and 4 still allow selecting different run folders.
@@ -48,7 +48,7 @@ EXPERIMENT_DASHBOARD_HTML = PROJECT_ROOT / "outputs" / "index.html"
 PDG_ATLAS_HTML = PROJECT_ROOT / "robustness_experiments" / "showcase" / "deepwukong_pdg_showcase.html"
 
 # Run the full perturbation experiment inside the packaged DeepWuKong image.
-START_TEST_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_quick_demo_live.py"]
+START_TEST_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_full_test.py"]
 
 # Run one baseline inference to verify the live pipeline without generating perturbations.
 QUICK_TEST_COMMAND: Optional[List[str]] = [sys.executable, "tests/run_quick_test.py"]
@@ -61,7 +61,6 @@ PREDICTION_COMPARISON_NAMES = [
     "prediction_comparison.csv",
     "comparison.csv",
     "results.csv",
-    "demo_results.csv",
 ]
 
 ACTION_SUMMARY_NAMES = [
@@ -193,7 +192,7 @@ def choose_run_dir(title: str = "Choose a Run") -> Optional[Path]:
 
     if not runs:
         print("No run folders were found under outputs/.")
-        print("Please run the demo first or check your project folder.")
+        print("Please run the full test first or check your project folder.")
         pause()
         return None
 
@@ -222,7 +221,7 @@ def choose_run_dir(title: str = "Choose a Run") -> Optional[Path]:
     return None
 
 
-def load_demo_data(run_dir: Optional[Path]) -> Dict[str, Any]:
+def load_run_data(run_dir: Optional[Path]) -> Dict[str, Any]:
     prediction_file = find_file(run_dir, PREDICTION_COMPARISON_NAMES)
     action_file = find_file(run_dir, ACTION_SUMMARY_NAMES)
     baseline_file = find_file(run_dir, BASELINE_SUMMARY_NAMES)
@@ -644,7 +643,7 @@ def build_overall_metrics(data: Dict[str, Any]) -> Dict[str, Any]:
 # ============================================================
 
 def show_main_menu() -> None:
-    print_header("DeepWuKong Robustness Testing Demo Console")
+    print_header("DeepWuKong Robustness Testing Console")
     print("1. Run Full Test")
     print("2. Run Smoke Test")
     print("3. Results Summary")
@@ -688,7 +687,7 @@ def run_test() -> None:
         time.sleep(0.8)
 
     run_dir = get_default_run_dir()
-    data = load_demo_data(run_dir)
+    data = load_run_data(run_dir)
     print_data_location(data)
 
     metrics = build_overall_metrics(data)
@@ -711,9 +710,9 @@ def run_quick_test() -> None:
     slow_print([
         "Quick Test Mode",
         "",
-        "This smoke test verifies that the live inference pipeline can run.",
-        "It performs one baseline prediction only; it does not generate perturbations",
-        "or write a persistent result folder.",
+        "This smoke test first verifies the separately downloaded runtime TAR",
+        "using its exact byte count and SHA-256 checksum. It then runs one live",
+        "baseline prediction without generating perturbations or a result folder.",
         "",
     ])
 
@@ -741,7 +740,7 @@ def show_results_summary(run_dir: Optional[Path] = None) -> None:
             return
 
     print_header(f"Results Summary - {run_dir.name}")
-    data = load_demo_data(run_dir)
+    data = load_run_data(run_dir)
     print_data_location(data)
     metrics = build_overall_metrics(data)
 
@@ -775,7 +774,7 @@ def show_perturbation_impact_analysis(run_dir: Optional[Path] = None) -> None:
             return
 
     print_header(f"Perturbation Impact Analysis - {run_dir.name}")
-    data = load_demo_data(run_dir)
+    data = load_run_data(run_dir)
     action_rows = data["action_rows"]
     prediction_rows = data["prediction_rows"]
 
@@ -815,7 +814,7 @@ def show_sample_detail_viewer(run_dir: Optional[Path] = None) -> None:
             return
 
     print_header(f"Sample Detail Viewer - {run_dir.name}")
-    data = load_demo_data(run_dir)
+    data = load_run_data(run_dir)
     rows = data["prediction_rows"] or data["manifest_rows"]
 
     if not rows:
@@ -966,7 +965,7 @@ def show_sample_level_prediction_table(run_dir: Optional[Path]) -> None:
         return
 
     print_header(f"Sample-Level Prediction Table - {run_dir.name}")
-    rows = load_demo_data(run_dir)["prediction_rows"]
+    rows = load_run_data(run_dir)["prediction_rows"]
 
     if not rows:
         print("No prediction comparison rows found.")
@@ -993,7 +992,7 @@ def show_confidence_change_ranking(run_dir: Optional[Path]) -> None:
         return
 
     print_header(f"Confidence Change Ranking - {run_dir.name}")
-    rows = load_demo_data(run_dir)["prediction_rows"]
+    rows = load_run_data(run_dir)["prediction_rows"]
 
     if not rows:
         print("No prediction comparison rows found.")

@@ -1,1 +1,1 @@
-"""DeepWuKong Demo A drop-in baseline package."""
+"""DeepWuKong drop-in baseline package."""

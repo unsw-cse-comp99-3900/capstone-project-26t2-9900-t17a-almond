@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a live DeepWuKong code-perturbation test for every input source file."""
+"""Run the complete DeepWuKong robustness test for every input source file."""
 
 from __future__ import annotations
 

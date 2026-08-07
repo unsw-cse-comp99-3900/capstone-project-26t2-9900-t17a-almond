@@ -32,6 +32,7 @@ same sample + same baseline
 - [Archived Experiments](#archived-experiments)
 - [Repository Layout](#repository-layout)
 - [Testing](#testing)
+- [Detailed Testing Guide](TESTING.md)
 - [Limitations](#limitations)
 
 ## Project Scope
@@ -121,9 +122,15 @@ The large DeepWuKong runtime image is not stored in Git. Download the verified
 Docker delivery package from the
 [UNSW OneDrive delivery folder](https://unsw-my.sharepoint.com/:f:/g/personal/z5462057_ad_unsw_edu_au/IgCDusTbCoy4TIvZjFGzW6nFAUVNNinwLIUlanldfyHryZs?e=zckK4M).
 
-The required archive is
-`deepwukong-rtx5060-cu128-experimental.tar` (4,766,494,208 bytes). Its expected
-SHA-256 is:
+Create the local-only runtime directory, then use the browser download dialog to
+save the required archive at:
+
+```text
+baselines/deepwukong/module_tranning/deepwukong-rtx5060-cu128-experimental.tar
+```
+
+The `module_tranning/` directory is excluded from Git and the Docker build
+context. The archive is 4,766,494,208 bytes and its expected SHA-256 is:
 
 ```text
 0482EA09F89569072427344B1DADA5E72878DF2E7BC99F878F5895B17DAF6B1D
@@ -133,8 +140,12 @@ Verify and load it before starting:
 
 ```powershell
 docker version
-Get-FileHash .\deepwukong-rtx5060-cu128-experimental.tar -Algorithm SHA256
-docker load -i .\deepwukong-rtx5060-cu128-experimental.tar
+$RuntimeDir = ".\baselines\deepwukong\module_tranning"
+$RuntimeArchive = Join-Path $RuntimeDir "deepwukong-rtx5060-cu128-experimental.tar"
+New-Item -ItemType Directory -Force $RuntimeDir | Out-Null
+(Get-Item $RuntimeArchive).Length
+(Get-FileHash $RuntimeArchive -Algorithm SHA256).Hash
+docker load -i $RuntimeArchive
 docker image inspect deepwukong-rtx5060-cu128:experimental
 ```
 
@@ -199,7 +210,7 @@ Install the lightweight host dependency and run the console directly:
 
 ```powershell
 python -m pip install -r requirements.txt
-python deepwukong_demo_console_v4.py
+python deepwukong_console.py
 ```
 
 To serve the static dashboards without the Docker launcher:
@@ -534,7 +545,7 @@ The repository includes representative completed runs:
 | `run_20260723_code_cwe119_winner_xfg_round1` | 5 | 178 | 153 | 3 flips |
 | `run_20260723_code_cvefixes_winner_xfg_round1` | 5 | 188 | 168 | 1 flip |
 
-These are small research runs under different protocols. They demonstrate the
+These are small research runs under different protocols. They show the
 pipeline and should not be interpreted as DeepWuKong accuracy estimates or
 combined into one overall robustness score.
 
@@ -543,6 +554,7 @@ combined into one overall robustness score.
 | Path | Purpose |
 |---|---|
 | `baselines/deepwukong/` | DeepWuKong wrapper, configuration, checkpoint, and inference scripts. |
+| `baselines/deepwukong/module_tranning/` | Local-only location for the verified runtime TAR; ignored by Git and the Docker build context. |
 | `robustness_experiments/code/` | Source actions, dataset adapters, variant generation, and budget search. |
 | `robustness_experiments/graph/` | Primitive PDG actions and winner-XFG-targeted graph experiments. |
 | `robustness_experiments/showcase/` | Interactive function/source PDG atlas generation. |
@@ -556,10 +568,23 @@ combined into one overall robustness score.
 
 ## Testing
 
+The complete test plan, required-file inventory, per-module coverage map,
+negative cases, smoke test, GPU checks, and final acceptance procedure are in
+[`TESTING.md`](TESTING.md).
+
 Run all host-side tests:
 
 ```powershell
 python -m unittest discover -s tests -p "test_*.py"
+```
+
+Run the menu Smoke Test after saving the runtime TAR in the standard location.
+It checks the archive's exact size and SHA-256 before running one live
+Joern-to-DeepWuKong baseline inference:
+
+```powershell
+.\Start.exe
+# Select: 2. Run Smoke Test
 ```
 
 The project Docker image installs Graphviz automatically. Host-side showcase

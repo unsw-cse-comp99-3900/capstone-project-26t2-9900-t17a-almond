@@ -8,11 +8,20 @@ too large for Git and the Moodle source-code ZIP.
 Download the delivery folder from
 [UNSW OneDrive](https://unsw-my.sharepoint.com/:f:/g/personal/z5462057_ad_unsw_edu_au/IgCDusTbCoy4TIvZjFGzW6nFAUVNNinwLIUlanldfyHryZs?e=zckK4M).
 
-Required archive:
+From the extracted ALMOND repository root, create the local-only runtime folder:
+
+```powershell
+$RuntimeDir = ".\baselines\deepwukong\module_tranning"
+New-Item -ItemType Directory -Force $RuntimeDir | Out-Null
+```
+
+Use the browser download dialog to save the required archive as:
 
 ```text
-deepwukong-rtx5060-cu128-experimental.tar
+baselines/deepwukong/module_tranning/deepwukong-rtx5060-cu128-experimental.tar
 ```
+
+This directory is ignored by Git and excluded from the Docker build context.
 
 Archive metadata:
 
@@ -26,11 +35,14 @@ Archive metadata:
 
 ## Verify and load
 
-Open PowerShell in the folder containing the downloaded archive:
+Open PowerShell in the repository root:
 
 ```powershell
-Get-FileHash .\deepwukong-rtx5060-cu128-experimental.tar -Algorithm SHA256
-docker load -i .\deepwukong-rtx5060-cu128-experimental.tar
+$RuntimeDir = ".\baselines\deepwukong\module_tranning"
+$RuntimeArchive = Join-Path $RuntimeDir "deepwukong-rtx5060-cu128-experimental.tar"
+(Get-Item $RuntimeArchive).Length
+(Get-FileHash $RuntimeArchive -Algorithm SHA256).Hash
+docker load -i $RuntimeArchive
 docker image inspect deepwukong-rtx5060-cu128:experimental
 ```
 
@@ -63,6 +75,11 @@ Expected result:
 Ran 66 tests
 OK
 ```
+
+Run console option `2. Run Smoke Test` to recheck the local TAR byte count and
+SHA-256 and then execute one live Joern-to-DeepWuKong inference. Compose mounts
+`module_tranning/` read-only for this check; the TAR is not copied into the
+project image.
 
 Verify GPU access through the built project image:
 

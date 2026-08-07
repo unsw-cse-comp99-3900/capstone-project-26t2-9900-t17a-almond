@@ -1,1 +1,1 @@
-"""Model adapters used by the Demo A drop-in baseline."""
+"""Model adapters used by the DeepWuKong drop-in baseline."""

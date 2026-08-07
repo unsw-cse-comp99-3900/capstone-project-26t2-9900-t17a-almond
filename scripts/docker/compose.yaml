@@ -18,6 +18,9 @@ services:
     volumes:
       # Keep Run Full Test outputs after the one-off container is removed.
       - ../../outputs:/repo/outputs
+      # The archive is local-only and excluded from Git/build context. Mount it
+      # read-only so console option 2 can verify download size and SHA-256.
+      - ../../baselines/deepwukong/module_tranning:/repo/baselines/deepwukong/module_tranning:ro
       # Keep the large static PDG Atlas archive out of the image while making
       # the checked-in pages available to the dashboard server.
       - ../../robustness_experiments/showcase/deepwukong_pdg_showcase_pages:/repo/robustness_experiments/showcase/deepwukong_pdg_showcase_pages:ro

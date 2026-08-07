@@ -18,6 +18,8 @@ ONEDRIVE_URL = (
     "z5462057_ad_unsw_edu_au/IgCDusTbCoy4TIvZjFGzW6nFAUVNNinwLIUlanldfyHryZs?e=zckK4M"
 )
 ARCHIVE = "deepwukong-rtx5060-cu128-experimental.tar"
+ARCHIVE_DIRECTORY = r"baselines\deepwukong\module_tranning"
+ARCHIVE_PATH = rf"{ARCHIVE_DIRECTORY}\{ARCHIVE}"
 CHECKSUM = "0482EA09F89569072427344B1DADA5E72878DF2E7BC99F878F5895B17DAF6B1D"
 
 NAVY = colors.HexColor("#172554")
@@ -150,7 +152,7 @@ def story() -> list:
             [
                 [p("SUBMISSION", "CoverMeta"), p("2026 Term 2", "CoverMeta")],
                 [p("PLATFORM", "CoverMeta"), p("Windows + Docker Desktop + NVIDIA GPU", "CoverMeta")],
-                [p("DOCUMENT VERSION", "CoverMeta"), p("1.1 | 7 August 2026", "CoverMeta")],
+                [p("DOCUMENT VERSION", "CoverMeta"), p("1.2 | 7 August 2026", "CoverMeta")],
             ],
             colWidths=[45 * mm, 95 * mm],
             style=TableStyle([
@@ -174,7 +176,7 @@ def story() -> list:
         info_table([
             ("Step 1", "Install and start Docker Desktop using Linux containers and the WSL 2 backend."),
             ("Step 2", "Confirm that Docker can access a supported NVIDIA GPU."),
-            ("Step 3", "Download, verify, and load the DeepWuKong runtime TAR from UNSW OneDrive."),
+            ("Step 3", "Save the DeepWuKong runtime TAR under baselines\\deepwukong\\module_tranning, verify it, and load it."),
             ("Step 4", "Extract the ALMOND source-code ZIP to a writable Windows directory."),
             ("Step 5", "Build the project image and run all 66 container tests."),
             ("Step 6", "Start ALMOND with Start.exe or robustness_experiments\\Start.ps1."),
@@ -183,6 +185,7 @@ def story() -> list:
         p("Included in the source submission", "Subsection"),
         bullet("Project source, Windows launcher, Docker definition, tests, input samples, checkpoint, dashboards, and representative evidence."),
         bullet("The Docker runtime archive is not stored in Git or inside the Moodle source ZIP."),
+        bullet("The local module_tranning directory is ignored by Git and excluded from the Docker build context."),
         bullet("Generated outputs remain on the host through the Docker Compose outputs bind mount."),
         callout("Full model inference cannot run until the verified runtime TAR has been loaded under the expected Docker tag."),
         p("Repository-root entry points", "Subsection"),
@@ -214,9 +217,13 @@ def story() -> list:
     items += [
         p("3  Download and load the verified runtime", "Section"),
         p(download_link),
+        p("From the extracted repository root, create the local-only directory below. In the browser download dialog, save the TAR there using the exact filename."),
+        code(f'$RuntimeDir = ".\\{ARCHIVE_DIRECTORY}"\nNew-Item -ItemType Directory -Force $RuntimeDir | Out-Null'),
+        callout(f"Required local path: {ARCHIVE_PATH}. This directory is ignored by Git and is not copied into the project image."),
         p("Required archive", "Subsection"),
         info_table([
             ("Filename", ARCHIVE),
+            ("Local path", ARCHIVE_PATH),
             ("Size", "4,766,494,208 bytes (4.439 GiB)"),
             ("SHA-256", CHECKSUM),
             ("Docker tag", "deepwukong-rtx5060-cu128:experimental"),
@@ -224,10 +231,10 @@ def story() -> list:
             ("Platform", "linux/amd64"),
         ], left=38 * mm),
         p("Verify the download", "Subsection"),
-        code(f"Get-FileHash .\\{ARCHIVE} -Algorithm SHA256"),
+        code(f'$RuntimeArchive = Join-Path $RuntimeDir "{ARCHIVE}"\n(Get-Item $RuntimeArchive).Length\n(Get-FileHash $RuntimeArchive -Algorithm SHA256).Hash'),
         callout(f"The calculated SHA-256 must be exactly {CHECKSUM}. Do not load the archive if it differs."),
         p("Load and inspect the image", "Subsection"),
-        code(f"docker load -i .\\{ARCHIVE}\ndocker image inspect deepwukong-rtx5060-cu128:experimental"),
+        code("docker load -i $RuntimeArchive\ndocker image inspect deepwukong-rtx5060-cu128:experimental"),
         p("A verified test import of this exact TAR restored the expected tag successfully.", "Small"),
         PageBreak(),
     ]
@@ -237,7 +244,7 @@ def story() -> list:
         p("Extract the source ZIP", "Subsection"),
         p("Extract the complete source submission to a writable local directory. Do not run it directly from inside a ZIP. Open PowerShell in the repository root, which contains README.md and Start.exe."),
         p("Confirm required files", "Subsection"),
-        code("Test-Path .\\Start.exe\nTest-Path .\\robustness_experiments\\Start.ps1\nTest-Path .\\scripts\\docker\\compose.yaml\nTest-Path .\\baselines\\deepwukong\\models\\deepwukong\\deepwukong_cwe119_best.ckpt"),
+        code("Test-Path .\\Start.exe\nTest-Path .\\robustness_experiments\\Start.ps1\nTest-Path .\\scripts\\docker\\compose.yaml\nTest-Path .\\baselines\\deepwukong\\models\\deepwukong\\deepwukong_cwe119_best.ckpt\nTest-Path $RuntimeArchive"),
         p("Build the project image", "Subsection"),
         code("docker compose -f scripts/docker/compose.yaml build almond"),
         p("The build creates t17a-almond:latest. The Dockerfile installs Graphviz automatically and excludes archived outputs and the large PDG Atlas page set from the build context."),
@@ -252,6 +259,9 @@ def story() -> list:
         p("Run the complete container test suite", "Subsection"),
         code("docker compose -f scripts/docker/compose.yaml run --rm almond tests"),
         callout("Verified result in the target Docker/GPU environment: Ran 66 tests - OK."),
+        p("Run the archive and live-inference smoke test", "Subsection"),
+        code(".\\Start.exe\n# Select 2. Run Smoke Test"),
+        p("The smoke test verifies the TAR's exact byte count and SHA-256 before running one baseline through Joern, PDG/XFG construction, and DeepWuKong inference."),
         p("Verify GPU access through ALMOND", "Subsection"),
         code("docker run --rm --gpus all --entrypoint python `\n  t17a-almond:latest `\n  -c \"import torch; print(torch.cuda.is_available())\""),
         p("The output must be True. Use nvidia-smi on the host or in a CUDA container to inspect the detected GPU name."),
@@ -271,6 +281,7 @@ def story() -> list:
         info_table([
             ("Docker daemon unavailable", "Start Docker Desktop, wait for the Linux engine to report Running, then repeat docker version."),
             ("Checksum mismatch", "Delete the incomplete download, download the TAR again from the documented OneDrive folder, and recheck SHA-256."),
+            ("Runtime TAR missing", "Save the exact TAR under baselines\\deepwukong\\module_tranning, then rerun the smoke test."),
             ("Base image not found", "Repeat docker load and confirm that docker image inspect shows the exact expected tag."),
             ("GPU unavailable", "Confirm nvidia-smi works on the host and in a CUDA container. Update Docker Desktop and the NVIDIA driver if required."),
             ("PowerShell blocked", "Run Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass. Do not change the machine-wide policy."),

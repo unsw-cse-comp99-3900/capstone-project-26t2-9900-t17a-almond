@@ -13,7 +13,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.run_quick_demo_live import CHECKPOINT_PATH, INFERENCE_SCRIPT, SOURCE_PATH, run_inference
+from scripts.run_full_test import CHECKPOINT_PATH, INFERENCE_SCRIPT, SOURCE_PATH, run_inference
+from scripts.verify_runtime_archive import DEFAULT_ARCHIVE_PATH, validate_runtime_archive
 
 
 def validate_prediction(prediction: dict[str, Any]) -> list[str]:
@@ -43,6 +44,18 @@ def missing_inputs() -> list[Path]:
 
 
 def main() -> int:
+    print(f"Verifying runtime archive: {DEFAULT_ARCHIVE_PATH}", flush=True)
+    archive_errors = validate_runtime_archive(
+        DEFAULT_ARCHIVE_PATH,
+        progress=lambda message: print(message, flush=True),
+    )
+    if archive_errors:
+        print("Quick test cannot start because the runtime download is incomplete:", file=sys.stderr)
+        for error in archive_errors:
+            print(f"- {error}", file=sys.stderr)
+        return 1
+    print("Runtime archive verification passed.\n", flush=True)
+
     missing = missing_inputs()
     if missing:
         print("Quick test cannot start because required files are missing:", file=sys.stderr)

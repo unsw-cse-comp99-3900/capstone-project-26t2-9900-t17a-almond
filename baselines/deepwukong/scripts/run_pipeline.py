@@ -329,10 +329,10 @@ def run_batch(input_path: Path, output_dir: Path, config_path: Path, pattern: st
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run the DeepWuKong Demo A drop-in baseline.")
+    parser = argparse.ArgumentParser(description="Run the DeepWuKong source-scanning pipeline.")
     parser.add_argument("--input", default="inputs", help="Input C/C++ source file or directory. Defaults to inputs.")
     parser.add_argument("--output", default="outputs", help="Output base directory.")
-    parser.add_argument("--config", default="configs/demo_config.json", help="Demo config JSON.")
+    parser.add_argument("--config", default="configs/runtime_config.json", help="Runtime config JSON.")
     parser.add_argument("--pattern", default="*.c", help="Glob used when --input is a directory.")
     parser.add_argument("--no-recursive", action="store_true", help="Do not scan input directories recursively.")
     parser.add_argument("--no-timestamp-output", action="store_true", help="Write directly to --output.")
@@ -355,7 +355,7 @@ def main() -> int:
     else:
         payload = run_pipeline(input_file=input_path, output_dir=output_dir, config_path=config_path)
         print(json.dumps(payload["prediction"], indent=2, ensure_ascii=True))
-        print(f"Wrote demo outputs to: {output_dir}")
+        print(f"Wrote inference outputs to: {output_dir}")
     return 0
 
 

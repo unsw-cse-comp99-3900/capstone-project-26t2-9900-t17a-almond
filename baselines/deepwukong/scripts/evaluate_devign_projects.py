@@ -249,11 +249,11 @@ def print_summary(output_dir: Path) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    paths = load_deepwukong_paths(resolve_path("configs/demo_config.json", BASELINE_ROOT))
+    paths = load_deepwukong_paths(resolve_path("configs/runtime_config.json", BASELINE_ROOT))
     parser = argparse.ArgumentParser(description="Evaluate the CWE119 DeepWuKong checkpoint on Devign FFmpeg/QEMU.")
     parser.add_argument("--devign-jsonl", type=Path, default=default_devign_jsonl())
     parser.add_argument("--output", type=Path, default=BASELINE_ROOT / "outputs" / "devign_ffmpeg_qemu_eval")
-    parser.add_argument("--config", type=Path, default=BASELINE_ROOT / "configs" / "demo_config.json")
+    parser.add_argument("--config", type=Path, default=BASELINE_ROOT / "configs" / "runtime_config.json")
     parser.add_argument("--projects", nargs="+", default=["FFmpeg", "qemu"])
     parser.add_argument("--split", default="test")
     parser.add_argument("--limit-per-project", type=int)

@@ -242,7 +242,7 @@ XFG slices scored: `{details.get("features", {}).get("xfg", {}).get("xfg_count",
 
 Joern status: `{row["joern_status"]}`
 """
-    (output_dir / "demo_report.txt").write_text(report, encoding="utf-8")
+    (output_dir / "inference_report.txt").write_text(report, encoding="utf-8")
 
 
 def main() -> int:

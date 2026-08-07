@@ -1,4 +1,4 @@
-"""Create a self-contained, filterable report from an archived Demo B run."""
+"""Create a self-contained, filterable report from an archived robustness run."""
 
 from __future__ import annotations
 
