@@ -619,7 +619,6 @@ Run this check before creating the Moodle ZIP or GitHub release:
 ```powershell
 $RequiredFiles = @(
   ".\README.md",
-  ".\TESTING.md",
   ".\ALMOND_Installation_Manual.pdf",
   ".\Start.exe",
   ".\robustness_experiments\Start.ps1",
