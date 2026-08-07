@@ -67,7 +67,7 @@ compilable source code.
        |                         +-> NetworkX PDG
        |                               |
        |                               +-> graph action
-       |                               +-> budget 1 / 3 / 5
+       |                               +-> budgets 1 / 3 / 5 / 7 / 9 / 11 / 13 / 15 / 20 / 25
        |                               +-> rebuild XFGs
        |
        +-> code action -> new source -> rerun Joern
@@ -117,13 +117,31 @@ requires Graphviz with `dot` available on `PATH`:
 dot -V
 ```
 
-The large DeepWuKong runtime image is not stored in Git. Verify it before
-starting:
+The large DeepWuKong runtime image is not stored in Git. Download the verified
+Docker delivery package from the
+[UNSW OneDrive delivery folder](https://unsw-my.sharepoint.com/:f:/g/personal/z5462057_ad_unsw_edu_au/IgCDusTbCoy4TIvZjFGzW6nFAUVNNinwLIUlanldfyHryZs?e=zckK4M).
+
+The required archive is
+`deepwukong-rtx5060-cu128-experimental.tar` (4,766,494,208 bytes). Its expected
+SHA-256 is:
+
+```text
+0482EA09F89569072427344B1DADA5E72878DF2E7BC99F878F5895B17DAF6B1D
+```
+
+Verify and load it before starting:
 
 ```powershell
 docker version
+Get-FileHash .\deepwukong-rtx5060-cu128-experimental.tar -Algorithm SHA256
+docker load -i .\deepwukong-rtx5060-cu128-experimental.tar
 docker image inspect deepwukong-rtx5060-cu128:experimental
 ```
+
+The calculated checksum must match the value above. Loading the archive restores
+the exact tag expected by Docker Compose. See
+[`docs/DOCKER_IMAGE_DELIVERY.md`](docs/DOCKER_IMAGE_DELIVERY.md) for the complete
+assessor workflow and troubleshooting guidance.
 
 If the image uses a different local tag, set it for the current PowerShell
 session:
@@ -137,12 +155,13 @@ $env:DEEPWUKONG_IMAGE = "your-local-image:tag"
 From the repository root:
 
 ```powershell
-.\Start.ps1
+.\robustness_experiments\Start.ps1
 ```
 
-`Start.exe` provides the same workflow for double-click launch. The launcher
-builds `t17a-almond:latest`, starts the interactive console, serves the
-dashboards, and keeps generated `outputs/` on the host.
+Alternatively, run `Start.exe` from the repository root (or double-click it in
+File Explorer). Both entry points provide the same workflow. The launcher builds
+`t17a-almond:latest`, starts the interactive console, serves the dashboards, and
+keeps generated `outputs/` on the host.
 
 The console provides:
 
@@ -543,9 +562,10 @@ Run all host-side tests:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
-The showcase rendering tests invoke Graphviz. If the suite reports
-`FileNotFoundError` while starting `dot`, install Graphviz and reopen the
-terminal so the updated `PATH` is visible.
+The project Docker image installs Graphviz automatically. Host-side showcase
+rendering tests also invoke Graphviz; if they report `FileNotFoundError` while
+starting `dot`, install Graphviz on the host and reopen the terminal so the
+updated `PATH` is visible.
 
 Check the main experiment scripts without running inference:
 
@@ -562,8 +582,9 @@ python -m py_compile `
 
 - The included checkpoint targets CWE-119 and is not a universal
   vulnerability detector.
-- The separately distributed Docker runtime image is required for reproducible
-  Joern and model inference.
+- The separately distributed Docker runtime image from the documented UNSW
+  OneDrive delivery folder is required for reproducible Joern and model
+  inference; the archive checksum must be verified before use.
 - Source transformations use syntax patterns rather than a complete C/C++
   parser, so action applicability and semantic preservation require auditing.
 - Repair-like source actions may alter program behaviour and must not be mixed

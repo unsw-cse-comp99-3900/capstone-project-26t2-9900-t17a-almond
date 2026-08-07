@@ -7,7 +7,13 @@ FROM ${BASE_IMAGE}
 
 WORKDIR /repo
 
-# NetworkX is the sole host-side project dependency.  It is installed here so
+# Graphviz renders the PDG Atlas and is required by four rendering tests. The
+# base runtime does not provide `dot`, so install it in the project image.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends graphviz \
+    && rm -rf /var/lib/apt/lists/*
+
+# NetworkX is the sole Python-side project dependency. It is installed here so
 # graph perturbations and their tests work in the packaged environment too.
 COPY requirements.txt /tmp/almond-requirements.txt
 RUN python -m pip install --no-cache-dir -r /tmp/almond-requirements.txt

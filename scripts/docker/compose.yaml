@@ -18,6 +18,9 @@ services:
     volumes:
       # Keep Run Full Test outputs after the one-off container is removed.
       - ../../outputs:/repo/outputs
+      # Keep the large static PDG Atlas archive out of the image while making
+      # the checked-in pages available to the dashboard server.
+      - ../../robustness_experiments/showcase/deepwukong_pdg_showcase_pages:/repo/robustness_experiments/showcase/deepwukong_pdg_showcase_pages:ro
     # Use `docker compose -f scripts/docker/compose.yaml run`, not `up`, so this console owns the terminal.
     command: console
     stdin_open: true

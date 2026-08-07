@@ -1,16 +1,36 @@
 .git
 .gitignore
+.gitattributes
+.dockerignore
+scripts/docker/Dockerfile.dockerignore
 __pycache__/
 **/__pycache__/
 *.py[cod]
 *.log
 .pytest_cache/
+**/.pytest_cache/
 .mypy_cache/
+**/.mypy_cache/
+.ruff_cache/
+**/.ruff_cache/
+tmp/
+output/
+**/_work/
+*.tar
+*.tar.*
+*.zip
+*.7z
+*.bak
 
-# New local run products are reproducible and may be large.  Archived outputs,
-# input samples, model checkpoint, and presentation artifacts remain included.
+# Experiment outputs are mounted from the host by Compose and must not be
+# copied into the application image.
+outputs/
+
+# The static PDG Atlas pages are also mounted read-only from the host. Keep the
+# small index and generator in the image, but exclude the 100+ MB page archive.
+robustness_experiments/showcase/deepwukong_pdg_showcase_pages/
+
+# Regenerable development artifacts are not required at runtime.
 artifacts/perturbed_sources/generated/
 artifacts/joern_csv/generated/
 artifacts/graphs/generated/
-outputs/generated/
-outputs/run_showcase_cache/
