@@ -62,7 +62,6 @@ $RequiredFiles = @(
   ".\scripts\docker\compose.yaml",
   ".\scripts\docker\docker_entrypoint.py",
   ".\scripts\run_full_test.py",
-  ".\scripts\verify_runtime_archive.py",
   ".\baselines\deepwukong\scripts\run_pipeline.py",
   ".\baselines\deepwukong\scripts\run_pipeline.ps1",
   ".\baselines\deepwukong\configs\runtime_config.json",
@@ -76,7 +75,7 @@ $RequiredFiles = @(
   ".\robustness_experiments\graph\run_xfg_targeted_experiment.py",
   ".\robustness_experiments\showcase\generate_showcase.py",
   ".\robustness_experiments\visualize_results.py",
-  ".\tests\run_quick_test.py"
+  ".\tests\run_smoke_test.py"
 )
 $MissingFiles = $RequiredFiles | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) }
 if ($MissingFiles) { $MissingFiles; throw "Required project files are missing." }
@@ -105,22 +104,23 @@ Expected result: both checks print `OK` and list no missing paths.
 
 ## 4. Runtime archive, image, and GPU checks
 
-Verify the complete TAR with the same Python logic used by console Smoke Test:
+Before loading the base image, verify the downloaded TAR from PowerShell:
 
 ```powershell
-python .\scripts\verify_runtime_archive.py
+$RuntimeArchive = ".\baselines\deepwukong\module_tranning\deepwukong-rtx5060-cu128-experimental.tar"
+(Get-Item $RuntimeArchive).Length
+(Get-FileHash $RuntimeArchive -Algorithm SHA256).Hash
 ```
 
-Expected final line:
+The size must be `4,766,494,208` bytes and the SHA-256 must be:
 
 ```text
-Runtime archive verification passed: the download is complete.
+0482EA09F89569072427344B1DADA5E72878DF2E7BC99F878F5895B17DAF6B1D
 ```
 
 Load and inspect the verified base image:
 
 ```powershell
-$RuntimeArchive = ".\baselines\deepwukong\module_tranning\deepwukong-rtx5060-cu128-experimental.tar"
 docker load -i $RuntimeArchive
 docker image inspect deepwukong-rtx5060-cu128:experimental
 ```
@@ -164,11 +164,348 @@ The 66 tests are distributed as follows:
 | `test_dashboard_menu.py` | 3 | shared budgets, dashboard selection, graph-comparison menu |
 | `test_graph_experiment_design.py` | 4 | ten budgets, ten seeds, legacy arguments, scoreability |
 | `test_graph_perturbations.py` | 13 | copy safety, actions, targeting, fallbacks, nested budgets, PDG loading |
-| `test_quick_test.py` | 2 | valid inference output and invalid/missing output fields |
+| `test_smoke_test.py` | 2 | valid inference output and invalid/missing output fields |
 | `test_random_graph_rerun.py` | 2 | safe Run selection and non-destructive summary updates |
 | `test_showcase_rendering.py` | 20 | source/PDG rendering, focus evidence, cache and staged provenance |
 | `test_visualize_results.py` | 15 | paired cohorts, ASR/statistics, budgets, dashboards and indexes |
 | `test_xfg_targeted_experiment.py` | 3 | metadata and effective Winner-XFG node selection |
+
+Use `-v` in the commands below so that every test method is printed. A normal
+passing method ends in `... ok`. The elapsed time is machine-dependent, but the
+reported test count and final `OK` must match this document. Docker may print
+`Container ... Creating` and `Container ... Created` before the Python output;
+those lines are normal.
+
+Result meanings:
+
+| Result | Meaning | Acceptance action |
+|---|---|---|
+| `ok` | The test method completed and all assertions passed | Accept |
+| `FAIL` | The method ran, but an actual value did not match the required value | Investigate the named assertion; do not accept |
+| `ERROR` | Setup, import, external command, or the method itself raised an exception | Read the traceback; do not accept |
+| `skipped` | A test was deliberately not executed | Record the reason; the final container run is expected to have no skips |
+
+### 5.1 `test_code_perturbations.py` - 3 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_code_perturbations.py" -v
+```
+
+What it verifies:
+
+- a dataset slug is derived consistently from either an input directory or the
+  parent directory of a single input file;
+- custom-type declarations are not selected for unsafe control-wrapper
+  perturbations;
+- ordinary non-declaration expression statements remain valid perturbation
+  candidates instead of being filtered out with declarations.
+
+Normal result:
+
+```text
+Ran 3 tests in <time>s
+
+OK
+```
+
+This means dataset provenance and the positive/negative candidate-selection
+rules all behaved as required.
+
+### 5.2 `test_compare_deepwukong.py` - 1 test
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_compare_deepwukong.py" -v
+```
+
+What it verifies:
+
+- duplicate XFG predictions for a source are reduced using the maximum score;
+- original and perturbed predictions are paired by sample ID, not accidental
+  CSV row order.
+
+Normal result:
+
+```text
+Ran 1 test in <time>s
+
+OK
+```
+
+The passing result confirms the comparison output uses the intended prediction
+reduction and stable ID-based join.
+
+### 5.3 `test_dashboard_menu.py` - 3 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_dashboard_menu.py" -v
+```
+
+What it verifies:
+
+- the console displays the shared final graph budgets
+  `1, 3, 5, 7, 9, 11, 13, 15, 20, 25`;
+- selecting a dashboard opens the requested page and then returns to the
+  dashboard menu;
+- a newly available graph-comparison dashboard is added dynamically without
+  changing or removing the existing choices.
+
+Normal result:
+
+```text
+Ran 3 tests in <time>s
+
+OK
+```
+
+The passing result confirms the console and result-menu navigation agree with
+the final experiment configuration.
+
+### 5.4 `test_graph_experiment_design.py` - 4 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_graph_experiment_design.py" -v
+```
+
+What it verifies:
+
+- the default design contains all ten final budgets and ten fixed seeds;
+- plural budget/seed arguments override their legacy scalar aliases;
+- the old scalar argument remains supported for backwards compatibility;
+- an empty XFG tensor is rejected as unscoreable instead of producing a false
+  prediction.
+
+Normal result:
+
+```text
+Ran 4 tests in <time>s
+
+OK
+```
+
+The passing result confirms deterministic experiment expansion, CLI
+compatibility, and the empty-input error rule.
+
+### 5.5 `test_graph_perturbations.py` - 13 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_graph_perturbations.py" -v
+```
+
+What it verifies:
+
+- every graph action modifies a copy and leaves the source graph unchanged;
+- added nodes carry real source-line metadata for symbolization;
+- node-attribute modification changes the feature source without changing
+  topology;
+- guided edge deletion selects the edge nearest the key line and rejects input
+  with no key lines;
+- Winner-XFG actions preserve the original graph and key-line metadata;
+- targeted edge attacks respect the required edge direction;
+- each targeted-subgraph budget step injects exactly three nodes;
+- a missing seed node uses the defined fallback anchor, while a missing genuine
+  Winner-XFG target is rejected;
+- random and Winner-XFG budgets are nested prefixes, so a larger budget extends
+  rather than regenerates a smaller-budget action sequence;
+- Joern PDG loading retains only control-dependency and data-dependency edges.
+
+Normal result:
+
+```text
+Ran 13 tests in <time>s
+
+OK
+```
+
+The passing result confirms graph mutation safety, targeting rules, budget
+nesting, and PDG edge filtering.
+
+### 5.6 `test_smoke_test.py` - 2 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_smoke_test.py" -v
+```
+
+What it verifies:
+
+- a complete inference result is accepted when it has a valid label, a
+  probability in `[0, 1]`, and positive node and edge counts;
+- missing fields, invalid labels/probabilities, and invalid graph counts are
+  reported instead of being accepted.
+
+Normal result:
+
+```text
+Ran 2 tests in <time>s
+
+OK
+```
+
+These are fast unit tests for the inference-output contract. They do **not**
+hash the 4.44 GiB runtime TAR or perform live GPU inference. The separate
+end-to-end Smoke Test that performs those checks is documented in Section 7.
+
+### 5.7 `test_random_graph_rerun.py` - 2 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_random_graph_rerun.py" -v
+```
+
+What it verifies:
+
+- rerun-directory resolution accepts only direct children of `outputs/` and
+  rejects unsafe or unrelated paths;
+- a partial random-graph rerun updates its own summary while preserving the
+  existing code and targeted-graph stage summaries.
+
+Normal result:
+
+```text
+Ran 2 tests in <time>s
+
+OK
+```
+
+The passing result confirms reruns cannot escape the result root or overwrite
+unrelated completed stages.
+
+### 5.8 `test_showcase_rendering.py` - 20 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_showcase_rendering.py" -v
+```
+
+What it verifies:
+
+- inline source diffs keep full non-blank source, preserve original/selected
+  line numbers, and attach graph-navigation markers;
+- large and dense PDG views keep the focused nodes/edges, cap browser payloads,
+  and reserve visible capacity for both CDG and DDG edges;
+- added and removed edges remain exact in action focus, deleted-node views keep
+  surviving context, and rendered focus edges retain their dependency type;
+- statement classification does not mistake comparison calls for assignments;
+- wide graphs use compact source-order lanes;
+- cached renders refresh source metadata even when graph topology is unchanged;
+- serialized PDGs retain complete dependency evidence;
+- all thirteen code actions are configured;
+- catalog and discovery use staged-manifest provenance for inference sources;
+- effective winner nodes prefer recorded XFG members and otherwise fall back to
+  nodes nearest the key line;
+- a variant without an XFG is not displayed as if it had a prediction;
+- partially applied targeted budgets display the actual applied count.
+
+Normal result:
+
+```text
+Ran 20 tests in <time>s
+
+OK
+```
+
+The passing result confirms the PDG Atlas and source-comparison pages preserve
+evidence, provenance, focus, and browser-size constraints. This file includes
+the rendering checks that require Graphviz; use the container result for final
+acceptance.
+
+### 5.9 `test_visualize_results.py` - 15 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_visualize_results.py" -v
+```
+
+What it verifies:
+
+- fixed-budget reports compare one variable at a time;
+- budget reports use one line per method, share the same budgets, and keep a
+  coverage chart when coverage varies;
+- attempted and scored counts remain distinct;
+- multi-seed ASR includes only baseline-eligible rows and does not count seeds
+  as additional samples;
+- paired-common summaries exclude keys that either attack family could not
+  score;
+- Wilson confidence intervals are bounded and contain the measured rate;
+- graph-budget input schemas are normalized;
+- multi-budget seed reports use CSV evidence without redundant chart bars;
+- combined reports save paired-common cohort evidence and accept only rows with
+  matching budgets and seeds;
+- result pages use one dropdown with the current page selected;
+- the retained full Run and available subreports render successfully;
+- the result index links to every generated dashboard.
+
+Normal result:
+
+```text
+Ran 15 tests in <time>s
+
+OK
+```
+
+The passing result confirms the reported counts, ASR, confidence intervals,
+paired comparisons, generated dashboards, and navigation are internally
+consistent.
+
+### 5.10 `test_xfg_targeted_experiment.py` - 3 tests
+
+Run only this file:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond -m unittest discover -s tests -p "test_xfg_targeted_experiment.py" -v
+```
+
+What it verifies:
+
+- metadata files with a UTF-8 byte-order mark are read correctly;
+- recorded Winner-XFG nodes that genuinely exist in the PDG are preserved;
+- when recorded XFG nodes are unavailable, selection falls back to the nearest
+  eligible PDG nodes.
+
+Normal result:
+
+```text
+Ran 3 tests in <time>s
+
+OK
+```
+
+The passing result confirms robust metadata loading and both the primary and
+fallback Winner-XFG targeting paths.
+
+### 5.11 Complete-suite acceptance
+
+After the ten files pass separately, run them together to detect import-order
+or shared-state problems:
+
+```powershell
+docker compose -f scripts/docker/compose.yaml run --rm almond tests
+```
+
+Required final lines:
+
+```text
+Ran 66 tests in <time>s
+
+OK
+```
+
+Any count other than 66 means a test was not discovered or the test set has
+changed; update and revalidate this document before submission.
 
 For a quick host-side diagnostic, use:
 
@@ -184,7 +521,7 @@ come from the container, which installs Graphviz in its Dockerfile.
 | Module | Automated evidence | Manual/integration method | Pass condition |
 |---|---|---|---|
 | Docker packaging | Complete 66-test run | Build image; inspect base tag; run `dot -V` | Build and dependency checks pass |
-| Runtime delivery | `scripts/verify_runtime_archive.py` | Corrupt/copy-truncate a separate test file and confirm rejection | Exact size and SHA accepted; altered files rejected |
+| Runtime delivery | Integrated `tests/run_smoke_test.py` archive check | Console option 2, plus a separate corrupt/truncated test copy | Exact size and SHA accepted; missing or altered files print errors and stop the test |
 | Baseline inference | output-contract unit tests | Console option 2 | Joern creates a graph and checkpoint returns label, probability, nodes, edges |
 | Code perturbations | 3 code tests plus visualization tests | Run a small input through `run_budget_search.py` | Variants are generated, originals remain unchanged, evidence CSV is written |
 | Random graph perturbations | 13 graph tests | Run random family for one sample/seed/budget | Nested operations and prediction evidence are produced |
@@ -216,12 +553,40 @@ Select `2. Run Smoke Test`. The test performs these stages in order:
 
 The Smoke Test passes only if both archive verification and live inference pass.
 It deliberately writes no persistent experiment Run.
+There is no separate Python archive-check command: missing files, wrong byte
+counts, checksum mismatches, missing inference inputs, and inference failures
+are printed directly in the same terminal before the test exits with code 1.
 
 Direct container equivalent:
 
 ```powershell
-docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond tests/run_quick_test.py
+docker compose -f scripts/docker/compose.yaml run --rm --entrypoint python almond tests/run_smoke_test.py
 ```
+
+`run_smoke_test.py` is an integration runner rather than a `test_*.py` unit-test
+module, so `unittest discover` does not count it among the 66 tests. Its normal
+terminal result contains the following lines (the prediction values depend on
+the bundled sample and checkpoint):
+
+```text
+Verifying runtime archive: <project-root>/baselines/deepwukong/module_tranning/deepwukong-rtx5060-cu128-experimental.tar
+Archive size is correct (4,766,494,208 bytes); calculating SHA-256...
+Archive SHA-256 is correct (0482EA09F89569072427344B1DADA5E72878DF2E7BC99F878F5895B17DAF6B1D).
+Runtime archive verification passed.
+
+Smoke Test sample: <sample-id>
+Running one baseline inference (Joern -> PDG/XFG -> DeepWuKong)...
+Smoke Test passed.
+Predicted label: <label>
+Vulnerability probability: <value-from-0.000000-to-1.000000>
+Graph size: <positive-node-count> nodes, <positive-edge-count> edges
+```
+
+The normal exit code is `0`. A missing, truncated, or altered TAR prints an
+`[ERROR] Run Smoke Test stopped: runtime archive verification failed.` message,
+identifies the missing path, wrong byte count, or SHA-256 mismatch, and exits
+with code `1` before inference. Missing inference inputs or an invalid
+prediction likewise print an `[ERROR]` reason and exit with code `1`.
 
 ## 8. Full end-to-end test
 

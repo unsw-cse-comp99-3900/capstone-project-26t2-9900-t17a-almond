@@ -51,7 +51,7 @@ PDG_ATLAS_HTML = PROJECT_ROOT / "robustness_experiments" / "showcase" / "deepwuk
 START_TEST_COMMAND: Optional[List[str]] = [sys.executable, "scripts/run_full_test.py"]
 
 # Run one baseline inference to verify the live pipeline without generating perturbations.
-QUICK_TEST_COMMAND: Optional[List[str]] = [sys.executable, "tests/run_quick_test.py"]
+SMOKE_TEST_COMMAND: Optional[List[str]] = [sys.executable, "tests/run_smoke_test.py"]
 
 # If you want to force one run folder as default, set it here.
 # Example: DEFAULT_RUN_ID = "run_20260710_code_devign_round1"
@@ -705,10 +705,10 @@ def run_test() -> None:
     results_menu(default_run_dir=run_dir)
 
 
-def run_quick_test() -> None:
+def run_smoke_test() -> None:
     print_header("Run Smoke Test")
     slow_print([
-        "Quick Test Mode",
+        "Smoke Test Mode",
         "",
         "This smoke test first verifies the separately downloaded runtime TAR",
         "using its exact byte count and SHA-256 checksum. It then runs one live",
@@ -716,19 +716,19 @@ def run_quick_test() -> None:
         "",
     ])
 
-    if not QUICK_TEST_COMMAND:
-        print("No quick test command is configured.")
+    if not SMOKE_TEST_COMMAND:
+        print("No Smoke Test command is configured.")
         pause()
         return
 
-    print("Running quick test command:")
-    print(" ".join(QUICK_TEST_COMMAND))
+    print("Running Smoke Test command:")
+    print(" ".join(SMOKE_TEST_COMMAND))
     print("-" * 72)
     try:
-        subprocess.run(QUICK_TEST_COMMAND, cwd=PROJECT_ROOT, check=True)
-        print("\nQuick test passed. The live inference pipeline is available.")
+        subprocess.run(SMOKE_TEST_COMMAND, cwd=PROJECT_ROOT, check=True)
+        print("\nSmoke Test passed. The live inference pipeline is available.")
     except subprocess.CalledProcessError as error:
-        print("\nQuick test failed. Check the messages above for the failing dependency or stage.")
+        print("\nSmoke Test failed. Check the messages above for the failing dependency or stage.")
         print(f"Return code: {error.returncode}")
     pause()
 
@@ -1057,7 +1057,7 @@ def main() -> None:
         if choice == "1":
             run_test()
         elif choice == "2":
-            run_quick_test()
+            run_smoke_test()
         elif choice == "3":
             show_results_summary()
         elif choice == "4":

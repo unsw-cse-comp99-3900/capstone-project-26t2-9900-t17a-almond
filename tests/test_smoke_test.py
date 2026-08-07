@@ -7,10 +7,10 @@ TESTS_DIR = Path(__file__).resolve().parent
 if str(TESTS_DIR) not in sys.path:
     sys.path.insert(0, str(TESTS_DIR))
 
-from run_quick_test import validate_prediction
+from run_smoke_test import validate_prediction
 
 
-class QuickTestValidationTests(unittest.TestCase):
+class SmokeTestValidationTests(unittest.TestCase):
     def test_accepts_a_complete_prediction(self):
         errors = validate_prediction({
             "predicted_label": "1",
